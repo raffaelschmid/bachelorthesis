@@ -3,11 +3,9 @@ package com.trivadis.loganalysis.core;
 import java.io.File;
 import java.util.List;
 
-import com.trivadis.loganalysis.core.process.IFileProcessor;
-
 public interface IContext {
 
-	IFileProcessor getImportProcessor();
+	IFileImporter fileImporter();
 
 	void add(File file);
 

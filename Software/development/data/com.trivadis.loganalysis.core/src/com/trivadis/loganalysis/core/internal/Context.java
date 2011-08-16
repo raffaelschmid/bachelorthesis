@@ -7,9 +7,8 @@ import java.util.List;
 import org.eclipse.core.runtime.Assert;
 
 import com.trivadis.loganalysis.core.IContext;
+import com.trivadis.loganalysis.core.IFileImporter;
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
-import com.trivadis.loganalysis.core.internal.process.FileProcessor;
-import com.trivadis.loganalysis.core.process.IFileProcessor;
 
 /**
  * TODO refactor into smaller units.
@@ -18,18 +17,17 @@ import com.trivadis.loganalysis.core.process.IFileProcessor;
  * 
  */
 public class Context implements IContext {
-	private final IFileProcessor importProcessor;
-
+	private final IFileImporter fileImporter;
 	private final List<File> selectedFiles;
 	private final List<SelectedFilesChangeListener> listeners = new ArrayList<SelectedFilesChangeListener>();
 
 	public Context() {
-		this.importProcessor = new FileProcessor(this);
+		this.fileImporter = new FileImporter(this);
 		this.selectedFiles = new ArrayList<File>();
 	}
 
-	public IFileProcessor getImportProcessor() {
-		return importProcessor;
+	public IFileImporter fileImporter() {
+		return fileImporter;
 	}
 
 	public List<File> getSelectedFiles() {
@@ -61,4 +59,5 @@ public class Context implements IContext {
 			listener.fileSelectionChanged();
 		}
 	}
+
 }

@@ -4,14 +4,14 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
-import com.trivadis.loganalysis.domain.ILogFile;
+import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.ui.internal.Activator;
 
 public class AnalysisEditorInput implements IEditorInput {
 	
-	private final ILogFile logFile;
+	private final ILogFileDescriptor logFile;
 
-	public AnalysisEditorInput(ILogFile logFile) {
+	public AnalysisEditorInput(ILogFileDescriptor logFile) {
 		this.logFile = logFile;
 	}
 

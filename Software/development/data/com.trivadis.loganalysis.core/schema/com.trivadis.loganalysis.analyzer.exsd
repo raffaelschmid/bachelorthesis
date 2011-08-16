@@ -3,7 +3,7 @@
 <schema targetNamespace="com.trivadis.loganalysis.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="com.trivadis.loganalysis.core" id="com.trivadis.loganalysis.logfile" name="Logfile Registration Point"/>
+         <meta.schema plugin="com.trivadis.loganalysis.core" id="com.trivadis.loganalysis.analyzer" name="GC Log Analyzer"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -17,6 +17,9 @@
          </appinfo>
       </annotation>
       <complexType>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="analyzer"/>
+         </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
@@ -38,6 +41,21 @@
                </documentation>
                <appinfo>
                   <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="analyzer">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.trivadis.loganalysis.core.analyzer.IAnalyzer"/>
                </appinfo>
             </annotation>
          </attribute>
