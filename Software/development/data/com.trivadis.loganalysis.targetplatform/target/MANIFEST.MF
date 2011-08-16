@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-Name: Targetplatform
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-Vendor: TRIVADIS
-Bundle-ManifestVersion: 2
-Bundle-SymbolicName: com.trivadis.loganalysis.targetplatform
-Bundle-Version: 1.0.0
-
