@@ -1,11 +1,13 @@
 Software/development/targetplatform
 Software/development/runtime-EclipseApplication
 Software/development/workspace
+Software/sampling/data/workspace
 **/*.log
 **/*.log
 **/*.aux
 .project
 .settings
+.classpath
 Prototyping
 Reglemente
-**/target
+**/target/
