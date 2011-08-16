@@ -1,6 +1,9 @@
 Software/development/targetplatform
 Software/development/runtime-EclipseApplication
 Software/development/workspace
+**/*.log
+**/*.log
+**/*.aux
 .project
 .settings
 Prototyping
