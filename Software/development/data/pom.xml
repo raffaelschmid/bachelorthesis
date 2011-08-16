@@ -12,12 +12,12 @@
 	</properties>
 	<modules>
 		<module>com.trivadis.loganalysis.core</module>
+		<module>com.trivadis.loganalysis.core.test</module>
 		<module>com.trivadis.loganalysis.feature</module>
 		<module>com.trivadis.loganalysis.ui</module>
+		<module>com.trivadis.loganalysis.ui.test</module>
 		<module>com.trivadis.loganalysis.targetplatform</module>
 		<module>com.trivadis.loganalysis.updatesite</module>
-		<module>com.trivadis.loganalysis.core.test</module>
-		<module>com.trivadis.loganalysis.ui.test</module>
 	</modules>
 	<build>
 		<plugins>

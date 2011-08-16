@@ -23,7 +23,4 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.databinding.property
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .,
- org.pushingpixels.trident_1.2.0.v20100204-1500.jar,
- org.eclipse.e4.xwt_0.9.1.SNAPSHOT.jar,
- org.eclipse.e4.xwt.forms_0.9.1.SNAPSHOT.jar
+Bundle-ClassPath: .

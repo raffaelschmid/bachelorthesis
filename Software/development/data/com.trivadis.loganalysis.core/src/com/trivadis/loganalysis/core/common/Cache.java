@@ -22,8 +22,8 @@ public abstract class Cache<K,V> {
 			dispose(image);
 		}
 	}
-	public abstract V create(K k);
-	public abstract void dispose(V v);
+	protected abstract V create(K k);
+	protected abstract void dispose(V v);
 
 	public Collection<V> values() {
 		return cache.values();
