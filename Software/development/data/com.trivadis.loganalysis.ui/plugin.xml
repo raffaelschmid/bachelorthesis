@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Garbage Collection Log Analysis"
+            id="com.trivadis.loganalysis.ui">
+      </category>
+      <view
+            name="Log Files"
+            icon="icons/overview.gif"
+            category="com.trivadis.loganalysis.ui"
+            class="com.trivadis.loganalysis.ui.internal.view.logfiles.LogFilesView"
+            id="com.trivadis.loganalysis.ui.internal.view.logfiles.LogFilesView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.trivadis.loganalysis.ui.internal.editor.analysis.AnalysisEditor"
+            contributorClass="com.trivadis.loganalysis.ui.internal.editor.analysis.AnalysisEditorContribution"
+            extensions="gclog"
+            icon="icons/chart.gif"
+            id="com.trivadis.loganalysis.ui.internal.editor.analysis.AnalysisEditor"
+            name="Garbage Collection Analysis">
+      </editor>
+      <editor
+            class="com.trivadis.loganalysis.ui.internal.editor.intro.DashboardEditor"
+            contributorClass="com.trivadis.loganalysis.ui.internal.editor.intro.DashboardEditorContribution"
+            extensions="gclogx"
+            icon="icons/chart.gif"
+            id="com.trivadis.loganalysis.ui.internal.editor.intro.DashboardEditor"
+            name="Dashboard">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="com.trivadis.loganalysis.ui.inernal.perspective.GarbageCollectionAnalysisPerspective"
+            icon="icons/chart.gif"
+            id="com.trivadis.loganalysis.ui.inernal.perspective.GarbageCollectionAnalysisPerspective"
+            name="Garbage Collection Analysis">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            description="Loganalysis Commands"
+            id="com.trivadis.loganalysis.ui.commands"
+            name="Loganalysis Commands">
+      </category>
+      <command
+            categoryId="com.trivadis.loganalysis.ui.commands"
+            description=" Open Analysis Editor"
+            id="com.trivadis.loganalysis.ui.openAnalysis"
+            name="Open Analysis Editor">
+      </command>
+      <command
+            id="com.trivadis.loganalysis.ui.deleteLogFile"
+            name="Delete Log File">
+      </command>
+      <command
+            categoryId="com.trivadis.loganalysis.ui.commands"
+            id="com.trivadis.loganalysis.ui.openDashboard"
+            name="Open Dashboard">
+      </command>
+      <command
+            categoryId="com.trivadis.loganalysis.ui.commands"
+            id="com.trivadis.loganalysis.ui.openPerspective"
+            name="Open Garbage Collection Analysis Perspective">
+      </command>
+      <command
+            categoryId="com.trivadis.loganalysis.ui.commands"
+            id="com.trivadis.loganalysis.ui.openImportDialog"
+            name="Open Import Dialog">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.trivadis.loganalysis.ui.internal.handler.OpenAnalysisHandler"
+            commandId="com.trivadis.loganalysis.ui.openAnalysis">
+      </handler>
+      <handler
+            class="com.trivadis.loganalysis.ui.internal.handler.DeleteLogFileHandler"
+            commandId="com.trivadis.loganalysis.ui.deleteLogFile">
+      </handler>
+      <handler
+            class="com.trivadis.loganalysis.ui.internal.handler.OpenDashboardHandler"
+            commandId="com.trivadis.loganalysis.ui.openDashboard">
+      </handler>
+      <handler
+            class="com.trivadis.loganalysis.ui.internal.handler.OpenGcLoganalysisPerspective"
+            commandId="com.trivadis.loganalysis.ui.openPerspective">
+      </handler>
+      <handler
+            class="com.trivadis.loganalysis.ui.internal.handler.OpenImportDialogHandler"
+            commandId="com.trivadis.loganalysis.ui.openImportDialog">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            id="com.trivadis.loganalysis.ui.internal.wizard.sampleCategory"
+            name="Garbage Collection">
+      </category>
+      <wizard
+            category="com.trivadis.loganalysis.ui.internal.wizard.sampleCategory"
+            class="com.trivadis.loganalysis.ui.internal.wizard.ImportGCLogWizard"
+            icon="icons/new_document.gif"
+            id="com.trivadis.loganalysis.ui.internal.wizard.ImportGCLogWizard"
+            name="Import Garbage Collection File">
+         <description>
+            Import a file from the local file system into the workspace.
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:com.trivadis.loganalysis.ui.internal.view.logfiles.LogFilesView?after=additions">
+         <command
+               commandId="com.trivadis.loganalysis.ui.deleteLogFile">
+                <visibleWhen>
+            <with variable="selection">
+                <iterate ifEmpty="false" operator="or">
+                    <instanceof value="java.io.File"/>
+                </iterate>
+            </with>
+        </visibleWhen>
+         </command>
+      </menuContribution>
+      <menuContribution
+        locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+       	<toolbar id="com.trivadis.loganalyzer.toolbar">
+            <command
+            	label="GC Log Analysis Dashboard"
+                commandId="com.trivadis.loganalysis.ui.openDashboard"
+                icon="icons/chart.gif"
+                style="push">
+            </command>
+        </toolbar>
+   </menuContribution>
+   </extension>
+</plugin>

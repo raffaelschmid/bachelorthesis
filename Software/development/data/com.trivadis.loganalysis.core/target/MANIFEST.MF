@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-Name: Core
+Bundle-Activator: com.trivadis.loganalysis.core.internal.Activator
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Vendor: TRIVADIS
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.trivadis.loganalysis.core
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.7.0"
+Bundle-Version: 1.0.0.201108121840
+

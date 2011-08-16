@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='com.trivadis.loganalysis.targetplatform' version='1.0.0.201108121840'>
+    <properties size='6'>
+      <property name='artifact.size' value='2078'/>
+      <property name='download.size' value='2078'/>
+      <property name='download.md5' value='471778a9aa63c712eb368a70d9b00799'/>
+      <property name='maven-groupId' value='com.trivadis.loganalysis'/>
+      <property name='maven-artifactId' value='com.trivadis.loganalysis.targetplatform'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+  </artifact>
+</artifacts>

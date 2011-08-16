@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Updatesite
+Bundle-SymbolicName: com.trivadis.loganalysis.updatesite
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: TRIVADIS
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

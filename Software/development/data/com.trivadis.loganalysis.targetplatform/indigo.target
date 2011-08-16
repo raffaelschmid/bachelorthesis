@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.6"?>
+
+<target name="loganalysis" sequenceNumber="0">
+<locations>
+<location path="${project_loc}/../../targetplatform\eclipse-rcp-indigo-win32-x86_64" type="Directory"/>
+</locations>
+</target>
