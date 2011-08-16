@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>com.trivadis.loganalysis</artifactId>
 		<groupId>com.trivadis.loganalysis</groupId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>com.trivadis.loganalysis.core.test</artifactId>
 	<packaging>eclipse-test-plugin</packaging>

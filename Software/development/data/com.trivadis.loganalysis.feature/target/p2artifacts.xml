@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='org.eclipse.update.feature' id='com.trivadis.loganalysis.feature' version='1.0.0'>
+    <properties size='7'>
+      <property name='artifact.size' value='2095'/>
+      <property name='download.size' value='2095'/>
+      <property name='download.md5' value='d8c3c24f9c7ee296765b5b0d8b9d9adf'/>
+      <property name='maven-groupId' value='com.trivadis.loganalysis'/>
+      <property name='maven-artifactId' value='com.trivadis.loganalysis.feature'/>
+      <property name='maven-version' value='1.0.0'/>
+      <property name='download.contentType' value='application/zip'/>
+    </properties>
+  </artifact>
+</artifacts>

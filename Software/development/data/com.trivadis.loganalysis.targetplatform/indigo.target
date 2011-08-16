@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.6"?>
 
-<target name="loganalysis" sequenceNumber="1">
+<target name="loganalysis" sequenceNumber="8">
 <locations>
-<location path="${workspace_loc}/../targetplatform/eclipse-rcp-indigo-win32-x86_64" type="Directory"/>
+<location path="${workspace_loc}\..\targetplatform\eclipse-rcp-indigo-win32-x86_64" type="Directory"/>
+<location path="${workspace_loc}\..\deltapack\eclipse-3.7-delta-pack" type="Directory"/>
 </locations>
 </target>

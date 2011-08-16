@@ -1,0 +1,5 @@
+-------------------------------------------------------------------------------
+Test set: com.trivadis.loganalysis.ui.FooTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 sec
+test(com.trivadis.loganalysis.ui.FooTest)  Time elapsed: 0.003 sec
