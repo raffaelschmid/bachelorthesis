@@ -1,0 +1,65 @@
+\section{Ausgangslage}\label{ausgangslage}
+Application Performance Managements (APM) als Disziplin des System Managements kann als einen Prozess angeschaut werden, bei dem es mittels Hilfe von verschiedenen Werkzeugen darum geht, die Performance von Applikationen zu \"uberwachen, um damit die Anforderungen der verschiedenen Stakeholders erf\"ullen zu k\"onnen.
+Aufgeteilt in die Gruppen System und User lassen sich die auftretenden Symptome in folgende Kategorien aufteilen:
+\begin{itemize}
+\item System
+	\begin{itemize}
+		\item Threading (Dead Locks, Context Switching, etc.)
+		\item Network I/O
+		\item Disk I/O
+	\end{itemize}
+\item User
+	\begin{itemize}
+		\item Applikatorisch (ineffiziente Algorithmen, Tasks k\"onnen nicht parallelisiert werden, etc)
+		\item Garbage Collection (falsche Strategien, Strategiewechsel, etc.)
+	\end{itemize}
+\end{itemize}
+
+F\"ur die Auswertung solcher Probleme gibt es zwei verschiedene Ans\"atze. Im Bereich von Online-Auswertungen gibt es Werkzeuge wie Profiler, APM-L\"osungen die sich nicht kurzfristig installieren lassen (hoher finanzieller aufwand und lange Integrationszeit) und von den jeweiligen Serverherstellern mitgelieferte Werkzeuge wie JRockit Mission Control. Bei Offline-Analysen geht es meistens um die Auswertung der vom Server geschriebenen Log-Dateien.
+Wie bereits aus den oben beschriebenen Kategorien ersichtlich kann eine schlechte Applikations-Performance durch falsche Garbage Collection verursacht werden. In diesem Bereich bieten fast alle verf\"ugbaren VMs die M\"oglichkeit, im Laufenden Betrieb unterschiedliche Log-Dateien zu generieren. Im Nachhinein k\"onnen diese Dateien toolunterst\"utzt weiterverarbeitet werden. Im Bereich der Sun Hotspot VM gibt es bereits einige Tools (gcviewer, HP JMeter), die einem die Auswertung der Daten zusammenfasst, vereinfacht und in die f\"ur Menschen besser zug\"anglichere grafische Form bringt. 
+
+\section{Ziel der Arbeit}
+Wie bereits im Abschnit "\ref{ausgangslage} \titleref{ausgangslage}" beschrieben, ist die manuelle Offlineanalyse von Garbage Collection Log-Dateien der JRockit VM zeitintensiv, da die Weblogic spezifische Monitoring Software JRockit Mission Control diesen Bereich nicht abdeckt. Das Ziel der Diplomarbeit ist es, ein Eclipse-Plugin f\"ur Oracle Mission Control oder das Standard-Eclipse zu implementieren, welches die erstellten Log-Datein grafisch aufbereitet und in eine von Menschen lesbare Form bringt.
+
+\section{Aufgabenstellung}
+Um das angestrebte Ziel dieses JRockit VM Log Visualizers zu erreichen werden folgende Aufgaben umgesetzt:
+\subsection{Grundlagen}
+Als Basis f\"ur die Diplomarbeit werden folgende Grundlagen erarbeitet:
+\begin{itemize}
+	\item JRockit VM und Performance Tuning: Im bereich der JRockit VM werden die Grundlagen im Bereich der Performance Optimierung erarbeitet. Massgeblich geh\"ort dazu die Thematik der Garbage Collection (verschiedene GC-Strategien und -Algorithmen, Memory Management) und die Unterschiedlichen Konfigurationsm\"oglichkeiten der Garbage Collection Log-Datei.
+	\item Eclipse RCP: Um die Applikation als Plugin f\"ur JRockit Mission Control oder Eclipse zu implementieren, muss ein minimales Wissen im Bereich von Eclipse RCP erarbeitet werden. Ob und wie der Log Visualizer in JRockit Mission Control eingebunden werden kann, wird in dieser Phase anhand eines kleinen Prototypen ermittelt.
+\end{itemize}
+
+\subsection{Requirements Engineering}
+Das Requirements Engineering beinhaltet folgende Aspekte:
+\begin{itemize}
+	\item System- und Kontextgrenzen bestimmen
+	\item Ermittlung der Anforderungen aufgrund der zu definierenden Quellen (Stakeholder, Erkenntnisse w\"ahrend der Einarbeitungszeit).
+	\item Dokumentation der Anforderungen (Systemumfeld, Architekturbeschreibung, Funktionalit\"aten, Nutzer- und Zielgruppen, 	Randbedingungen, Annahmen) in geeigneter Form
+\end{itemize}
+
+\subsection{Konzeption und Implementation}
+Aufbauend auf der Requirements-Analyse wird das Konzept der Applikation erstellt und Implementiert. Wichtig insbesondere in dieser Phase sind auch die Erkenntnisse aus dem Prototypen in der ersten Phase. 
+
+\section{Erwartete Resultate}
+\begin{itemize}
+	\item Dokumentation
+		\begin{itemize}
+			\item Grundlagen
+			\item Requirementsanalyse
+			\item Konzept
+			\item Implementationsdetails
+		\end{itemize}
+	\item Software
+		\begin{itemize}
+			\item Source-Code
+			\item Installierbare Software (als Plugin oder eigenst\"andige Software)
+		\end{itemize}
+\end{itemize}
+\section{Geplante Termine}
+\begin{tabular}{ l c r }
+   Kick-off Meeting & tbd \\
+   Design Review & tbd \\
+   Abgabe & tbd \\
+   Schlusspr\"asentation & tbd \\
+\end{tabular}
