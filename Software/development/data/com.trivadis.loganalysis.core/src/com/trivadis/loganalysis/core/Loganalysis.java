@@ -12,7 +12,9 @@ public class Loganalysis {
 	}
 
 	public static IFileProcessor importProcessor() {
-		return Holder.INSTANCE.getImportProcessor();
+		IFileProcessor importProcessor = Holder.INSTANCE.getImportProcessor();
+		Assert.isNotNull(importProcessor);
+		return importProcessor;
 	}
 
 	public static IContext getContext() {

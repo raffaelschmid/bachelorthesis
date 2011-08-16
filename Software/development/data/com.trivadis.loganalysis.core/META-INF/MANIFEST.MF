@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Core
-Bundle-SymbolicName: com.trivadis.loganalysis.core
+Bundle-SymbolicName: com.trivadis.loganalysis.core;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: com.trivadis.loganalysis.core.internal.Activator
 Bundle-Vendor: TRIVADIS
