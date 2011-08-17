@@ -19,14 +19,6 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="com.trivadis.loganalysis.ui.internal.editor.analysis.AnalysisEditor"
-            contributorClass="com.trivadis.loganalysis.ui.internal.editor.analysis.AnalysisEditorContribution"
-            extensions="gclog"
-            icon="icons/chart.gif"
-            id="com.trivadis.loganalysis.ui.internal.editor.analysis.AnalysisEditor"
-            name="Garbage Collection Analysis">
-      </editor>
-      <editor
             class="com.trivadis.loganalysis.ui.internal.editor.intro.DashboardEditor"
             contributorClass="com.trivadis.loganalysis.ui.internal.editor.intro.DashboardEditorContribution"
             extensions="gclogx"

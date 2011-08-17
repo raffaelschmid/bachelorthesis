@@ -35,7 +35,7 @@ public class ImportGCLogWizardSelectionPage extends WizardPage implements
 
 	public ImportGCLogWizardSelectionPage() {
 		super("Import Garbage Collection File", "Garbage Collection Log",
-				Activator.getImageDescriptor("icons/gclog_import.gif"));
+				Activator.getDefault().getImageDescriptor("icons/gclog_import.gif"));
 		setDescription("Import a Garbage Collection Log File into the workspace.");
 	}
 
@@ -109,7 +109,7 @@ public class ImportGCLogWizardSelectionPage extends WizardPage implements
 			}
 
 			public Image getImage(Object element) {
-				return Activator.getImage("icons/document.gif");
+				return Activator.getDefault().getImage("icons/document.gif");
 			}
 
 			public String getText(Object element) {

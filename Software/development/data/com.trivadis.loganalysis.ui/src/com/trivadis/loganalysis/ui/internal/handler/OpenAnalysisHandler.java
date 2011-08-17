@@ -8,16 +8,19 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.ISelectionService;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.trivadis.loganalysis.core.IFileProcessor;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.domain.ILogFile;
+import com.trivadis.loganalysis.core.domain.LogFileDescriptor;
+import com.trivadis.loganalysis.ui.EditorInput;
 
 public class OpenAnalysisHandler extends AbstractHandler {
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IFileProcessor<? extends ILogFile> analyzer = null;
 		ISelectionService service = (ISelectionService) HandlerUtil
 				.getActiveWorkbenchWindow(event).getService(
 						ISelectionService.class);
@@ -27,27 +30,25 @@ public class OpenAnalysisHandler extends AbstractHandler {
 			Object ofile = sselection.getFirstElement();
 			if (ofile instanceof File) {
 				File file = (File) ofile;
-				IFileProcessor<? extends ILogFile> fileProcessor = Loganalysis.fileProcessor();
-				fileProcessor.process(null, "content");
+				IFileProcessor<ILogFile> fileProcessor = Loganalysis
+						.fileProcessor();
+				try {
+					IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(
+							event).getActivePage();
+					page.openEditor(
+							new EditorInput(
+									fileProcessor.process(
+											new LogFileDescriptor(file
+													.getAbsolutePath(), file
+													.getName(), "content"))),
+							fileProcessor.getEditorId());
+				} catch (PartInitException e) {
+					throw new RuntimeException(e);
+				}
 			}
 
 		}
 
-		// IWorkbenchPage page =
-		// HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-		// try {
-		// page.openEditor(new AnalysisEditorInput(new ILogFileDescriptor() {
-		// public String getPath() {
-		// return "foo";
-		// }
-		//
-		// public String getFileName() {
-		// return "bar";
-		// }
-		// }), AnalysisEditor.ID);
-		// } catch (PartInitException e) {
-		// throw new RuntimeException(e);
-		// }
 		return null;
 	}
 

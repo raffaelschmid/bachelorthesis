@@ -12,7 +12,7 @@ public class DashboardEditorInput implements IEditorInput {
 	}
 
 	public ImageDescriptor getImageDescriptor() {
-		return Activator.getImageDescriptor("/icons/chart.png");
+		return Activator.getDefault().getImageDescriptor("/icons/chart.png");
 	}
 
 	public String getName() {

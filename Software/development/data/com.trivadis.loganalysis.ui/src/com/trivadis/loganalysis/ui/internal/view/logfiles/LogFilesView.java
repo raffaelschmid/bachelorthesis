@@ -71,7 +71,7 @@ public class LogFilesView extends ViewPart implements
 		}
 
 		public Image getImage(Object obj) {
-			return Activator.getImageDescriptor("icons/chart.gif")
+			return Activator.getDefault().getImageDescriptor("icons/chart.gif")
 					.createImage();
 		}
 	}

@@ -1,12 +1,14 @@
-package com.trivadis.loganalysis.ui.internal;
+package com.trivadis.loganalysis.jrockit.ui;
 
 import com.trivadis.loganalysis.ui.LoganalysisAbstractUiPlugin;
 
 public class Activator extends LoganalysisAbstractUiPlugin {
 
-	public static final String PLUGIN_ID = "com.trivadis.loganalysis.ui";
-
+	private static final String PLUGIN_ID = "com.trivadis.loganalysis.jrockit.ui";
+	
+	@Override
 	public String getPluginId() {
 		return PLUGIN_ID;
 	}
+
 }

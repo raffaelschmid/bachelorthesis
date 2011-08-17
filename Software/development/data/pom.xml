@@ -12,6 +12,9 @@
 	</properties>
 	<modules>
 		<module>com.trivadis.loganalysis.core</module>
+		<module>com.trivadis.loganalysis.jrockit</module>
+		<module>com.trivadis.loganalysis.jrockit.test</module>
+		<module>com.trivadis.loganalysis.jrockit.ui</module>
 		<module>com.trivadis.loganalysis.core.test</module>
 		<module>com.trivadis.loganalysis.feature</module>
 		<module>com.trivadis.loganalysis.ui</module>

@@ -1,22 +1,22 @@
-package com.trivadis.loganalysis.ui.internal.handler;
+package com.trivadis.loganalysis.ui;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.ILogFile;
 import com.trivadis.loganalysis.ui.internal.Activator;
 
-public class AnalysisEditorInput implements IEditorInput {
-	
-	private final ILogFileDescriptor logFile;
+public class EditorInput implements IEditorInput {
 
-	public AnalysisEditorInput(ILogFileDescriptor logFile) {
+	private ILogFile logFile;
+
+	public EditorInput(ILogFile logFile) {
 		this.logFile = logFile;
 	}
 
 	public ImageDescriptor getImageDescriptor() {
-		return Activator.getImageDescriptor("/icons/chart.png");
+		return Activator.getDefault().getImageDescriptor("/icons/chart.png");
 	}
 
 	public String getName() {

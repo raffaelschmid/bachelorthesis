@@ -108,7 +108,7 @@ public class DashboardEditorPageOverview extends FormPage {
 				SWT.NONE);
 		link.setBounds(calculateLinkSize(0, 300, 20));
 		link.setText("Switch to Garbage Collection Analysis Perspective");
-		link.setImage(Activator.getImage("icons/new_document.gif"));
+		link.setImage(Activator.getDefault().getImage("icons/new_document.gif"));
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			public void linkActivated(HyperlinkEvent e) {
 				Command.execute("com.trivadis.loganalysis.ui.openPerspective");
@@ -124,7 +124,7 @@ public class DashboardEditorPageOverview extends FormPage {
 				SWT.NONE);
 		link.setBounds(calculateLinkSize(1, 300, 20));
 		link.setText("Import Garbage Collection Log File");
-		link.setImage(Activator.getImage("icons/chart.gif"));
+		link.setImage(Activator.getDefault().getImage("icons/chart.gif"));
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			public void linkActivated(HyperlinkEvent e) {
 				Command.execute("com.trivadis.loganalysis.ui.openImportDialog");

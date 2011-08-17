@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.ui.internal.editor.analysis;
+package com.trivadis.loganalysis.jrockit.ui;
 
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;

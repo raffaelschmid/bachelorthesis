@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+ <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.trivadis.loganalysis.jrockit.ui.JRockitAnalysisEditor"
+            contributorClass="com.trivadis.loganalysis.jrockit.ui.AnalysisEditorContribution"
+            extensions="gclog"
+            icon="icons/chart.gif"
+            id="com.trivadis.loganalysis.jrockit.ui.AnalysisEditor"
+            name="Garbage Collection Analysis">
+      </editor>
+      </extension>
+</plugin>

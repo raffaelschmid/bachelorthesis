@@ -1,19 +1,16 @@
-package com.trivadis.loganalysis.core.internal.domain;
+package com.trivadis.loganalysis.core.domain;
 
 import java.io.File;
-
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
-
 
 public class LogFileDescriptor implements ILogFileDescriptor {
 	private static final String ICON_PATH = "icons/document.gif";
 
-	private final String path;
-	private final String fileName;
+	private final String path, fileName, rawContent;
 
-	public LogFileDescriptor(String path, String fileName) {
+	public LogFileDescriptor(String path, String fileName, String rawContent) {
 		this.path = path;
 		this.fileName = fileName;
+		this.rawContent = rawContent;
 	}
 
 	public String getPath() {
@@ -24,7 +21,7 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 		return fileName;
 	}
 
-	public String getIconPath(){
+	public String getIconPath() {
 		return ICON_PATH;
 	}
 
@@ -63,6 +60,10 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 		} else if (!path.equals(other.path))
 			return false;
 		return true;
+	}
+
+	public String getRawContent() {
+		return rawContent;
 	}
 
 }

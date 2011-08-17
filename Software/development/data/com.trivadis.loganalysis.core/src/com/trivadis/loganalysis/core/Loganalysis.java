@@ -24,14 +24,14 @@ public class Loganalysis {
 
 	private static final String EXTENSION_POINT_ID = "com.trivadis.loganalysis.analyzer";
 
-	public static IFileProcessor<? extends ILogFile> fileProcessor() {
+	public static IFileProcessor<ILogFile> fileProcessor() {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (IConfigurationElement element : elements) {
 			if (ELEMENT_NAME.equals(element.getName())) {
 				try {
 					@SuppressWarnings("unchecked")
-					IFileProcessor<? extends ILogFile> processor = (IFileProcessor<? extends ILogFile>) element
+					IFileProcessor<ILogFile> processor = (IFileProcessor<ILogFile>) element
 							.createExecutableExtension("class");
 					if (processor.isResponsible("JRockit Log File"))
 						return processor;
