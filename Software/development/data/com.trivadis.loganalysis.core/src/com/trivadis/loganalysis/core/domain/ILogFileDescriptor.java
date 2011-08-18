@@ -1,6 +1,9 @@
 package com.trivadis.loganalysis.core.domain;
 
 import java.io.File;
+import java.util.List;
+
+import com.trivadis.loganalysis.core.IContentReader;
 
 public interface ILogFileDescriptor {
 
@@ -11,5 +14,7 @@ public interface ILogFileDescriptor {
 	String getAbsolutePath();
 
 	File toFile();
+
+	List<String> getListContent(IContentReader reader);
 
 }

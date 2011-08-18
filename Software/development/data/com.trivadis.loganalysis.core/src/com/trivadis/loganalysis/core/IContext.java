@@ -16,4 +16,6 @@ public interface IContext {
 
 	void addLogFilesChangeListener(SelectedFilesChangeListener listener);
 
+	IContentReader contentReader();
+
 }

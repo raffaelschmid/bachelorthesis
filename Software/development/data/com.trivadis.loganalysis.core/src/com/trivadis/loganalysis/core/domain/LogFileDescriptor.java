@@ -1,6 +1,7 @@
 package com.trivadis.loganalysis.core.domain;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
 
@@ -10,13 +11,13 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 	private static final String ICON_PATH = "icons/document.gif";
 
 	private final String path, fileName;
-	private String rawContent;
+	private List<String> rawContent;
 
 	public LogFileDescriptor(String path, String fileName) {
 		this(path, fileName, null);
 	}
 
-	public LogFileDescriptor(String path, String fileName, String rawContent) {
+	public LogFileDescriptor(String path, String fileName, List<String> rawContent) {
 		this.path = path;
 		this.fileName = fileName;
 		this.rawContent = rawContent;
@@ -63,13 +64,13 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 		return true;
 	}
 
-	public String getRawContent(IContentReader reader) {
-		String retVal;
+	public List<String> getListContent(IContentReader reader) {
+		List<String> retVal;
 		if(isLoaded()){
 			retVal = this.rawContent;
 		}
 		else{
-			retVal = reader.contentAsString(this);
+			retVal = reader.contentAsList(this);
 		}
 		return retVal;
 	}
@@ -97,6 +98,10 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 	public static ILogFileDescriptor fromFile(File file) {
 		Assert.isTrue(file.exists());
 		return new LogFileDescriptor(file.getParentFile().getAbsolutePath(), file.getName());
+	}
+
+	public static ILogFileDescriptor fromFile(String filePath) {
+		return fromFile(new File(filePath));
 	}
 
 }

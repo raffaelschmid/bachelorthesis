@@ -11,12 +11,15 @@ import com.trivadis.loganalysis.core.internal.Context;
 
 /**
  * TODO refactor into smaller units
+ * 
  * @author els
- *
+ * 
  */
 public class Loganalysis {
 
 	private static final String ELEMENT_NAME = "analyzer";
+
+	private static final String EXTENSION_POINT_ID = "com.trivadis.loganalysis.analyzer";
 
 	private static class Holder {
 		private static IContext INSTANCE = new Context();
@@ -28,7 +31,16 @@ public class Loganalysis {
 		return fileImporter;
 	}
 
-	private static final String EXTENSION_POINT_ID = "com.trivadis.loganalysis.analyzer";
+	public static IContext getContext() {
+		Assert.isNotNull(Holder.INSTANCE);
+		return Holder.INSTANCE;
+	}
+
+	public static IContentReader contentReader() {
+		IContentReader contentReader = Holder.INSTANCE.contentReader();
+		Assert.isNotNull(contentReader);
+		return contentReader;
+	}
 
 	public static IAnalyzer<ILogFile> fileProcessor() {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
@@ -52,8 +64,4 @@ public class Loganalysis {
 		return null;
 	}
 
-	public static IContext getContext() {
-		Assert.isNotNull(Holder.INSTANCE);
-		return Holder.INSTANCE;
-	}
 }

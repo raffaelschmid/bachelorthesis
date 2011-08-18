@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.Assert;
 
+import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.IFileImporter;
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
@@ -20,10 +21,12 @@ public class Context implements IContext {
 	private final IFileImporter fileImporter;
 	private final List<ILogFileDescriptor> selectedFiles;
 	private final List<SelectedFilesChangeListener> listeners = new ArrayList<SelectedFilesChangeListener>();
+	private IContentReader contentReader;
 
 	public Context() {
 		this.fileImporter = new FileImporter(this);
 		this.selectedFiles = new ArrayList<ILogFileDescriptor>();
+		this.contentReader = new ContentReader();
 	}
 
 	public IFileImporter fileImporter() {
@@ -58,6 +61,10 @@ public class Context implements IContext {
 		for (SelectedFilesChangeListener listener : listeners) {
 			listener.fileSelectionChanged();
 		}
+	}
+
+	public IContentReader contentReader() {
+		return this.contentReader;
 	}
 
 }

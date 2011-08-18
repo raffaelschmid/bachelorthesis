@@ -140,7 +140,7 @@ public class LogFilesView extends ViewPart implements
 			String value = memento.getString(STORAGE_KEY);
 			if (value != null) {
 				for (String filePath : value.split(File.pathSeparator)) {
-					context.add(LogFileDescriptor.fromFile(new File(filePath)));
+					context.add(LogFileDescriptor.fromFile(filePath));
 				}
 			}
 		}
