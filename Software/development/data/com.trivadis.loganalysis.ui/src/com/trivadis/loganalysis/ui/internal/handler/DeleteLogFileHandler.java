@@ -12,6 +12,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.Loganalysis;
+import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.ui.internal.dialog.DeleteFileDialog;
 
 public class DeleteLogFileHandler extends AbstractHandler {
@@ -33,8 +34,8 @@ public class DeleteLogFileHandler extends AbstractHandler {
 		if (!selected.isEmpty() && selected instanceof IStructuredSelection) {
 			Object selectedObject = ((IStructuredSelection) selected)
 					.getFirstElement();
-			if (selectedObject instanceof File) {
-				File file = (File) selectedObject;
+			if (selectedObject instanceof ILogFileDescriptor) {
+				ILogFileDescriptor file = (ILogFileDescriptor) selectedObject;
 				DeleteFileDialog dialog = new DeleteFileDialog(file,
 						HandlerUtil.getActiveWorkbenchWindow(event).getShell());
 				if (isOk(dialog.open())) {
@@ -48,11 +49,12 @@ public class DeleteLogFileHandler extends AbstractHandler {
 		return null;
 	}
 
-	private void removeFileFromView(File file) {
+	private void removeFileFromView(ILogFileDescriptor file) {
 		context.remove(file);
 	}
 
-	private boolean removeFileFromDisk(File file) {
+	private boolean removeFileFromDisk(ILogFileDescriptor fileDescriptor) {
+		File file = fileDescriptor.toFile();
 		boolean delete = !file.isDirectory();
 		if (delete) {
 			file.delete();

@@ -10,5 +10,4 @@ public class Activator extends LoganalysisAbstractUiPlugin {
 	public String getPluginId() {
 		return PLUGIN_ID;
 	}
-
 }

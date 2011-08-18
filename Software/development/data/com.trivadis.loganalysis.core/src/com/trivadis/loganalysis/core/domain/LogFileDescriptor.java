@@ -2,10 +2,19 @@ package com.trivadis.loganalysis.core.domain;
 
 import java.io.File;
 
+import org.eclipse.core.runtime.Assert;
+
+import com.trivadis.loganalysis.core.IContentReader;
+
 public class LogFileDescriptor implements ILogFileDescriptor {
 	private static final String ICON_PATH = "icons/document.gif";
 
-	private final String path, fileName, rawContent;
+	private final String path, fileName;
+	private String rawContent;
+
+	public LogFileDescriptor(String path, String fileName) {
+		this(path, fileName, null);
+	}
 
 	public LogFileDescriptor(String path, String fileName, String rawContent) {
 		this.path = path;
@@ -13,21 +22,13 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 		this.rawContent = rawContent;
 	}
 
-	public String getPath() {
-		return path;
+	public boolean isLoaded(){
+		return (rawContent != null);
 	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public String getIconPath() {
-		return ICON_PATH;
-	}
-
+	
 	@Override
 	public String toString() {
-		return path + File.separator + fileName;
+		return getAbsolutePath();
 	}
 
 	@Override
@@ -62,8 +63,40 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 		return true;
 	}
 
-	public String getRawContent() {
-		return rawContent;
+	public String getRawContent(IContentReader reader) {
+		String retVal;
+		if(isLoaded()){
+			retVal = this.rawContent;
+		}
+		else{
+			retVal = reader.contentAsString(this);
+		}
+		return retVal;
+	}
+
+	public String getAbsolutePath() {
+		return getPath() + File.separator + getFileName();
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public String getIconPath() {
+		return ICON_PATH;
+	}
+
+	public File toFile() {
+		return new File(getAbsolutePath());
+	}
+
+	public static ILogFileDescriptor fromFile(File file) {
+		Assert.isTrue(file.exists());
+		return new LogFileDescriptor(file.getParentFile().getAbsolutePath(), file.getName());
 	}
 
 }

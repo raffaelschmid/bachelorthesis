@@ -1,18 +1,17 @@
 package com.trivadis.loganalysis.jrockit.analyzer;
 
-import com.trivadis.loganalysis.core.IFileProcessor;
+import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 
-public class JRockitAnalyzer implements IFileProcessor<JRockitLogFile> {
+public class JRockitAnalyzer implements IAnalyzer<JRockitLogFile> {
 
-	private static final String ANALYZER_EDITOR_ID = "com.trivadis.loganalysis.jrockit.ui.AnalysisEditor";
+	private static final String ANALYZER_EDITOR_ID = "com.trivadis.loganalysis.jrockit.ui.AnalysisEditor"; //$NON-NLS-1$
 
-	public boolean isResponsible(String content) {
+	public boolean isResponsible(ILogFileDescriptor content) {
 		return true;
 	}
 
 	public JRockitLogFile process(ILogFileDescriptor logFileDescriptor) {
-		System.out.println("Processing JRockit GC Log File");
 		return new JRockitLogFile(logFileDescriptor);
 	}
 

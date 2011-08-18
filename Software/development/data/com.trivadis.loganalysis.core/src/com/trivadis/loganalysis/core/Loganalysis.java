@@ -6,8 +6,14 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 import com.trivadis.loganalysis.core.domain.ILogFile;
+import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.core.internal.Context;
 
+/**
+ * TODO refactor into smaller units
+ * @author els
+ *
+ */
 public class Loganalysis {
 
 	private static final String ELEMENT_NAME = "analyzer";
@@ -24,16 +30,17 @@ public class Loganalysis {
 
 	private static final String EXTENSION_POINT_ID = "com.trivadis.loganalysis.analyzer";
 
-	public static IFileProcessor<ILogFile> fileProcessor() {
+	public static IAnalyzer<ILogFile> fileProcessor() {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID);
+		ILogFileDescriptor fileDescriptor = null;
 		for (IConfigurationElement element : elements) {
 			if (ELEMENT_NAME.equals(element.getName())) {
 				try {
 					@SuppressWarnings("unchecked")
-					IFileProcessor<ILogFile> processor = (IFileProcessor<ILogFile>) element
+					IAnalyzer<ILogFile> processor = (IAnalyzer<ILogFile>) element
 							.createExecutableExtension("class");
-					if (processor.isResponsible("JRockit Log File"))
+					if (processor.isResponsible(fileDescriptor))
 						return processor;
 				} catch (CoreException e) {
 					// TODO refactor exception handling

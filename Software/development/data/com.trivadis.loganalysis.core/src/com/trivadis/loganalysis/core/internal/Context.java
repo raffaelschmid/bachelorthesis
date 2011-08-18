@@ -1,6 +1,5 @@
 package com.trivadis.loganalysis.core.internal;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import org.eclipse.core.runtime.Assert;
 import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.IFileImporter;
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
+import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 
 /**
  * TODO refactor into smaller units.
@@ -18,19 +18,19 @@ import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
  */
 public class Context implements IContext {
 	private final IFileImporter fileImporter;
-	private final List<File> selectedFiles;
+	private final List<ILogFileDescriptor> selectedFiles;
 	private final List<SelectedFilesChangeListener> listeners = new ArrayList<SelectedFilesChangeListener>();
 
 	public Context() {
 		this.fileImporter = new FileImporter(this);
-		this.selectedFiles = new ArrayList<File>();
+		this.selectedFiles = new ArrayList<ILogFileDescriptor>();
 	}
 
 	public IFileImporter fileImporter() {
 		return fileImporter;
 	}
 
-	public List<File> getSelectedFiles() {
+	public List<ILogFileDescriptor> getSelectedFiles() {
 		return selectedFiles;
 	}
 
@@ -38,7 +38,7 @@ public class Context implements IContext {
 		listeners.add(listener);
 	}
 
-	public void add(File file) {
+	public void add(ILogFileDescriptor file) {
 		if (!selectedFiles.contains(file)) {
 			selectedFiles.add(file);
 			notifyListeners();
@@ -46,7 +46,7 @@ public class Context implements IContext {
 		Assert.isTrue(selectedFiles.contains(file));
 	}
 
-	public void remove(File file) {
+	public void remove(ILogFileDescriptor file) {
 		if (selectedFiles.contains(file)) {
 			selectedFiles.remove(file);
 			notifyListeners();

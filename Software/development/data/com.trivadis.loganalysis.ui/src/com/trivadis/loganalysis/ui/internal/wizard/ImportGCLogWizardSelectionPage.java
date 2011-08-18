@@ -24,6 +24,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.LogFileDescriptor;
 import com.trivadis.loganalysis.ui.internal.Activator;
 
 public class ImportGCLogWizardSelectionPage extends WizardPage implements
@@ -31,7 +33,7 @@ public class ImportGCLogWizardSelectionPage extends WizardPage implements
 
 	private static final Object[] EMPTY = new Object[] {};
 	private CheckboxTableViewer listViewer;
-	private final List<File> files = new ArrayList<File>();
+	private final List<ILogFileDescriptor> files = new ArrayList<ILogFileDescriptor>();
 
 	public ImportGCLogWizardSelectionPage() {
 		super("Import Garbage Collection File", "Garbage Collection Log",
@@ -146,14 +148,14 @@ public class ImportGCLogWizardSelectionPage extends WizardPage implements
 		if (event.getElement() instanceof File) {
 			File file = (File) event.getElement();
 			if (event.getChecked() && !getFiles().contains(file)) {
-				files.add(file);
+				files.add(LogFileDescriptor.fromFile(file));
 			} else if (!event.getChecked() && getFiles().contains(file)) {
 				files.remove(file);
 			}
 		}
 	}
 
-	public List<File> getFiles() {
+	public List<ILogFileDescriptor> getFiles() {
 		return files;
 	}
 

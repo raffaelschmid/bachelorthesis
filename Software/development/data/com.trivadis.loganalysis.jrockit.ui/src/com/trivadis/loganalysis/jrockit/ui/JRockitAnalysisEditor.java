@@ -6,15 +6,12 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -24,26 +21,15 @@ import com.trivadis.loganalysis.ui.EditorInput;
 public class JRockitAnalysisEditor extends MultiPageEditorPart implements
 		IResourceChangeListener {
 
-	private TextEditor editor;
+	private JRockitAnalysisEditorData data = new JRockitAnalysisEditorData();
 
 	public JRockitAnalysisEditor() {
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
 
-	private Control overview() {
-
-		Composite composite = new Composite(getContainer(), SWT.NONE);
-		return composite;
-	}
-
-	private Control createPage2() {
-		Composite composite = new Composite(getContainer(), SWT.NONE);
-		return composite;
-	}
-
 	protected void createPages() {
-		setPageText(addPage(overview()), "Overview");
-		setPageText(addPage(createPage2()), "Heap Usage after GC");
+		setPageText(addPage(new PageHeapUsageAfterGC(getContainer(), SWT.NONE)), "Heap Usage after GC");
+		setPageText(addPage(new PageOverview(getContainer(), SWT.NONE)), "Overview");
 	}
 
 	public void dispose() {
@@ -86,10 +72,10 @@ public class JRockitAnalysisEditor extends MultiPageEditorPart implements
 					IWorkbenchPage[] pages = getSite().getWorkbenchWindow()
 							.getPages();
 					for (int i = 0; i < pages.length; i++) {
-						if (((FileEditorInput) editor.getEditorInput())
+						if (((FileEditorInput) data.editor.getEditorInput())
 								.getFile().getProject()
 								.equals(event.getResource())) {
-							IEditorPart editorPart = pages[i].findEditor(editor
+							IEditorPart editorPart = pages[i].findEditor(data.editor
 									.getEditorInput());
 							pages[i].closeEditor(editorPart, true);
 						}
