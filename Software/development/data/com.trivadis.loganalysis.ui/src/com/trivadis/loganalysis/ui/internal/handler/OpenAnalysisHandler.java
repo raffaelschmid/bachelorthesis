@@ -29,7 +29,7 @@ public class OpenAnalysisHandler extends AbstractHandler {
 			if (ofile instanceof ILogFileDescriptor) {
 				ILogFileDescriptor logFileDescriptor = (ILogFileDescriptor) ofile;
 				IAnalyzer<ILogFile> fileProcessor = Loganalysis
-						.fileProcessor();
+						.fileProcessor(logFileDescriptor);
 				try {
 					IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(
 							event).getActivePage();

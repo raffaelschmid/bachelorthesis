@@ -1,21 +1,18 @@
 package com.trivadis.loganalysis.jrockit.analyzer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.trivadis.loganalysis.jrockit.domain.DataExtractor;
+import com.trivadis.loganalysis.jrockit.domain.HeapInfoExtractor;
+import com.trivadis.loganalysis.jrockit.domain.Value;
+
 public class JRockitExtractor {
-	private final Pattern firstLine, heapInfoLine, patternInfoGeneralLine, patternInfoSpecificLine,
-			patternInfoPlainLine, patternDataLine;
-
-	private static class Holder {
-		private static final JRockitExtractor INSTANCE = new JRockitExtractor();
-	}
-
-	public static JRockitExtractor getDefault() {
-		return Holder.INSTANCE;
-	}
+	private final Pattern firstLine, heapInfoLine, infoGeneralLine, infoSpecificLine, infoPlainLine, dataLine;
 
 	/*
 	 * CHECKERS
@@ -29,36 +26,44 @@ public class JRockitExtractor {
 	}
 
 	public boolean checkPatternInfoGeneral(String line) {
-		return patternInfoGeneralLine.matcher(line).matches();
+		return infoGeneralLine.matcher(line).matches();
 	}
 
 	public boolean checkPatternInfoSpecific(String line) {
-		return patternInfoSpecificLine.matcher(line).matches();
+		return infoSpecificLine.matcher(line).matches();
 	}
 
-	public boolean checkPatternInfoPlain(String string) {
-		return patternInfoPlainLine.matcher(string).matches();
+	public boolean checkPatternInfoPlain(String line) {
+		return infoPlainLine.matcher(line).matches();
 	}
 
-	public boolean checkDataLine(String string) {
-		return patternDataLine.matcher(string).matches();
+	public boolean checkDataLine(String line) {
+		return dataLine.matcher(line).matches();
 	}
 
 	/*
 	 * EXTRACTORS
 	 */
-	public List<String> extractHeapInfo(String string) {
-		return extractGroups(string, heapInfoLine);
+	public Map<HeapInfoExtractor, Value> extractHeapInfo(String line) {
+		return extractGroups(HeapInfoExtractor.values(), line, heapInfoLine);
 	}
 
-	private List<String> extractGroups(String string, Pattern p) {
-		List<String> retVal = new ArrayList<String>();
-		Matcher matcher = p.matcher(string);
+	public Map<DataExtractor, Value> extractDataLine(String line) {
+		return extractGroups(DataExtractor.values(), line, dataLine);
+	}
+
+	private <T extends Enum<?>> Map<T, Value> extractGroups(T[] enums, String line, Pattern p) {
+		List<String> list = new ArrayList<String>();
+		Matcher matcher = p.matcher(line);
 		boolean matchFound = matcher.find();
 		if (matchFound) {
-		    for (int i=1; i<=matcher.groupCount(); i++) {
-		        retVal.add(matcher.group(i));
-		    }
+			for (int i = 1; i <= matcher.groupCount(); i++) {
+				list.add(matcher.group(i));
+			}
+		}
+		Map<T, Value> retVal = new HashMap<T, Value>();
+		for (T d : enums) {
+			retVal.put(d, new Value(list.get(d.ordinal())));
 		}
 		return retVal;
 	}
@@ -66,13 +71,13 @@ public class JRockitExtractor {
 	/**
 	 * Instantiates all Patterns which are thread safe
 	 */
-	private JRockitExtractor() {
+	public JRockitExtractor() {
 		firstLine = Pattern.compile(infoLine());
 		heapInfoLine = Pattern.compile(heapInfo());
-		patternInfoGeneralLine = Pattern.compile(patternInfoGeneral());
-		patternInfoSpecificLine = Pattern.compile(patternInfoSpecific());
-		patternInfoPlainLine = Pattern.compile(patternInfoPlain());
-		patternDataLine = Pattern.compile(patternData());
+		infoGeneralLine = Pattern.compile(patternInfoGeneral());
+		infoSpecificLine = Pattern.compile(patternInfoSpecific());
+		infoPlainLine = Pattern.compile(patternInfoPlain());
+		dataLine = Pattern.compile(patternData());
 	}
 
 	/*
@@ -90,15 +95,15 @@ public class JRockitExtractor {
 	}
 
 	private String maximalHeapSize() {
-		return "maximal heap size:\\s(" + size() + ")";
+		return "maximal heap size:\\s" + size() + "";
 	}
 
 	private String nurserySize() {
-		return "nursery size:\\s(" + size() + ")";
+		return "nursery size:\\s" + size() + "";
 	}
 
 	private String heapSize() {
-		return "Heap size:\\s(" + size() + ")";
+		return "Heap size:\\s" + size() + "";
 	}
 
 	/*
@@ -129,18 +134,17 @@ public class JRockitExtractor {
 	 * Pattern data
 	 */
 	private String patternData() {
-		return prefix() + "\\[" +
-				type() + index() + 
-				"\\] " + time() + "-" + time() + ": " + type() + " " + size() + "->" + size() + " \\("
-				+ size() + "\\), " + time() + " s, sum of pauses " + time() + " ms, longest pause " + time() + " ms.";
+		return prefix() + "\\[" + type() + index() + "\\] " + time() + "-" + time() + ": " + type() + " " + size()
+				+ "->" + size() + " \\(" + size() + "\\), " + time() + " s, sum of pauses " + time()
+				+ " ms, longest pause " + time() + " ms.";
 	}
 
 	private String type() {
-		return "[O|Y]C";
+		return "([O|Y]C)";
 	}
-	
-	private String index(){
-		return "#\\d";
+
+	private String index() {
+		return "#(\\d+)";
 	}
 
 	/*
@@ -151,19 +155,19 @@ public class JRockitExtractor {
 	}
 
 	private String logLevel() {
-		return ".+ ";
+		return "(.+)\\s";
 	}
 
 	private String module() {
-		return ".+ ";
+		return "(.+)\\s";
 	}
 
 	private String size() {
-		return "\\d+KB";
+		return "(\\d+)KB";
 	}
 
 	private String time() {
-		return "\\d+.\\d{3}";
+		return "(\\d+.\\d{3})";
 	}
 
 }

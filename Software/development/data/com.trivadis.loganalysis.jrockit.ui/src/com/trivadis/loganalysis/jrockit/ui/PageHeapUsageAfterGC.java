@@ -2,6 +2,7 @@ package com.trivadis.loganalysis.jrockit.ui;
 
 import java.awt.Color;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -15,58 +16,41 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import com.trivadis.loganalysis.jrockit.domain.DataExtractor;
+import com.trivadis.loganalysis.jrockit.domain.DataLine;
+import com.trivadis.loganalysis.jrockit.domain.JRockitLogFile;
+
 public class PageHeapUsageAfterGC extends Composite {
 
-	public PageHeapUsageAfterGC(Composite parent, int style) {
+	public PageHeapUsageAfterGC(Composite parent, int style, JRockitLogFile logFile) {
 		super(parent, style);
 		setLayout(new FillLayout(SWT.VERTICAL));
-		new ChartComposite(this, SWT.NONE, createChart(createDataset()), true);
+		new ChartComposite(this, SWT.NONE, createChart(createDataset(logFile)), true);
 	}
 
-	private XYSeriesCollection createDataset() {
+	private XYSeriesCollection createDataset(JRockitLogFile logFile) {
+		Assert.isNotNull(logFile);
 		final XYSeries series1 = new XYSeries("First");
-		series1.add(1.0, 1.0);
-		series1.add(2.0, 4.0);
-		series1.add(3.0, 3.0);
-		series1.add(4.0, 5.0);
-		series1.add(5.0, 5.0);
-		series1.add(6.0, 7.0);
-		series1.add(7.0, 7.0);
-		series1.add(8.0, 8.0);
+		for (DataLine line : logFile.getData()) {
+			Double startTime = line.getValue(DataExtractor.START_TIME).toDouble();
+			Double memoryBefore = line.getValue(DataExtractor.MEMORY_BEFORE).toDouble();
+			Double endTime = line.getValue(DataExtractor.END_TIME).toDouble();
+			Double memoryAfter = line.getValue(DataExtractor.MEMORY_AFTER).toDouble();
 
-		final XYSeries series2 = new XYSeries("Second");
-		series2.add(1.0, 5.0);
-		series2.add(2.0, 7.0);
-		series2.add(3.0, 6.0);
-		series2.add(4.0, 8.0);
-		series2.add(5.0, 4.0);
-		series2.add(6.0, 4.0);
-		series2.add(7.0, 2.0);
-		series2.add(8.0, 1.0);
-
-		final XYSeries series3 = new XYSeries("Third");
-		series3.add(3.0, 4.0);
-		series3.add(4.0, 3.0);
-		series3.add(5.0, 2.0);
-		series3.add(6.0, 3.0);
-		series3.add(7.0, 6.0);
-		series3.add(8.0, 3.0);
-		series3.add(9.0, 4.0);
-		series3.add(10.0, 3.0);
+			series1.add(startTime, memoryBefore);
+			series1.add(endTime, memoryAfter);
+		}
 
 		final XYSeriesCollection dataset = new XYSeriesCollection();
 		dataset.addSeries(series1);
-		dataset.addSeries(series2);
-		dataset.addSeries(series3);
 
 		return dataset;
 	}
 
 	private JFreeChart createChart(XYSeriesCollection dataset) {
 
-		final JFreeChart chart = ChartFactory.createXYLineChart("Heap Usage",
-				"Clock Time (seconds)", "Heap Usage (MBytes)", dataset,
-				PlotOrientation.VERTICAL, true, true, false);
+		final JFreeChart chart = ChartFactory.createXYLineChart("Heap Usage", "Clock Time (seconds)",
+				"Heap Usage (MBytes)", dataset, PlotOrientation.VERTICAL, true, true, false);
 		chart.setBackgroundPaint(Color.white);
 		final XYPlot plot = chart.getXYPlot();
 		plot.setBackgroundPaint(Color.white);

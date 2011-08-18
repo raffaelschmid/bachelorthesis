@@ -42,10 +42,9 @@ public class Loganalysis {
 		return contentReader;
 	}
 
-	public static IAnalyzer<ILogFile> fileProcessor() {
+	public static IAnalyzer<ILogFile> fileProcessor(ILogFileDescriptor fileDescriptor) {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID);
-		ILogFileDescriptor fileDescriptor = null;
 		for (IConfigurationElement element : elements) {
 			if (ELEMENT_NAME.equals(element.getName())) {
 				try {

@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.jrockit.domain.JRockitLogFile;
 
 public class JRockitAnalyzerTest {
 

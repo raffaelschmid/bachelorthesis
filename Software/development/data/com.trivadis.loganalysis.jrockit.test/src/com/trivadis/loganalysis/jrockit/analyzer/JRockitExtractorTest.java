@@ -1,49 +1,53 @@
 package com.trivadis.loganalysis.jrockit.analyzer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
+import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
+
+import com.trivadis.loganalysis.jrockit.domain.DataExtractor;
+import com.trivadis.loganalysis.jrockit.domain.HeapInfoExtractor;
+import com.trivadis.loganalysis.jrockit.domain.Value;
 
 public class JRockitExtractorTest {
 
-	private JRockitExtractor instance;
+	private JRockitExtractor instance = new JRockitExtractor();
 
-	@Before
-	public void test() {
-		 instance = JRockitExtractor.getDefault();
-	}
-	
 	@Test
 	public void test_checkGcInfo() {
 		assertTrue(instance.checkGcInfo(LOG[0]));
 	}
-	
+
 	@Test
-	public void test_checkHeapInfo(){
+	public void test_checkHeapInfo() {
 		assertTrue(instance.checkHeapInfo(LOG[1]));
+		assertFalse(instance.checkHeapInfo(LOG[0]));
 	}
-	
+
 	@Test
-	public void test_extractHeapInfo(){
-		List<String> heapInfo = instance.extractHeapInfo(LOG[1]);
+	public void test_extractHeapInfo() {
+		Map<HeapInfoExtractor, Value> heapInfo = instance.extractHeapInfo(LOG[1]);
 		assertNotNull(heapInfo);
-		System.out.println(heapInfo);
-		assertEquals(3,heapInfo.size());
-		
+		assertEquals(5, heapInfo.size());
+
+		assertEquals("INFO", heapInfo.get(HeapInfoExtractor.LOG_LEVEL).toString());
+		assertEquals("memory", heapInfo.get(HeapInfoExtractor.MODULE).toString());
+		assertEquals("65536", heapInfo.get(HeapInfoExtractor.HEAP_SIZE).toString());
+		assertEquals("1048576", heapInfo.get(HeapInfoExtractor.MAXIMAL_HEAP_SIZE).toString());
+		assertEquals("32768", heapInfo.get(HeapInfoExtractor.NURSERY_SIZE).toString());
 	}
-	
+
 	@Test
-	public void test_checkPatternInfoGeneral(){
+	public void test_checkPatternInfoGeneral() {
 		assertTrue(instance.checkPatternInfoGeneral(LOG[2]));
 	}
-	
+
 	@Test
-	public void test_checkPatternInfoSpecific(){
+	public void test_checkPatternInfoSpecific() {
 		assertTrue(instance.checkPatternInfoSpecific(LOG[3]));
 		assertTrue(instance.checkPatternInfoSpecific(LOG[4]));
 		assertTrue(instance.checkPatternInfoSpecific(LOG[5]));
@@ -53,18 +57,46 @@ public class JRockitExtractorTest {
 		assertTrue(instance.checkPatternInfoSpecific(LOG[9]));
 		assertTrue(instance.checkPatternInfoSpecific(LOG[10]));
 	}
-	
+
 	@Test
-	public void test_checkPatternInfoPlain(){
+	public void test_checkPatternInfoPlain() {
 		assertTrue(instance.checkPatternInfoPlain(LOG[11]));
 	}
-	
+
 	@Test
-	public void test_checkDataLine(){
+	public void test_checkDataLine() {
+		for (int line = 0; line < 12; line++) {
+			assertFalse(instance.checkDataLine(LOG[line]));
+		}
 		assertTrue(instance.checkDataLine(LOG[12]));
 		assertTrue(instance.checkDataLine(LOG[13]));
 		assertTrue(instance.checkDataLine(LOG[14]));
 		assertTrue(instance.checkDataLine(LOG[15]));
+		assertTrue(instance.checkDataLine(LOG[16]));
+		
+	}
+
+	@Test
+	public void test_extractDataLine() throws Exception {
+
+		assertEquals(13, instance.extractDataLine(LOG[12]).size());
+		assertEquals(13, instance.extractDataLine(LOG[13]).size());
+		assertEquals(13, instance.extractDataLine(LOG[14]).size());
+
+		Map<DataExtractor, Value> data = instance.extractDataLine(LOG[15]);
+		assertEquals(13, data.size());
+		assertEquals("INFO", data.get(DataExtractor.LOG_LEVEL).toString());
+		assertEquals("memory", data.get(DataExtractor.MODULE).toString());
+		assertEquals("YC", data.get(DataExtractor.TYPE1).toString());
+		assertEquals("1.531", data.get(DataExtractor.START_TIME).toString());
+		assertEquals("1.532", data.get(DataExtractor.END_TIME).toString());
+		assertEquals("YC", data.get(DataExtractor.TYPE2).toString());
+		assertEquals("156652", data.get(DataExtractor.MEMORY_AFTER).toString());
+		assertEquals("156691", data.get(DataExtractor.MEMORY_BEFORE).toString());
+		assertEquals("233624", data.get(DataExtractor.HEAP_SIZE_AFTER).toString());
+		assertEquals("0.001", data.get(DataExtractor.TOTAL_COLLECTION_TIME).toString());
+		assertEquals("0.564", data.get(DataExtractor.TOTAL_SUM_PAUSE).toString());
+		assertEquals("0.564", data.get(DataExtractor.LONGEST_PAUSE).toString());
 	}
 
 	//@formatter:off
@@ -84,6 +116,7 @@ public class JRockitExtractorTest {
 		/* 12 */"[INFO ][memory ] [OC#1] 0.830-0.833: OC 428KB->78423KB (117108KB), 0.003 s, sum of pauses 1.753 ms, longest pause 1.753 ms.",
 		/* 13 */"[INFO ][memory ] [OC#2] 0.892-0.982: OC 78450KB->156488KB (233624KB), 0.090 s, sum of pauses 88.419 ms, longest pause 88.419 ms.",
 		/* 14 */"[INFO ][memory ] [YC#1] 1.530-1.531: YC 156524KB->156628KB (233624KB), 0.001 s, sum of pauses 1.275 ms, longest pause 1.275 ms.",
-		/* 15 */"[INFO ][memory ] [YC#2] 1.531-1.532: YC 156652KB->156691KB (233624KB), 0.001 s, sum of pauses 0.564 ms, longest pause 0.564 ms." };
+		/* 15 */"[INFO ][memory ] [YC#2] 1.531-1.532: YC 156652KB->156691KB (233624KB), 0.001 s, sum of pauses 0.564 ms, longest pause 0.564 ms.",
+		/* 16 */"[INFO ][memory ] [OC#19] 47.364-48.205: OC 1048576KB->428984KB (1048576KB), 0.841 s, sum of pauses 831.651 ms, longest pause 831.651 ms."};
 
 }

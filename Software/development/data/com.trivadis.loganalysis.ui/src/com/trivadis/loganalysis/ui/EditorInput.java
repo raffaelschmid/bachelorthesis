@@ -9,7 +9,7 @@ import com.trivadis.loganalysis.ui.internal.Activator;
 
 public class EditorInput implements IEditorInput {
 
-	private ILogFile logFile;
+	private final ILogFile logFile;
 
 	public EditorInput(ILogFile logFile) {
 		this.logFile = logFile;
@@ -20,7 +20,7 @@ public class EditorInput implements IEditorInput {
 	}
 
 	public String getName() {
-		return logFile.toString();
+		return getLogFile().toString();
 	}
 
 	public String getToolTipText() {
@@ -39,5 +39,10 @@ public class EditorInput implements IEditorInput {
 	public Object getAdapter(Class adapterTarget) {
 		return null;
 	}
+
+	public ILogFile getLogFile() {
+		return logFile;
+	}
+
 
 }

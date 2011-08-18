@@ -96,7 +96,7 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 	}
 
 	public static ILogFileDescriptor fromFile(File file) {
-		Assert.isTrue(file.exists());
+		Assert.isTrue(file.exists(),file.getAbsolutePath() + " does not exist");
 		return new LogFileDescriptor(file.getParentFile().getAbsolutePath(), file.getName());
 	}
 
