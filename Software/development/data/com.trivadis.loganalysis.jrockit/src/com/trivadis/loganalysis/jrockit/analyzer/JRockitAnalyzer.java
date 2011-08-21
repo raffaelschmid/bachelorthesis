@@ -36,9 +36,6 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitLogFile> {
 			if(extractor.checkDataLine(line)){
 				logFile.addDataLine(new DataLine(extractor.extractDataLine(line)));
 			}
-			else{
-				System.out.println("no data -> " + line);
-			}
 		}
 		return logFile;
 	}
