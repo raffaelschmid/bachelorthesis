@@ -1,16 +1,21 @@
 package com.trivadis.loganalysis.jrockit.domain;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DataLine {
 	
-	private final Map<DataExtractor, Value> map;
+	private final Map<MetaInfo, Value> map;
 
-	public DataLine(Map<DataExtractor, Value> map){
-		this.map = map;
+	public DataLine(){
+		this.map = new HashMap<MetaInfo, Value>();
 	}
 	
-	public Value getValue(DataExtractor key){
+	public Value get(MetaInfo key){
 		return map.get(key);
+	}
+	
+	public void put(MetaInfo key, Value value){
+		map.put(key, value);
 	}
 }

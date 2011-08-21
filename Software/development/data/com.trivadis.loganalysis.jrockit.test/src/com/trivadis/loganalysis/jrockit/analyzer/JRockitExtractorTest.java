@@ -5,12 +5,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 
-import com.trivadis.loganalysis.jrockit.domain.DataExtractor;
+import com.trivadis.loganalysis.jrockit.domain.DataLine;
 import com.trivadis.loganalysis.jrockit.domain.HeapInfoExtractor;
+import com.trivadis.loganalysis.jrockit.domain.MetaInfo;
 import com.trivadis.loganalysis.jrockit.domain.Value;
 
 public class JRockitExtractorTest {
@@ -79,24 +81,19 @@ public class JRockitExtractorTest {
 	@Test
 	public void test_extractDataLine() throws Exception {
 
-		assertEquals(13, instance.extractDataLine(LOG[12]).size());
-		assertEquals(13, instance.extractDataLine(LOG[13]).size());
-		assertEquals(13, instance.extractDataLine(LOG[14]).size());
-
-		Map<DataExtractor, Value> data = instance.extractDataLine(LOG[15]);
-		assertEquals(13, data.size());
-		assertEquals("INFO", data.get(DataExtractor.LOG_LEVEL).toString());
-		assertEquals("memory", data.get(DataExtractor.MODULE).toString());
-		assertEquals("YC", data.get(DataExtractor.TYPE1).toString());
-		assertEquals("1.531", data.get(DataExtractor.START_TIME).toString());
-		assertEquals("1.532", data.get(DataExtractor.END_TIME).toString());
-		assertEquals("YC", data.get(DataExtractor.TYPE2).toString());
-		assertEquals("156652", data.get(DataExtractor.MEMORY_AFTER).toString());
-		assertEquals("156691", data.get(DataExtractor.MEMORY_BEFORE).toString());
-		assertEquals("233624", data.get(DataExtractor.HEAP_SIZE_AFTER).toString());
-		assertEquals("0.001", data.get(DataExtractor.TOTAL_COLLECTION_TIME).toString());
-		assertEquals("0.564", data.get(DataExtractor.TOTAL_SUM_PAUSE).toString());
-		assertEquals("0.564", data.get(DataExtractor.LONGEST_PAUSE).toString());
+		List<DataLine> data = instance.extractDataLine(LOG[15]);
+		assertEquals("INFO", data.get(0).get(MetaInfo.LOG_LEVEL).toString());
+		assertEquals("memory", data.get(0).get(MetaInfo.MODULE).toString());
+		assertEquals("YC", data.get(0).get(MetaInfo.TYPE).toString());
+		assertEquals("1.531", data.get(0).get(MetaInfo.TIME).toString());
+		assertEquals("1.532", data.get(1).get(MetaInfo.TIME).toString());
+		assertEquals("YC", data.get(1).get(MetaInfo.TYPE).toString());
+		assertEquals("156652", data.get(1).get(MetaInfo.MEMORY).toString());
+		assertEquals("156691", data.get(0).get(MetaInfo.MEMORY).toString());
+		assertEquals("233624", data.get(1).get(MetaInfo.HEAP_SIZE).toString());
+		assertEquals("0.001", data.get(1).get(MetaInfo.TOTAL_COLLECTION_TIME).toString());
+		assertEquals("0.564", data.get(1).get(MetaInfo.TOTAL_SUM_PAUSE).toString());
+		assertEquals("0.564", data.get(1).get(MetaInfo.LONGEST_PAUSE).toString());
 	}
 
 	//@formatter:off

@@ -6,7 +6,6 @@ import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
-import com.trivadis.loganalysis.jrockit.domain.DataLine;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLogFile;
 
 public class JRockitAnalyzer implements IAnalyzer<JRockitLogFile> {
@@ -34,7 +33,7 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitLogFile> {
 		JRockitLogFile logFile = new JRockitLogFile(descriptor);
 		for(String line : content){
 			if(extractor.checkDataLine(line)){
-				logFile.addDataLine(new DataLine(extractor.extractDataLine(line)));
+				logFile.addDataFromLine(line, extractor);
 			}
 		}
 		return logFile;

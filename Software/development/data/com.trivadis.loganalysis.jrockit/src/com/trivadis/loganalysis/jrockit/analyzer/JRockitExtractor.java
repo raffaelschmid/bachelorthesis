@@ -1,18 +1,24 @@
 package com.trivadis.loganalysis.jrockit.analyzer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.trivadis.loganalysis.jrockit.domain.DataExtractor;
+import com.trivadis.loganalysis.jrockit.domain.DataLine;
 import com.trivadis.loganalysis.jrockit.domain.HeapInfoExtractor;
+import com.trivadis.loganalysis.jrockit.domain.MetaInfo;
 import com.trivadis.loganalysis.jrockit.domain.Value;
 
 public class JRockitExtractor {
 	private final Pattern firstLine, heapInfoLine, infoGeneralLine, infoSpecificLine, infoPlainLine, dataLine;
+
+	private enum Groups {
+		LOG_LEVEL, MODULE, TYPE1, INDEX, START_TIME, END_TIME, TYPE2, MEMORY_AFTER, MEMORY_BEFORE, HEAP_SIZE_AFTER, TOTAL_COLLECTION_TIME, TOTAL_SUM_PAUSE, LONGEST_PAUSE;
+	}
 
 	/*
 	 * CHECKERS
@@ -48,8 +54,29 @@ public class JRockitExtractor {
 		return extractGroups(HeapInfoExtractor.values(), line, heapInfoLine);
 	}
 
-	public Map<DataExtractor, Value> extractDataLine(String line) {
-		return extractGroups(DataExtractor.values(), line, dataLine);
+	public List<DataLine> extractDataLine(String line) {
+		Map<Groups, Value> extraction = extractGroups(Groups.values(), line, dataLine);
+
+		DataLine before = new DataLine();
+		before.put(MetaInfo.LOG_LEVEL, extraction.get(Groups.LOG_LEVEL));
+		before.put(MetaInfo.MODULE, extraction.get(Groups.MODULE));
+		before.put(MetaInfo.TYPE, extraction.get(Groups.TYPE1));
+		before.put(MetaInfo.INDEX, extraction.get(Groups.INDEX));
+		before.put(MetaInfo.TIME, extraction.get(Groups.START_TIME));
+		before.put(MetaInfo.MEMORY, extraction.get(Groups.MEMORY_BEFORE));
+
+		DataLine after = new DataLine();
+		after.put(MetaInfo.LOG_LEVEL, extraction.get(Groups.LOG_LEVEL));
+		after.put(MetaInfo.MODULE, extraction.get(Groups.MODULE));
+		after.put(MetaInfo.TYPE, extraction.get(Groups.TYPE1));
+		after.put(MetaInfo.INDEX, extraction.get(Groups.INDEX));
+		after.put(MetaInfo.TIME, extraction.get(Groups.END_TIME));
+		after.put(MetaInfo.MEMORY, extraction.get(Groups.MEMORY_AFTER));
+		after.put(MetaInfo.HEAP_SIZE, extraction.get(Groups.HEAP_SIZE_AFTER));
+		after.put(MetaInfo.TOTAL_COLLECTION_TIME, extraction.get(Groups.TOTAL_COLLECTION_TIME));
+		after.put(MetaInfo.TOTAL_SUM_PAUSE, extraction.get(Groups.TOTAL_SUM_PAUSE));
+		after.put(MetaInfo.LONGEST_PAUSE, extraction.get(Groups.LONGEST_PAUSE));
+		return Arrays.asList(new DataLine[] { before, after });
 	}
 
 	private <T extends Enum<?>> Map<T, Value> extractGroups(T[] enums, String line, Pattern p) {

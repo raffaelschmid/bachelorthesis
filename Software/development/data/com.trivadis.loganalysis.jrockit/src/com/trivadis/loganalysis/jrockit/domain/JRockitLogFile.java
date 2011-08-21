@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.trivadis.loganalysis.core.domain.AbstractLogFile;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.jrockit.analyzer.JRockitExtractor;
 
 public class JRockitLogFile extends AbstractLogFile {
 
@@ -21,5 +22,12 @@ public class JRockitLogFile extends AbstractLogFile {
 	public List<DataLine> getData() {
 		return data;
 	}
-	
+
+	public void addDataFromLine(String line, JRockitExtractor extractor) {
+		List<DataLine> extractDataLine = extractor.extractDataLine(line);
+		for (DataLine d : extractDataLine) {
+			data.add(d);
+		}
+	}
+
 }

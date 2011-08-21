@@ -43,7 +43,7 @@ public class HeapUsageChartPanel extends Composite {
 	private XYSeriesCollection createChart(Composite parent) {
 		final XYSeriesCollection dataset = new XYSeriesCollection(logFileWrapper.getDataset());
 		final JFreeChart chart = ChartFactory.createXYLineChart("Heap Usage", "Clock Time (seconds)",
-				"Heap Usage (MBytes)", dataset, PlotOrientation.VERTICAL, true, true, false);
+				"Heap Usage (KBytes)", dataset, PlotOrientation.VERTICAL, true, true, false);
 		chart.setBackgroundPaint(Color.white);
 		final XYPlot plot = chart.getXYPlot();
 		plot.setBackgroundPaint(Color.white);

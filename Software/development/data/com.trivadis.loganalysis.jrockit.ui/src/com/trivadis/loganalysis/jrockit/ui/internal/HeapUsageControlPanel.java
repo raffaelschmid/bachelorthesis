@@ -11,7 +11,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import com.trivadis.loganalysis.jrockit.domain.DataExtractor;
+import com.trivadis.loganalysis.jrockit.domain.MetaInfo;
 
 public class HeapUsageControlPanel extends Composite {
 
@@ -37,12 +37,12 @@ public class HeapUsageControlPanel extends Composite {
 			}
 		});
 
-		viewer.setInput(DataExtractor.values());
+		viewer.setInput(MetaInfo.values());
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (viewer.getSelection() instanceof IStructuredSelection) {
 					IStructuredSelection sselection = (IStructuredSelection) viewer.getSelection();
-					logFileWrapper.setSelection(axis, ((DataExtractor) sselection.getFirstElement()));
+					logFileWrapper.setSelection(axis, ((MetaInfo) sselection.getFirstElement()));
 				}
 			}
 		});

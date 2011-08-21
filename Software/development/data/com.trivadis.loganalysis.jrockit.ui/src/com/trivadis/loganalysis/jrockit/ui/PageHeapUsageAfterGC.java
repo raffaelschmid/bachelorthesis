@@ -18,7 +18,7 @@ public class PageHeapUsageAfterGC extends Composite {
 		
 		JRockitLogFileWrapper logFileWrapper = new JRockitLogFileWrapper(logFile);
 		
-		HeapUsageControlPanel heapUsageControlPanel = new HeapUsageControlPanel(this, SWT.NONE, logFileWrapper);
+		new HeapUsageControlPanel(this, SWT.NONE, logFileWrapper);
 		HeapUsageChartPanel heapUsageChartPanel = new HeapUsageChartPanel(this, SWT.NONE, logFileWrapper );
 		heapUsageChartPanel.setLayoutData(fill());
 	}
