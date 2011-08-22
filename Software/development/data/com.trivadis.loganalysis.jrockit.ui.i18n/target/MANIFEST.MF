@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-Name: %Bundle-Name
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Vendor: %Bundle-Vendor
+Bundle-ManifestVersion: 2
+Fragment-Host: com.trivadis.loganalysis.jrockit.ui;bundle-version="1.0
+ .0"
+Bundle-SymbolicName: com.trivadis.loganalysis.jrockit.ui.i18n
+Bundle-Version: 1.0.0
+

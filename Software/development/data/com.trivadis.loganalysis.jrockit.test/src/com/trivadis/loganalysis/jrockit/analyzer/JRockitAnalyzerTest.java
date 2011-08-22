@@ -11,11 +11,12 @@ import org.junit.Test;
 
 import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
-import com.trivadis.loganalysis.jrockit.domain.JRockitLogFile;
+import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
 
 public class JRockitAnalyzerTest {
 
-	private IAnalyzer<JRockitLogFile> analyzer = new JRockitAnalyzer();
+	private IAnalyzer<JRockitLog> analyzer = new JRockitAnalyzer();
 	private ILogFileDescriptor jrockitLog = new DummyDescriptor(
 			Arrays.asList(JROCKIT));
 	private ILogFileDescriptor hotSpotLog = new DummyDescriptor(
@@ -33,7 +34,7 @@ public class JRockitAnalyzerTest {
 
 	@Test
 	public void test_process() {
-		JRockitLogFile logFile = analyzer.process(jrockitLog);
+		JRockitLog logFile = analyzer.process(jrockitLog);
 		assertNotNull(logFile);
 	}
 

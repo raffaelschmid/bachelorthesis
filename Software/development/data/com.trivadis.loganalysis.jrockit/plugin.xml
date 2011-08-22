@@ -3,7 +3,7 @@
 <plugin>
    <extension
          point="com.trivadis.loganalysis.analyzer">
-         <analyzer class="com.trivadis.loganalysis.jrockit.analyzer.JRockitAnalyzer">
+         <analyzer class="com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer">
          </analyzer>
    </extension>
 

@@ -9,7 +9,7 @@
             extensions="gclog"
             icon="icons/chart.gif"
             id="com.trivadis.loganalysis.jrockit.ui.AnalysisEditor"
-            name="Garbage Collection Analysis">
+            name="%editor.name">
       </editor>
       </extension>
 </plugin>

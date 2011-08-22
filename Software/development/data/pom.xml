@@ -11,28 +11,22 @@
 		<tycho.version>0.11.1</tycho.version>
 	</properties>
 	<modules>
-		<module>com.trivadis.loganalysis.jfreechart.libs</module>
 		<module>com.trivadis.loganalysis.core</module>
+		<module>com.trivadis.loganalysis.core.test</module>
+		<module>com.trivadis.loganalysis.feature</module>
+		<module>com.trivadis.loganalysis.jfreechart.libs</module>
 		<module>com.trivadis.loganalysis.jrockit</module>
 		<module>com.trivadis.loganalysis.jrockit.test</module>
 		<module>com.trivadis.loganalysis.jrockit.ui</module>
-		<module>com.trivadis.loganalysis.core.test</module>
-		<module>com.trivadis.loganalysis.feature</module>
+		<module>com.trivadis.loganalysis.jrockit.ui.i18n</module>
 		<module>com.trivadis.loganalysis.ui</module>
+		<module>com.trivadis.loganalysis.ui.i18n</module>
 		<module>com.trivadis.loganalysis.ui.test</module>
 		<module>com.trivadis.loganalysis.targetplatform</module>
 		<module>com.trivadis.loganalysis.updatesite</module>
 	</modules>
 	<build>
 		<plugins>
-<!-- 			<plugin> -->
-<!-- 				<groupId>org.sonatype.tycho</groupId> -->
-<!-- 				<artifactId>maven-osgi-packaging-plugin</artifactId> -->
-<!-- 				<version>${tycho.version}</version> -->
-<!-- 				<configuration> -->
-<!-- 					<strictVersions>false</strictVersions> -->
-<!-- 				</configuration> -->
-<!-- 			</plugin> -->
 			<plugin>
 				<groupId>org.sonatype.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>

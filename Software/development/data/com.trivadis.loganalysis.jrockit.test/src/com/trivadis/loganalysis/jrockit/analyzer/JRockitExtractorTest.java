@@ -10,10 +10,11 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.trivadis.loganalysis.jrockit.domain.DataLine;
-import com.trivadis.loganalysis.jrockit.domain.HeapInfoExtractor;
-import com.trivadis.loganalysis.jrockit.domain.MetaInfo;
+import com.trivadis.loganalysis.jrockit.domain.JRockitLogData;
+import com.trivadis.loganalysis.jrockit.domain.ValueType;
 import com.trivadis.loganalysis.jrockit.domain.Value;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitExtractor;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitExtractor.HeapInfoGroups;
 
 public class JRockitExtractorTest {
 
@@ -32,15 +33,15 @@ public class JRockitExtractorTest {
 
 	@Test
 	public void test_extractHeapInfo() {
-		Map<HeapInfoExtractor, Value> heapInfo = instance.extractHeapInfo(LOG[1]);
+		Map<HeapInfoGroups, Value> heapInfo = instance.extractHeapInfo(LOG[1]);
 		assertNotNull(heapInfo);
 		assertEquals(5, heapInfo.size());
 
-		assertEquals("INFO", heapInfo.get(HeapInfoExtractor.LOG_LEVEL).toString());
-		assertEquals("memory", heapInfo.get(HeapInfoExtractor.MODULE).toString());
-		assertEquals("65536", heapInfo.get(HeapInfoExtractor.HEAP_SIZE).toString());
-		assertEquals("1048576", heapInfo.get(HeapInfoExtractor.MAXIMAL_HEAP_SIZE).toString());
-		assertEquals("32768", heapInfo.get(HeapInfoExtractor.NURSERY_SIZE).toString());
+		assertEquals("INFO", heapInfo.get(HeapInfoGroups.LOG_LEVEL).toString());
+		assertEquals("memory", heapInfo.get(HeapInfoGroups.MODULE).toString());
+		assertEquals("65536", heapInfo.get(HeapInfoGroups.HEAP_SIZE).toString());
+		assertEquals("1048576", heapInfo.get(HeapInfoGroups.MAXIMAL_HEAP_SIZE).toString());
+		assertEquals("32768", heapInfo.get(HeapInfoGroups.NURSERY_SIZE).toString());
 	}
 
 	@Test
@@ -81,19 +82,19 @@ public class JRockitExtractorTest {
 	@Test
 	public void test_extractDataLine() throws Exception {
 
-		List<DataLine> data = instance.extractDataLine(LOG[15]);
-		assertEquals("INFO", data.get(0).get(MetaInfo.LOG_LEVEL).toString());
-		assertEquals("memory", data.get(0).get(MetaInfo.MODULE).toString());
-		assertEquals("YC", data.get(0).get(MetaInfo.TYPE).toString());
-		assertEquals("1.531", data.get(0).get(MetaInfo.TIME).toString());
-		assertEquals("1.532", data.get(1).get(MetaInfo.TIME).toString());
-		assertEquals("YC", data.get(1).get(MetaInfo.TYPE).toString());
-		assertEquals("156652", data.get(1).get(MetaInfo.MEMORY).toString());
-		assertEquals("156691", data.get(0).get(MetaInfo.MEMORY).toString());
-		assertEquals("233624", data.get(1).get(MetaInfo.HEAP_SIZE).toString());
-		assertEquals("0.001", data.get(1).get(MetaInfo.TOTAL_COLLECTION_TIME).toString());
-		assertEquals("0.564", data.get(1).get(MetaInfo.TOTAL_SUM_PAUSE).toString());
-		assertEquals("0.564", data.get(1).get(MetaInfo.LONGEST_PAUSE).toString());
+		List<JRockitLogData> data = instance.extractDataLine(LOG[15]);
+		assertEquals("INFO", data.get(0).get(ValueType.LOG_LEVEL).toString());
+		assertEquals("memory", data.get(0).get(ValueType.MODULE).toString());
+		assertEquals("YC", data.get(0).get(ValueType.TYPE).toString());
+		assertEquals("1.531", data.get(0).get(ValueType.TIME).toString());
+		assertEquals("1.532", data.get(1).get(ValueType.TIME).toString());
+		assertEquals("YC", data.get(1).get(ValueType.TYPE).toString());
+		assertEquals("156652", data.get(1).get(ValueType.MEMORY).toString());
+		assertEquals("156691", data.get(0).get(ValueType.MEMORY).toString());
+		assertEquals("233624", data.get(1).get(ValueType.HEAP_SIZE).toString());
+		assertEquals("0.001", data.get(1).get(ValueType.TOTAL_COLLECTION_TIME).toString());
+		assertEquals("0.564", data.get(1).get(ValueType.TOTAL_SUM_PAUSE).toString());
+		assertEquals("0.564", data.get(1).get(ValueType.LONGEST_PAUSE).toString());
 	}
 
 	//@formatter:off

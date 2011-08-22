@@ -12,7 +12,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.Loganalysis;
-import com.trivadis.loganalysis.core.domain.ILogFile;
+import com.trivadis.loganalysis.core.domain.ILog;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.ui.EditorInput;
 
@@ -28,7 +28,7 @@ public class OpenAnalysisHandler extends AbstractHandler {
 			Object ofile = sselection.getFirstElement();
 			if (ofile instanceof ILogFileDescriptor) {
 				ILogFileDescriptor logFileDescriptor = (ILogFileDescriptor) ofile;
-				IAnalyzer<ILogFile> fileProcessor = Loganalysis
+				IAnalyzer<ILog> fileProcessor = Loganalysis
 						.fileProcessor(logFileDescriptor);
 				try {
 					IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-Name: I18n
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Vendor: TRIVADIS
+Bundle-ManifestVersion: 2
+Fragment-Host: com.trivadis.loganalysis.ui;bundle-version="1.0.0"
+Bundle-SymbolicName: com.trivadis.loganalysis.ui.i18n
+Bundle-Version: 1.0.0
+

@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.core.domain.LogFileDescriptor;
+import com.trivadis.loganalysis.ui.Messages;
 import com.trivadis.loganalysis.ui.internal.Activator;
 
 public class ImportGCLogWizardSelectionPage extends WizardPage implements
@@ -36,9 +37,9 @@ public class ImportGCLogWizardSelectionPage extends WizardPage implements
 	private final List<ILogFileDescriptor> files = new ArrayList<ILogFileDescriptor>();
 
 	public ImportGCLogWizardSelectionPage() {
-		super("Import Garbage Collection File", "Garbage Collection Log",
-				Activator.getDefault().getImageDescriptor("icons/gclog_import.gif"));
-		setDescription("Import a Garbage Collection Log File into the workspace.");
+		super(Messages.ImportGCLogWizardSelectionPage_0, Messages.ImportGCLogWizardSelectionPage_1,
+				Activator.getDefault().getImageDescriptor("icons/gclog_import.gif")); //$NON-NLS-1$
+		setDescription(Messages.ImportGCLogWizardSelectionPage_3);
 	}
 
 	public void createControl(Composite parent) {
@@ -111,7 +112,7 @@ public class ImportGCLogWizardSelectionPage extends WizardPage implements
 			}
 
 			public Image getImage(Object element) {
-				return Activator.getDefault().getImage("icons/document.gif");
+				return Activator.getDefault().getImage("icons/document.gif"); //$NON-NLS-1$
 			}
 
 			public String getText(Object element) {
@@ -125,7 +126,7 @@ public class ImportGCLogWizardSelectionPage extends WizardPage implements
 
 	private void addDirectoryFieldEditor(Composite directorySelection) {
 		final DirectoryFieldEditor directory = new DirectoryFieldEditor(
-				"fileSelect", "Select Folder: ", directorySelection);
+				"fileSelect", Messages.ImportGCLogWizardSelectionPage_6, directorySelection); //$NON-NLS-1$
 		directory.getTextControl(directorySelection).addModifyListener(
 				new ModifyListener() {
 					public void modifyText(ModifyEvent e) {

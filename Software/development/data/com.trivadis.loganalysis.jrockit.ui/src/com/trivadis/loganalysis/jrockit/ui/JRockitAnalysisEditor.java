@@ -16,14 +16,14 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
-import com.trivadis.loganalysis.jrockit.domain.JRockitLogFile;
+import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
 import com.trivadis.loganalysis.ui.EditorInput;
 
 public class JRockitAnalysisEditor extends MultiPageEditorPart implements
 		IResourceChangeListener {
 
 	private JRockitAnalysisEditorData data = new JRockitAnalysisEditorData();
-	private JRockitLogFile logFile;
+	private JRockitLog logFile;
 
 	public JRockitAnalysisEditor() {
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
@@ -61,9 +61,9 @@ public class JRockitAnalysisEditor extends MultiPageEditorPart implements
 			throw new PartInitException(
 					"Invalid Input: Must be AnalysisEditorInput");
 		EditorInput input = (EditorInput) editorInput;
-		if(!(input.getLogFile() instanceof JRockitLogFile))
+		if(!(input.getLogFile() instanceof JRockitLog))
 			throw new PartInitException("Invalid Log File Input");
-		this.logFile = (JRockitLogFile)input.getLogFile();
+		this.logFile = (JRockitLog)input.getLogFile();
 		super.init(site, editorInput);
 	}
 

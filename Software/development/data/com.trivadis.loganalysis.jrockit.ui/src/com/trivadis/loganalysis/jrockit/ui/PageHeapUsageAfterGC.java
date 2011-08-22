@@ -5,14 +5,14 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import com.trivadis.loganalysis.jrockit.domain.JRockitLogFile;
+import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
 import com.trivadis.loganalysis.jrockit.ui.internal.HeapUsageChartPanel;
 import com.trivadis.loganalysis.jrockit.ui.internal.HeapUsageControlPanel;
 import com.trivadis.loganalysis.jrockit.ui.internal.JRockitLogFileWrapper;
 
 public class PageHeapUsageAfterGC extends Composite {
 
-	public PageHeapUsageAfterGC(Composite parent, int style, JRockitLogFile logFile) {
+	public PageHeapUsageAfterGC(Composite parent, int style, JRockitLog logFile) {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
 		

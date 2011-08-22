@@ -10,8 +10,9 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
-import com.trivadis.loganalysis.jrockit.domain.MetaInfo;
+import com.trivadis.loganalysis.jrockit.domain.ValueType;
 
 public class HeapUsageControlPanel extends Composite {
 
@@ -28,6 +29,8 @@ public class HeapUsageControlPanel extends Composite {
 	}
 
 	private ComboViewer dataTypeSelection(Composite parent, final Axis axis) {
+		final Label label = new Label(parent, SWT.NONE);
+		label.setText(axis.getMsg());
 		final ComboViewer viewer = new ComboViewer(parent, SWT.READ_ONLY);
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new LabelProvider() {
@@ -37,12 +40,12 @@ public class HeapUsageControlPanel extends Composite {
 			}
 		});
 
-		viewer.setInput(MetaInfo.values());
+		viewer.setInput(ValueType.values());
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				if (viewer.getSelection() instanceof IStructuredSelection) {
 					IStructuredSelection sselection = (IStructuredSelection) viewer.getSelection();
-					logFileWrapper.setSelection(axis, ((MetaInfo) sselection.getFirstElement()));
+					logFileWrapper.setSelection(axis, ((ValueType) sselection.getFirstElement()));
 				}
 			}
 		});

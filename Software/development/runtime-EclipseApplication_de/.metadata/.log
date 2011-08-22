@@ -1,0 +1,174 @@
+!SESSION 2011-08-22 15:26:32.414 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 0 2011-08-22 15:26:37.604
+!MESSAGE The following is a complete list of bundles which are not resolved, see the prior log entry for the root cause if it exists:
+!SUBENTRY 1 org.eclipse.osgi 2 0 2011-08-22 15:26:37.605
+!MESSAGE Bundle org.eclipse.jdt.apt.pluggable.core_1.0.400.v20110305-1450 [127] was not resolved.
+!SUBENTRY 2 org.eclipse.jdt.apt.pluggable.core 2 0 2011-08-22 15:26:37.605
+!MESSAGE Missing imported package org.eclipse.jdt.internal.compiler.tool_0.0.0.
+!SUBENTRY 2 org.eclipse.jdt.apt.pluggable.core 2 0 2011-08-22 15:26:37.605
+!MESSAGE Missing imported package org.eclipse.jdt.internal.compiler.apt.dispatch_0.0.0.
+!SUBENTRY 2 org.eclipse.jdt.apt.pluggable.core 2 0 2011-08-22 15:26:37.606
+!MESSAGE Missing imported package org.eclipse.jdt.internal.compiler.apt.model_0.0.0.
+!SUBENTRY 2 org.eclipse.jdt.apt.pluggable.core 2 0 2011-08-22 15:26:37.606
+!MESSAGE Missing imported package org.eclipse.jdt.internal.compiler.apt.util_0.0.0.
+!SUBENTRY 1 org.eclipse.osgi 2 0 2011-08-22 15:26:37.606
+!MESSAGE Bundle org.eclipse.jdt.compiler.apt_1.0.400.v0110509-1300 [129] was not resolved.
+!SUBENTRY 2 org.eclipse.jdt.compiler.apt 2 0 2011-08-22 15:26:37.607
+!MESSAGE Missing optionally imported package org.eclipse.jdt.internal.compiler.tool_0.0.0.
+!SUBENTRY 1 org.eclipse.osgi 2 0 2011-08-22 15:26:37.607
+!MESSAGE Bundle org.eclipse.jdt.compiler.tool_1.0.100.v_B61 [130] was not resolved.
+!SUBENTRY 2 org.eclipse.jdt.compiler.tool 2 0 2011-08-22 15:26:37.607
+!MESSAGE Missing Constraint: Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:26:49.742
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:26:49.747
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 15:36:49.737 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:37:00.160
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:37:00.167
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 15:46:44.334 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:46:52.236
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:46:52.242
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 15:49:47.584 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:49:55.385
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:49:55.392
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 15:56:26.317 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:56:33.386
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 15:56:33.391
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 17:18:02.196 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:18:23.507
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:18:23.512
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 17:19:17.790 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:19:27.357
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:19:27.362
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 17:19:48.494 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:19:54.352
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:19:54.357
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 17:20:17.391 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:20:29.008
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:20:29.014
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 17:21:08.703 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:21:16.868
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:21:16.874
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 17:22:01.471 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:22:26.101
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:22:26.106
+!MESSAGE NLS missing message: ImportGCLogWizard_3 in: com.trivadis.loganalysis.ui.messages
+!SESSION 2011-08-22 17:23:44.195 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.5.0_22
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de
+Framework arguments:  -product org.eclipse.sdk.ide
+Command-line arguments:  -product org.eclipse.sdk.ide -data C:\Users\els\workspaces\hszt\bachelorthesis\Software\development\workspace/../runtime-EclipseApplication_de -dev file:C:/Users/els/workspaces/hszt/bachelorthesis/Software/development/workspace/.metadata/.plugins/org.eclipse.pde.core/Eclipse Application (DE)/dev.properties -os win32 -ws win32 -arch x86_64 -consoleLog
+
+!ENTRY org.eclipse.osgi 2 1 2011-08-22 17:23:53.864
+!MESSAGE NLS missing message: DashboardEditorPageOverview_7 in: com.trivadis.loganalysis.ui.messages

@@ -7,39 +7,38 @@ import java.util.Map;
 
 import org.jfree.data.xy.XYSeries;
 
-import com.trivadis.loganalysis.jrockit.domain.DataLine;
-import com.trivadis.loganalysis.jrockit.domain.JRockitLogFile;
-import com.trivadis.loganalysis.jrockit.domain.MetaInfo;
+import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.domain.JRockitLogData;
 import com.trivadis.loganalysis.jrockit.domain.Value;
+import com.trivadis.loganalysis.jrockit.domain.ValueType;
 
 public class JRockitLogFileWrapper {
-	private final JRockitLogFile logFile;
+	private final JRockitLog logFile;
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-	private Map<Axis, MetaInfo> axisSelection = new HashMap<Axis, MetaInfo>();
+	private Map<Axis, ValueType> axisSelection = new HashMap<Axis, ValueType>();
 
-	public JRockitLogFileWrapper(JRockitLogFile logFile) {
+	public JRockitLogFileWrapper(JRockitLog logFile) {
 		this.logFile = logFile;
-		axisSelection.put(Axis.X, MetaInfo.TIME);
-		axisSelection.put(Axis.Y, MetaInfo.MEMORY);
+		axisSelection.put(Axis.X, ValueType.TIME);
+		axisSelection.put(Axis.Y, ValueType.MEMORY);
 	}
 
 	public XYSeries getDataset() {
-		MetaInfo xAxis = getAxisSelection(Axis.X);
-		MetaInfo yAxis = getAxisSelection(Axis.Y);
-		final XYSeries series1 = new XYSeries(xAxis + "/" + yAxis);
+		ValueType xAxis = getAxisSelection(Axis.X);
+		ValueType yAxis = getAxisSelection(Axis.Y);
+		final XYSeries series = new XYSeries(xAxis + "/" + yAxis);
 		if (logFile != null) {
-			for (DataLine line : logFile.getData()) {
+			for (JRockitLogData line : logFile.getData()) {
 				Value y = line.get(yAxis);
 				Value x = line.get(xAxis);
 				if (y != null && x != null)
-					series1.add(x.toDouble(), y.toDouble());
+					series.add(x.toDouble(), y.toDouble());
 			}
-
 		}
-		return series1;
+		return series;
 	}
 
-	public MetaInfo getAxisSelection(Axis axis) {
+	public ValueType getAxisSelection(Axis axis) {
 		return axisSelection.get(axis);
 	}
 
@@ -47,8 +46,8 @@ public class JRockitLogFileWrapper {
 		propertyChangeSupport.addPropertyChangeListener(propertyName.toString(), listener);
 	}
 
-	public void setSelection(Axis axis, MetaInfo selection) {
-		MetaInfo oldValue = axisSelection.get(axis);
+	public void setSelection(Axis axis, ValueType selection) {
+		ValueType oldValue = axisSelection.get(axis);
 		axisSelection.put(axis, selection);
 		this.propertyChangeSupport.firePropertyChange(axis.toString(), oldValue, selection);
 	}

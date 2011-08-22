@@ -7,12 +7,13 @@ import org.eclipse.ui.IWorkbench;
 
 import com.trivadis.loganalysis.core.IFileImporter;
 import com.trivadis.loganalysis.core.Loganalysis;
+import com.trivadis.loganalysis.ui.Messages;
 import com.trivadis.loganalysis.ui.internal.Perspective;
 import com.trivadis.loganalysis.ui.internal.handler.OpenGcLoganalysisPerspective;
 
 public class ImportGCLogWizard extends Wizard implements IImportWizard {
 
-	private static final String SWITCH_PERSPECTIVE_ON_GC_LOG_IMPORT = "SWITCH_PERSPECTIVE_ON_GC_LOG_IMPORT";
+	private static final String SWITCH_PERSPECTIVE_ON_GC_LOG_IMPORT = "SWITCH_PERSPECTIVE_ON_GC_LOG_IMPORT"; //$NON-NLS-1$
 
 	public static final String ID = ImportGCLogWizard.class.getName();
 
@@ -36,15 +37,14 @@ public class ImportGCLogWizard extends Wizard implements IImportWizard {
 		Perspective
 				.updateWithNotification(
 						SWITCH_PERSPECTIVE_ON_GC_LOG_IMPORT,
-						"Open Associated Perspective?",
-						"Garbage Collection Log Files are imported into the Log Files view which is also available within the "
-								+ "Garbage Collection Analysis Perspective. Do you want to open this perspective now?",
+						Messages.ImportGCLogWizard_1,
+						Messages.ImportGCLogWizard_2,
 						OpenGcLoganalysisPerspective.PERSPECTIVE_ID);
 		return true;
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
-		setWindowTitle("Garbage Collection Log File Import Wizard"); // NON-NLS-1
+		setWindowTitle(Messages.ImportGCLogWizard_4); // NON-NLS-1
 		setNeedsProgressMonitor(true);
 	}
 

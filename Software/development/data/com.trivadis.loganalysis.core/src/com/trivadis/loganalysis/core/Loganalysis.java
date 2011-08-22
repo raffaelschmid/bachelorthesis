@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
-import com.trivadis.loganalysis.core.domain.ILogFile;
+import com.trivadis.loganalysis.core.domain.ILog;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.core.internal.Context;
 
@@ -42,14 +42,14 @@ public class Loganalysis {
 		return contentReader;
 	}
 
-	public static IAnalyzer<ILogFile> fileProcessor(ILogFileDescriptor fileDescriptor) {
+	public static IAnalyzer<ILog> fileProcessor(ILogFileDescriptor fileDescriptor) {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (IConfigurationElement element : elements) {
 			if (ELEMENT_NAME.equals(element.getName())) {
 				try {
 					@SuppressWarnings("unchecked")
-					IAnalyzer<ILogFile> processor = (IAnalyzer<ILogFile>) element
+					IAnalyzer<ILog> processor = (IAnalyzer<ILog>) element
 							.createExecutableExtension("class");
 					if (processor.isResponsible(fileDescriptor))
 						return processor;
