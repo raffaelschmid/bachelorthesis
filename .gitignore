@@ -1,6 +1,4 @@
 #additional files for build
-Software/development/targetplatform
-Software/development/deltapack
 Software/development/runtime-*
 Software/development/workspace
 Software/sampling/data/workspace
@@ -20,16 +18,4 @@ Prototyping
 Reglemente
 
 #target directories
-Software/development/data/com.trivadis.loganalysis.core.test/target
-Software/development/data/com.trivadis.loganalysis.core/target
-Software/development/data/com.trivadis.loganalysis.feature/target
-Software/development/data/com.trivadis.loganalysis.targetplatform/target
-Software/development/data/com.trivadis.loganalysis.ui.test/target
-Software/development/data/com.trivadis.loganalysis.ui/target
-Software/development/data/com.trivadis.loganalysis.updatesite/target
-Software/development/data/com.trivadis.loganalysis.jrockit/target
-Software/development/data/com.trivadis.loganalysis.jrockit.ui/target
-Software/development/data/com.trivadis.loganalysis.jrockit.test/target
-Software/development/data/com.trivadis.loganalysis.jfreechart.libs/target/
-
 Software/development/data/**/target
