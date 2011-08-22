@@ -1,7 +1,7 @@
 #additional files for build
 Software/development/targetplatform
 Software/development/deltapack
-Software/development/runtime-EclipseApplication
+Software/development/runtime-*
 Software/development/workspace
 Software/sampling/data/workspace
 
@@ -31,3 +31,5 @@ Software/development/data/com.trivadis.loganalysis.jrockit/target
 Software/development/data/com.trivadis.loganalysis.jrockit.ui/target
 Software/development/data/com.trivadis.loganalysis.jrockit.test/target
 Software/development/data/com.trivadis.loganalysis.jfreechart.libs/target/
+
+Software/development/data/**/target
