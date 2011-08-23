@@ -10,6 +10,23 @@
 	<properties>
 		<tycho.version>0.11.1</tycho.version>
 	</properties>
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<os.architecture>x86_64</os.architecture>
+			</properties>
+		</profile>
+		<profile>
+			<id>headless</id>
+			<properties>
+				<os.architecture>x86</os.architecture>
+			</properties>
+		</profile>
+	</profiles>
 	<modules>
 		<module>com.trivadis.loganalysis.core</module>
 		<module>com.trivadis.loganalysis.core.test</module>
@@ -51,12 +68,7 @@
 						<environment>
 							<os>win32</os>
 							<ws>win32</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
-							<arch>x86</arch>
+							<arch>${os.architecture}</arch>
 						</environment>
 					</environments>
 					<ignoreTychoRepositories>false</ignoreTychoRepositories>
