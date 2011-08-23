@@ -1,2 +1,2 @@
-
--Xverbose:opt,memory,memdbg,gcpause,compact,license
+R28
+-Xverboselog:verbose-jrockitR28.1-01.log -Xverbose:alloc,class,codegen,compaction,cpuinfo,exceptions,gcheuristic,gcpause,gcpausetree,gcreport,load,memory,memdbg,opt,refobj,starttime,systemgc,timing
