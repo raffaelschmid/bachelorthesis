@@ -1,7 +1,8 @@
 \documentclass[11pt]{article}
 \setlength{\headheight}{10pt}
 \usepackage[german, ngerman]{babel}
-\usepackage{titleref}
+\usepackage[utf8]{inputenc} 
+\usepackage{fancyhdr}
 %-----------------------------------------------------------
 % properties
 %-----------------------------------------------------------
@@ -19,7 +20,8 @@
 % document
 %-----------------------------------------------------------
 \begin{document}
+\lhead{\textit{leftheader}}
 \input{titlepage}
-\input{document}
+\input{dokument}
 
 \end{document}

@@ -1,0 +1,2 @@
+
+-Xverbose:opt,memory,memdbg,gcpause,compact,license

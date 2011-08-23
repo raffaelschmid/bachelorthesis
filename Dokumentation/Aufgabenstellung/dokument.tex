@@ -1,0 +1,46 @@
+\section{Ausgangslage}
+Für die Ermittlung von Java Performance-Problemen braucht es Wissen über die Funktionsweise der Java Virtual Machine (JVM), deren Ressourcenverwaltung (Speicher, I/O, CPU) und das Betriebssystem. Die Verwendung von Tools zur automatisierten Auswertung der Daten kann in den meisten Fällen sehr hilfreich sein. 
+Die Auswertung von Garbage Collection Metriken kann im laufenden Betrieb durch Profiling (online) gemacht werden, sie ist aber bei allen JVMs auch via Log-Datei (offline) möglich. Die unterschiedlichen Charakteristiken der Garbage Collectors bedingen auch unterschiedliche Auswertungs- und Einstellungsparameter. 
+JRockit ist die Virtual Machine des Weblogic Application Servers und basiert entsprechend auch auf anderen Garbage Collector Algorithmen als die der Sun VM. Aktuell gibt es noch kein Tool, welches die Daten der Logs sammelt und grafisch darstellt.
+
+
+\section{Ziele der Arbeit}
+Ziel der Bachelorthesis ist die Konzeption und Entwicklung eines Prototypen für die Analyse von Garbage Collection Log Dateien der JRockit Virtual Machine. Die Software wird mittels einer Java Rich Client Technologie implementiert. Zur Konzeption werden die theoretischen Grundlagen der Garbage Collection im Allgemeinen und der JRockit Virtual Machine spezifisch erarbeitet und zusammengestellt.
+
+\section{Aufgabenstellung}
+Im Rahmen der Bachelorthesis werden vom Studenten folgende Aufgaben durchgeführt:
+
+\begin{enumerate}
+\item Studie der Theoretischen Grundlage im Bereich der Garbage Collection 
+    (generell und spezifisch JRockit Virtual Machine)
+\item Stärken- / Schwächen-Analyse der bestehende Rich Client Frameworks
+    (Eclipse RCP Version 3/4, Netbeans)
+\item Durchführung einer Anforderungsanalyse für einen Software-Prototyp.
+\item Auswahl der zu verwendenden Frameworks
+\item Konzeption und Spezifikation des Software-Prototypen (auf Basis des aus-
+    gewählten Rich Client Frameworks), der die ermittelten Anforderungen erfüllt.  
+\item Implementation der Software
+\item Bewertung der Software auf Basis der Anforderungen
+\end{enumerate}
+
+\section{Erwartete Resultate}
+Die erwarteten Resultate dieser Bachelorthesis sind:
+\begin{enumerate}
+\item Detaillierte Beschreibung der Garbage Collection Algorithmen der Java Virtual 
+    Machine im Generellen und spezifisch der JRockit Virtual Machine.
+\item Analyse über Stärken und Schwächen der bestehenden (state of the art) Java 
+    Rich Client Technologien
+\item Anforderungsanalyse des Software Prototyps
+\item Dokumentierte Auswahlkriterien und Entscheidungsgrundlagen
+\item Konzept und Spezifikation der Software
+\item Lauffähige, installierbare Software und Source-Code
+\item Dokumentierte Bewertung der Implementation
+\end{enumerate}
+
+\section{Geplante Termine}
+\begin{tabular}[ht]{ll}
+Kick-Off: & Juni 2011\\
+Design Review: & August 2011\\
+Abschluss-Präsentation: & Ende November 2011\\
+\end{tabular}
+

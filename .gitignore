@@ -4,9 +4,9 @@ Software/development/workspace
 Software/sampling/data/workspace
 
 #latex output
-**/*.log
-**/*.log
-**/*.aux
+Dokumentation/**/*.log
+Dokumentation/**/*.aux
+Dokumentation/**/*.synctex.gz
 
 #eclipse project files
 .project
@@ -19,3 +19,4 @@ Reglemente
 
 #target directories
 Software/development/data/**/target
+Software/sampling/data/**/target
