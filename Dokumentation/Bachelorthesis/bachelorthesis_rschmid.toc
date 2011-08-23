@@ -1,7 +1,0 @@
-\select@language {ngerman}
-\contentsline {chapter}{\numberline {1}Aufgabenstellung}{9}
-\contentsline {section}{\numberline {1.1}Ausgangslage}{9}
-\contentsline {section}{\numberline {1.2}Ziele der Arbeit}{9}
-\contentsline {section}{\numberline {1.3}Aufgabenstellung}{10}
-\contentsline {section}{\numberline {1.4}Erwartete Resultate}{10}
-\contentsline {section}{\numberline {1.5}Geplante Termine}{11}
