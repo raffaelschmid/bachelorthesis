@@ -7,6 +7,12 @@ Software/sampling/data/workspace
 Dokumentation/**/*.log
 Dokumentation/**/*.aux
 Dokumentation/**/*.synctex.gz
+Dokumentation/**/*.toc
+Dokumentation/**/*.blg
+Dokumentation/**/*.bbl
+Dokumentation/**/*.lof
+Dokumentation/**/*.lol
+Dokumentation/**/*.lot
 
 #eclipse project files
 .project

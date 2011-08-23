@@ -62,13 +62,6 @@
 					<ignoreTychoRepositories>false</ignoreTychoRepositories>
 				</configuration>
 			</plugin>
-			<!-- <plugin> -->
-			<!-- <groupId>org.sonatype.tycho</groupId> -->
-			<!-- <artifactId>maven-osgi-test-plugin</artifactId> -->
-			<!-- <configuration> -->
-			<!-- <useUIHarness>true</useUIHarness> -->
-			<!-- </configuration> -->
-			<!-- </plugin> -->
 		</plugins>
 	</build>
 	<repositories>
