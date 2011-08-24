@@ -15,9 +15,8 @@ Beim Reference counting behält die Laufzeitumgebung jederzeit den Überblick, w
 \subsection{Tracing techniques\cite[S. 77]{lagergren2010oracle}}
 Bei den Tracing Techniken werden von vor jeder Garbage Collection die Objekte gesucht, auf welche aktuell noch eine Referenz zeigt. Die anderen werden zur Garbage Collection freigegeben. Diese Art von Garbage Collection Algorithmen verwenden ein Set von Objekten, bestehend aus den Stacks und Registern der aktuellen Threads und globalen Daten wie "static final" variablen, als Startpunkt für die zu markierenden Objektgraphen. 
 
-
 \section{Algorithmen}
-\subsection{Mark \& Sweep Algorithmus}
+\subsection{Mark \& Sweep Algorithmus\cite{langerkreft201005}}
 Unabhängig von Nebenläufigkeit oder Parallelität\footnote{Man sprich von "concurrent" Garbage Collection wenn sie parallel zur Applikation ausgeführt wird, von parallel Garbage Collection wenn der Algorithmus parallelisierbar ist und entsprechend gut skalierbar ist.} ist der Mark \& Sweep Algorithmus heutzutage die Basis aller Garbage Collection Strategien der kommerziellen JVMs. Der Algorithmus funktioniert nach dem folgenden Prinzip:
 \begin{enumerate}
 	\item Als erstes wird die Markierungs-Phase (Mark) durchlaufen. Während dieser Zeit wird ausgehend vom Root-Set für jedes referenzierte Objekt rekursiv die transitive Hülle des Objekts bestimmt. Alle die damit besuchten Objekte werden als \\"erreicht" markiert. Das Root-Set besteht aus den folgenden Objekten:
@@ -29,4 +28,22 @@ Unabhängig von Nebenläufigkeit oder Parallelität\footnote{Man sprich von "con
 \end{enumerate}
 
 \subsubsection{Nachteil dieses Algorithmus}
-Der zwar simple Mark \& Seep Algorithmus hat allerdings einen entscheidenden Nachteil: eine alleinige Freigabe der Speicherbereiche führt zu einer starken Fragmentierung. Ein fragmentierter Speicher ist deshalb nicht wünschenswert, weil es für den Allokator immer schwieriger wird, die Speicherlöcher zu füllen.
+Der zwar simple Mark \& Seep Algorithmus hat allerdings einen entscheidenden Nachteil: eine alleinige Freigabe der Speicherbereiche führt zu einer starken Fragmentierung. Ein fragmentierter Speicher ist deshalb nicht wünschenswert, weil es für den Allokator immer schwieriger wird, die Speicherlöcher zu füllen. In einem solchen Fall kann es bis zu einer OutOfMemoryException führen, wenn zwar insgesamt genügend Memory frei ist, allerdings nicht genügend am Stück.
+
+\subsection{Mark \& Copy Algorithmus\cite{langerkreft201005}}
+Da der Mark \& Sweet Algorithmus diesen oben beschriebenen Nachteil mit sich bringt, dass der Speicher nach einer gewissen Zeit stark fragmentiert ist, wird teilweise (insbesondere wenn grosse Memory Allokation notwendig ist) der Mark \& Copy Algorithmus eingesetzt. In der Theorie wird der gemanagte Speicher in zwei Teile aufgeteilt, einem "from space" und einen "to space". Der Unterschied zum Mark \& Sweep Algorithmus manifestiert sich dadurch, dass Objekte immer nur auf einem dieser Bereiche angelegt werden, der andere dieser Bereiche bleibt leer. Anschliessend an die Markierungs-Phase (Mark) wird die Copy-Phase eingeleitet, in der Folge werden alle überlebenden Objekte des "from spaces" in den "to space" kopiert. Nun werden die Rollen der beiden Bereiche getauscht und der aktive Bereich ist der ehemalige "to space". Dieser Algorithmus bringt den Vorteil mit sich, dass nun der aktive Memory-Bereich wieder aneinanderhängend belegt ist und keine Fragmentierung aufweist.
+
+\subsection{Mark \& Compact Algorithmus\cite{langerkreft201007}}
+In gewissen Situationen respektive auch in unterschiedlichen Bereichen des Heaps (siehe \titleref{generational gc}) macht es Sinn, unterschiedliche Algorithmen einzusetzen: Mark \& Compact ist ein Algorithmus, bei welchem nach der Markierungs-Phase und der Quasi-Elimination der "toten" Objekte eine Kompaktierung des Speichers durchführt. Das hat einerseits den Vorteil, dass im Gegensatz zu Mark \& Copy nicht der doppelte Speicher benötigt wird, es bringt aber auch einen relativ komplexen Kompaktierungsprozess mit sich. Dieser ist aufgeteilt in die folgenden Schritte:
+\begin{enumerate}
+	\item Markierung
+	\item Berechnung der neuen Lokationen
+	\item Anpassung der Referenzen
+	\item Verschiebung der Objekte
+\end{enumerate}
+
+\section{Generational Garbage Collection\cite{langerkreft201003}}\label{generational gc}
+TODO: Young Generation, Eden, Survivor 1/2, Old Generation, Cards, etc. 
+
+
+
