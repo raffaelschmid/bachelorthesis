@@ -1,0 +1,32 @@
+\chapter{Grundlagen Garbage Collection}
+Schon seit den ersten Programmiersprachen ist das Aufräumen von verwendeten Ressourcen / Speicher ein wichtiges Thema. Im Unterschied zu den ersten Sprachen findet allerdings das Recycling von Memory bei Sprachen der dritter Generation automatisch statt und macht Operatoren wie "free" unwichtig. Bei Formen dieser automatischen Speicherverwaltung spricht man von Garbage Collection\footnote{vom englischen Wort "garbage collector" für Müll-, Abfallsammler}. In den meisten neueren Laufzeitumgebungen spricht man zusätzlich von adaptivem Memory Management was bedeutet, dass Feedback der Laufzeitumgebung zur Anpassung der Garbage Collection Strategie verwendet wird.
+
+Der folgende Abschnitt beschreibt die Grundlagen der Java Garbage Collection und geht im zweiten Teil auf die spezifischen Eigenheiten der JRockit Virtual Machine ein.
+
+\section{Funktionsweise}
+Alle Techniken der Garbage Collection zielen darauf ab, die "lebenden" von den "toten" Objekten im Speicher zu unterscheiden. Sprich, es müssen die Objekte gefunden werden, welche innerhalb der Software oder des Systems nicht mehr referenziert werden. Die aktuellen Strategien lassen sich laut\cite[S. 77]{lagergren2010oracle} in zwei unterschiedliche Familien aufteilen: "Reference Counting" und "Tracing techniques".
+
+\subsection{Reference counting\cite[S. 77]{lagergren2010oracle}}
+Beim Reference counting behält die Laufzeitumgebung jederzeit den Überblick, wie viele Referenzen auf jedes Objekt zeigen. Sobald die Anzahl dieser Referenzen auf 0 gesunken ist, wird das Objekt für die Garbage Collection freigegeben. Trotzdem der Algorithmus relativ effizient ist, wird er aufgrund der folgenden Nachteile nicht mehr verwendet:
+\begin{itemize}
+	\item Sofern zwei Objekte einander referenzieren (zyklische Referenz), wird die Anzahl Referenzen nie 0.
+	\item Es ist relativ aufwendig, die Anzahl Referenzen immer auf dem aktuellsten Stand zu halten, insbesondere in nebenläufigen Systemen.
+\end{itemize}
+\subsection{Tracing techniques\cite[S. 77]{lagergren2010oracle}}
+Bei den Tracing Techniken werden von vor jeder Garbage Collection die Objekte gesucht, auf welche aktuell noch eine Referenz zeigt. Die anderen werden zur Garbage Collection freigegeben. Diese Art von Garbage Collection Algorithmen verwenden ein Set von Objekten, bestehend aus den Stacks und Registern der aktuellen Threads und globalen Daten wie "static final" variablen, als Startpunkt für die zu markierenden Objektgraphen. 
+
+
+\section{Algorithmen}
+\subsection{Mark \& Sweep Algorithmus}
+Unabhängig von Nebenläufigkeit oder Parallelität\footnote{Man sprich von "concurrent" Garbage Collection wenn sie parallel zur Applikation ausgeführt wird, von parallel Garbage Collection wenn der Algorithmus parallelisierbar ist und entsprechend gut skalierbar ist.} ist der Mark \& Sweep Algorithmus heutzutage die Basis aller Garbage Collection Strategien der kommerziellen JVMs. Der Algorithmus funktioniert nach dem folgenden Prinzip:
+\begin{enumerate}
+	\item Als erstes wird die Markierungs-Phase (Mark) durchlaufen. Während dieser Zeit wird ausgehend vom Root-Set für jedes referenzierte Objekt rekursiv die transitive Hülle des Objekts bestimmt. Alle die damit besuchten Objekte werden als \\"erreicht" markiert. Das Root-Set besteht aus den folgenden Objekten:
+	\begin{itemize}
+		\item Alle vom Call-Stack der Threads referenzierte Objekte
+		\item Alle globalen Referenzen von Variablen die mit "static final" deklariert sind
+	\end{itemize}
+	\item In der Sweep-Phase wird der Speicher aufgeräumt - im einfachsten Fall heisst das, dass die Bereiche einfach in eine Free-Liste eingetragen werden und die Bereiche vom Allokator somit wieder verwendet werden.
+\end{enumerate}
+
+\subsubsection{Nachteil dieses Algorithmus}
+Der zwar simple Mark \& Seep Algorithmus hat allerdings einen entscheidenden Nachteil: eine alleinige Freigabe der Speicherbereiche führt zu einer starken Fragmentierung. Ein fragmentierter Speicher ist deshalb nicht wünschenswert, weil es für den Allokator immer schwieriger wird, die Speicherlöcher zu füllen.
