@@ -1,0 +1,52 @@
+[INFO ][memory ] GC mode: Garbage collection optimized for short pausetimes, strategy: Concurrent Mark & Sweep.
+[INFO ][memory ] Heap size: 65536KB, maximal heap size: 1048576KB.
+[INFO ][memory ] <start>-<end>: <type> <before>KB-><after>KB (<heap>KB), <time> ms, sum of pauses <pause> ms.
+[INFO ][memory ] <start>  - start time of collection (seconds since jvm start).
+[INFO ][memory ] <type>   - OC (old collection) or YC (young collection).
+[INFO ][memory ] <end>    - end time of collection (seconds since jvm start).
+[INFO ][memory ] <before> - memory used by objects before collection (KB).
+[INFO ][memory ] <after>  - memory used by objects after collection (KB).
+[INFO ][memory ] <heap>   - size of heap after collection (KB).
+[INFO ][memory ] <time>   - total time of collection (milliseconds).
+[INFO ][memory ] <pause>  - total sum of pauses during collection (milliseconds).
+[INFO ][memory ]            Run with -Xverbose:gcpause to see individual phases.
+[INFO ][memory ] [OC#1] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#1] 0.871-0.875: OC 362KB->78429KB (117060KB), 0.003 s, sum of pauses 1.510 ms, longest pause 1.355 ms.
+[INFO ][memory ] [OC#2] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#2] 1.402-1.407: OC 78447KB->156549KB (233656KB), 0.005 s, sum of pauses 1.248 ms, longest pause 0.872 ms.
+[INFO ][memory ] [OC#3] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#3] 1.640-1.944: OC 211819KB->233644KB (348744KB), 0.304 s, sum of pauses 3.321 ms, longest pause 3.165 ms.
+[INFO ][memory ] [OC#4] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#4] 2.219-2.910: OC 316749KB->348728KB (520512KB), 0.692 s, sum of pauses 251.932 ms, longest pause 251.494 ms.
+[INFO ][memory ] [OC#5] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#5] 3.118-3.191: OC 507182KB->169903KB (520512KB), 0.073 s, sum of pauses 2.554 ms, longest pause 2.329 ms.
+[INFO ][memory ] [OC#6] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#6] 3.522-3.567: OC 429040KB->156571KB (520512KB), 0.045 s, sum of pauses 1.533 ms, longest pause 1.272 ms.
+[INFO ][memory ] [OC#7] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#7] 3.924-3.994: OC 508523KB->169906KB (520512KB), 0.070 s, sum of pauses 2.771 ms, longest pause 2.560 ms.
+[INFO ][memory ] [OC#8] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#8] 4.296-4.341: OC 429043KB->156571KB (520512KB), 0.046 s, sum of pauses 1.554 ms, longest pause 1.248 ms.
+[INFO ][memory ] [OC#9] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#9] 4.701-4.767: OC 514476KB->169906KB (520512KB), 0.065 s, sum of pauses 3.168 ms, longest pause 2.974 ms.
+[INFO ][memory ] [OC#10] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#10] 5.117-5.171: OC 429043KB->156571KB (520512KB), 0.054 s, sum of pauses 4.837 ms, longest pause 2.817 ms.
+[INFO ][memory ] [OC#11] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#11] 5.555-5.619: OC 515678KB->169906KB (520512KB), 0.064 s, sum of pauses 2.998 ms, longest pause 2.813 ms.
+[INFO ][memory ] [OC#12] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#12] 5.923-5.968: OC 429043KB->156571KB (624616KB), 0.045 s, sum of pauses 1.878 ms, longest pause 1.233 ms.
+[INFO ][memory ] [OC#13] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#13] 6.395-6.707: OC 551714KB->274010KB (624616KB), 0.312 s, sum of pauses 2.998 ms, longest pause 2.820 ms.
+[INFO ][memory ] [OC#14] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#14] 6.888-6.938: OC 429048KB->156571KB (749540KB), 0.049 s, sum of pauses 2.193 ms, longest pause 1.737 ms.
+[INFO ][memory ] [OC#15] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#15] 7.460-8.088: OC 641463KB->398934KB (749540KB), 0.629 s, sum of pauses 4.054 ms, longest pause 3.872 ms.
+[INFO ][memory ] [OC#16] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#16] 8.344-8.919: OC 660086KB->401059KB (749540KB), 0.575 s, sum of pauses 1.241 ms, longest pause 1.000 ms.
+[INFO ][memory ] [OC#17] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#17] 9.149-9.715: OC 644678KB->398931KB (899448KB), 0.566 s, sum of pauses 3.489 ms, longest pause 3.292 ms.
+[INFO ][memory ] [OC#18] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#18] 10.025-10.731: OC 714164KB->550835KB (1048576KB), 0.707 s, sum of pauses 93.915 ms, longest pause 93.487 ms.
+[INFO ][memory ] [OC#19] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[INFO ][memory ] [OC#19] 10.990-11.552: OC 857763KB->347386KB (1048576KB), 0.562 s, sum of pauses 4.840 ms, longest pause 4.627 ms.
+[INFO ][memory ] [OC#20] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[INFO ][memory ] [OC#20] 12.015-12.397: OC 857768KB->298611KB (1048576KB), 0.382 s, sum of pauses 153.709 ms, longest pause 153.430 ms.
