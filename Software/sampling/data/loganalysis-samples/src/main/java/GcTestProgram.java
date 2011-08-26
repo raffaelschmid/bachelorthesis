@@ -3,7 +3,7 @@ import java.util.Random;
 public class GcTestProgram {
 	private static final int NB_VALUES = 20000000;
 	private static final int MAX_VALUE = 1000;
-	private static final int NB_RUNS = 20;
+	private static final int NB_RUNS = 1000;
 
 	public static void main(String[] args) {
 		int[] values = initValues();
