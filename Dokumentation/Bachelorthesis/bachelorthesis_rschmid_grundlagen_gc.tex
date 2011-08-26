@@ -31,7 +31,7 @@ Wünschenswert für Garbage Collection Algorithmen sind folgende Punkte:
 \section{Eingliederung von Garbage Collection Algorithmen\cite[S. 5]{sunMemoryManagementWP}}
 Bei der Selektion von Garbage Collection Algorithmen gibt es verschiedene entscheidende Kriterien:
 \subsection{Serielle versus Parallele Collection}
-Von Multi-Core Maschinen spricht man von solchen mit zwei oder mehr Prozessor-Kernen. Sofern ein paralleler Algorithmus verwendet wird, besteht auf diesen auch die Möglichkeit, auch die Garbage Collection zu parallelisieren. Meistens bringt dies zwar einen kleinen Overhead mit sich, wirkt sich aber trotzdem in einer Verkürzung der Garbage Collection Zeit aus.
+Eine Multi-Core Maschine ist eine mit mindestens 2 Prozessorkernen. Sofern ein paralleler Algorithmus verwendet wird, besteht auf diesen auch die Möglichkeit, auch die Garbage Collection zu parallelisieren. Meistens bringt dies zwar einen kleinen Overhead mit sich, wirkt sich aber trotzdem in einer Verkürzung der Garbage Collection Zeit aus.
 
 \subsection{Konkurrierend versus Stop-the-World}
 Wenn aufgrund der Garbage Collection der Heap der Laufzeitumgebung blockiert (freeze) werden muss, führt das implizit zum Stopp (Stop-the-World) der Anwendung.
@@ -40,26 +40,34 @@ Wenn aufgrund der Garbage Collection der Heap der Laufzeitumgebung blockiert (fr
 \subsection{Kompaktierend, Kopierend}
 Fragmentierung ist ein eigentlich nicht wünschenswertes Resultat der Garbage Collection. Sie tritt dann auf, wen Algorithmen verwendet werden die den Heap im Anschluss an die Speicherfreigabe weder kompaktieren noch die lebenden Objekte in einen anderen Bereich aneinanderliegend kopieren.
 
-\section{Algorithmen}
+\section{Grundlegende Algorithmen}
+Der Prozess der Garbage Collection beginnt bei allen Algorithmen mit der Marking-Phase. Für jedes Objekt des Root Sets\footnote{Objekte im Heap die aus den Call-Stacks der aktuellen Threads referenziert werden, globale (``static final'' definierte) Variablen mit Referenzen auf den Heap)} werden rekursiv die transitiv abhängigen Objekte auf dem Heap bestimmt. Das hat zum Ziel, dass man aufgrund des Resultats die nicht mehr referenzierten (löschbaren) Objekte herausfinden kann.
+
 \subsection{Mark \& Sweep Algorithmus\cite{langerkreft201005}}
-Unabhängig von Nebenläufigkeit oder Parallelität\footnote{Man sprich von ``concurrent'' Garbage Collection wenn sie parallel zur Anwendung ausgeführt wird, von parallel Garbage Collection wenn der Algorithmus parallelisierbar ist und entsprechend gut skalierbar ist.} ist der Mark \& Sweep Algorithmus heutzutage die Basis aller Garbage Collection Strategien der kommerziellen JVMs. Der Algorithmus funktioniert nach dem folgenden Prinzip:
-\begin{enumerate}
-	\item Als erstes wird die Markierungs-Phase (Mark) durchlaufen. Während dieser Zeit wird ausgehend vom Root-Set für jedes referenzierte Objekt rekursiv die transitive Hülle des Objekts bestimmt. Alle die damit besuchten Objekte werden als ``erreicht'' markiert. Das Root-Set besteht aus den folgenden Objekten:
-	\begin{itemize}
-		\item Alle vom Call-Stack der Threads referenzierte Objekte
-		\item Alle globalen Referenzen von Variablen die mit ``static final'' deklariert sind
-	\end{itemize}
-	\item In der Sweep-Phase wird der Speicher aufgeräumt - im einfachsten Fall heisst das, dass die Bereiche einfach in eine Free-Liste eingetragen werden und die Bereiche vom Allokator somit wieder verwendet werden.
-\end{enumerate}
+Beim Mark \& Sweep Algorithmus wird nach der oben beschriebenen Mark-Phase der Speicher der nicht mehr referenzierten Objekte freigegeben. In den meisten Implementationen bedeutet dies das einfügen dieses Objekts in eine sogenannte Free-List.
 
 \subsubsection{Nachteil dieses Algorithmus}
-Der zwar simple Mark \& Seep Algorithmus hat allerdings einen entscheidenden Nachteil: eine alleinige Freigabe der Speicherbereiche führt zu einer starken Fragmentierung. Ein fragmentierter Speicher ist deshalb nicht wünschenswert, weil es für den Allokator immer schwieriger wird, die Speicherlöcher zu füllen. In einem solchen Fall kann es bis zu einer OutOfMemoryException führen, wenn zwar insgesamt genügend Memory frei ist, allerdings nicht genügend am Stück.
+Der zwar simple Mark \& Seep Algorithmus hat den Nachteil, dass eine Freigabe dieser Speicherlöcher zu einer Fragmentierung des Speichers führt. Ein fragmentierter Speicher ist deshalb nicht wünschenswert, weil es für den Allokator immer schwieriger wird, die Speicherlöcher zu füllen. In einem solchen Fall kann es bis zu einer OutOfMemoryException führen, wenn zwar insgesamt genügend Memory frei ist, allerdings nicht genügend am Stück.
 
 \subsection{Mark \& Copy Algorithmus\cite{langerkreft201005}}
-Da der Mark \& Sweet Algorithmus diesen oben beschriebenen Nachteil mit sich bringt, dass der Speicher nach einer gewissen Zeit stark fragmentiert ist, wird teilweise (insbesondere wenn grosse Memory Allokation notwendig ist) der Mark \& Copy Algorithmus eingesetzt. In der Theorie wird der gemanagte Speicher in zwei Teile aufgeteilt, einem ``from space'' und einen ``to space''. Der Unterschied zum Mark \& Sweep Algorithmus manifestiert sich dadurch, dass Objekte immer nur auf einem dieser Bereiche angelegt werden, der andere dieser Bereiche bleibt leer. Anschliessend an die Markierungs-Phase (Mark) wird die Copy-Phase eingeleitet, in der Folge werden alle überlebenden Objekte des ``from spaces'' in den ``to space'' kopiert. Nun werden die Rollen der beiden Bereiche getauscht und der aktive Bereich ist der ehemalige ``to space''. Dieser Algorithmus bringt den Vorteil mit sich, dass nun der aktive Memory-Bereich wieder aneinanderhängend belegt ist und keine Fragmentierung aufweist.
+Ein alternativer Algorithmus bei dem der Heap nach der Garbage Collection nicht fragmentiert ist, ist der Mark \& Copy Algorithmus. Bei diesem wird der Heap in einen ``from space'' und einen ``to space'' unterteilt. Objekte die noch immer am Leben sind, werden im Anschluss an die Markierung vom ``from space'' in den ``to space'' kopiert. Die Allokation von Speicher ist im Anschluss mit grosser Effizienz möglich, weil der Heap nach der Garbage Collection nicht fragmentiert ist.
 
 \subsection{Mark \& Compact Algorithmus\cite{langerkreft201007}}
-In gewissen Situationen respektive auch in unterschiedlichen Bereichen des Heaps (siehe \titleref{generational gc}) macht es Sinn, unterschiedliche Algorithmen einzusetzen: Mark \& Compact ist ein Algorithmus, bei welchem nach der Markierungs-Phase und der Quasi-Elimination der ``toten'' Objekte eine Kompaktierung des Speichers durchführt. Das hat einerseits den Vorteil, dass im Gegensatz zu Mark \& Copy nicht der doppelte Speicher benötigt wird, es bringt aber auch einen relativ komplexen Kompaktierungsprozess mit sich.
+In gewissen Situationen respektive für die unterschiedliche Lebensdauer der Objekte (siehe \titleref{generational gc}) macht es Sinn, unterschiedliche Algorithmen einzusetzen: Mark \& Compact ist ein Algorithmus, bei welchem nach der Markierungs-Phase und der Elimination der ``toten'' Objekte eine Kompaktierung des Speichers stattfindet. Das hat ebenfalls den Vorteil, dass im Gegensatz zu Mark \& Copy nicht der doppelte Speicher benötigt wird, ist allerdings relativ Ressourcen-intensiv.
+
+\subsection{Tri-Coloring Mark and Sweep}\label{tri-coloring mark and sweep}
+Eine Variante des Mark \& Sweep Algorithmus die sich besser parallelisieren lässt ist der Tri-Coloring Mark \& Sweep Algorithmus. \cite[S. 79]{lagergren2010oracle}. Im Gegensatz zur normalen Version des Mark \& Sweep Algorithmus wird anstelle eines Mark-Flags ein ternärer Wert genommen der den Wert ``weiss'', ``grau'' und ``schwarz'' annehmen kann. Der Status der Objekte wird in drei Sets nachgeführt. Das Ziel des Algorithmus ist es, alle weissen Objekte zu finden. Schwarze Objekte sind die, die garantiert keine weisse Objekte referenzieren und die Grauen sind die, bei denen noch nicht bekannt ist, was sie referenzieren. Der Algorithmus funktioniert folgendermassen:
+
+\begin{enumerate}
+	\item Als erstes haben alle Objekte das Flag weiss.
+	\item Die Objekte des Root-Sets werden grau markiert.
+	\item Solange es graue Objekte hat, werden rekursiv die Nachfolger dieser Objekte grau markiert.
+	\item Sobald alle Nachfolger des Objekts grau markiert sind, wird das aktuelle Objekt auf den Status schwarz geändert.
+\end{enumerate}
+
+Das Prinzip des Tri-Coloring Mark \&Sweep Algorithmus ist folgende Invariante:
+\textbf{Kein schwarzes Objekt zeigt jemals direkt auf ein Weisses.}
+Sobald es keine grauen Objekte mehr gibt - sprich das Set der grauen Objekte leer ist, können die weissen Objekte gelöscht werden.
 
 \section{Generational Garbage Collection}\label{generational gc}
 In der Regel gibt es innerhalb einer Anwendung unterschiedliche Altersgruppen von Objekten und wir können die Objekte in Short Living, Medium Living und Long Living Objekte kategorisieren. Es gibt viele Objekte die nicht lange leben, zum Beispiel Objekte welche die Lebensdauer einer Methode haben, und wenige Objekte die lange Leben, wie zum Beispiel Daten in einem Applikations-Level Cache. Aus diesem Grund ist es oft Sinnvoll, die Garbage Collection an die entsprechende Lebensdauer der Objekte anzupassen. 

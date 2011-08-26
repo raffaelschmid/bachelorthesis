@@ -1,6 +1,54 @@
 \chapter{Garbage Collection in der Oracle JRockit Virtual Machine}\label{jrockit garbage collection}
+\section{Grundlage}
+Die Grundlage der JRockit Garbage Collection bildet der Tri-Coloring Mark \& Sweep Algorithmus (siehe Abschnitt \titleref{tri-coloring mark and sweep}). Er wurde hinsichtlich besserer Parallelisierbarkeit und der optimalen Verwendung der Anzahl Threads optimiert. Die Garbage Collection der JRockit VM kann mit oder ohne Generationen arbeiten - so gibt es die beiden Algorithmen ``Concurrent Mark \& Sweep'' und ``Parallel Mark \& Sweep'' in beiden Ausführungen Generational und Single:
 
+\begin{itemize}
+	\item Generational Concurrent Mark \& Sweep
+	\item Single Concurrent Mark \& Sweep
+	\item Generational Parallel Mark \& Sweep	
+	\item Single Parallel Mark \& Sweep
+\end{itemize}
 
+\subsection{Old Collection}
+Im Unterschied zum normalen Tri-Coloring Algorithmus verwendet der Algorithmus der JRockit, egal ob parallel oder concurrent, zwei Sets für die Markierung der Objekte. In einem werden die grauen und schwarzen Objekte gespeichert, im anderen die weissen. Die Trennung zwischen Grau und Schwarz wird gemacht indem die grauen Objekte in Thread-Local Queues jedes Garbage Collection Threads gespeichert werden. 
+
+Die Verwendung von Thread-lokalem Speicher hat hinsichtlich den folgenden Punkten einen Vorteil:\cite[S. 79]{lagergren2010oracle}:
+\begin{itemize}
+	\item Thread-lokaler Speicher führt zu einer besseren Parallelisierbarkeit.
+	\item Thread-lokaler Speicher kann prefetched werden, was die Geschwindigkeit des Algorithmus als Ganzes erhöht.
+\end{itemize}
+
+Bei der Verwendung der Concurrent Algorithmen - bei welcher die Garbage Collection neben der Anwendung statt findet - werden logischerweise auch nebenbei von der Applikation neue Objekte erzeugt. Diese neuen Objekte werden in einem sogenannten Live-Set getrackt.
+
+\subsection{Intergenerationale Referenzen}
+Die Idee der Generational Garbage Collection ist, dass zumindest während einer Young Collection nur ein Teilbereich des Heaps aufgeräumt wird. Während der Mark-Phase einer Young Collection werden also Referenzen in die Old Collection nicht verfolgt. Problematisch bei diesem Vorgehen ist, dass es eventuell Referenzen aus der Old Generation in die Young Generation gibt, aufgrund welcher man die Objekte im Young Space nicht löschen darft. Dieses Szenario kann auf zwei unterschiedliche Wege passieren:
+\begin{itemize}
+	\item \textbf{Ein Objekt wird durch eine Promotion von der Young Generation in die Old Generation verschoben.} Diesen Vorgang merkt sich der Garbage Collector in einem \textbf{Remembered Set}. 
+	\item \textbf{Es findet eine Zuweisung der Referenz durch die Applikation statt.} Diese Problematik wird durch Write Barriers und der Aufteilung des Heaps in sogenannte Cards\footnote{Eine Card ist typischerweise ein ungefähr 512 Byte grosser Bereich auf dem Heap.} Bei der Änderung einer Variablen respektive einer Referenz die dann vom Tenured Space auf den Young Space zeigen soll, wird auf der Card in welchem diese Änderung statt findet das ``Dirty Bit'' gesetzt. Objekte innerhalb von dirty Cards werden nach der Markierungsphase nochmals überprüft.
+\end{itemize}
+
+\subsubsection{Concurrent Mark \& Sweep}
+Beim Concurrent Mark \& Sweep handelt es sich eigentlich um einen Mostly Concurrent Mark \& Sweep Algorithmus. Das heisst er findet nicht in allen Phasen konkurrierend zur Applikation statt. Die Markierung dieses Algorithmus ist in vier Phasen aufgeteilt:
+\begin{itemize}
+	\item \textbf{Initial Marking (Nicht konkurrierend):} Hier wird das Root Set zusammengestellt.
+	\item \textbf{Concurrent Marking (konkurrierend):} Mehrere Threads gehen nun diesen Referenzen nach und markieren Sie als lebende Objekte.
+	\item \textbf{Preclean (konkurrierend): Änderungen im Heap während den vorherigen Schritten werden nachgeführt, markiert.}
+	\item \textbf{Final Marking (Nicht konkurrierend):} Änderungen im Heap während der Precleaning Phase werden nachgeführt, markiert.
+\end{itemize}
+
+Die Sweep Phase findet ebenfalls konkurrierend zur Applikation statt. Im Gegensatz zur HotSpot VM findet es in zwei separaten Schritten statt. Als erstes wird die erste Hälfte des Heaps von toten Objekten befreit. Während dieser Phase können Threads Speicher in der zwieten Hälfte des Heaps allozieren. Nach einer kurzen Synchronisationspause findet das Sweeping auf dem zweiten Teil des Heaps statt, wieder gefolgt von einer Synchronisationspause.
+
+\subsubsection{Parallel Mark \& Sweep}
+Beim parallelen Mark \& Sweep findet die Garbage Collection parallel mit allen verfügbaren Prozessoren statt. Dazu werden aber alle Threads der Applikation während dieser Zeit gestoppt.
+
+\subsubsection{Kompaktierung}
+Aufgrund der im Speicher stattfindenden Fragmentierung wird bei jeder Old Collection eine Kompaktierung des Speichers durchgeführt. Zu Beginn der Sweep-Phase oder während werden dazu Objekte auf dem Heap umher kopiert, so dass danach wieder grössere Speicherbereiche zur Allokation frei stehen.
+
+\section{Einstellungsmöglichkeiten}
+TODO
+
+\section{Garbage Collection Log Dateien}
+TODO
 
 
 
