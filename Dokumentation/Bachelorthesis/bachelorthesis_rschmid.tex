@@ -1,4 +1,4 @@
-\documentclass[11pt]{book}
+\documentclass[oneside]{book}
 \bibliographystyle{plain}
 \setlength{\headheight}{10pt}
 \usepackage[german, ngerman]{babel}
@@ -16,8 +16,8 @@
 
 \usepackage{listings}
 
-\lstset{language=JAVA, basicstyle=\small \ttfamily, showspaces=false, showtabs=false, tab= , keywordstyle=\bfseries, showstringspaces=false, framexleftmargin=5mm, frame=single, numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, texcl=false, escapechar=$}
-%-----------------------------------------------------------
+\lstset{language=JAVA, breaklines=true, basicstyle=\footnotesize \ttfamily, showspaces=false, showtabs=false, tab= , keywordstyle=\bfseries, showstringspaces=false, framexleftmargin=5mm, frame=single, numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, texcl=false, escapechar=$}
+%-----------------------------------------------------------t
 % properties
 %-----------------------------------------------------------
 \author{Raffael Schmid} 
@@ -38,8 +38,7 @@
 \input{bachelorthesis_rschmid_zusammenfassung}
 \tableofcontents
 \input{bachelorthesis_rschmid_einleitung}
-\input{bachelorthesis_rschmid_glossary}
-\part{Projektdetails}
+\part{Projektbeschreibung}
 \input{bachelorthesis_rschmid_aufgabenstellung}
 \part{Umsetzung}
 \input{bachelorthesis_rschmid_analyse_aufgabenstellung}
@@ -50,10 +49,14 @@
 \input{bachelorthesis_rschmid_konzept}
 \input{bachelorthesis_rschmid_implementation}
 \input{bachelorthesis_rschmid_review}
+\input{bachelorthesis_rschmid_glossary}
 \input{bachelorthesis_rschmid_literaturverzeichnis}
 \lstlistoflistings
+\addcontentsline{toc}{chapter}{Listings}
 \listoffigures
+\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
 \listoftables
+\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
 \part{Anhang}
 \appendix
 

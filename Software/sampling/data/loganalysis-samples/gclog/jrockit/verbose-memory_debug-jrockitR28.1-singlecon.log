@@ -1,0 +1,654 @@
+[DEBUG][memory ] Minimum TLA size is 2048 bytes.
+[DEBUG][memory ] Preferred TLA size is 16384 bytes.
+[DEBUG][memory ] TLA waste limit is 2048 bytes.
+[DEBUG][memory ] Nursery object limit max is 16384 bytes.
+[DEBUG][memory ] Nursery object limit percentage is 1.0%.
+[DEBUG][memory ] Java heap regions:
+ [10040000 - 14040000] rw-- (pagesize=0x1000)
+ [14040000 - 50040000] ----
+ 64MB committed, 960MB reserved.
+[DEBUG][memory ] Initial and maximum number of gc threads: 2, of which 2 parallel threads, 1 concurrent threads, and 2 yc threads.
+[DEBUG][memory ] Maximum nursery percentage of free heap is 95%.
+[DEBUG][memory ] Prefetch distance in workpacket: 4. Packet size: 493 objects.
+[INFO ][memory ] GC mode: Garbage collection optimized for short pausetimes, strategy: Concurrent Mark & Sweep.
+[INFO ][memory ] Heap size: 65536KB, maximal heap size: 1048576KB.
+[INFO ][memory ] <start>-<end>: <type> <before>KB-><after>KB (<heap>KB), <time> ms, sum of pauses <pause> ms.
+[INFO ][memory ] <start>  - start time of collection (seconds since jvm start).
+[INFO ][memory ] <type>   - OC (old collection) or YC (young collection).
+[INFO ][memory ] <end>    - end time of collection (seconds since jvm start).
+[INFO ][memory ] <before> - memory used by objects before collection (KB).
+[INFO ][memory ] <after>  - memory used by objects after collection (KB).
+[INFO ][memory ] <heap>   - size of heap after collection (KB).
+[INFO ][memory ] <time>   - total time of collection (milliseconds).
+[INFO ][memory ] <pause>  - total sum of pauses during collection (milliseconds).
+[INFO ][memory ]            Run with -Xverbose:gcpause to see individual phases.
+[DEBUG][memory ] Using prefetch linesize: 64 bytes chunks: 512 bytes pf_dist: 256 bytes.
+[DEBUG][memory ] [OC#1] GC reason: Allocation request failed (80000016 bytes).
+[DEBUG][memory ] [OC#1] 0.819: OC started.
+[DEBUG][memory ] [OC#1] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#1] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#1] Concurrent mark phase lasted 0.291 ms.
+[DEBUG][memory ] [OC#1] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#1] Precleaning phase lasted 0.542 ms.
+[DEBUG][memory ] [OC#1] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#1] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#1] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#1] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#1] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#1] Removing 1 permanent work packets from pool, now 15 packets.
+[DEBUG][memory ] [OC#1] Total mark time: 1.304 ms.
+[DEBUG][memory ] [OC#1] Ending marking phase.
+[DEBUG][memory ] [OC#1] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#1] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#1] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#1] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#1] Total sweep time: 0.357 ms.
+[DEBUG][memory ] [OC#1] Ending sweeping phase.
+[DEBUG][memory ] [OC#1] Expanded the heap from 65536KB to 117060KB.
+[DEBUG][memory ] [OC#1] GC Trigger is now 12.0%, was 12.0%.
+[DEBUG][memory ] [OC#1] Page faults before OC: 18303, page faults after OC: 18710, pages in heap: 29265.
+[INFO ][memory ] [OC#1] 0.819-0.822: OC 362KB->78429KB (117060KB), 0.004 s, sum of pauses 1.710 ms, longest pause 1.553 ms.
+[DEBUG][memory ] [OC#2] GC reason: Allocation request failed (80000016 bytes).
+[DEBUG][memory ] [OC#2] 1.361: OC started.
+[DEBUG][memory ] [OC#2] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#2] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#2] Concurrent mark phase lasted 0.369 ms.
+[DEBUG][memory ] [OC#2] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#2] Precleaning phase lasted 0.482 ms.
+[DEBUG][memory ] [OC#2] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#2] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#2] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#2] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#2] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#2] Removing 1 permanent work packets from pool, now 14 packets.
+[DEBUG][memory ] [OC#2] Total mark time: 1.490 ms.
+[DEBUG][memory ] [OC#2] Ending marking phase.
+[INFO ][memory ] [OC#2] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#2] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#2] Total sweep time: 1.027 ms.
+[DEBUG][memory ] [OC#2] Ending sweeping phase.
+[DEBUG][memory ] [OC#2] Expanded the heap from 117060KB to 233656KB.
+[DEBUG][memory ] [OC#2] GC Trigger is now 12.0%, was 12.0%.
+[DEBUG][memory ] [OC#2] Page faults before OC: 38601, page faults after OC: 38669, pages in heap: 58414.
+[INFO ][memory ] [OC#2] 1.361-1.366: OC 78447KB->156549KB (233656KB), 0.005 s, sum of pauses 1.452 ms, longest pause 0.977 ms.
+[DEBUG][memory ] [OC#3] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#3] 1.672: OC started.
+[DEBUG][memory ] [OC#3] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#3] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#3] Concurrent mark phase lasted 183.939 ms.
+[DEBUG][memory ] [OC#3] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#3] Precleaning phase lasted 39.619 ms.
+[DEBUG][memory ] [OC#3] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#3] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#3] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#3] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#3] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#3] Adding 9996 temporary work packets to permanent pool, now 10010 packets.
+[DEBUG][memory ] [OC#3] Total mark time: 225.383 ms.
+[DEBUG][memory ] [OC#3] Ending marking phase.
+[DEBUG][memory ] [OC#3] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#3] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#3] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#3] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#3] Total sweep time: 1.411 ms.
+[DEBUG][memory ] [OC#3] Ending sweeping phase.
+[DEBUG][memory ] [OC#3] Expanded the heap from 233656KB to 348768KB.
+[DEBUG][memory ] [OC#3] GC Trigger is now 13.2%, was 12.0%.
+[DEBUG][memory ] [OC#3] Page faults before OC: 74094, page faults after OC: 85465, pages in heap: 87192.
+[INFO ][memory ] [OC#3] 1.672-1.917: OC 217919KB->233658KB (348768KB), 0.245 s, sum of pauses 3.616 ms, longest pause 3.424 ms.
+[DEBUG][memory ] [OC#4] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#4] 2.225: OC started.
+[DEBUG][memory ] [OC#4] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#4] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#4] Concurrent mark phase lasted 405.036 ms.
+[DEBUG][memory ] [OC#4] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#4] Precleaning phase lasted 30.033 ms.
+[DEBUG][memory ] [OC#4] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#4] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#4] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#4] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#4] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#4] Adding 14941 temporary work packets to permanent pool, now 24951 packets.
+[DEBUG][memory ] [OC#4] Total mark time: 437.383 ms.
+[DEBUG][memory ] [OC#4] Ending marking phase.
+[INFO ][memory ] [OC#4] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#4] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#4] Total sweep time: 266.842 ms.
+[DEBUG][memory ] [OC#4] Ending sweeping phase.
+[DEBUG][memory ] [OC#4] Expanded the heap from 348768KB to 520548KB.
+[DEBUG][memory ] [OC#4] GC Trigger is now 14.5%, was 13.2%.
+[DEBUG][memory ] [OC#4] Page faults before OC: 107949, page faults after OC: 123568, pages in heap: 130137.
+[INFO ][memory ] [OC#4] 2.225-2.937: OC 319793KB->348751KB (520548KB), 0.712 s, sum of pauses 268.292 ms, longest pause 267.665 ms.
+[DEBUG][memory ] [OC#5] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#5] 3.144: OC started.
+[DEBUG][memory ] [OC#5] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#5] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#5] Concurrent mark phase lasted 27.413 ms.
+[DEBUG][memory ] [OC#5] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#5] Precleaning phase lasted 29.079 ms.
+[DEBUG][memory ] [OC#5] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#5] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#5] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#5] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#5] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#5] Removing 20 permanent work packets from pool, now 24931 packets.
+[DEBUG][memory ] [OC#5] Total mark time: 57.839 ms.
+[DEBUG][memory ] [OC#5] Ending marking phase.
+[DEBUG][memory ] [OC#5] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#5] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#5] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#5] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#5] Total sweep time: 2.188 ms.
+[DEBUG][memory ] [OC#5] Ending sweeping phase.
+[DEBUG][memory ] [OC#5] GC Trigger is now 16.0%, was 14.5%.
+[DEBUG][memory ] [OC#5] Page faults before OC: 164380, page faults after OC: 167712, pages in heap: 130137.
+[INFO ][memory ] [OC#5] 3.144-3.230: OC 507190KB->169931KB (520548KB), 0.086 s, sum of pauses 3.772 ms, longest pause 3.451 ms.
+[DEBUG][memory ] [OC#6] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#6] 3.590: OC started.
+[DEBUG][memory ] [OC#6] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#6] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#6] Concurrent mark phase lasted 46.684 ms.
+[DEBUG][memory ] [OC#6] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#6] Precleaning phase lasted 14.714 ms.
+[DEBUG][memory ] [OC#6] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#6] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#6] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#6] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#6] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#6] Removing 20 permanent work packets from pool, now 24911 packets.
+[DEBUG][memory ] [OC#6] Total mark time: 62.349 ms.
+[DEBUG][memory ] [OC#6] Ending marking phase.
+[INFO ][memory ] [OC#6] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#6] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#6] Total sweep time: 3.006 ms.
+[DEBUG][memory ] [OC#6] Ending sweeping phase.
+[DEBUG][memory ] [OC#6] GC Trigger is now 17.6%, was 16.0%.
+[DEBUG][memory ] [OC#6] Page faults before OC: 168384, page faults after OC: 168391, pages in heap: 130137.
+[INFO ][memory ] [OC#6] 3.590-3.676: OC 507189KB->170615KB (520548KB), 0.086 s, sum of pauses 1.533 ms, longest pause 1.108 ms.
+[DEBUG][memory ] [OC#7] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#7] 4.034: OC started.
+[DEBUG][memory ] [OC#7] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#7] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#7] Concurrent mark phase lasted 33.318 ms.
+[DEBUG][memory ] [OC#7] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#7] Precleaning phase lasted 24.650 ms.
+[DEBUG][memory ] [OC#7] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#7] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#7] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#7] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#7] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#7] Removing 20 permanent work packets from pool, now 24891 packets.
+[DEBUG][memory ] [OC#7] Total mark time: 58.948 ms.
+[DEBUG][memory ] [OC#7] Ending marking phase.
+[DEBUG][memory ] [OC#7] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#7] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#7] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#7] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#7] Total sweep time: 1.684 ms.
+[DEBUG][memory ] [OC#7] Ending sweeping phase.
+[DEBUG][memory ] [OC#7] GC Trigger is now 19.3%, was 17.6%.
+[DEBUG][memory ] [OC#7] Page faults before OC: 168393, page faults after OC: 168394, pages in heap: 130137.
+[INFO ][memory ] [OC#7] 4.034-4.107: OC 507192KB->169929KB (520548KB), 0.073 s, sum of pauses 2.974 ms, longest pause 2.591 ms.
+[DEBUG][memory ] [OC#8] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#8] 4.418: OC started.
+[DEBUG][memory ] [OC#8] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#8] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#8] Concurrent mark phase lasted 29.622 ms.
+[DEBUG][memory ] [OC#8] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#8] Precleaning phase lasted 27.209 ms.
+[DEBUG][memory ] [OC#8] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#8] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#8] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#8] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#8] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#8] Removing 20 permanent work packets from pool, now 24871 packets.
+[DEBUG][memory ] [OC#8] Total mark time: 58.086 ms.
+[DEBUG][memory ] [OC#8] Ending marking phase.
+[INFO ][memory ] [OC#8] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#8] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#8] Total sweep time: 2.806 ms.
+[DEBUG][memory ] [OC#8] Ending sweeping phase.
+[DEBUG][memory ] [OC#8] GC Trigger is now 21.3%, was 19.3%.
+[DEBUG][memory ] [OC#8] Page faults before OC: 168397, page faults after OC: 168402, pages in heap: 130137.
+[INFO ][memory ] [OC#8] 4.418-4.521: OC 507184KB->171133KB (520548KB), 0.104 s, sum of pauses 1.847 ms, longest pause 1.162 ms.
+[DEBUG][memory ] [OC#9] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#9] 4.827: OC started.
+[DEBUG][memory ] [OC#9] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#9] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#9] Concurrent mark phase lasted 510.135 ms.
+[DEBUG][memory ] [OC#9] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#9] Precleaning phase lasted 3.388 ms.
+[DEBUG][memory ] [OC#9] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#9] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#9] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#9] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#9] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#9] Adding 10503 temporary work packets to permanent pool, now 35374 packets.
+[DEBUG][memory ] [OC#9] Total mark time: 560.820 ms.
+[DEBUG][memory ] [OC#9] Ending marking phase.
+[DEBUG][memory ] [OC#9] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#9] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#9] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#9] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#9] Total sweep time: 1.592 ms.
+[DEBUG][memory ] [OC#9] Ending sweeping phase.
+[DEBUG][memory ] [OC#9] Expanded the heap from 520548KB to 776940KB.
+[DEBUG][memory ] [OC#9] GC Trigger is now 23.4%, was 21.3%.
+[DEBUG][memory ] [OC#9] Page faults before OC: 168404, page faults after OC: 173851, pages in heap: 194235.
+[INFO ][memory ] [OC#9] 4.827-5.398: OC 427583KB->520534KB (776940KB), 0.571 s, sum of pauses 49.575 ms, longest pause 49.368 ms.
+[DEBUG][memory ] [OC#10] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#10] 5.552: OC started.
+[DEBUG][memory ] [OC#10] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#10] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#10] Concurrent mark phase lasted 506.299 ms.
+[DEBUG][memory ] [OC#10] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#10] Precleaning phase lasted 152.154 ms.
+[DEBUG][memory ] [OC#10] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#10] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#10] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#10] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#10] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#10] Removing 20 permanent work packets from pool, now 35354 packets.
+[DEBUG][memory ] [OC#10] Total mark time: 659.546 ms.
+[DEBUG][memory ] [OC#10] Ending marking phase.
+[INFO ][memory ] [OC#10] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#10] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#10] Total sweep time: 3.865 ms.
+[DEBUG][memory ] [OC#10] Ending sweeping phase.
+[DEBUG][memory ] [OC#10] GC Trigger is now 25.7%, was 23.4%.
+[DEBUG][memory ] [OC#10] Page faults before OC: 200600, page faults after OC: 238901, pages in heap: 194235.
+[INFO ][memory ] [OC#10] 5.552-6.226: OC 623658KB->427527KB (776940KB), 0.674 s, sum of pauses 1.641 ms, longest pause 1.230 ms.
+[DEBUG][memory ] [OC#11] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#11] 6.378: OC started.
+[DEBUG][memory ] [OC#11] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#11] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#11] Concurrent mark phase lasted 504.734 ms.
+[DEBUG][memory ] [OC#11] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#11] Precleaning phase lasted 167.451 ms.
+[DEBUG][memory ] [OC#11] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#11] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#11] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#11] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#11] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#11] Removing 20 permanent work packets from pool, now 35334 packets.
+[DEBUG][memory ] [OC#11] Total mark time: 673.246 ms.
+[DEBUG][memory ] [OC#11] Ending marking phase.
+[DEBUG][memory ] [OC#11] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#11] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#11] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#11] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#11] Total sweep time: 2.323 ms.
+[DEBUG][memory ] [OC#11] Ending sweeping phase.
+[DEBUG][memory ] [OC#11] GC Trigger is now 28.3%, was 25.7%.
+[DEBUG][memory ] [OC#11] Page faults before OC: 239902, page faults after OC: 239908, pages in heap: 194235.
+[INFO ][memory ] [OC#11] 6.378-7.059: OC 609764KB->426318KB (776940KB), 0.681 s, sum of pauses 4.099 ms, longest pause 3.895 ms.
+[DEBUG][memory ] [OC#12] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#12] 7.163: OC started.
+[DEBUG][memory ] [OC#12] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#12] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#12] Concurrent mark phase lasted 272.329 ms.
+[DEBUG][memory ] [OC#12] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#12] Precleaning phase lasted 358.971 ms.
+[DEBUG][memory ] [OC#12] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#12] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#12] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#12] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#12] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#12] Removing 20 permanent work packets from pool, now 35314 packets.
+[DEBUG][memory ] [OC#12] Total mark time: 688.240 ms.
+[DEBUG][memory ] [OC#12] Ending marking phase.
+[INFO ][memory ] [OC#12] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#12] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#12] Total sweep time: 4.118 ms.
+[DEBUG][memory ] [OC#12] Ending sweeping phase.
+[DEBUG][memory ] [OC#12] Expanded the heap from 776940KB to 932328KB.
+[DEBUG][memory ] [OC#12] GC Trigger is now 31.1%, was 28.3%.
+[DEBUG][memory ] [OC#12] Page faults before OC: 239910, page faults after OC: 239997, pages in heap: 233082.
+[INFO ][memory ] [OC#12] 7.163-7.868: OC 561446KB->427991KB (932328KB), 0.705 s, sum of pauses 57.668 ms, longest pause 57.082 ms.
+[DEBUG][memory ] [OC#13] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#13] 8.092: OC started.
+[DEBUG][memory ] [OC#13] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#13] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#13] Concurrent mark phase lasted 653.666 ms.
+[DEBUG][memory ] [OC#13] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#13] Precleaning phase lasted 126.503 ms.
+[DEBUG][memory ] [OC#13] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#13] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#13] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#13] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#13] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#13] Adding 59 temporary work packets to permanent pool, now 35373 packets.
+[DEBUG][memory ] [OC#13] Total mark time: 933.208 ms.
+[DEBUG][memory ] [OC#13] Ending marking phase.
+[DEBUG][memory ] [OC#13] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#13] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#13] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#13] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#13] Total sweep time: 2.783 ms.
+[DEBUG][memory ] [OC#13] Ending sweeping phase.
+[DEBUG][memory ] [OC#13] Expanded the heap from 932328KB to 1048576KB.
+[DEBUG][memory ] [OC#13] GC Trigger is now 34.2%, was 31.1%.
+[DEBUG][memory ] [OC#13] Page faults before OC: 240604, page faults after OC: 279514, pages in heap: 262144.
+[INFO ][memory ] [OC#13] 8.092-9.039: OC 654217KB->581705KB (1048576KB), 0.947 s, sum of pauses 156.208 ms, longest pause 156.016 ms.
+[DEBUG][memory ] [OC#14] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#14] 9.193: OC started.
+[DEBUG][memory ] [OC#14] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#14] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#14] Concurrent mark phase lasted 608.216 ms.
+[DEBUG][memory ] [OC#14] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#14] Precleaning phase lasted 69.242 ms.
+[DEBUG][memory ] [OC#14] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#14] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#14] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#14] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#14] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#14] Adding 1 temporary work packets to permanent pool, now 35374 packets.
+[DEBUG][memory ] [OC#14] Total mark time: 1032.768 ms.
+[DEBUG][memory ] [OC#14] Ending marking phase.
+[INFO ][memory ] [OC#14] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#14] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#14] Total sweep time: 5.725 ms.
+[DEBUG][memory ] [OC#14] Ending sweeping phase.
+[DEBUG][memory ] [OC#14] GC Trigger is now 37.7%, was 34.2%.
+[DEBUG][memory ] [OC#14] Page faults before OC: 280575, page faults after OC: 309641, pages in heap: 262144.
+[INFO ][memory ] [OC#14] 9.193-10.245: OC 714052KB->700655KB (1048576KB), 1.052 s, sum of pauses 355.720 ms, longest pause 355.366 ms.
+[DEBUG][memory ] [OC#15] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#15] 10.245: OC started.
+[DEBUG][memory ] [OC#15] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#15] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#15] Concurrent mark phase lasted 574.772 ms.
+[DEBUG][memory ] [OC#15] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#15] Precleaning phase lasted 74.653 ms.
+[DEBUG][memory ] [OC#15] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#15] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#15] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#15] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#15] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#15] Removing 20 permanent work packets from pool, now 35354 packets.
+[DEBUG][memory ] [OC#15] Total mark time: 1006.724 ms.
+[DEBUG][memory ] [OC#15] Ending marking phase.
+[DEBUG][memory ] [OC#15] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#15] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#15] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#15] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#15] Total sweep time: 3.145 ms.
+[DEBUG][memory ] [OC#15] Ending sweeping phase.
+[DEBUG][memory ] [OC#15] GC Trigger is now 41.4%, was 37.7%.
+[DEBUG][memory ] [OC#15] Page faults before OC: 310098, page faults after OC: 310100, pages in heap: 262144.
+[INFO ][memory ] [OC#15] 10.245-11.265: OC 706888KB->697954KB (1048576KB), 1.020 s, sum of pauses 360.694 ms, longest pause 360.435 ms.
+[DEBUG][memory ] [OC#16] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#16] 11.316: OC started.
+[DEBUG][memory ] [OC#16] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#16] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#16] Concurrent mark phase lasted 527.253 ms.
+[DEBUG][memory ] [OC#16] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#16] Precleaning phase lasted 41.663 ms.
+[DEBUG][memory ] [OC#16] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#16] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#16] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#16] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#16] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#16] Adding 20 temporary work packets to permanent pool, now 35374 packets.
+[DEBUG][memory ] [OC#16] Total mark time: 924.985 ms.
+[DEBUG][memory ] [OC#16] Ending marking phase.
+[INFO ][memory ] [OC#16] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#16] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#16] Total sweep time: 4.726 ms.
+[DEBUG][memory ] [OC#16] Ending sweeping phase.
+[DEBUG][memory ] [OC#16] GC Trigger is now 45.6%, was 41.4%.
+[DEBUG][memory ] [OC#16] Page faults before OC: 310101, page faults after OC: 310106, pages in heap: 262144.
+[INFO ][memory ] [OC#16] 11.316-12.259: OC 742582KB->700127KB (1048576KB), 0.943 s, sum of pauses 356.501 ms, longest pause 356.154 ms.
+[DEBUG][memory ] [OC#17] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#17] 12.259: OC started.
+[DEBUG][memory ] [OC#17] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#17] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#17] Concurrent mark phase lasted 522.708 ms.
+[DEBUG][memory ] [OC#17] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#17] Precleaning phase lasted 72.220 ms.
+[DEBUG][memory ] [OC#17] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#17] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#17] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#17] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#17] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#17] Removing 20 permanent work packets from pool, now 35354 packets.
+[DEBUG][memory ] [OC#17] Total mark time: 947.314 ms.
+[DEBUG][memory ] [OC#17] Ending marking phase.
+[DEBUG][memory ] [OC#17] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#17] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#17] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#17] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#17] Total sweep time: 3.021 ms.
+[DEBUG][memory ] [OC#17] Ending sweeping phase.
+[DEBUG][memory ] [OC#17] GC Trigger is now 50.1%, was 45.6%.
+[DEBUG][memory ] [OC#17] Page faults before OC: 310108, page faults after OC: 310111, pages in heap: 262144.
+[INFO ][memory ] [OC#17] 12.259-13.220: OC 709492KB->697953KB (1048576KB), 0.961 s, sum of pauses 355.633 ms, longest pause 355.430 ms.
+[DEBUG][memory ] [OC#18] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#18] 13.271: OC started.
+[DEBUG][memory ] [OC#18] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#18] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#18] Concurrent mark phase lasted 530.786 ms.
+[DEBUG][memory ] [OC#18] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#18] Precleaning phase lasted 39.247 ms.
+[DEBUG][memory ] [OC#18] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#18] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#18] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#18] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#18] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#18] Adding 19 temporary work packets to permanent pool, now 35373 packets.
+[DEBUG][memory ] [OC#18] Total mark time: 919.312 ms.
+[DEBUG][memory ] [OC#18] Ending marking phase.
+[INFO ][memory ] [OC#18] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#18] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#18] Total sweep time: 4.850 ms.
+[DEBUG][memory ] [OC#18] Ending sweeping phase.
+[DEBUG][memory ] [OC#18] GC Trigger is now 55.1%, was 50.1%.
+[DEBUG][memory ] [OC#18] Page faults before OC: 310112, page faults after OC: 310117, pages in heap: 262144.
+[INFO ][memory ] [OC#18] 13.271-14.208: OC 742850KB->700208KB (1048576KB), 0.936 s, sum of pauses 349.734 ms, longest pause 349.391 ms.
+[DEBUG][memory ] [OC#19] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#19] 14.208: OC started.
+[DEBUG][memory ] [OC#19] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#19] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#19] Concurrent mark phase lasted 557.146 ms.
+[DEBUG][memory ] [OC#19] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#19] Precleaning phase lasted 74.499 ms.
+[DEBUG][memory ] [OC#19] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#19] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#19] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#19] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#19] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#19] Adding 1 temporary work packets to permanent pool, now 35374 packets.
+[DEBUG][memory ] [OC#19] Total mark time: 979.211 ms.
+[DEBUG][memory ] [OC#19] Ending marking phase.
+[DEBUG][memory ] [OC#19] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#19] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#19] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#19] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#19] Total sweep time: 3.109 ms.
+[DEBUG][memory ] [OC#19] Ending sweeping phase.
+[DEBUG][memory ] [OC#19] GC Trigger is now 60.7%, was 55.1%.
+[DEBUG][memory ] [OC#19] Page faults before OC: 310119, page faults after OC: 310122, pages in heap: 262144.
+[INFO ][memory ] [OC#19] 14.208-15.198: OC 708533KB->697948KB (1048576KB), 0.990 s, sum of pauses 351.128 ms, longest pause 350.917 ms.
+[DEBUG][memory ] [OC#20] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#20] 15.250: OC started.
+[DEBUG][memory ] [OC#20] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#20] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#20] Concurrent mark phase lasted 517.683 ms.
+[DEBUG][memory ] [OC#20] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#20] Precleaning phase lasted 40.222 ms.
+[DEBUG][memory ] [OC#20] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#20] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#20] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#20] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#20] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#20] Removing 20 permanent work packets from pool, now 35354 packets.
+[DEBUG][memory ] [OC#20] Total mark time: 906.663 ms.
+[DEBUG][memory ] [OC#20] Ending marking phase.
+[INFO ][memory ] [OC#20] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#20] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#20] Total sweep time: 5.880 ms.
+[DEBUG][memory ] [OC#20] Ending sweeping phase.
+[DEBUG][memory ] [OC#20] GC Trigger is now 66.7%, was 60.7%.
+[DEBUG][memory ] [OC#20] Page faults before OC: 310123, page faults after OC: 310128, pages in heap: 262144.
+[INFO ][memory ] [OC#20] 15.250-16.174: OC 742400KB->700740KB (1048576KB), 0.924 s, sum of pauses 349.255 ms, longest pause 348.900 ms.
+[DEBUG][memory ] [OC#21] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#21] 16.174: OC started.
+[DEBUG][memory ] [OC#21] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#21] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#21] Concurrent mark phase lasted 528.393 ms.
+[DEBUG][memory ] [OC#21] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#21] Precleaning phase lasted 73.798 ms.
+[DEBUG][memory ] [OC#21] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#21] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#21] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#21] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#21] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#21] Adding 20 temporary work packets to permanent pool, now 35374 packets.
+[DEBUG][memory ] [OC#21] Total mark time: 951.435 ms.
+[DEBUG][memory ] [OC#21] Ending marking phase.
+[DEBUG][memory ] [OC#21] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#21] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#21] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#21] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#21] Total sweep time: 3.178 ms.
+[DEBUG][memory ] [OC#21] Ending sweeping phase.
+[DEBUG][memory ] [OC#21] GC Trigger is now 73.4%, was 66.7%.
+[DEBUG][memory ] [OC#21] Page faults before OC: 310130, page faults after OC: 310133, pages in heap: 262144.
+[INFO ][memory ] [OC#21] 16.174-17.139: OC 708909KB->697951KB (1048576KB), 0.965 s, sum of pauses 352.680 ms, longest pause 352.333 ms.
+[DEBUG][memory ] [OC#22] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#22] 17.191: OC started.
+[DEBUG][memory ] [OC#22] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#22] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#22] Concurrent mark phase lasted 543.756 ms.
+[DEBUG][memory ] [OC#22] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#22] Precleaning phase lasted 39.881 ms.
+[DEBUG][memory ] [OC#22] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#22] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#22] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#22] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#22] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#22] Removing 20 permanent work packets from pool, now 35354 packets.
+[DEBUG][memory ] [OC#22] Total mark time: 934.620 ms.
+[DEBUG][memory ] [OC#22] Ending marking phase.
+[INFO ][memory ] [OC#22] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#22] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#22] Total sweep time: 5.013 ms.
+[DEBUG][memory ] [OC#22] Ending sweeping phase.
+[DEBUG][memory ] [OC#22] GC Trigger is now 80.7%, was 73.4%.
+[DEBUG][memory ] [OC#22] Page faults before OC: 310134, page faults after OC: 310139, pages in heap: 262144.
+[INFO ][memory ] [OC#22] 17.191-18.143: OC 742819KB->700256KB (1048576KB), 0.953 s, sum of pauses 351.535 ms, longest pause 351.190 ms.
+[DEBUG][memory ] [OC#23] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#23] 18.144: OC started.
+[DEBUG][memory ] [OC#23] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#23] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#23] Concurrent mark phase lasted 516.141 ms.
+[DEBUG][memory ] [OC#23] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#23] Precleaning phase lasted 72.937 ms.
+[DEBUG][memory ] [OC#23] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#23] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#23] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#23] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#23] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#23] Adding 20 temporary work packets to permanent pool, now 35374 packets.
+[DEBUG][memory ] [OC#23] Total mark time: 962.227 ms.
+[DEBUG][memory ] [OC#23] Ending marking phase.
+[DEBUG][memory ] [OC#23] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#23] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#23] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#23] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#23] Total sweep time: 3.031 ms.
+[DEBUG][memory ] [OC#23] Ending sweeping phase.
+[DEBUG][memory ] [OC#23] GC Trigger is now 88.8%, was 80.7%.
+[DEBUG][memory ] [OC#23] Page faults before OC: 310142, page faults after OC: 310144, pages in heap: 262144.
+[INFO ][memory ] [OC#23] 18.144-19.120: OC 709414KB->697951KB (1048576KB), 0.976 s, sum of pauses 376.437 ms, longest pause 376.217 ms.
+[DEBUG][memory ] [OC#24] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#24] 19.171: OC started.
+[DEBUG][memory ] [OC#24] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#24] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#24] Concurrent mark phase lasted 516.117 ms.
+[DEBUG][memory ] [OC#24] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#24] Precleaning phase lasted 41.265 ms.
+[DEBUG][memory ] [OC#24] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#24] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#24] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#24] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#24] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#24] Removing 20 permanent work packets from pool, now 35354 packets.
+[DEBUG][memory ] [OC#24] Total mark time: 911.224 ms.
+[DEBUG][memory ] [OC#24] Ending marking phase.
+[INFO ][memory ] [OC#24] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#24] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#24] Total sweep time: 4.798 ms.
+[DEBUG][memory ] [OC#24] Ending sweeping phase.
+[DEBUG][memory ] [OC#24] GC Trigger is now 94.4%, was 88.8%.
+[DEBUG][memory ] [OC#24] Page faults before OC: 310145, page faults after OC: 310151, pages in heap: 262144.
+[INFO ][memory ] [OC#24] 19.171-20.101: OC 742055KB->700162KB (1048576KB), 0.930 s, sum of pauses 354.435 ms, longest pause 354.107 ms.
+[DEBUG][memory ] [OC#25] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#25] 20.101: OC started.
+[DEBUG][memory ] [OC#25] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#25] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#25] Concurrent mark phase lasted 549.509 ms.
+[DEBUG][memory ] [OC#25] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#25] Precleaning phase lasted 73.787 ms.
+[DEBUG][memory ] [OC#25] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#25] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#25] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#25] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#25] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#25] Adding 20 temporary work packets to permanent pool, now 35374 packets.
+[DEBUG][memory ] [OC#25] Total mark time: 979.316 ms.
+[DEBUG][memory ] [OC#25] Ending marking phase.
+[DEBUG][memory ] [OC#25] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#25] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#25] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#25] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#25] Total sweep time: 3.055 ms.
+[DEBUG][memory ] [OC#25] Ending sweeping phase.
+[DEBUG][memory ] [OC#25] GC Trigger is now 97.2%, was 94.4%.
+[DEBUG][memory ] [OC#25] Page faults before OC: 310152, page faults after OC: 310155, pages in heap: 262144.
+[INFO ][memory ] [OC#25] 20.101-21.092: OC 710184KB->697951KB (1048576KB), 0.991 s, sum of pauses 359.468 ms, longest pause 359.251 ms.
+[DEBUG][memory ] [OC#26] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#26] 21.144: OC started.
+[DEBUG][memory ] [OC#26] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#26] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#26] Concurrent mark phase lasted 662.211 ms.
+[DEBUG][memory ] [OC#26] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#26] Precleaning phase lasted 41.720 ms.
+[DEBUG][memory ] [OC#26] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#26] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#26] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#26] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#26] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#26] Removing 20 permanent work packets from pool, now 35354 packets.
+[DEBUG][memory ] [OC#26] Total mark time: 1060.121 ms.
+[DEBUG][memory ] [OC#26] Ending marking phase.
+[INFO ][memory ] [OC#26] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+[DEBUG][memory ] [OC#26] Starting concurrent sweeping phase.
+[DEBUG][memory ] [OC#26] Total sweep time: 66.976 ms.
+[DEBUG][memory ] [OC#26] Ending sweeping phase.
+[DEBUG][memory ] [OC#26] GC Trigger is now 98.6%, was 97.2%.
+[DEBUG][memory ] [OC#26] Page faults before OC: 310156, page faults after OC: 310161, pages in heap: 262144.
+[INFO ][memory ] [OC#26] 21.144-22.288: OC 741015KB->700288KB (1048576KB), 1.144 s, sum of pauses 418.734 ms, longest pause 418.383 ms.
+[DEBUG][memory ] [OC#27] GC reason: GC trigger reached.
+[DEBUG][memory ] [OC#27] 22.288: OC started.
+[DEBUG][memory ] [OC#27] Starting initial marking phase (OC1).
+[DEBUG][memory ] [OC#27] Starting concurrent marking phase (OC2).
+[DEBUG][memory ] [OC#27] Concurrent mark phase lasted 718.847 ms.
+[DEBUG][memory ] [OC#27] Starting precleaning phase (OC3).
+[DEBUG][memory ] [OC#27] Precleaning phase lasted 69.484 ms.
+[DEBUG][memory ] [OC#27] Starting final marking phase (OC4).
+[DEBUG][memory ] [OC#27] SemiRef phase Finalizers run in single threaded mode.
+[DEBUG][memory ] [OC#27] SemiRef phase WeakJNIHandles run in single threaded mode.
+[DEBUG][memory ] [OC#27] SemiRef phase ClassConstraints run in single threaded mode.
+[DEBUG][memory ] [OC#27] SemiRef phase FinalMemleak run in single threaded mode.
+[DEBUG][memory ] [OC#27] Adding 19 temporary work packets to permanent pool, now 35373 packets.
+[DEBUG][memory ] [OC#27] Total mark time: 1144.353 ms.
+[DEBUG][memory ] [OC#27] Ending marking phase.
+[DEBUG][memory ] [OC#27] Will run parallel sweep due to: Alloc Queue Not Empty.
+[DEBUG][memory ] [OC#27] Will use parallel sweep instead of concurrent sweep due to request.
+[INFO ][memory ] [OC#27] Changing GC strategy from: singleconcon to: singleconpar, reason: Emergency parallel sweep requested.
+[DEBUG][memory ] [OC#27] Starting parallel sweeping phase.
+[DEBUG][memory ] [OC#27] Total sweep time: 3.019 ms.
+[DEBUG][memory ] [OC#27] Ending sweeping phase.
+[DEBUG][memory ] [OC#27] GC Trigger is now 99.3%, was 98.6%.
+[DEBUG][memory ] [OC#27] Page faults before OC: 310163, page faults after OC: 310166, pages in heap: 262144.
+[INFO ][memory ] [OC#27] 22.288-23.447: OC 713005KB->697951KB (1048576KB), 1.159 s, sum of pauses 359.273 ms, longest pause 359.058 ms.

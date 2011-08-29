@@ -44,12 +44,114 @@ Beim parallelen Mark \& Sweep findet die Garbage Collection parallel mit allen v
 \subsubsection{Kompaktierung}
 Aufgrund der im Speicher stattfindenden Fragmentierung wird bei jeder Old Collection eine Kompaktierung des Speichers durchgeführt. Zu Beginn der Sweep-Phase oder während werden dazu Objekte auf dem Heap umher kopiert, so dass danach wieder grössere Speicherbereiche zur Allokation frei stehen.
 
-\section{Einstellungsmöglichkeiten}
-TODO
+
+\section{Übersicht der Garbage Collection Algorithmen auf der JRockit Virtual Machine}
+Die Entscheidung der Garbage Collection Strategie hängt von den Anforderungen der Applikation ab. Auf der JRockit VM gibt es drei verschiedene Modi:
+\begin{itemize}
+	\item \textbf{Durchsatz (throughput):} Optimiert die Garbage Collection hinsichtlich möglichst grossem Durchsatz. Hier handelt es sich um Applikationen wie Batch-Systeme, etc. Um auf der Virtual Machine dieses Ziel zu erreichen, werden Parallele Algorithmen verwendet. Parallele Algorithmen laufen nicht-konkurrierend mit dem System in mehreren parallelen Threads. Das führt zwar zu kurzen Pausenzeiten für die Applikation, allerdings steht in der restlichen Zeit sehr viel Prozessor-Zeit zur Verfügung.
+	\item \textbf{Pausenzeit (pause time):} Die Optimierung der Pausenzeit führt dazu, dass der Benutzer der Virtual Maschine keine langen Pausenzeiten bemerkt. Das ist insbesondere für Client-Server Applikationen notwendig. Wenn die JRockit Laufzeitumgebung auf möglichst kurze Pausenzeiten eingestellt ist, wird ein konkurrierender Garbage Collection Algorithmus verwendet, bei welchem es nur sehr wenige Stop-the-World Phasen gibt.
+	\item \textbf{Determinismus (deterministic):} Optimiert den Garbage Collector auf sehr kurze und deterministische Garbage Collection Pausen.  
+\end{itemize}
+
+\begin{landscape}
+  \begin{longtable}{|p{2.1cm}|p{3cm}|p{5.5cm}|p{1cm}| p{1.3cm}|p{1cm}|p{1cm}|p{1.1cm}|}
+    \caption{Übersicht der Garbage Collection Algorithmen}\\\hline
+  \textbf{Alias} & \textbf{Aktivierung}& \textbf{Beschreibung} & \textbf{Pause} &\textbf{Durchs.} & \textbf{Heap} & \textbf{Mark} & \textbf{Sweep} \\\hline
+  singlecon, singleconcon && Garbage Collection findet konkurrierend statt. Der Heap besteht nur aus einer Generation.&\center{++}&\center{--}& single & konk. & konk\\\hline
+
+  gencon,\newline genconcon& -Xgc:gencon\newline-Xgc:genconcon &Neue Objekte kommen in die Nursery. Ist diese voll, werden die Lebenden in die Old Generation verschoben. Die Old Collection findet konkurrierend statt.&\center{++}& \center{--} & gen & konk. & konk.\\\hline	
+ 
+  singlepar, \newline singleparpar& & Wenn der Heap voll ist, wird bei gestoppter Applikation eine Garbage Collection des gesamten Heaps gemacht. & -- & ++ & single & parallel & parallel \\\hline
+  genpar, \newline genparpar& -Xgc:genpar & Objekte werden in der Nursery angelegt. Ist diese voll, wird bei gestoppter Applikation parallel eine Young Collection durchgeführt. Bei vollem Heap gibs eine volle Garbage Collection. & -- & ++ & gen& parallel & parallel \\\hline
+  genconpar &-Xgc:genconpar&&+&+&gen& konk. & parallel \\\hline
+  genparcon &-Xgc:genparcon&&+&+&gen& parallel & konk. \\\hline
+  singleconpar &-Xgc:singleconpar&&+&+&single&konk. & parallel \\\hline
+  singleparcon& -Xgc:singleparcon&&+&+&single&parallel & konk. \\\hline
+  \end{longtable}
+\end{landscape}
+
+  \begin{longtable}{|p{2.5cm}|p{3.1cm}|p{4.5cm}|p{4cm}|}
+    \caption{Übersicht der Garbage Collection Modi}\\\hline
+  \textbf{Alias} & \textbf{Aktivierung} & \textbf{Beschreibung} & Einstellungsmöglichkeiten\\\hline
+  troughput & -Xgc:throughput & Der Garbage Collector wird auf maximalen Durchsatzder Applikation eingestellt. Er arbeitet so effektiv wie möglich und erhält entsprechend viele Java-Threads, was zu kurzen Pausen der Applikation führen kann. & \\\hline
+  pausetime & -Xgc:pausetime & Der Garbage Collector wird auf möglichst kurze Pausen eingestellt. Das bedeutet, dass ein konkurrierender Algorithmus verwendet wird der insgesamt etwas mehr CPU Ressourcen benötigt. & -XpauseTarget=value (default 200msec)\\\hline
+  deterministic & -Xgc:deterministic & Der Garbage Collector wird auf eine möglichst kurze und deterministische Pausenzeit eingestellt. &-XpauseTarget=value (default 30msec)\\\hline
+
+\end{longtable}
 
 \section{Garbage Collection Log Dateien}
-TODO
+Die Auswertung der Garbage Collection findet auf Basis der Garbage Collection Log Dateien statt. Das Format dieser Log Dateien hängt mitunter auch von den aktivierten Log-Modulen der JRockit Virtual Machine ab. Der Aufbau der Log Dateien und die in der Analyse verwendeten Daten werden in diesem Abschnitt genauer beleuchtet.
+
+\subsection{Aktivierung Log Ausgaben}
+Defaultmässig macht die JRockit keine Angaben darüber, wie sie die Garbage Collection durchführt. Um an diese Informationen zu gelangen, muss das entsprechende Log-Module beim Start der Applikation aktiviert werden. Die Ausgaben werden dann auf die Standard Ausgabe geschrieben - können aber optional mit dem Argument -Xverboselog:logdatei.log in eine Datei umgeleitet werden. Das Format für die Kommandozeile sieht folgendermassen aus:
+
+\begin{lstlisting}[caption=Format Aktivierung Log Modul]
+-Xverbose:<modul>[=log_level]
+\end{lstlisting}
+
+Um das Memory Log Modul (gibt Informationen über die Garbage Collection aus) zu aktivieren:
+\begin{lstlisting}[caption=Garbage Collection Log (Info)]
+-Xverbose:memory
+\end{lstlisting}
+
+Die Umleitung der Ausgaben in eine separate Log-Datei kann mit dem Flag -Xverboselog:<Datei-Namen> eingestellt werden:
+\begin{lstlisting}[caption=Garbage Collection Log (Info) - Umleitung in gc.log]
+-Xverbose:memory -Xverboselog:gc.log 
+\end{lstlisting}
 
 
+Zusätzlich können mit der Angabe des Log-Levels die Ausgaben verfeinert werden:
+\begin{lstlisting}[caption=Garbage Collection Log (Debug) - Umleitung in gc.log]
+-Xverbose:memory=debug -Xverboselog:gc.log 
+\end{lstlisting}
+
+\begin{landscape}
+Die ersten paar Zeilen der Ausgaben des Memory Moduls im Log Level ``info'' ohne explizite Angabe der Garbage Collection Strategie \footnote{JRockit Virtual Machine verwendet damit die Default-Einstellung: Optimierung auf maximalen Durchsatz} sehen folgendermassen aus:
+\begin{lstlisting}[caption=Garbage Collection Log (Debug) - Umleitung in gc.log]
+[INFO ][memory ] GC mode: Garbage collection optimized for throughput, strategy: Generational Parallel Mark & Sweep.
+[INFO ][memory ] Heap size: 65536KB, maximal heap size: 1048576KB, nursery size: 32768KB.
+[INFO ][memory ] <start>-<end>: <type> <before>KB-><after>KB (<heap>KB), <time> ms, sum of pauses <pause> ms.
+[INFO ][memory ] <start>  - start time of collection (seconds since jvm start).
+[INFO ][memory ] <type>   - OC (old collection) or YC (young collection).
+[INFO ][memory ] <end>    - end time of collection (seconds since jvm start).
+[INFO ][memory ] <before> - memory used by objects before collection (KB).
+[INFO ][memory ] <after>  - memory used by objects after collection (KB).
+[INFO ][memory ] <heap>   - size of heap after collection (KB).
+[INFO ][memory ] <time>   - total time of collection (milliseconds).
+[INFO ][memory ] <pause>  - total sum of pauses during collection (milliseconds).
+[INFO ][memory ]            Run with -Xverbose:gcpause to see individual phases.
+[INFO ][memory ] [OC#1] 0.843-0.845: OC 428KB->78423KB (117108KB), 0.003 s, sum of pauses 1.614 ms, longest pause 1.614 ms.
+[INFO ][memory ] [OC#2] 1.393-1.442: OC 78449KB->156488KB (233624KB), 0.049 s, sum of pauses 47.104 ms, longest pause 47.104 ms.
+[INFO ][memory ] [YC#1] 1.494-1.496: YC 156524KB->156628KB (233624KB), 0.002 s, sum of pauses 1.670 ms, longest pause 1.670 ms.
+[INFO ][memory ] [YC#2] 1.496-1.496: YC 156652KB->156755KB (233624KB), 0.001 s, sum of pauses 0.605 ms, longest pause 0.605 ms.
+[INFO ][memory ] [YC#3] 1.497-1.497: YC 156780KB->156884KB (233624KB), 0.001 s, sum of pauses 0.602 ms, longest pause 0.602 ms.
+[INFO ][memory ] [YC#4] 1.497-1.498: YC 156908KB->157011KB (233624KB), 0.001 s, sum of pauses 0.592 ms, longest pause 0.592 ms.
+\end{lstlisting}
+\end{landscape}
+
+\subsection{Log Module}
+
+Die folgende Tabelle beschreibt die für die Auswertung der Garbage Collection relevanten Module alphabetisch sortiert. 
+
+\begin{longtable}{|p{4cm}|p{9cm}|p{2cm}|}
+    \caption{Beschreibung der verschiedenen relevanten Log Modulen}\\\hline
+  \textbf{Modul} & \textbf{Beschreibung} & \textbf{Relevanz}\\\hline
+  alloc & Informationen betreffend Speicher Allokation und ``Out-of-Memory'' & niedrig \\\hline
+  compaction & zeigt abhängig vom Garbage Collection Algorithmus Informationen zur Kompaktierung& niedrig \\\hline
+  gcheuristic & zeigt Informationen und Entscheidungen zur Garbage Collection Heuristik & mittel \\\hline
+  gcpause & zeigt aktuell welche Pausen durch die Garbage Collection entstanden sind und wie lange sie gedauert haben. & mittel \\\hline
+  gcreport & zeigt verschiedene Auswertungen (Anzahl Collections, Anzahl promotete Objekte, maximal promotete Objekte per Zyklus, totale Zeit, Durchschnittszeit, Maximale Zeit) der Garbage Collection zum aktuellen Lauf& niedrig \\\hline
+  memory & zeigt Informationen zum Memory Management System wie Start-, Endzeitpunkt der Collection, Speicher bevor, nach Collection, Grösse des Heaps, etc.& \textbf{hoch} \\\hline
+  memdbg & zeit Informationen die für das Debugging von Themen im Bereich des Arbeitsspeichers relevant sein können& \textbf{hoch} \\\hline
+  systemgc & zeigt Garbage Collections die durch System.gc() gestartet wurden. & niedrig \\\hline
+\end{longtable}
+
+Die folgenden Log Level können aktiviert werden: quiet, error, warn, info, debug, trace. Für mehr Informationen siehe \cite{oracleJRockitR28CLR}.
+
+
+\subsection{Modul: memory}
+
+
+\subsection{Modul: memdbg}
 
 
