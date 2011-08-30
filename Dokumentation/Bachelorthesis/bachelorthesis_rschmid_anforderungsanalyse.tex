@@ -1,39 +1,89 @@
-\chapter{Anforderungsanalyse}
-
-%TODO:
-%Funktionale Anforderungen
-%-Internationalisierung
-%-Erweiterbarkeit
-%-Plattformunabhängigkeit
-%-Build, Continuous Integration, Deployment, Updatesite
-%
-%Qualitätsanforderungen
-
-
+\chapter{Anforderungsanalyse}\label{anforderungsanalyse}
 \section{Einleitung}
 \subsection{Zweck}
+Die Anforderungsanalyse wird in den folgenden Bereichen als Vorlage, Grundlage verwendet:
+\begin{itemize}
+	\item \textbf{Architektur und Konzept:}  Die dokumentierten Anforderungen dienen als Grundlage für die Architektur des Systems und das Konzept. 
+	\item \textbf{Implementation:} Die Implementation der Anwendung richtet sich nach den ermittelten Anforderungen. 
+	\item \textbf{Verifikation:} Der implementierte Software-Prototyp wird anhand der in diesem Abschnitt ermittelten Anforderungen bewertet. 
+\end{itemize}
 
 \subsection{Systemumfang}
+Der folgende Abschnitt beschreibt die wesentlichen Teile innerhalb des Systems und des Systemkontexts. 
+ \begin{figure}[H]
+  	\centering
+    	\includegraphics{images/systemumfang}
+        	\caption{System und Systemkontext}
+\end{figure}
+\subsubsection{System}
+Das System besteht aus folgenden Aspekten:
+\begin{itemize}
+	\item \textbf{Datenmodell, Domäne}
+	\item \textbf{Parsing, Analyse}
+	\item \textbf{Report, Charting}
+	\item \textbf{Hilfesystem:} Dem Benutzer wird sowohl eine generelle wie auch eine kontextsensitive Hilfe\footnote{Hilfe zu aktuellen Fenstern oder Aktionen} bereitgestelt. 
+	\item \textbf{Benutzerführung}
+\end{itemize}
+
+\subsubsection{Systemkontext}
+Zum Systemkontext gehören folgende nicht veränderbare Komponenten:
+\begin{itemize}
+	\item \textbf{Versionskontrolle}
+	\item \textbf{Build und Deployment, Continuous Integration:} Der Build der Software für neue Updates oder Releases wird zentral auf einem Server durchgeführt. Der Source-Code wird aus der Versionskontrolle ausgecheckt, die binären Packete werden gebildet, es wird ein für den jeweiligen Update-Mechanismus notwendiges Packet erstellt und auf den Update-Server gestellt.
+
+	\item \textbf{Update Mechanismus:} Die Software wird in der Version 1.0 released. Anschliessend können Updates (Minor-, Major-Versionen) direkt - ohne den erneuten Download der Software - durchgeführt werden.
+	\item \textbf{JRockit Virtual Machine:} Die Schnittstelle zur JRockit Virtual Machine findet über deren Log-Dateien statt. Die genaurere Beschreibung befindet sich unter \titleref{jrockitgclog}.
+\end{itemize}
+
+\subsubsection{Irrelevante Umgebung}
+\begin{itemize}
+	\item \textbf{Bugtracking}
+\end{itemize}
+
 
 \subsection{Stakeholder}
+ \begin{figure}[H]
+  	\centering
+    	\includegraphics[width=15cm]{images/stakeholder_analyse}
+        	\caption{Übersicht der Stakeholder}
+\end{figure}
 
+\subsection{Glossar}
+Das Glossar befindet sich auf Seite \pageref{glossar}. 
+\subsection{Referenzen}
+Die Referenzen innerhalb des Abschnitts \titleref{anforderungsanalyse} befinden sich im Abschnitt Literaturverzeichnis.
 \subsection{Übersicht}
+Im Abschnitt \titleref{allgemeine_uebersicht} gibt es eine Beschreibung zu Architektur, Systemfunktionalität in Form eines Use-Case Diagramms, Nutzer und Zielgruppen sowie der Annahmen. 
 
-
-\section{Allgemeine Übersicht}
-\subsection{Systemumfeld}
+\section{Allgemeine Übersicht}\label{allgemeine_uebersicht}
 \subsection{Architekturbeschreibung}
-\subsection{Systemfunktionalität}
-\subsection{Nutze und Zielgruppen}
+Die Software wird als Plugin für eine Entwicklungsumgebung zur Verfügung gestellt. Der Entwickler ist in Besitz der Entwicklungsumgebung\footnote{entweder Eclipse oder Netbeans}, und kann von da durch Angabe der Update-Seite\footnote{Normalerweise werden die Software-Packete zusammen mit wenigen Meta-Informationen auf eine Update-Seite kopiert, um von da vom jeweiligen Update-Manager installiert zu werden.} als zusätzliche Funktionalität integriert werden. Ab diesem Zeitpunkt läuft die Applikation respektive das Plugin auch im offline Modus. Auch für die Analyse des Garbage Collection Logs wird durch die Applikation keine Verbindung nach aussen aufgebaut. Vorstellbare Protokolle für den Transfer der Log-Dateien - die auf dem auszuwertenden System generiert werden - sind beispielsweise FTP, SFTP, Mail, etc. Die Applikation soll für möglichst viele Betriebssysteme verfügbar sein (siehe \titleref{req_plattformunabhaengig} S. \pageref{req_plattformunabhaengig}).
+\subsection{Systemfunktionalität}\label{systemfunktionalitaet}
+ \begin{figure}[H]
+  	\centering
+    	\includegraphics[width=15cm]{images/anforderungen_use-case}
+        	\caption{Systemfunktionalität als Use-Case-Diagramm}
+\end{figure}
+\subsection{Nutzer und Zielgruppen}
+\subsubsection{Performance Engineers}
+Normalerweise Software Entwickler die viel Erfahrung, Wissen, Fähigkeiten haben und über die entsprechenden Werkzeuge verfügen, um Performance-Problemen von Anwendungen auf den Grund zu gehen. Dabei handelt es sich nicht nur um Wissen im Bereich der Softwareentwicklung, sondern auch im Bereich des Servers (Speicher Management, etc.), und des Betriebssystems (I/O\footnote{IO steht für Input/Output und betrifft Netzwerk wie auch Harddisk}, etc.). Durch ihr breites Wissen sind sie mit der Unterstützung von Charts, Statistiken und Reports oft sehr schnell in der Lage, Ursache eines Performance Engpasses zu finden.
+
+\subsubsection{Java Entwickler}
+Im Gegensatz zu Performance Engineers beschäftigen sich Java Entwickler vorallem mit der Entwicklung von Anwendungen und verfügen nicht direkt über Knowhow im Bereich der Performance Analyse. Als gut ausgebildete Ingenieure sind sie aber mit Hilfe von Werkzeugen und Dokumentation in der Lage, Performance Problemen innert nützlicher First auf den Grund zu gehen.
+
 \subsection{Randbedingungen}
 \subsection{Annahmen}
-
-
 \section{Anforderungen}
-
 \subsection{Funktionale Anforderungen}
+Dieser Abschnitt spezifiziert die auf Seite \pageref{systemfunktionalitaet} unter \titleref{systemfunktionalitaet} im Diagramm aufgezeigten Use-Cases. Als Grundlage dient die Schablone zur Use-Case-Spezifikation in \cite[S. 78-79]{pohl2010basiswissen}.
+\input{bachelorthesis_rschmid_anforderungsanalyse_requirements}
+
 
 \subsection{Qualitätsanforderungen}
-
+\subsubsection{Erweiterbarkeit}
+\subsubsection{Verteilbarkeit}
+\subsubsection{Testabdeckung}
+\subsubsection{Plattformunabhängigkeit}\label{req_plattformunabhaengig}
+\subsubsection{Internationalisierung}
 
 
