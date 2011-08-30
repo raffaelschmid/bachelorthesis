@@ -11,9 +11,9 @@ Die Anforderungsanalyse wird in den folgenden Bereichen als Vorlage, Grundlage v
 \subsection{Systemumfang}
 Der folgende Abschnitt beschreibt die wesentlichen Teile innerhalb des Systems und des Systemkontexts. 
  \begin{figure}[H]
+        	\caption{System und Systemkontext}
   	\centering
     	\includegraphics{images/systemumfang}
-        	\caption{System und Systemkontext}
 \end{figure}
 \subsubsection{System}
 Das System besteht aus folgenden Aspekten:
@@ -43,9 +43,9 @@ Zum Systemkontext gehören folgende nicht veränderbare Komponenten:
 
 \subsection{Stakeholder}
  \begin{figure}[H]
+        	\caption{Übersicht der Stakeholder}
   	\centering
     	\includegraphics[width=15cm]{images/stakeholder_analyse}
-        	\caption{Übersicht der Stakeholder}
 \end{figure}
 
 \subsection{Glossar}
@@ -61,8 +61,8 @@ Die Software wird als Plugin für eine Entwicklungsumgebung zur Verfügung geste
 \subsection{Systemfunktionalität}\label{systemfunktionalitaet}
  \begin{figure}[H]
   	\centering
-    	\includegraphics[width=15cm]{images/anforderungen_use-case}
         	\caption{Systemfunktionalität als Use-Case-Diagramm}
+    	\includegraphics[width=15cm]{images/anforderungen_use-case}
 \end{figure}
 \subsection{Nutzer und Zielgruppen}
 \subsubsection{Performance Engineers}
@@ -71,19 +71,15 @@ Normalerweise Software Entwickler die viel Erfahrung, Wissen, Fähigkeiten haben
 \subsubsection{Java Entwickler}
 Im Gegensatz zu Performance Engineers beschäftigen sich Java Entwickler vorallem mit der Entwicklung von Anwendungen und verfügen nicht direkt über Knowhow im Bereich der Performance Analyse. Als gut ausgebildete Ingenieure sind sie aber mit Hilfe von Werkzeugen und Dokumentation in der Lage, Performance Problemen innert nützlicher First auf den Grund zu gehen.
 
-\subsection{Randbedingungen}
+\subsection{Randbedingungen}\label{randbedingungen}
+Die Anforderungen beziehen sich auf das Log Format der JRockit Virtual Machine im Release R28. Release R27 wird voraussichtlich nicht unterstützt.
 \subsection{Annahmen}
+
+
 \section{Anforderungen}
-\subsection{Funktionale Anforderungen}
-Dieser Abschnitt spezifiziert die auf Seite \pageref{systemfunktionalitaet} unter \titleref{systemfunktionalitaet} im Diagramm aufgezeigten Use-Cases. Als Grundlage dient die Schablone zur Use-Case-Spezifikation in \cite[S. 78-79]{pohl2010basiswissen}.
+Die ersten beiden Teile dieses Abschnitts definieren die Funktionalen Anforderungen in Form von Use Cases. Die Aufteilung ist nach den Rollen Anwender und Entwickler gemacht. Als Basis dient die Schablone zur Use-Case-Spezifikation in \cite[S. 78-79]{pohl2010basiswissen}.
 \input{bachelorthesis_rschmid_anforderungsanalyse_requirements}
 
-
-\subsection{Qualitätsanforderungen}
-\subsubsection{Erweiterbarkeit}
-\subsubsection{Verteilbarkeit}
-\subsubsection{Testabdeckung}
-\subsubsection{Plattformunabhängigkeit}\label{req_plattformunabhaengig}
-\subsubsection{Internationalisierung}
+\input{bachelorthesis_rschmid_anforderungsanalyse_qualitaetsanforderungen}
 
 

@@ -1,46 +1,224 @@
-%% Software installieren
-\begin{longtable}{|p{4cm}|p{10.5cm}|}\hline
+\subsection{Use Cases Entwickler}
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+  \caption{Use-Case: Software installieren}\\\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-01-01\\\hline
+   Bezeichner & UC-A-01\\\hline
    Name & Software installieren\\\hline
    Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & Hoch\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & \\\hline
-   Auslösendes Ereignis & \\\hline
-   Akteure & \\\hline
-   Vorbedingung & \\\hline
-   Nachbedingung & \\\hline
-   Ergebnis & \\\hline
-   Hauptszenario & \\\hline
-   Alternativszenarien & \\\hline
-   Ausnahmeszenarien & \\\hline
-   Qualitäten & \\\hline
-    \caption{Use-Case: Software installieren}
+   Kurzbeschreibung & Der Benutzer kann das Plugin \footnote{mit Plugin ist die Garbage Collection Analysesoftware gemeint} in seiner Entwicklungsumgebung via Eingabe einer Update-Seite installieren.\\\hline
+   Auslösendes Ereignis & Anwender möchte die Auswertung einer Garbage Collection Log Datei machen.\\\hline
+   Akteure & Anwender\footnote{Anwender kann sowohl Performance Engineer oder Java Entwickler sein}, Update-Server\\\hline
+   Vorbedingung & Richtige Entwicklungsumgebung ist bereits installiert\\\hline
+   Nachbedingung & Anwender hat Plugin fertig installiert.\\\hline
+   Ergebnis & Entwicklungsumgebung ist bereit für Garbage Collection Auswertungen der JRockit\\\hline
+   Hauptszenario & 
+         \begin{enumerate}
+		\item Anwender Startet Entwicklungsumgebung
+		\item Anwender gibt Update-Seite an
+		\item Anwender selektiert zu installierendes Packet
+		\item Plugin wird installiert	
+ 	\end{enumerate}
+	\\\hline
+   Alternativszenarien & Anwender installiert Plugin aus lokalem Dateisystem\\\hline
+   Ausnahmeszenarien & -\\\hline
+   Qualitäten & QA-01 (Installierbarkeit)\\\hline
 \end{longtable}
 
-%% Software updaten
-\begin{longtable}{|p{4cm}|p{10.5cm}|}\hline
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Software updaten}\\\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-01-01\\\hline
-   Name & Software installieren\\\hline
+   Bezeichner & UC-A-02\\\hline
+   Name & Software updaten\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: mittel\\\hline
+   Kritikalität & Hoch\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Benutzer kann das Plugin updaten.\\\hline
+   Auslösendes Ereignis & Anwender hat das Plugin bereis zu einem früheren Zeitpunkt installiert. Sofern ein neues Update dieses Plugins vorhanden ist, möchte er dieses installieren.\\\hline
+   Akteure & Anwender, Update-Server\\\hline
+   Vorbedingung & Richtige Entwicklungsumgebung und Garbage Collection Log Analysis Plugin ist bereits in einer früheren Version installiert.\\\hline
+   Nachbedingung & Anwender hat Plugin fertig upgedated.\\\hline
+   Ergebnis & Entwicklungsumgebung und Plugin sind auf dem neusten Stand für Garbage Collection Auswertungen.\\\hline
+   Hauptszenario & 
+	\begin{enumerate}
+		\item Anwender Startet Entwicklungsumgebung
+		\item Anwender sucht nach neuen Updates
+		\item Anwendung findet neue Updates
+		\item Anwender selektiert Packete die er updaten möchte.
+		\item Plugin wird aktualisiert
+	\end{enumerate}
+	\\\hline
+   Alternativszenarien & Anwender updated Plugin aus lokalem Dateisystem\\\hline
+   Ausnahmeszenarien & -\\\hline
+   Qualitäten & QA-01 (Installierbarkeit)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Garbage Collection Log Datei importieren}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A-03\\\hline
+   Name & Garbage Collection Log Datei importieren\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
+   Kritikalität & Hoch\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Benutzer kann eine sich auf seinem Rechner befindende Garbage Collection Log Datei importierten.\\\hline
+   Auslösendes Ereignis & \\\hline
+   Akteure & Anwender, Log Datei Prozessor\\\hline
+   Vorbedingung & Log Datei befindet sich auf dem Rechner. Garbage Collection Log Analysis Plugin ist vollständig installiert. Entwicklungsumgebung ist gestartet.\\\hline
+   Nachbedingung & \\\hline
+   Ergebnis & Die Log Datei befindet sich im Memory und steht für die Auswertung (Charts, Reports) dem Benutzer zur Verfügung.\\\hline
+   Hauptszenario & 
+	\begin{enumerate}
+		\item Anwender öffnet Import-Dialog
+		\item Anwender navigiert zur Datei
+		\item Anwender startet Import-Prozess
+	\end{enumerate}
+	\\\hline
+   Alternativszenarien & -\\\hline
+   Ausnahmeszenarien & -\\\hline
+   Qualitäten & -\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Garbage Collection Log Datei analysieren}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A-04\\\hline
+   Name & \\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
+   Kritikalität & Hoch\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Benutzer kann das importierte \\\hline
+   Auslösendes Ereignis & Die Applikation hat die Datei fertig importiert, der Benutzer öffnet eine Datei die bereits importiert wurde.\\\hline
+   Akteure & Anwender, Log Datei Analyzer, Report Engine\\\hline
+   Vorbedingung & Die Log Datei wurde ohne Fehler eingelesen und befindet sich nun im Arbeitsspeicher.\\\hline
+   Nachbedingung & -\\\hline
+   Ergebnis & Dem Benutzer wird ein Analsye-Screen angezeigt.\\\hline
+   Hauptszenario & 
+	\begin{enumerate}
+		\item Applikation hat die Log-Datei fertig importiert oder Benutzer öffnet Datei, die sich bereits im Arbeitsspeicher befindet.
+		\item Dem Benutzer wird ein Screen mit verschiedenen Tabs angezeigt. Auf jedem Tab wird dem Benutzer eine unterschiedliche Sicht auf die Daten gezeigt.
+	\end{enumerate}
+	\\\hline
+   Alternativszenarien & -\\\hline
+   Ausnahmeszenarien & -\\\hline
+   Qualitäten & -\\\hline
+   Erweiterungen & UC-A-04-a (Statistik Übersicht), UC-A-04-b (Heap Benutzung), UC-A-04-c (Dauer Garbage Collection), UC-A-04-d (Benutzerdefiniert Auswertung) \\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Statistik Übersicht}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A-04-a\\\hline
+   Name & Statistik Übersicht\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
+   Kritikalität & Hoch\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Analyse-Screen wurde geöffnet, dem Benutzer zeigen sich unterschiedliche Tabs. Auf dem ersten befinden sich verschiedene statistische Auswertungen der Log Datei:
+   \begin{itemize}
+	\item Übersicht und Grösse der verschiedenen Bereiche auf dem Heap: Initiale Grösse, endgültige Grösse
+	\item Aktivitäten des Garbage Collectors: Anzahl Young Collections, Anzahl Old Collections
+	\item Anzahl Garbage Collector Events (Bsp: Change Garbage Collector Strategy, etc.)
+	\item Garbage Collection Zeiten (Total, Durchschnittliche, Zeit in Old Generation Garbage Collection, Prozentuale Zeit in Old Generation Garbage Collection)
+   \end{itemize}
+ \\\hline
+   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Heap Benutzung}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A-04b\\\hline
+   Name & Heap Benutzung\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
    Kritikalität & Hoch\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & \\\hline
-   Auslösendes Ereignis & \\\hline
-   Akteure & \\\hline
-   Vorbedingung & \\\hline
-   Nachbedingung & \\\hline
-   Ergebnis & \\\hline
-   Hauptszenario & \\\hline
-   Alternativszenarien & \\\hline
-   Ausnahmeszenarien & \\\hline
-   Qualitäten & \\\hline
-    \caption{Use-Case: Software installieren}
+   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
 \end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Dauer Garbage Collection}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A-04c\\\hline
+   Name & Dauer Garbage Collection\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: mittel\newline Technologisches Risiko: mittel\\\hline
+   Kritikalität & Mittel\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & \\\hline
+   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Benutzerdefiniert Auswertung }\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A-04d\\\hline
+   Name & Benutzerdefiniert Auswertung\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
+   Kritikalität & Niedrig\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & \\\hline
+   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
+   Erweiterungen & UC-A-04d1 (Auswahl administrieren)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Auswahl administrieren }\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A-04d1\\\hline
+   Name & Auswahl administrieren\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
+   Kritikalität & Niedrig\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & \\\hline
+   Qualitäten & -\\\hline
+\end{longtable}
+
+\subsection{Use Cases Entwickler}
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Neuer Software-Release erstellen}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-E-01\\\hline
+   Name & Neuer Software-Release erstellen\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: gering\\\hline
+   Kritikalität & Mittel\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Entwickler kann neue Releases des Plugins erstellen und diese via Update-Seite verfügbar machen.\\\hline
+   Auslösendes Ereignis & Entwickler hat einen neuen Bug gefixt oder ein Feature implementiert.\\\hline
+   Akteure & Entwickler\\\hline
+   Vorbedingung & Entwicklung wurde abgeschlossen, Tests sind durchgelaufen.\\\hline
+   Nachbedingung & -\\\hline
+   Ergebnis & Neues Update ist via Update-Seite verfügbar und kann vom Anwender darüber installiert werden.\\\hline
+   Hauptszenario & 
+	\begin{enumerate}
+		\item Entwickler entwickelt Feature oder macht Bug-Fix.
+		\item Entwickler startet den automatischen Build der Software
+	\end{enumerate}
+	\\\hline
+   Alternativszenarien & -\\\hline
+   Ausnahmeszenarien & Im Fehlerfall wird der Entwickler benachrichtigt, das neue Softwarepaket wird nicht via Update-Seite bereitgestellt.\\\hline
+   Qualitäten & \\\hline
+\end{longtable}
+
+
 
