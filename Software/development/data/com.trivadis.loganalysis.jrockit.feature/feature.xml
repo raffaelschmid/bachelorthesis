@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.trivadis.loganalysis.feature"
-      label="Garbage Collection Log Analysis"
+      id="com.trivadis.loganalysis.jrockit.feature"
+      label="Garbage Collection Log Analysis - JRockit Extension"
       version="1.0.0.qualifier"
       provider-name="TRIVADIS">
 
@@ -18,21 +18,27 @@
    </license>
 
    <plugin
-         id="com.trivadis.loganalysis.core"
+         id="com.trivadis.loganalysis.jfreechart.libs"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="com.trivadis.loganalysis.jrockit"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="com.trivadis.loganalysis.ui"
+         id="com.trivadis.loganalysis.jrockit.ui"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="com.trivadis.loganalysis.ui.i18n"
+         id="com.trivadis.loganalysis.jrockit.ui.i18n"
          download-size="0"
          install-size="0"
          version="0.0.0"

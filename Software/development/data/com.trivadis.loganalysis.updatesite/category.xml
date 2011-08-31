@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <feature url="features/com.trivadis.loganalysis.feature_1.0.0.jar" id="com.trivadis.loganalysis.feature" version="1.0.0.qualifier"/>
+   <feature url="features/com.trivadis.loganalysis.jrockit.feature_1.0.0.qualifier.jar" id="com.trivadis.loganalysis.jrockit.feature" version="1.0.0.qualifier"/>
    <category-def name="Garbage Collection Log Analysis" label="Garbage Collection Log Analysis"/>
 </site>
