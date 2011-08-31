@@ -3,11 +3,11 @@ package com.trivadis.loganalysis.jrockit.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.trivadis.loganalysis.core.domain.AbstractLog;
+import com.trivadis.loganalysis.core.domain.AbstractLogFile;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitExtractor;
 
-public class JRockitLog extends AbstractLog {
+public class JRockitLog extends AbstractLogFile {
 
 	private final List<JRockitLogData> data = new ArrayList<JRockitLogData>();
 

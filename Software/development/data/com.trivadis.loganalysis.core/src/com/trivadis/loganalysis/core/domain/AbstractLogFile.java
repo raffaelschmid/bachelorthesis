@@ -1,9 +1,9 @@
 package com.trivadis.loganalysis.core.domain;
 
-public abstract class AbstractLog implements ILog {
+public abstract class AbstractLogFile implements ILogFile {
 	private final ILogFileDescriptor logFileDescriptor;
 	
-	public AbstractLog(final ILogFileDescriptor logFileDescriptor) {
+	public AbstractLogFile(final ILogFileDescriptor logFileDescriptor) {
 		this.logFileDescriptor = logFileDescriptor;
 	}
 
