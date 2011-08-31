@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.trivadis.loganalysis</groupId>
 	<artifactId>com.trivadis.loganalysis</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<properties>
 		<tycho.version>0.11.1</tycho.version>
@@ -43,7 +43,7 @@
 						<artifact>
 							<groupId>com.trivadis.loganalysis</groupId>
 							<artifactId>com.trivadis.loganalysis.targetplatform</artifactId>
-							<version>1.0.0</version>
+							<version>1.0.0-SNAPSHOT</version>
 							<classifier>indigo</classifier>
 						</artifact>
 					</target>
