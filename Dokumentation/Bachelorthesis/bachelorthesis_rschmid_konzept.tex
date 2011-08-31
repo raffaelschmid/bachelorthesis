@@ -30,31 +30,54 @@ Als Continuous Integration Server wird Jenkins\footnote{http://jenkins-ci.org - 
 \end{itemize}
 
 \subsection{Versionskontrolle}
-Zur Versionskontrolle kommen mehrere Werkzeuge in Frage. Da Git\footnote{http://git-scm.com/} in einigen Bereichen besser ist als Subversion, CVS und zusätzlich mit Github\footnote{http://github.com/} ein darauf basierendes freies Repository verfügbar ist, wird Git verwendet.
+Zur Versionskontrolle kommen mehrere Werkzeuge in Frage. Da Git\footnote{http://git-scm.com} in einigen Bereichen besser ist als Subversion, CVS und zusätzlich mit Github\footnote{http://github.com} ein darauf basierendes freies Repository verfügbar ist, wird Git verwendet.
 \subsection{Issue Tracker}
 Als Issue Tracker wird Jira verwendet. Es handelt sich zwar im Gegensatz zu Bugzilla um eine kostenpflichtige Software, die geringen kosten lohnen sich aber alle weil. 
 
-\section{Architektur}
-\subsection{Feature-, Plugin-Struktur}
-\subsubsection{Aufbau Update-Seite}
-Auf der Eclipse Plattform können Zusatzfunktionen auf unterschiedliche Arten Verteilt werden. Es handelt sich aber immer um Java-Archive (Jars) die mit gewissen Meta-Informationen versehen sind. Diese Archive können sich sowohl lokal auf dem Dateisystem befinden oder via eine Update-Seite, wobei es sich um den wesentlich effizienteren Weg handelt, bereitgestellt werden. Die Funktionalität zu diesem Prozess stellt das Eclipse Framework bereits zur Verfügung: Update-Seiten definieren auf der Basis eines Eclipse-Projekts welche Features im Endeffekt zur Verfügung gestellt werden. Ein Feature ist wiederum eine wohldefinierte Software-Komponente bestehend aus unterschiedlichen Plugins - bei diesen handelt es sich um die kleinst mögliche Komponente die definiert wird durch die Programmlogik und der Schnittstelle nach aussen.
+\section{Installation der Software}\label{installation}
+Auf der Eclipse Plattform können Funktionalitäten auf unterschiedliche Arten verteilt werden. Es handelt sich in der Regel aber um Java-Archive (Jars) die mit gewissen Meta-Informationen versehen sind. Diese Archive können sich sowohl lokal auf dem Dateisystem befinden oder via eine Update-Seite, wobei es sich um den wesentlich effizienteren Weg handelt, bereitgestellt werden. Die Funktionalität zu diesem Prozess stellt das Eclipse Framework bereits zur Verfügung: Update-Seiten\footnote{Update-Seiten werden ebenfalls als Eclipse-Projekte definiert} beinhalten Kategorien mit Features. Ein Feature ist wiederum eine wohldefinierte Software-Komponente bestehend aus unterschiedlichen Plugins - bei diesen handelt es sich um die kleinst mögliche Komponente die aus der Programmlogik und der Schnittstellendefinition\footnote{Plugins definieren die Schnittstelle durch Abhängigkeiten, Exportierte Packete, Importierte Packete und Extension-Points.} besteht.
 
-Die Software zur Garbage Collection Log Analyse ist in verschiedene Features aufgeteilt:
+Die Update-Seite für diese Software wird folgendermassen aufgebaut:
 \begin{itemize}
-	\item 
+	\item Garbage Collection Log Analysis (Kategorie)
+		\begin{itemize}
+			\item Core (Feature)
+			\item JRockit Extension (Feature)
+		\end{itemize}
 \end{itemize}
+Der Vorteil dieser Struktur ist, dass man nachträglich noch zusätzliche Extensions hinzufügen kann.
 
 
-\subsubsection{Umsetzung in Features, Plugins}
+\section{Architektur}
+\subsection{Basiskomponenten}
+Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zwei getrennten Features. Das Core-Feature ist verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, etc.). Die JRockit Extension ist eine wird benötigt, um überhaupt den Inhalt der Log Dateien zu parsen, ein adäquates Domänenmodell zu erstellen und die Charts/Reports dafür anzuzeigen. Diese Aufteilung hat zum Zweck, dass die Software mit anderen Log-Formaten erweitert werden kann.
+ \begin{figure}[H]
+  	\centering
+        	\caption{Systemfunktionalität als Use-Case-Diagramm}
+    	\includegraphics[width=15cm]{images/architektur_komponenten_uebersicht}
+\end{figure}
 
+Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einer von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für den Presentation Layer verwendet} unabhängigen Teil (``loganalysis.core''). Startet der Anwender einen Import einer Garbage Collection Datei, werden durch das Core-Feature alle registrierten Extensions abgefragt, ob sie den Inhalt dieser Datei verstehen. Sobald dies zutrifft, wird das Parsing und die Anzeige des Reports, Charts an diese Extension delegiert. Im Eclipse Framework passiert diese Registrierung über das Prinzip der Extension-Points.
 
+\subsection{Weitere Bundles}
+Zusätzlich zu den behandelten Plugins wurden noch einige nicht erwähnt:
 
-
-
-
-
-
-
+\begin{itemize}
+	\item Feature Bundles
+		\begin{itemize}
+			\item loganalysis.feature
+			\item loganalysis.jrockit.feature
+		\end{itemize}
+	\item Thirdparty Bibliotheken
+		\begin{itemize}
+			\item  loganalysis.jfreechart.libs (JFreeChart Library)
+		\end{itemize}
+	\item Diverses
+		\begin{itemize}
+			\item  loganalysis.targetplatform (beinhaltet die Target-Plattform)
+			\item loganalysis.updatesite (definiert und generiert die Update-Seite)
+		\end{itemize}
+\end{itemize}
 
 
 
