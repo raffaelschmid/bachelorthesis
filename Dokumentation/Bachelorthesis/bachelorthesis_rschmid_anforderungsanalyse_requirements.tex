@@ -9,12 +9,12 @@
    Kritikalität & Hoch\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann das Plugin \footnote{mit Plugin ist die Garbage Collection Analysesoftware gemeint} in seiner Entwicklungsumgebung via Eingabe einer Update-Seite installieren.\\\hline
+   Kurzbeschreibung & Der Benutzer kann das Plugin\footnote{mit Plugin ist die Garbage Collection Analysesoftware gemeint} in seiner Entwicklungsumgebung via Eingabe einer Update-Seite installieren.\\\hline
    Auslösendes Ereignis & Anwender möchte die Auswertung einer Garbage Collection Log Datei machen.\\\hline
    Akteure & Anwender\footnote{Anwender kann sowohl Performance Engineer oder Java Entwickler sein}, Update-Server\\\hline
-   Vorbedingung & Richtige Entwicklungsumgebung ist bereits installiert\\\hline
+   Vorbedingung & Richtige Entwicklungsumgebung ist bereits installiert. Anwender ist noch nicht im Besitz des Plugins.\\\hline
    Nachbedingung & Anwender hat Plugin fertig installiert.\\\hline
-   Ergebnis & Entwicklungsumgebung ist bereit für Garbage Collection Auswertungen der JRockit\\\hline
+   Ergebnis & Entwicklungsumgebung ist bereit für Garbage Collection Auswertungen der JRockit Garbage Collection Log Dateien.\\\hline
    Hauptszenario & 
          \begin{enumerate}
 		\item Anwender Startet Entwicklungsumgebung
@@ -35,21 +35,21 @@
    Name & Software updaten\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: mittel\\\hline
-   Kritikalität & Hoch\\\hline
+   Kritikalität & Mittel\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann das Plugin updaten.\\\hline
    Auslösendes Ereignis & Anwender hat das Plugin bereis zu einem früheren Zeitpunkt installiert. Sofern ein neues Update dieses Plugins vorhanden ist, möchte er dieses installieren.\\\hline
    Akteure & Anwender, Update-Server\\\hline
    Vorbedingung & Richtige Entwicklungsumgebung und Garbage Collection Log Analysis Plugin ist bereits in einer früheren Version installiert.\\\hline
-   Nachbedingung & Anwender hat Plugin fertig upgedated.\\\hline
+   Nachbedingung & Plugin ist auf dem neusten Stand.\\\hline
    Ergebnis & Entwicklungsumgebung und Plugin sind auf dem neusten Stand für Garbage Collection Auswertungen.\\\hline
    Hauptszenario & 
 	\begin{enumerate}
 		\item Anwender Startet Entwicklungsumgebung
 		\item Anwender sucht nach neuen Updates
 		\item Anwendung findet neue Updates
-		\item Anwender selektiert Packete die er updaten möchte.
+		\item Anwender selektiert Packete die er updaten möchte
 		\item Plugin wird aktualisiert
 	\end{enumerate}
 	\\\hline
@@ -69,9 +69,9 @@
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann eine sich auf seinem Rechner befindende Garbage Collection Log Datei importierten.\\\hline
-   Auslösendes Ereignis & \\\hline
+   Auslösendes Ereignis & Anwender möchte Auswertung starten.\\\hline
    Akteure & Anwender, Log Datei Prozessor\\\hline
-   Vorbedingung & Log Datei befindet sich auf dem Rechner. Garbage Collection Log Analysis Plugin ist vollständig installiert. Entwicklungsumgebung ist gestartet.\\\hline
+   Vorbedingung & Log Datei befindet sich auf dem Rechner und ist in einem der unterstützten Formate. Garbage Collection Log Analysis Plugin ist vollständig installiert. Entwicklungsumgebung ist gestartet.\\\hline
    Nachbedingung & \\\hline
    Ergebnis & Die Log Datei befindet sich im Memory und steht für die Auswertung (Charts, Reports) dem Benutzer zur Verfügung.\\\hline
    Hauptszenario & 
@@ -96,7 +96,7 @@
    Kritikalität & Hoch\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann das importierte \\\hline
+   Kurzbeschreibung & Der Benutzer kann die importierte Datei nun weiter analysieren.\\\hline
    Auslösendes Ereignis & Die Applikation hat die Datei fertig importiert, der Benutzer öffnet eine Datei die bereits importiert wurde.\\\hline
    Akteure & Anwender, Log Datei Analyzer, Report Engine\\\hline
    Vorbedingung & Die Log Datei wurde ohne Fehler eingelesen und befindet sich nun im Arbeitsspeicher.\\\hline
@@ -145,7 +145,7 @@
    Kritikalität & Hoch\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Die Heap Usage (Heap Benutzung) zeigt dem Benutzer an anhand einer Grafik an, zu welchem Zeitpunkt wieviel Speicher des Heaps verwendet wurd. Zusätzlich werden die Zeitpunkte inklusive entsprechendem Typ (Old- / Young-Collection) der Garbage Collection angezeigt.  \\\hline
+   Kurzbeschreibung & Die Heap Usage (Heap Benutzung) zeigt dem Benutzer anhand einer Grafik, zu welchem Zeitpunkt wieviel Speicher des Heaps verwendet wurde. Zusätzlich werden die Zeitpunkte inklusive entsprechendem Typ (Old- / Young-Collection) der Garbage Collection angezeigt.  \\\hline
    Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
 \end{longtable}
 
@@ -173,22 +173,22 @@
    Kritikalität & Niedrig\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer hat hier die Möglichkeit, von den verfügbaren Daten für X- und Y-Achse einen Messtyp auszuwählen und damit einen Chart zu generieren. \\\hline
+   Kurzbeschreibung & Der Benutzer hat hier die Möglichkeit, von den verfügbaren Daten für X- und Y-Achse einen Messtyp auszuwählen und damit einen eigenen Chart zu definieren. \\\hline
    Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
    Erweiterungen & UC-A-04d1 (Auswahl administrieren)\\\hline
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Auswahl administrieren }\\\hline
+\caption{Use-Case: Benutzerdefinierte Auswertung speichern, löschen }\\\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A-04d1\\\hline
-   Name & Auswahl administrieren\\\hline
+   Name & Benutzerdefinierte Auswertung speichern, löschen\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
    Kritikalität & Niedrig\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & \\\hline
+   Kurzbeschreibung & Die vom Anwender definierten Charts können lokal gespeichert werden. Die gespeicherten Daten sind Name, optionale Beschreibung, Datentyp X-Achse, Datentyp Y-Achse.\\\hline
    Qualitäten & -\\\hline
 \end{longtable}
 
@@ -212,7 +212,7 @@
    Hauptszenario & 
 	\begin{enumerate}
 		\item Entwickler entwickelt Feature oder macht Bug-Fix.
-		\item Entwickler startet den automatischen Build der Software
+		\item Entwickler startet den automatischen Build-Deploy der Software
 	\end{enumerate}
 	\\\hline
    Alternativszenarien & -\\\hline

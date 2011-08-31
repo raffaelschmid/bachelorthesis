@@ -1,7 +1,8 @@
 \chapter{Anforderungsanalyse}\label{anforderungsanalyse}
 \section{Einleitung}
 \subsection{Zweck}
-Die Anforderungsanalyse wird in den folgenden Bereichen als Vorlage, Grundlage verwendet:
+Die Anforderungsanalyse dient als Basis für die folgenden Abschnitte:
+
 \begin{itemize}
 	\item \textbf{Architektur und Konzept:}  Die dokumentierten Anforderungen dienen als Grundlage für die Architektur des Systems und das Konzept. 
 	\item \textbf{Implementation:} Die Implementation der Anwendung richtet sich nach den ermittelten Anforderungen. 
@@ -16,28 +17,21 @@ Der folgende Abschnitt beschreibt die wesentlichen Teile innerhalb des Systems u
     	\includegraphics{images/systemumfang}
 \end{figure}
 \subsubsection{System}
-Das System besteht aus folgenden Aspekten:
-\begin{itemize}
-	\item \textbf{Datenmodell, Domäne}
-	\item \textbf{Parsing, Analyse}
-	\item \textbf{Report, Charting}
-	\item \textbf{Hilfesystem:} Dem Benutzer wird sowohl eine generelle wie auch eine kontextsensitive Hilfe\footnote{Hilfe zu aktuellen Fenstern oder Aktionen} bereitgestelt. 
-	\item \textbf{Benutzerführung}
-\end{itemize}
+Das System besteht aus den Aspekten Datenmodell, Domäne, Log Parsing, Garbage Collection Analyse, Report, Charting, Hilfesystem\footnote{Dem Benutzer wird sowohl eine generelle wie auch eine kontextbezogene Hilfe angeboten.}, Benutzerführung.
 
 \subsubsection{Systemkontext}
 Zum Systemkontext gehören folgende nicht veränderbare Komponenten:
 \begin{itemize}
-	\item \textbf{Versionskontrolle}
 	\item \textbf{Build und Deployment, Continuous Integration:} Der Build der Software für neue Updates oder Releases wird zentral auf einem Server durchgeführt. Der Source-Code wird aus der Versionskontrolle ausgecheckt, die binären Packete werden gebildet, es wird ein für den jeweiligen Update-Mechanismus notwendiges Packet erstellt und auf den Update-Server gestellt.
 
-	\item \textbf{Update Mechanismus:} Die Software wird in der Version 1.0 released. Anschliessend können Updates (Minor-, Major-Versionen) direkt - ohne den erneuten Download der Software - durchgeführt werden.
+	\item \textbf{Update Mechanismus:} Die Software wird in der Version 1.0 released. Anschliessend können Updates (Minor-, Major-Versionen) direkt - ohne den manuellen Download der Software - durchgeführt werden.
 	\item \textbf{JRockit Virtual Machine:} Die Schnittstelle zur JRockit Virtual Machine findet über deren Log-Dateien statt. Die genaurere Beschreibung befindet sich unter \titleref{jrockitgclog}.
 \end{itemize}
 
 \subsubsection{Irrelevante Umgebung}
 \begin{itemize}
-	\item \textbf{Bugtracking}
+	\item \textbf{Bugtracking:} Sobald die Software stabil läuft und an Tester herausgegeben wird, wird für die Verwaltung der Fehler (Bugs) ein Bugtracker verwendet.
+	\item \textbf{Versionskontrolle:} Der Source-Code der Applikation wird in einer Source-Code-Verwaltung abgelegt. Diese dient als Backup und zur Versionierung der einzelnen Artefakte. Die beiden Werkzeuge (Bugtracker, Versionskontrolle) arbeiten normalerweise eng zusammen, so dass Bug Fixes mit der eingecheckten Version in Verbindung bleiben.
 \end{itemize}
 
 
@@ -57,7 +51,7 @@ Im Abschnitt \titleref{allgemeine_uebersicht} gibt es eine Beschreibung zu Archi
 
 \section{Allgemeine Übersicht}\label{allgemeine_uebersicht}
 \subsection{Architekturbeschreibung}
-Die Software wird als Plugin für eine Entwicklungsumgebung zur Verfügung gestellt. Der Entwickler ist in Besitz der Entwicklungsumgebung\footnote{entweder Eclipse oder Netbeans}, und kann von da durch Angabe der Update-Seite\footnote{Normalerweise werden die Software-Packete zusammen mit wenigen Meta-Informationen auf eine Update-Seite kopiert, um von da vom jeweiligen Update-Manager installiert zu werden.} als zusätzliche Funktionalität integriert werden. Ab diesem Zeitpunkt läuft die Applikation respektive das Plugin auch im offline Modus. Auch für die Analyse des Garbage Collection Logs wird durch die Applikation keine Verbindung nach aussen aufgebaut. Vorstellbare Protokolle für den Transfer der Log-Dateien - die auf dem auszuwertenden System generiert werden - sind beispielsweise FTP, SFTP, Mail, etc. Die Applikation soll für möglichst viele Betriebssysteme verfügbar sein (siehe \titleref{req_plattformunabhaengig} S. \pageref{req_plattformunabhaengig}).
+Die Software wird als Plugin programmiert. Der Entwickler ist im Besitz der Entwicklungsumgebung\footnote{entweder Eclipse oder Netbeans}, und kann von da durch Angabe der Update-Seite\footnote{Normalerweise werden die Software-Packete zusammen mit wenigen Meta-Informationen auf eine Update-Seite kopiert, um von da vom jeweiligen Update-Manager installiert zu werden.} das Plugin installieren. Ab diesem Zeitpunkt kann die Applikation auch offline verwendet werden. Für die Analyse der Garbage Collection Logs wird durch die Applikation keine Internet-Verbindung benötigt. Vorstellbare Protokolle für den Transfer der Log-Dateien - die auf dem auszuwertenden System generiert werden - sind beispielsweise FTP, SFTP, Mail, etc. Die Applikation soll für möglichst viele Betriebssysteme verfügbar sein (siehe Qualitätsanforderung Plattformunabhängigkeit).
 \subsection{Systemfunktionalität}\label{systemfunktionalitaet}
  \begin{figure}[H]
   	\centering
@@ -77,7 +71,7 @@ Die Anforderungen beziehen sich auf das Log Format der JRockit Virtual Machine i
 
 
 \section{Anforderungen}
-Die ersten beiden Teile dieses Abschnitts definieren die Funktionalen Anforderungen in Form von Use Cases. Die Aufteilung ist nach den Rollen Anwender und Entwickler gemacht. Als Basis dient die Schablone zur Use-Case-Spezifikation in \cite[S. 78-79]{pohl2010basiswissen}.
+Die ersten beiden Teile dieses Abschnitts definieren die Funktionalen Anforderungen in Form von Use Cases, aufgeteilt nach Rolle. Als Basis dient die Schablone zur Use-Case-Spezifikation in \cite[S. 78-79]{pohl2010basiswissen}.
 \input{bachelorthesis_rschmid_anforderungsanalyse_requirements}
 
 \input{bachelorthesis_rschmid_anforderungsanalyse_qualitaetsanforderungen}
