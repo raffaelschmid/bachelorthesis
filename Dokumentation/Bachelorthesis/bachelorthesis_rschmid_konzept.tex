@@ -37,6 +37,12 @@ Als Issue Tracker wird Jira verwendet. Es handelt sich zwar im Gegensatz zu Bugz
 \section{Architektur}
 \subsection{Feature-, Plugin-Struktur}
 \subsubsection{Aufbau Update-Seite}
+Auf der Eclipse Plattform können Zusatzfunktionen auf unterschiedliche Arten Verteilt werden. Es handelt sich aber immer um Java-Archive (Jars) die mit gewissen Meta-Informationen versehen sind. Diese Archive können sich sowohl lokal auf dem Dateisystem befinden oder via eine Update-Seite, wobei es sich um den wesentlich effizienteren Weg handelt, bereitgestellt werden. Die Funktionalität zu diesem Prozess stellt das Eclipse Framework bereits zur Verfügung: Update-Seiten definieren auf der Basis eines Eclipse-Projekts welche Features im Endeffekt zur Verfügung gestellt werden. Ein Feature ist wiederum eine wohldefinierte Software-Komponente bestehend aus unterschiedlichen Plugins - bei diesen handelt es sich um die kleinst mögliche Komponente die definiert wird durch die Programmlogik und der Schnittstelle nach aussen.
+
+Die Software zur Garbage Collection Log Analyse ist in verschiedene Features aufgeteilt:
+\begin{itemize}
+	\item 
+\end{itemize}
 
 
 \subsubsection{Umsetzung in Features, Plugins}
