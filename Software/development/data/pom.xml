@@ -19,6 +19,7 @@
 		<module>com.trivadis.loganalysis.jrockit.feature</module>
 		<module>com.trivadis.loganalysis.jrockit.test</module>
 		<module>com.trivadis.loganalysis.jrockit.ui</module>
+		<module>com.trivadis.loganalysis.jrockit.ui.test</module>
 		<module>com.trivadis.loganalysis.jrockit.ui.i18n</module>
 		<module>com.trivadis.loganalysis.ui</module>
 		<module>com.trivadis.loganalysis.ui.i18n</module>
