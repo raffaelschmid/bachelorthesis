@@ -6,6 +6,34 @@
 Der Abschnitt hier basiert auf dem vorangehenden Entscheid bei der Auswahl des Rich Client Frameworks. Aus den im Abschnitt \titleref{rcp_entscheid} beschriebenen und nachvollziehbaren Gründen wird zur Implementation des Garbage Collection Log Analyzers die Eclipse Rich Client Plattform in der Version 3.x\footnote{die aktuelle Version ist 3.7 (stand: 31.8.2011)} genommen. Die in der Anforderungsanalyse allgemein definierten Anforderungen werden nun spezifisch auf diese Plattform konzipiert, für die einzelnen Thematiken werden nun auch die Begrifflichkeiten innerhalb Eclipse verwendet.
 
 
+\section{Umgebung}
+\subsection{Build-Automation}
+Die Automatisierung des Software-Builds ist hinsichtlich der Integration in ein Continuous Integration System Voraussetzung. Es hat zusätzlich aber andere Vorteile:
+\begin{itemize}
+	\item Tasks wie das Kompilieren, die Packetierung und das Deployment der Software müssen nicht mehr manuell gemacht werden.
+	\item Zur Verhinderung von Regression und entsprechend zur Gewährleistung der Qualität können vor jedem Release automatisch die Tests durchgeführt werden.
+\end{itemize}
+
+
+Als Werkzeug zum automatisierten Build der Software wird Maven Tycho\footnote{Im Bereich der Eclipse Rich Client Entwicklung kann entweder PDE Build, ein auf Apache Ant basiertes Build-System für Eclipse RCP Applikationen\cite{vogelZapfPdeBuild} oder die Maven-Integration Tycho (http://tycho.sonatype.org) verwendet werden.} verwendet. Um Tycho führt mittlerweile kein Weg drum herum, es hat im Vergleich zum PDE Build einige Vorteile:
+\begin{itemize}
+	\item Maven Builds lassen sich ohne grossen Aufwand in Continuous Integration Systeme integrieren.
+	\item Maven hat eine gute Integration in alle gängigen Entwicklungsumgebungen\footnote{Projekt-Dateien müssen nicht mehr in die Versionskontrolle eingecheckt werden.} und ist sehr verbreitet
+\end{itemize}
+
+\subsection{Continous Integration}
+Als Continuous Integration Server wird Jenkins\footnote{http://jenkins-ci.org - Jenkins ist der ehemalige Hudson CI Server, welcher nach dem Kauf von Sun durch Oracle als Branch entstanden ist.} verwendet. Jenkins bringt nebst seiner Benutzerfreundlichkeit als Build Server einige zum Projekt nötigen Voraussetzungen mit:
+\begin{itemize}
+	\item Jenkins ist für alle denkbaren Betriebssysteme vorhanden.
+	\item Jenkins ist kompatibel mit allen gängigen Systemen zur Versionskontrolle: Git, Subversion, CVS, etc.
+	\item Maven-Projekte lassen sich ohne grossen Aufwand als Build-Projekte konfigurieren.
+\end{itemize}
+
+\subsection{Versionskontrolle}
+Zur Versionskontrolle kommen mehrere Werkzeuge in Frage. Da Git\footnote{http://git-scm.com/} in einigen Bereichen besser ist als Subversion, CVS und zusätzlich mit Github\footnote{http://github.com/} ein darauf basierendes freies Repository verfügbar ist, wird Git verwendet.
+\subsection{Issue Tracker}
+Als Issue Tracker wird Jira verwendet. Es handelt sich zwar im Gegensatz zu Bugzilla um eine kostenpflichtige Software, die geringen kosten lohnen sich aber alle weil. 
+
 \section{Architektur}
 \subsection{Feature-, Plugin-Struktur}
 \subsubsection{Aufbau Update-Seite}
