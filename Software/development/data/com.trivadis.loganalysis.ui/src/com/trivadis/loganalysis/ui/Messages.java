@@ -23,6 +23,8 @@ public class Messages extends NLS {
 	public static String ImportGCLogWizardSelectionPage_1;
 	public static String ImportGCLogWizardSelectionPage_3;
 	public static String ImportGCLogWizardSelectionPage_6;
+	public static String JRockitAnalysisEditorPageHeapUsage_0;
+	public static String JRockitAnalysisEditorPageHeapUsage_1;
 	public static String OpenGcLoganalysis_implementation_not_found_title;
 	public static String OpenGcLoganalysis_implementation_not_found_text;
 	static {

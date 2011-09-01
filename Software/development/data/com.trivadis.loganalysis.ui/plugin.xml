@@ -12,7 +12,7 @@
             name="%view.name"
             icon="icons/overview.gif"
             category="com.trivadis.loganalysis.ui"
-            class="com.trivadis.loganalysis.ui.internal.view.logfiles.LogFilesView"
+            class="com.trivadis.loganalysis.ui.internal.view.LogFilesView"
             id="com.trivadis.loganalysis.ui.internal.view.logfiles.LogFilesView">
       </view>
    </extension>
@@ -30,7 +30,7 @@
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            class="com.trivadis.loganalysis.ui.inernal.perspective.GarbageCollectionAnalysisPerspective"
+            class="com.trivadis.loganalysis.ui.internal.perspective.GarbageCollectionAnalysisPerspective"
             icon="icons/chart.gif"
             id="com.trivadis.loganalysis.ui.inernal.perspective.GarbageCollectionAnalysisPerspective"
             name="%perspective.name">

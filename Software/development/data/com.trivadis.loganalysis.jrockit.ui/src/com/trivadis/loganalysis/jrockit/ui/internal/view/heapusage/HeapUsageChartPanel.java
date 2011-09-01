@@ -5,7 +5,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.jfree.chart.ChartFactory;
@@ -35,9 +34,11 @@ public class HeapUsageChartPanel extends Composite {
 				dataset.addSeries(logFileWrapper.getDataset());
 			}
 		};
-		this.dataset = createChart(HeapUsageChartPanel.this, logFileWrapper.getDataset());
+		this.dataset = createChart(this, logFileWrapper.getDataset());
 		logFileWrapper.addPropertyChangeListener(Axis.X, propertyChangeListener);
 		logFileWrapper.addPropertyChangeListener(Axis.Y, propertyChangeListener);
+		
+		this.setLayoutData(GridLayoutUtil.fill());
 	}
 
 	private XYSeriesCollection createChart(Composite parent, XYSeries series) {
@@ -55,17 +56,7 @@ public class HeapUsageChartPanel extends Composite {
 		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		ChartComposite chartComposite = new ChartComposite(parent, SWT.NONE, chart, true);
-		chartComposite.setLayoutData(fill());
+		chartComposite.setLayoutData(GridLayoutUtil.fill());
 		return dataset;
 	}
-
-	private GridData fill() {
-		GridData gridData = new GridData();
-		gridData.horizontalAlignment = SWT.FILL;
-		gridData.grabExcessHorizontalSpace = true;
-		gridData.verticalAlignment = SWT.FILL;
-		gridData.grabExcessVerticalSpace = true;
-		return gridData;
-	}
-
 }

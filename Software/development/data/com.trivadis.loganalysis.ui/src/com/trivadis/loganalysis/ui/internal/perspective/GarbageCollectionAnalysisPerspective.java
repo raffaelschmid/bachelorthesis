@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.ui.inernal.perspective;
+package com.trivadis.loganalysis.ui.internal.perspective;
 
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
@@ -6,7 +6,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 
 import com.trivadis.loganalysis.ui.internal.Constants;
-import com.trivadis.loganalysis.ui.internal.view.logfiles.LogFilesView;
+import com.trivadis.loganalysis.ui.internal.view.LogFilesView;
 
 public class GarbageCollectionAnalysisPerspective implements
 		IPerspectiveFactory {

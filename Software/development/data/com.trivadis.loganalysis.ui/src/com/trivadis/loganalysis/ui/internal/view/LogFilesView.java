@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.ui.internal.view.logfiles;
+package com.trivadis.loganalysis.ui.internal.view;
 
 import java.io.File;
 

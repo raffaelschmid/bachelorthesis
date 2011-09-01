@@ -13,4 +13,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.eclipse.ui.ide;bundle-version="3.7.0",
  com.trivadis.loganalysis.jrockit;bundle-version="1.0.0",
  com.trivadis.loganalysis.ui;bundle-version="1.0.0",
- com.trivadis.loganalysis.jfreechart.libs;bundle-version="1.0.13"
+ com.trivadis.loganalysis.jfreechart.libs;bundle-version="1.0.13",
+ org.eclipse.ui.forms;bundle-version="3.5.100"
