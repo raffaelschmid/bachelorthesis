@@ -5,6 +5,7 @@ import java.util.List;
 import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.Loganalysis;
+import com.trivadis.loganalysis.core.common.progress.IProgress;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
 
@@ -28,14 +29,19 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitLog> {
 		return extractor.checkGcInfo(logs.get(0));
 	}
 
-	public JRockitLog process(ILogFileDescriptor descriptor) {
+	public JRockitLog process(ILogFileDescriptor descriptor, IProgress progress) {
 		List<String> content = descriptor.getListContent(contentReader);
 		JRockitLog logFile = new JRockitLog(descriptor);
-		for(String line : content){
-			if(extractor.checkDataLine(line)){
+		int numberOfLines = content.size();
+		for (int i = 0; i < numberOfLines; i++) {
+			if (i % 500 == 0 && i!=0)
+				progress.worked(i*100/numberOfLines);
+			String line = content.get(i);
+			if (extractor.checkDataLine(line)) {
 				logFile.addDataFromLine(line, extractor);
 			}
 		}
+		progress.done();
 		return logFile;
 	}
 

@@ -42,7 +42,8 @@ public class Loganalysis {
 		return contentReader;
 	}
 
-	public static IAnalyzer<ILogFile> fileProcessor(ILogFileDescriptor fileDescriptor) {
+	public static IAnalyzer<ILogFile> fileProcessor(ILogFileDescriptor fileDescriptor)
+			throws FileProcessingException {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (IConfigurationElement element : elements) {
@@ -54,8 +55,7 @@ public class Loganalysis {
 					if (processor.isResponsible(fileDescriptor))
 						return processor;
 				} catch (CoreException e) {
-					// TODO refactor exception handling
-					throw new RuntimeException(e);
+					throw new FileProcessingException(e);
 				}
 			}
 		}

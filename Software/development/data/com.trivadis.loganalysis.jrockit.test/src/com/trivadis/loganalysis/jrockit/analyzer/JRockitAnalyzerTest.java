@@ -10,6 +10,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import com.trivadis.loganalysis.core.IAnalyzer;
+import com.trivadis.loganalysis.core.common.progress.EmptyProgress;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
@@ -34,7 +35,7 @@ public class JRockitAnalyzerTest {
 
 	@Test
 	public void test_process() {
-		JRockitLog logFile = analyzer.process(jrockitLog);
+		JRockitLog logFile = analyzer.process(jrockitLog, new EmptyProgress());
 		assertNotNull(logFile);
 	}
 

@@ -4,6 +4,7 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "com.trivadis.loganalysis.ui.messages"; //$NON-NLS-1$
+	public static String OpenGcLoganalysis_progress_message;
 	public static String DashboardEditor_Title;
 	public static String DashboardEditor_Section_Feeds;
 	public static String DashboardEditor_Section_HelpAndDocumentation;
@@ -25,7 +26,6 @@ public class Messages extends NLS {
 	public static String OpenGcLoganalysis_implementation_not_found_title;
 	public static String OpenGcLoganalysis_implementation_not_found_text;
 	static {
-		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
 	}
 
