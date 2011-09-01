@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.analyzer;
+package com.trivadis.loganalysis.jrockit.internal.analyzer.memory;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,9 +11,8 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitLogData;
-import com.trivadis.loganalysis.jrockit.domain.ValueType;
 import com.trivadis.loganalysis.jrockit.domain.Value;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitExtractor;
+import com.trivadis.loganalysis.jrockit.domain.ValueType;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitExtractor.HeapInfoGroups;
 
 public class JRockitExtractorTest {

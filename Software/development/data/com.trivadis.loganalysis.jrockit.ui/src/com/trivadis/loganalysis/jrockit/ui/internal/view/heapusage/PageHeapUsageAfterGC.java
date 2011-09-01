@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui;
+package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -6,9 +6,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
-import com.trivadis.loganalysis.jrockit.ui.internal.HeapUsageChartPanel;
-import com.trivadis.loganalysis.jrockit.ui.internal.HeapUsageControlPanel;
-import com.trivadis.loganalysis.jrockit.ui.internal.JRockitLogFileWrapper;
 
 public class PageHeapUsageAfterGC extends Composite {
 
@@ -16,7 +13,7 @@ public class PageHeapUsageAfterGC extends Composite {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
 		
-		JRockitLogFileWrapper logFileWrapper = new JRockitLogFileWrapper(logFile);
+		HeapUsageDataWrapper logFileWrapper = new HeapUsageDataWrapper(logFile);
 		
 		new HeapUsageControlPanel(this, SWT.NONE, logFileWrapper);
 		HeapUsageChartPanel heapUsageChartPanel = new HeapUsageChartPanel(this, SWT.NONE, logFileWrapper );

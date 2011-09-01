@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui.internal;
+package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
 import com.trivadis.loganalysis.jrockit.ui.Messages;
 

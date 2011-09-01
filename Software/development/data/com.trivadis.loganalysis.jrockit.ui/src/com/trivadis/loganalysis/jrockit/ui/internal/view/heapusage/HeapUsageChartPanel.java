@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui.internal;
+package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
 
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
@@ -18,12 +18,14 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
+
 public class HeapUsageChartPanel extends Composite {
 
 	private final XYSeriesCollection dataset;
 
 	public HeapUsageChartPanel(Composite parent, int style,
-			final JRockitLogFileWrapper logFileWrapper) {
+			final HeapUsageDataWrapper logFileWrapper) {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
 

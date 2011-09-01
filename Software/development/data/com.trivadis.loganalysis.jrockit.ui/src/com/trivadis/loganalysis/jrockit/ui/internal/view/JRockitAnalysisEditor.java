@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui;
+package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -17,6 +17,8 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.PageHeapUsageAfterGC;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.overview.PageOverview;
 import com.trivadis.loganalysis.ui.EditorInput;
 
 public class JRockitAnalysisEditor extends MultiPageEditorPart implements

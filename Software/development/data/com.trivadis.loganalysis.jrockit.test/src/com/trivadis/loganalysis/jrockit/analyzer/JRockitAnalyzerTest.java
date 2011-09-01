@@ -25,6 +25,7 @@ public class JRockitAnalyzerTest {
 			return ModuleResult.PROCEED;
 		}
 	});
+
 	private ILogFileDescriptor jrockitLog = new DummyDescriptor(JROCKIT);
 	private ILogFileDescriptor hotSpotLog = new DummyDescriptor(HOT_SPOT);
 

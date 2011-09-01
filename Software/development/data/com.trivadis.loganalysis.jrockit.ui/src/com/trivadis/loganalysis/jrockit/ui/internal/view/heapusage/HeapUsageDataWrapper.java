@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui.internal;
+package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -11,13 +11,14 @@ import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLogData;
 import com.trivadis.loganalysis.jrockit.domain.Value;
 import com.trivadis.loganalysis.jrockit.domain.ValueType;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 
-public class JRockitLogFileWrapper {
+public class HeapUsageDataWrapper {
 	private final JRockitLog logFile;
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	private Map<Axis, ValueType> axisSelection = new HashMap<Axis, ValueType>();
 
-	public JRockitLogFileWrapper(JRockitLog logFile) {
+	public HeapUsageDataWrapper(JRockitLog logFile) {
 		this.logFile = logFile;
 		axisSelection.put(Axis.X, ValueType.TIME);
 		axisSelection.put(Axis.Y, ValueType.MEMORY);

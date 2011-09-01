@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui;
+package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
 import org.eclipse.ui.editors.text.TextEditor;
 

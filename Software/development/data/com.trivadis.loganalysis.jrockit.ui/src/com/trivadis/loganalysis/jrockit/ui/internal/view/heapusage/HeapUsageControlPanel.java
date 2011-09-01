@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui.internal;
+package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ComboViewer;
@@ -13,12 +13,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import com.trivadis.loganalysis.jrockit.domain.ValueType;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 
 public class HeapUsageControlPanel extends Composite {
 
-	private final JRockitLogFileWrapper logFileWrapper;
+	private final HeapUsageDataWrapper logFileWrapper;
 
-	public HeapUsageControlPanel(Composite parent, int style, JRockitLogFileWrapper logFileWrapper) {
+	public HeapUsageControlPanel(Composite parent, int style, HeapUsageDataWrapper logFileWrapper) {
 		super(parent, style);
 		setLayout(new GridLayout(5, false));
 		this.logFileWrapper = logFileWrapper;
