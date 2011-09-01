@@ -13,17 +13,12 @@ import org.junit.Test;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLogData;
 import com.trivadis.loganalysis.jrockit.domain.ValueType;
 import com.trivadis.loganalysis.jrockit.domain.Value;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitExtractor;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitExtractor.HeapInfoGroups;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitExtractor;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitExtractor.HeapInfoGroups;
 
 public class JRockitExtractorTest {
 
 	private JRockitExtractor instance = new JRockitExtractor();
-
-	@Test
-	public void test_checkGcInfo() {
-		assertTrue(instance.checkGcInfo(LOG[0]));
-	}
 
 	@Test
 	public void test_checkHeapInfo() {

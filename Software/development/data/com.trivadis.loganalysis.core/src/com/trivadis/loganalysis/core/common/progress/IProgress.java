@@ -6,11 +6,12 @@ public interface IProgress {
 
 	void worked(int progress);
 
-	void setTaskName(String taskName);
-
-	void beginTask(String name, int totalWork);
+	void beginTask(int totalWork);
 
 	void done();
+
+	String getTaskName();
+
 	
 	
 

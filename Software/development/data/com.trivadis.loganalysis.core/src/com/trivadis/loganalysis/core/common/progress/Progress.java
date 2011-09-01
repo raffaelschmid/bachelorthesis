@@ -6,12 +6,13 @@ import com.trivadis.loganalysis.core.common.Assert;
 
 public class Progress implements IProgress {
 	private IProgressMonitor monitor;
+	private String taskName = null;
 
 	public Progress(IProgressMonitor monitor, String taskName) {
 		this.monitor = monitor;
 		Assert.assertNotNull(this.monitor);
+		this.taskName = taskName;
 		this.monitor.setTaskName(taskName);
-		this.monitor.beginTask(taskName, 100);
 	}
 
 	public Progress(IProgressMonitor progress) {
@@ -26,18 +27,16 @@ public class Progress implements IProgress {
 		monitor.worked(progress);
 	}
 
-	public void setTaskName(String taskName) {
-		monitor.setTaskName(taskName);
+	public void beginTask(int totalWork){
+		monitor.beginTask(taskName, totalWork);
 	}
-
-	public void beginTask(String name, int totalWork) {
-		monitor.beginTask(name, totalWork);
-	}
-
+	
 	public void done() {
 		monitor.done();
 	}
-	
-	
+
+	public String getTaskName() {
+		return taskName;
+	}
 
 }

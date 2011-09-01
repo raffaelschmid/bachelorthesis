@@ -5,39 +5,54 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
 import com.trivadis.loganalysis.core.IAnalyzer;
+import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.core.common.progress.EmptyProgress;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.IModuleProcessor;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
 
 public class JRockitAnalyzerTest {
+	private AtomicInteger count = new AtomicInteger();
+	private IAnalyzer<JRockitLog> analyzer = new JRockitAnalyzer(null, new IModuleProcessor() {
+		public ModuleResult proceed(JRockitLog logFile, String line) {
+			count.incrementAndGet();
+			return ModuleResult.PROCEED;
+		}
+	});
+	private ILogFileDescriptor jrockitLog = new DummyDescriptor(JROCKIT);
+	private ILogFileDescriptor hotSpotLog = new DummyDescriptor(HOT_SPOT);
 
-	private IAnalyzer<JRockitLog> analyzer = new JRockitAnalyzer();
-	private ILogFileDescriptor jrockitLog = new DummyDescriptor(
-			Arrays.asList(JROCKIT));
-	private ILogFileDescriptor hotSpotLog = new DummyDescriptor(
-			Arrays.asList(HOT_SPOT));
+	@Test
+	public void test_canHandleLogFile_jrockit() throws Exception {
+		assertTrue(analyzer.canHandleLogFile(jrockitLog));
+	}
+
+	@Test
+	public void test_canHandleLogFile_hotspot() throws Exception {
+		assertFalse(analyzer.canHandleLogFile(hotSpotLog));
+	}
 
 	@Test
 	public void test_isResponsible_jrockit() {
-		assertTrue(analyzer.isResponsible(jrockitLog));
+		assertTrue(analyzer.canHandleLogFile(jrockitLog));
 	}
 
 	@Test
 	public void test_isResponsible_hotSpot() {
-		assertFalse(analyzer.isResponsible(hotSpotLog));
+		assertFalse(analyzer.canHandleLogFile(hotSpotLog));
 	}
 
 	@Test
 	public void test_process() {
 		JRockitLog logFile = analyzer.process(jrockitLog, new EmptyProgress());
 		assertNotNull(logFile);
-		assertTrue(logFile.getData().size()>0);
+		assertEquals(JROCKIT.length, count.get());
 	}
 
 	@Test

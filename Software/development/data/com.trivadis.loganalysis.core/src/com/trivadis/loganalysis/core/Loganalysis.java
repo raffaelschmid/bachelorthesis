@@ -53,7 +53,7 @@ public class Loganalysis {
 					@SuppressWarnings("unchecked")
 					IAnalyzer<ILogFile> processor = (IAnalyzer<ILogFile>) element
 							.createExecutableExtension("class");
-					if (processor.isResponsible(fileDescriptor))
+					if (processor.canHandleLogFile(fileDescriptor))
 						return processor;
 				} catch (CoreException e) {
 					throw new FileProcessingException(e);

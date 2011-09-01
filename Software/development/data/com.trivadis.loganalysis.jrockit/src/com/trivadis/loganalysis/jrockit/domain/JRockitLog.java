@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.trivadis.loganalysis.core.domain.AbstractLogFile;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitExtractor;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitExtractor;
 
 public class JRockitLog extends AbstractLogFile {
 

@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.internal.analyzer;
+package com.trivadis.loganalysis.jrockit.internal.analyzer.memory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import com.trivadis.loganalysis.jrockit.domain.ValueType;
 import com.trivadis.loganalysis.jrockit.domain.Value;
 
 public class JRockitExtractor {
-	private final Pattern firstLine, heapInfoLine, infoGeneralLine, infoSpecificLine, infoPlainLine, dataLine;
+	private final Pattern heapInfoLine, infoGeneralLine, infoSpecificLine, infoPlainLine, dataLine;
 
 	private enum DataGroups {
 		LOG_LEVEL, MODULE, TYPE1, INDEX, START_TIME, END_TIME, TYPE2, MEMORY_AFTER, MEMORY_BEFORE, HEAP_SIZE_AFTER, TOTAL_COLLECTION_TIME, TOTAL_SUM_PAUSE, LONGEST_PAUSE;
@@ -25,10 +25,6 @@ public class JRockitExtractor {
 	/*
 	 * CHECKERS
 	 */
-	public boolean checkGcInfo(String line) {
-		return firstLine.matcher(line).matches();
-	}
-
 	public boolean checkHeapInfo(String line) {
 		return heapInfoLine.matcher(line).matches();
 	}
@@ -101,19 +97,11 @@ public class JRockitExtractor {
 	 * Instantiates all Patterns which are thread safe
 	 */
 	public JRockitExtractor() {
-		firstLine = Pattern.compile(infoLine());
 		heapInfoLine = Pattern.compile(heapInfo());
 		infoGeneralLine = Pattern.compile(patternInfoGeneral());
 		infoSpecificLine = Pattern.compile(patternInfoSpecific());
 		infoPlainLine = Pattern.compile(patternInfoPlain());
 		dataLine = Pattern.compile(patternData());
-	}
-
-	/*
-	 * Info line
-	 */
-	private String infoLine() {
-		return prefix() + ".*";
 	}
 
 	/*
