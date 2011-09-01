@@ -1,14 +1,15 @@
 package com.trivadis.loganalysis.core.common.progress;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
+
+import com.trivadis.loganalysis.core.common.Assert;
 
 public class Progress implements IProgress {
 	private IProgressMonitor monitor;
 
 	public Progress(IProgressMonitor monitor, String taskName) {
 		this.monitor = monitor;
-		Assert.isNotNull(this.monitor);
+		Assert.assertNotNull(this.monitor);
 		this.monitor.setTaskName(taskName);
 		this.monitor.beginTask(taskName, 100);
 	}

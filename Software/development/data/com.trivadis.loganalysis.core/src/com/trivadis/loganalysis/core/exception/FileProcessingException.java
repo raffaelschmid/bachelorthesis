@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.core;
+package com.trivadis.loganalysis.core.exception;
 
 import org.eclipse.core.runtime.CoreException;
 

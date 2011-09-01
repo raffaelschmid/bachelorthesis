@@ -3,12 +3,11 @@ package com.trivadis.loganalysis.core.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.Assert;
-
 import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.IFileImporter;
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
+import com.trivadis.loganalysis.core.common.Assert;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 
 /**
@@ -46,7 +45,7 @@ public class Context implements IContext {
 			selectedFiles.add(file);
 			notifyListeners();
 		}
-		Assert.isTrue(selectedFiles.contains(file));
+		Assert.assertTrue(selectedFiles.contains(file));
 	}
 
 	public void remove(ILogFileDescriptor file) {
@@ -54,7 +53,7 @@ public class Context implements IContext {
 			selectedFiles.remove(file);
 			notifyListeners();
 		}
-		Assert.isTrue(!selectedFiles.contains(file));
+		Assert.assertTrue(!selectedFiles.contains(file));
 	}
 
 	private void notifyListeners() {

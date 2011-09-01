@@ -11,12 +11,12 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.trivadis.loganalysis.core.FileProcessingException;
 import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.Progress;
 import com.trivadis.loganalysis.core.domain.ILogFile;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.exception.FileProcessingException;
 import com.trivadis.loganalysis.ui.EditorInput;
 import com.trivadis.loganalysis.ui.Messages;
 import com.trivadis.loganalysis.ui.ResultRunnableWithProgress;

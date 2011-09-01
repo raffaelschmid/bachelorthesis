@@ -3,9 +3,8 @@ package com.trivadis.loganalysis.core.domain;
 import java.io.File;
 import java.util.List;
 
-import org.eclipse.core.runtime.Assert;
-
 import com.trivadis.loganalysis.core.IContentReader;
+import com.trivadis.loganalysis.core.common.Assert;
 
 public class LogFileDescriptor implements ILogFileDescriptor {
 	private static final String ICON_PATH = "icons/document.gif";
@@ -96,7 +95,7 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 	}
 
 	public static ILogFileDescriptor fromFile(File file) {
-		Assert.isTrue(file.exists(),file.getAbsolutePath() + " does not exist");
+		Assert.assertTrue(file.exists(),file.getAbsolutePath() + " does not exist");
 		return new LogFileDescriptor(file.getParentFile().getAbsolutePath(), file.getName());
 	}
 

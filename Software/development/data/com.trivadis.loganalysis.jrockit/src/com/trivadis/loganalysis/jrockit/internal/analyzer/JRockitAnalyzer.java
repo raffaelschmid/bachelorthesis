@@ -7,21 +7,26 @@ import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.IProgress;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.jrockit.domain.LogModuleChain;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.domain.MemoryLogModule;
 
 public class JRockitAnalyzer implements IAnalyzer<JRockitLog> {
 
 	public static final String ANALYZER_EDITOR_ID = "com.trivadis.loganalysis.jrockit.ui.AnalysisEditor";
 	private final IContentReader contentReader;
 	private final JRockitExtractor extractor;
+	private LogModuleChain chain;
 
 	public JRockitAnalyzer() {
-		this(Loganalysis.contentReader(), new JRockitExtractor());
+		this(Loganalysis.contentReader(), new JRockitExtractor(), new LogModuleChain(new MemoryLogModule()));
 	}
 
-	public JRockitAnalyzer(IContentReader contentReader, JRockitExtractor jRockitExtractor) {
+	public JRockitAnalyzer(IContentReader contentReader, JRockitExtractor jRockitExtractor,
+			LogModuleChain chain) {
 		this.contentReader = contentReader;
 		this.extractor = jRockitExtractor;
+		this.chain = chain;
 	}
 
 	public boolean isResponsible(ILogFileDescriptor descriptor) {
@@ -32,17 +37,22 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitLog> {
 	public JRockitLog process(ILogFileDescriptor descriptor, IProgress progress) {
 		List<String> content = descriptor.getListContent(contentReader);
 		JRockitLog logFile = new JRockitLog(descriptor);
-		int numberOfLines = content.size();
-		for (int i = 0; i < numberOfLines; i++) {
-			if (i % 500 == 0 && i!=0)
-				progress.worked(i*100/numberOfLines);
-			String line = content.get(i);
-			if (extractor.checkDataLine(line)) {
-				logFile.addDataFromLine(line, extractor);
+		for (int i = 0; i < content.size(); i++) {
+			if (shouldReportProgress(i)) {
+				progress.worked(calculateProgress(content.size(), i));
 			}
+			chain.proceed(logFile, content.get(i));
 		}
 		progress.done();
 		return logFile;
+	}
+
+	private boolean shouldReportProgress(int i) {
+		return i % 500 == 0 && i != 0;
+	}
+
+	private int calculateProgress(int numberOfLines, int i) {
+		return i * 100 / numberOfLines;
 	}
 
 	public String getEditorId() {

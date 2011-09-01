@@ -1,12 +1,13 @@
 package com.trivadis.loganalysis.core;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
+import com.trivadis.loganalysis.core.common.Assert;
 import com.trivadis.loganalysis.core.domain.ILogFile;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.exception.FileProcessingException;
 import com.trivadis.loganalysis.core.internal.Context;
 
 /**
@@ -27,18 +28,18 @@ public class Loganalysis {
 
 	public static IFileImporter fileImporter() {
 		IFileImporter fileImporter = Holder.INSTANCE.fileImporter();
-		Assert.isNotNull(fileImporter);
+		Assert.assertNotNull(fileImporter);
 		return fileImporter;
 	}
 
 	public static IContext getContext() {
-		Assert.isNotNull(Holder.INSTANCE);
+		Assert.assertNotNull(Holder.INSTANCE);
 		return Holder.INSTANCE;
 	}
 
 	public static IContentReader contentReader() {
 		IContentReader contentReader = Holder.INSTANCE.contentReader();
-		Assert.isNotNull(contentReader);
+		Assert.assertNotNull(contentReader);
 		return contentReader;
 	}
 

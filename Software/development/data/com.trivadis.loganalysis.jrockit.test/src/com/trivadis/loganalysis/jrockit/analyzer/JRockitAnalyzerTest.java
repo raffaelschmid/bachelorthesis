@@ -37,6 +37,7 @@ public class JRockitAnalyzerTest {
 	public void test_process() {
 		JRockitLog logFile = analyzer.process(jrockitLog, new EmptyProgress());
 		assertNotNull(logFile);
+		assertTrue(logFile.getData().size()>0);
 	}
 
 	@Test

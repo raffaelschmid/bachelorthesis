@@ -2,10 +2,9 @@ package com.trivadis.loganalysis.core.internal;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.Assert;
-
 import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.IFileImporter;
+import com.trivadis.loganalysis.core.common.Assert;
 import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
 
 public class FileImporter implements IFileImporter {
@@ -13,7 +12,7 @@ public class FileImporter implements IFileImporter {
 	private final IContext context;
 
 	public FileImporter(IContext context) {
-		Assert.isNotNull(context);
+		Assert.assertNotNull(context);
 		this.context = context;
 	}
 
