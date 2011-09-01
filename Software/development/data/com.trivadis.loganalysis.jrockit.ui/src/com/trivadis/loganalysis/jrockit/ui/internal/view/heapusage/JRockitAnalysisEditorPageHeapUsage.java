@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui.internal.view;
+package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -7,10 +7,7 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.GridLayoutUtil;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.HeapUsageChartPanel;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.HeapUsageControlPanel;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.HeapUsageDataWrapper;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;
 import com.trivadis.loganalysis.ui.GridFormPage;
 import com.trivadis.loganalysis.ui.Messages;
 

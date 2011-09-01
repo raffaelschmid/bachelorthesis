@@ -7,6 +7,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.JRockitAnalysisEditorPageHeapUsage;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.JRockitAnalysisEditorPageSummary;
 import com.trivadis.loganalysis.ui.EditorInput;
 
 public class JRockitAnalysisEditor extends FormEditor {
@@ -18,8 +20,8 @@ public class JRockitAnalysisEditor extends FormEditor {
 
 	protected void addPages() {
 		try {
+			addPage(new JRockitAnalysisEditorPageSummary(this, this.logFile));
 			addPage(new JRockitAnalysisEditorPageHeapUsage(this, this.logFile));
-			addPage(new JRockitAnalysisEditorPageOverview(this));
 		} catch (PartInitException e) {
 		}
 	}
