@@ -1,35 +1,48 @@
 package com.trivadis.loganalysis.jrockit.ui.internal.view.summary;
 
 import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
+import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
 import static com.trivadis.loganalysis.jrockit.ui.internal.view.TableUtil.column;
 
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
+import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.OverviewAbstractTableModel;
 
 public class TableModelOverallStatistics extends OverviewAbstractTableModel {
-	private final JRockitJvmRun logFile;
+
+	@SuppressWarnings("unused")
+	private final JRockitJvmRun jvm;
 
 	public TableModelOverallStatistics(JRockitJvmRun logFile, final Table table) {
-		this.logFile = logFile;
+		this.jvm = logFile;
 		initialize(table);
 	}
 
 	@Override
 	protected void getData(final Table table) {
-		// foreach(logFile.getOverallStatistic(), new Closure<Measurment>() {
-		// public void call(Measurment in) {
-		// new TableItem(table, SWT.NONE).setText(stringArray(new Object[] {
-		// in.getName(),
-		// in.getValue() }));
-		// }
-		// });
+		List<Tuple> tuples = Arrays.asList(new Tuple[] {
+				new Tuple("Duration of the measurment", "-"),
+				new Tuple("Total bytes allocated", "-"), new Tuple("Number of gc events", "-"),
+				new Tuple("Average bytes allocated per gc", "-"),
+				new Tuple("Average ideal allocation rate", "-"), new Tuple("Residual bytes", "-"),
+				new Tuple("Time spent in gc", "-"), new Tuple("Percentage of time in gc", "-"),
+				new Tuple("Time spent in full gc", "-"),
+				new Tuple("Percentage of time in full gc", "-"),
+				new Tuple("Average allocation rate", "-") });
+		foreach(tuples, new Closure<Tuple>() {
+			public void call(Tuple in) {
+				new TableItem(table, SWT.NONE).setText(in.toArray());
+			}
+		});
 	}
 
 	@Override

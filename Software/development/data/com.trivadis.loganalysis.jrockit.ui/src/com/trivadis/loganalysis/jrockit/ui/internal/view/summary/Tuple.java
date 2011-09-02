@@ -1,8 +1,15 @@
 package com.trivadis.loganalysis.jrockit.ui.internal.view.summary;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tuple {
 
 	private final String first, second, third, fourth, fifth, sixth;
+
+	public Tuple(String first, String second) {
+		this(first, second, null, null, null, null);
+	}
 
 	public Tuple(String first, String second, String third, String fourth, String fifth,
 			String sixth) {
@@ -39,7 +46,20 @@ public class Tuple {
 	}
 
 	public String[] toArray() {
-		return new String[] { first, second, third, fourth, fifth, sixth };
+		List<String> retVal = new ArrayList<String>();
+		if (first != null)
+			retVal.add(first);
+		if (second != null)
+			retVal.add(second);
+		if (third != null)
+			retVal.add(third);
+		if (fourth != null)
+			retVal.add(fourth);
+		if (fifth != null)
+			retVal.add(fifth);
+		if (sixth != null)
+			retVal.add(sixth);
+		return retVal.toArray(new String[retVal.size()]);
 	}
 
 }
