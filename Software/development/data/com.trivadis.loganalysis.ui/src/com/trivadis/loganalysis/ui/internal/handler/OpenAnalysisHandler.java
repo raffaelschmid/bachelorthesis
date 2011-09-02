@@ -15,7 +15,7 @@ import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.Progress;
 import com.trivadis.loganalysis.core.domain.ILogFile;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.core.exception.FileProcessingException;
 import com.trivadis.loganalysis.ui.EditorInput;
 import com.trivadis.loganalysis.ui.Messages;
@@ -31,15 +31,15 @@ public class OpenAnalysisHandler extends AbstractHandler {
 		if (selection instanceof StructuredSelection) {
 			StructuredSelection sselection = (StructuredSelection) selection;
 			Object ofile = sselection.getFirstElement();
-			if (ofile instanceof ILogFileDescriptor) {
-				ILogFileDescriptor logFileDescriptor = (ILogFileDescriptor) ofile;
+			if (ofile instanceof IFileDescriptor) {
+				IFileDescriptor logFileDescriptor = (IFileDescriptor) ofile;
 				openAnalysis(event, logFileDescriptor);
 			}
 		}
 		return null;
 	}
 
-	private void openAnalysis(ExecutionEvent event, final ILogFileDescriptor logFileDescriptor) {
+	private void openAnalysis(ExecutionEvent event, final IFileDescriptor logFileDescriptor) {
 		try {
 			final IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
 			IAnalyzer<ILogFile> analyzer = Loganalysis.fileProcessor(logFileDescriptor);
@@ -53,7 +53,7 @@ public class OpenAnalysisHandler extends AbstractHandler {
 		}
 	}
 
-	private void showAnalysis(final ILogFileDescriptor logFileDescriptor,
+	private void showAnalysis(final IFileDescriptor logFileDescriptor,
 			final IWorkbenchPage page, final IAnalyzer<ILogFile> analyzer) {
 		try {
 			page.openEditor(

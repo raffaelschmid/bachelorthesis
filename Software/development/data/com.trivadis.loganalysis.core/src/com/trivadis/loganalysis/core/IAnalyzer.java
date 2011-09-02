@@ -1,10 +1,10 @@
 package com.trivadis.loganalysis.core;
 
 import com.trivadis.loganalysis.core.common.progress.IProgress;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 
 public interface IAnalyzer<T> {
-	boolean canHandleLogFile(ILogFileDescriptor descriptor);
-	T process(ILogFileDescriptor descriptor, IProgress progress);
+	boolean canHandleLogFile(IFileDescriptor descriptor);
+	T process(IFileDescriptor descriptor, IProgress progress);
 	String getEditorId();
 }

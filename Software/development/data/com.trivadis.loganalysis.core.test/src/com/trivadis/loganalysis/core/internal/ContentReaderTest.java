@@ -9,8 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.trivadis.loganalysis.core.IContentReader;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
-import com.trivadis.loganalysis.core.domain.LogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
+import com.trivadis.loganalysis.core.domain.FileDescriptor;
 
 public class ContentReaderTest {
 
@@ -18,12 +18,12 @@ public class ContentReaderTest {
 
 	private IContentReader contentReader;
 
-	private ILogFileDescriptor descriptor;
+	private IFileDescriptor descriptor;
 
 	@Before
 	public void before() {
 		contentReader = new ContentReader();
-		descriptor = LogFileDescriptor.fromFile(TEST_FILE_NAME);
+		descriptor = FileDescriptor.fromFile(TEST_FILE_NAME);
 	}
 
 	@Test

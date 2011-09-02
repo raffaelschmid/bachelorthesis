@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.trivadis.loganalysis.core.IContentReader;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 
-public class DummyDescriptor implements ILogFileDescriptor {
+public class DummyDescriptor implements IFileDescriptor {
 
 	private final List<String> logs;
 

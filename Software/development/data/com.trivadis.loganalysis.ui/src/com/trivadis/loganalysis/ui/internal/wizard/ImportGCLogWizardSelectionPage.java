@@ -24,8 +24,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
-import com.trivadis.loganalysis.core.domain.LogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
+import com.trivadis.loganalysis.core.domain.FileDescriptor;
 import com.trivadis.loganalysis.ui.Messages;
 import com.trivadis.loganalysis.ui.internal.Activator;
 
@@ -34,7 +34,7 @@ public class ImportGCLogWizardSelectionPage extends WizardPage implements
 
 	private static final Object[] EMPTY = new Object[] {};
 	private CheckboxTableViewer listViewer;
-	private final List<ILogFileDescriptor> files = new ArrayList<ILogFileDescriptor>();
+	private final List<IFileDescriptor> files = new ArrayList<IFileDescriptor>();
 
 	public ImportGCLogWizardSelectionPage() {
 		super(Messages.ImportGCLogWizardSelectionPage_0, Messages.ImportGCLogWizardSelectionPage_1,
@@ -149,14 +149,14 @@ public class ImportGCLogWizardSelectionPage extends WizardPage implements
 		if (event.getElement() instanceof File) {
 			File file = (File) event.getElement();
 			if (event.getChecked() && !getFiles().contains(file)) {
-				files.add(LogFileDescriptor.fromFile(file));
+				files.add(FileDescriptor.fromFile(file));
 			} else if (!event.getChecked() && getFiles().contains(file)) {
 				files.remove(file);
 			}
 		}
 	}
 
-	public List<ILogFileDescriptor> getFiles() {
+	public List<IFileDescriptor> getFiles() {
 		return files;
 	}
 

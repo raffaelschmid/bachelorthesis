@@ -2,17 +2,17 @@ package com.trivadis.loganalysis.core;
 
 import java.util.List;
 
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 
 public interface IContext {
 
 	IFileImporter fileImporter();
 
-	void add(ILogFileDescriptor file);
+	void add(IFileDescriptor file);
 
-	void remove(ILogFileDescriptor file);
+	void remove(IFileDescriptor file);
 
-	List<ILogFileDescriptor> getSelectedFiles();
+	List<IFileDescriptor> getSelectedFiles();
 
 	void addLogFilesChangeListener(SelectedFilesChangeListener listener);
 

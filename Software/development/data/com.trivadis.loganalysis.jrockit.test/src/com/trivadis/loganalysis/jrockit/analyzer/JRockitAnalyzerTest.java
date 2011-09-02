@@ -12,7 +12,7 @@ import org.junit.Test;
 import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.core.common.progress.EmptyProgress;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.IModuleProcessor;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
@@ -26,8 +26,8 @@ public class JRockitAnalyzerTest {
 		}
 	});
 
-	private ILogFileDescriptor jrockitLog = new DummyDescriptor(JROCKIT);
-	private ILogFileDescriptor hotSpotLog = new DummyDescriptor(HOT_SPOT);
+	private IFileDescriptor jrockitLog = new DummyDescriptor(JROCKIT);
+	private IFileDescriptor hotSpotLog = new DummyDescriptor(HOT_SPOT);
 
 	@Test
 	public void test_canHandleLogFile_jrockit() throws Exception {

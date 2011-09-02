@@ -24,8 +24,8 @@ import org.eclipse.ui.part.ViewPart;
 import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
-import com.trivadis.loganalysis.core.domain.LogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
+import com.trivadis.loganalysis.core.domain.FileDescriptor;
 import com.trivadis.loganalysis.ui.internal.Activator;
 import com.trivadis.loganalysis.ui.internal.Command;
 
@@ -127,7 +127,7 @@ public class LogFilesView extends ViewPart implements
 	public void saveState(IMemento memento) {
 		super.saveState(memento);
 		StringBuffer buf = new StringBuffer();
-		for (ILogFileDescriptor file : context.getSelectedFiles()) {
+		for (IFileDescriptor file : context.getSelectedFiles()) {
 			buf.append(file.getAbsolutePath() + File.pathSeparator);
 		}
 		memento.putString(STORAGE_KEY, buf.toString());
@@ -140,7 +140,7 @@ public class LogFilesView extends ViewPart implements
 			String value = memento.getString(STORAGE_KEY);
 			if (value != null) {
 				for (String filePath : value.split(File.pathSeparator)) {
-					context.add(LogFileDescriptor.fromFile(filePath));
+					context.add(FileDescriptor.fromFile(filePath));
 				}
 			}
 		}

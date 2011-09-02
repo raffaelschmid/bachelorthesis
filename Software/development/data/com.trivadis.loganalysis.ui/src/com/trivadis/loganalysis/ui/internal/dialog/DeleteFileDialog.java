@@ -12,14 +12,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.Messages;
 
 public class DeleteFileDialog extends MessageDialog {
 
 	private boolean deleteOnDisk;
 
-	public DeleteFileDialog(ILogFileDescriptor file, Shell shell) {
+	public DeleteFileDialog(IFileDescriptor file, Shell shell) {
 		super(shell, getTitle(file), null, getMessage(file), MessageDialog.QUESTION, new String[] {
 				IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL }, 0);
 		setShellStyle(getShellStyle() | SWT.SHEET);
@@ -42,11 +42,11 @@ public class DeleteFileDialog extends MessageDialog {
 		return composite;
 	}
 
-	private static String getMessage(ILogFileDescriptor file) {
+	private static String getMessage(IFileDescriptor file) {
 		return NLS.bind(Messages.DeleteFileDialog_1, file.getAbsolutePath());
 	}
 
-	private static String getTitle(ILogFileDescriptor file) {
+	private static String getTitle(IFileDescriptor file) {
 		return Messages.DeleteFileDialog_3;
 	}
 

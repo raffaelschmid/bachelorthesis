@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.trivadis.loganalysis.core.IContentReader;
 
-public interface ILogFileDescriptor {
+public interface IFileDescriptor {
 
 	String getPath();
 

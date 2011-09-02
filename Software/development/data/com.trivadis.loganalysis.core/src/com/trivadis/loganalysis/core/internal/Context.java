@@ -8,7 +8,7 @@ import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.IFileImporter;
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
 import com.trivadis.loganalysis.core.common.Assert;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 
 /**
  * TODO refactor into smaller units.
@@ -18,13 +18,13 @@ import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
  */
 public class Context implements IContext {
 	private final IFileImporter fileImporter;
-	private final List<ILogFileDescriptor> selectedFiles;
+	private final List<IFileDescriptor> selectedFiles;
 	private final List<SelectedFilesChangeListener> listeners = new ArrayList<SelectedFilesChangeListener>();
 	private IContentReader contentReader;
 
 	public Context() {
 		this.fileImporter = new FileImporter(this);
-		this.selectedFiles = new ArrayList<ILogFileDescriptor>();
+		this.selectedFiles = new ArrayList<IFileDescriptor>();
 		this.contentReader = new ContentReader();
 	}
 
@@ -32,7 +32,7 @@ public class Context implements IContext {
 		return fileImporter;
 	}
 
-	public List<ILogFileDescriptor> getSelectedFiles() {
+	public List<IFileDescriptor> getSelectedFiles() {
 		return selectedFiles;
 	}
 
@@ -40,7 +40,7 @@ public class Context implements IContext {
 		listeners.add(listener);
 	}
 
-	public void add(ILogFileDescriptor file) {
+	public void add(IFileDescriptor file) {
 		if (!selectedFiles.contains(file)) {
 			selectedFiles.add(file);
 			notifyListeners();
@@ -48,7 +48,7 @@ public class Context implements IContext {
 		Assert.assertTrue(selectedFiles.contains(file));
 	}
 
-	public void remove(ILogFileDescriptor file) {
+	public void remove(IFileDescriptor file) {
 		if (selectedFiles.contains(file)) {
 			selectedFiles.remove(file);
 			notifyListeners();

@@ -34,10 +34,8 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		 new TableModelHeapCapacity(logFile,table);
+		new TableModelHeapCapacity(logFile, table);
 	}
-
-	
 
 	private void gcActivitySummary(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite section = createGridSection(managedForm, "Garbage Collection Activity Summary",
@@ -46,6 +44,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		new TableModelActivity(logFile, table);
 	}
 
 	private void overallStatistics(IManagedForm managedForm, FormToolkit toolkit) {

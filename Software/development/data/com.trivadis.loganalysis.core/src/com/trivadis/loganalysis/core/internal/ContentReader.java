@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.trivadis.loganalysis.core.IContentReader;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 
 public class ContentReader implements IContentReader {
 
-	public List<String> contentAsList(ILogFileDescriptor logFileDescriptor) {
+	public List<String> contentAsList(IFileDescriptor logFileDescriptor) {
 		List<String> list = new ArrayList<String>();
 		File aFile = logFileDescriptor.toFile();
 		try {

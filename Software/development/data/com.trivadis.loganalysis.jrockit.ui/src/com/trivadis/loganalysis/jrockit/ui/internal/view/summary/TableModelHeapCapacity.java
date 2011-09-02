@@ -1,10 +1,13 @@
 package com.trivadis.loganalysis.jrockit.ui.internal.view.summary;
 
+import static com.trivadis.loganalysis.core.common.CollectionUtil.append;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.prepend;
+import static com.trivadis.loganalysis.core.common.CollectionUtil.stringList;
+import static com.trivadis.loganalysis.core.common.CollectionUtil.sum;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.toArray;
+import static com.trivadis.loganalysis.jrockit.ui.internal.view.TableUtil.column;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -16,58 +19,60 @@ import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
 import com.trivadis.loganalysis.jrockit.domain.Space;
 
-public class TableModelHeapCapacity {
-	public TableModelHeapCapacity(JRockitLog logFile, Table table) {
-		List<TableColumn> columns = new ArrayList<TableColumn>();
-		List<Space> spaces = logFile.getSpaces();
-		columns.add(column(table, ""));
-		for (Space space : spaces) {
-			columns.add(column(table, space.getName()));
-		}
+public class TableModelHeapCapacity extends OverviewAbstractTableModel {
+	private List<Space> spaces;
 
-		table.setRedraw(false);
-		new TableItem(table, SWT.NONE).setText(toArray(prepend("Initial Capacity",
-				collect(spaces, new Closure<Space, String>() {
-					public String call(Space in) {
-						return String.valueOf(in.getInitialCapacity());
-					}
-				}))));
-		new TableItem(table, SWT.NONE).setText(toArray(prepend("Final Capacity",
-				collect(spaces, new Closure<Space, String>() {
-					public String call(Space in) {
-						return String.valueOf(in.getFinalCapacity());
-					}
-				}))));
-		new TableItem(table, SWT.NONE).setText(toArray(prepend("Peak Capacity",
-				collect(spaces, new Closure<Space, String>() {
-					public String call(Space in) {
-						return String.valueOf(in.getPeakUsageCapacity());
-					}
-				}))));
-		new TableItem(table, SWT.NONE).setText(toArray(prepend("Average usage of capacity",
-				collect(spaces, new Closure<Space, String>() {
-					public String call(Space in) {
-						return String.valueOf(in.getAverageUsageCapacity());
-					}
-				}))));
-		
-		new TableItem(table, SWT.NONE).setText(toArray(prepend("Peak usage of capacity",
-				collect(spaces, new Closure<Space, String>() {
-					public String call(Space in) {
-						return String.valueOf(in.getAverageCapacity());
-					}
-				}))));
-		
-		table.setRedraw(true);
-		for (TableColumn column : columns) {
-			column.pack();
-		}
+	public TableModelHeapCapacity(JRockitLog logFile, final Table table) {
+		this.spaces = logFile.getSpaces();
+		initialize(table);
 	}
 
-	private TableColumn column(Table table, String string) {
-		TableColumn column = new TableColumn(table, SWT.NONE);
-		column.setText(string);
-		return column;
+	@Override
+	protected void getData(final Table table) {
+		line(table, this.spaces, "Initial capacity", new Closure<Space, Integer>() {
+			public Integer call(Space in) {
+				return in.getInitialCapacity();
+			}
+		});
+		line(table, this.spaces, "Final capacity", new Closure<Space, Integer>() {
+			public Integer call(Space in) {
+				return in.getFinalCapacity();
+			}
+		});
+
+		line(table, this.spaces, "Peak usage capacity", new Closure<Space, Integer>() {
+			public Integer call(Space in) {
+				return in.getPeakUsageCapacity();
+			}
+		});
+
+		line(table, this.spaces, "Average capacity", new Closure<Space, Integer>() {
+			public Integer call(Space in) {
+				return in.getAverageCapacity();
+			}
+		});
+		line(table, this.spaces, "Average usage capacity", new Closure<Space, Integer>() {
+			public Integer call(Space in) {
+				return in.getAverageUsageCapacity();
+			}
+		});
+	}
+
+	@Override
+	protected List<TableColumn> getColumns(final Table table) {
+		List<TableColumn> columns = prepend(column(table, ""),
+				append(collect(this.spaces, new Closure<Space, TableColumn>() {
+					public TableColumn call(Space in) {
+						return column(table, in.getName());
+					}
+				}), column(table, "total")));
+		return columns;
+	}
+
+	private void line(Table table, List<Space> spaces, String label, Closure<Space, Integer> closure) {
+		List<Integer> list = collect(spaces, closure);
+		new TableItem(table, SWT.NONE).setText(toArray(prepend(label,
+				stringList(append(list, (int) sum(list))))));
 	}
 
 }

@@ -2,10 +2,10 @@ package com.trivadis.loganalysis.core;
 
 import java.util.List;
 
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 
 public interface IContentReader {
 
-	List<String> contentAsList(ILogFileDescriptor file);
+	List<String> contentAsList(IFileDescriptor file);
 
 }

@@ -6,17 +6,16 @@ import java.util.List;
 import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.common.Assert;
 
-public class LogFileDescriptor implements ILogFileDescriptor {
-	private static final String ICON_PATH = "icons/document.gif";
+public class FileDescriptor implements IFileDescriptor {
 
 	private final String path, fileName;
 	private List<String> rawContent;
 
-	public LogFileDescriptor(String path, String fileName) {
+	public FileDescriptor(String path, String fileName) {
 		this(path, fileName, null);
 	}
 
-	public LogFileDescriptor(String path, String fileName, List<String> rawContent) {
+	public FileDescriptor(String path, String fileName, List<String> rawContent) {
 		this.path = path;
 		this.fileName = fileName;
 		this.rawContent = rawContent;
@@ -49,7 +48,7 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LogFileDescriptor other = (LogFileDescriptor) obj;
+		FileDescriptor other = (FileDescriptor) obj;
 		if (fileName == null) {
 			if (other.fileName != null)
 				return false;
@@ -86,20 +85,16 @@ public class LogFileDescriptor implements ILogFileDescriptor {
 		return fileName;
 	}
 
-	public String getIconPath() {
-		return ICON_PATH;
-	}
-
 	public File toFile() {
 		return new File(getAbsolutePath());
 	}
 
-	public static ILogFileDescriptor fromFile(File file) {
+	public static IFileDescriptor fromFile(File file) {
 		Assert.assertTrue(file.exists(),file.getAbsolutePath() + " does not exist");
-		return new LogFileDescriptor(file.getParentFile().getAbsolutePath(), file.getName());
+		return new FileDescriptor(file.getParentFile().getAbsolutePath(), file.getName());
 	}
 
-	public static ILogFileDescriptor fromFile(String filePath) {
+	public static IFileDescriptor fromFile(String filePath) {
 		return fromFile(new File(filePath));
 	}
 

@@ -7,7 +7,7 @@ import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.IProgress;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.MemoryLogModuleProcessor;
 
@@ -29,12 +29,12 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitLog> {
 		this.moduleProcessor = moduleProcessor;
 	}
 
-	public boolean canHandleLogFile(ILogFileDescriptor descriptor) {
+	public boolean canHandleLogFile(IFileDescriptor descriptor) {
 		List<String> logs = descriptor.getListContent(contentReader);
 		return firstLinePattern.matcher(logs.get(0)).matches();
 	}
 
-	public JRockitLog process(ILogFileDescriptor descriptor, IProgress progress) {
+	public JRockitLog process(IFileDescriptor descriptor, IProgress progress) {
 		List<String> content = descriptor.getListContent(contentReader);
 		JRockitLog logFile = new JRockitLog(descriptor);
 		progress.beginTask(content.size());

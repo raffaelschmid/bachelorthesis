@@ -5,7 +5,7 @@ import java.util.List;
 import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.IFileImporter;
 import com.trivadis.loganalysis.core.common.Assert;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 
 public class FileImporter implements IFileImporter {
 
@@ -16,13 +16,13 @@ public class FileImporter implements IFileImporter {
 		this.context = context;
 	}
 
-	public void importFiles(List<ILogFileDescriptor> files) {
-		for (ILogFileDescriptor file : files) {
+	public void importFiles(List<IFileDescriptor> files) {
+		for (IFileDescriptor file : files) {
 			importFile(file);
 		}
 	}
 
-	public void importFile(ILogFileDescriptor file) {
+	public void importFile(IFileDescriptor file) {
 		context.add(file);
 	}
 

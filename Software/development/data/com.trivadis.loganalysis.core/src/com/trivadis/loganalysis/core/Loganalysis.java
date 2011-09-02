@@ -6,7 +6,7 @@ import org.eclipse.core.runtime.Platform;
 
 import com.trivadis.loganalysis.core.common.Assert;
 import com.trivadis.loganalysis.core.domain.ILogFile;
-import com.trivadis.loganalysis.core.domain.ILogFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.core.exception.FileProcessingException;
 import com.trivadis.loganalysis.core.internal.Context;
 
@@ -43,7 +43,7 @@ public class Loganalysis {
 		return contentReader;
 	}
 
-	public static IAnalyzer<ILogFile> fileProcessor(ILogFileDescriptor fileDescriptor)
+	public static IAnalyzer<ILogFile> fileProcessor(IFileDescriptor fileDescriptor)
 			throws FileProcessingException {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID);
