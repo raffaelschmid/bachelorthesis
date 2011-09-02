@@ -114,7 +114,7 @@
                 <visibleWhen>
             <with variable="selection">
                 <iterate ifEmpty="false" operator="or">
-                    <instanceof value="com.trivadis.loganalysis.core.domain.ILogFileDescriptor"/>
+                    <instanceof value="com.trivadis.loganalysis.core.domain.IFileDescriptor"/>
                 </iterate>
             </with>
         </visibleWhen>

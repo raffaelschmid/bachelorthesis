@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.trivadis.loganalysis.jrockit.old.Value;
+import com.trivadis.loganalysis.jrockit.file.Value;
 
 public class JRockitExtractor {
 	private final Pattern heapInfoLine, infoGeneralLine, infoSpecificLine, infoPlainLine, dataLine;

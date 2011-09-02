@@ -16,64 +16,68 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import com.trivadis.loganalysis.core.common.ClosureIO;
-import com.trivadis.loganalysis.jrockit.file.JRockitLog;
-import com.trivadis.loganalysis.jrockit.old.HeapSpace;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.jrockit.domain.space.Space;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.OverviewAbstractTableModel;
 
 public class TableModelHeapCapacity extends OverviewAbstractTableModel {
-	private List<HeapSpace> spaces;
 
-	public TableModelHeapCapacity(JRockitLog logFile, final Table table) {
-		this.spaces = logFile.getSpaces();
+	private final JRockitJvmRun jvm;
+
+	public TableModelHeapCapacity(JRockitJvmRun jvm, final Table table) {
+		this.jvm = jvm;
 		initialize(table);
 	}
 
 	@Override
 	protected void getData(final Table table) {
-		line(table, this.spaces, "Initial capacity", new ClosureIO<HeapSpace, Integer>() {
-			public Integer call(HeapSpace in) {
-				return (int) in.getInitialCapacity().getValue();
+		line(table, jvm.getHeap().getSpaces(), "Initial capacity", new ClosureIO<Space, Double>() {
+			public Double call(Space in) {
+				return in.getInitialCapacity();
 			}
 		});
-		line(table, this.spaces, "Final capacity", new ClosureIO<HeapSpace, Integer>() {
-			public Integer call(HeapSpace in) {
-				return (int) in.getFinalCapacity().getValue();
-			}
-		});
-
-		line(table, this.spaces, "Peak usage capacity", new ClosureIO<HeapSpace, Integer>() {
-			public Integer call(HeapSpace in) {
-				return (int) in.getPeakUsageCapacity().getValue();
+		line(table, jvm.getHeap().getSpaces(), "Final capacity", new ClosureIO<Space, Double>() {
+			public Double call(Space in) {
+				return in.getFinalCapacity();
 			}
 		});
 
-		line(table, this.spaces, "Average capacity", new ClosureIO<HeapSpace, Integer>() {
-			public Integer call(HeapSpace in) {
-				return (int) in.getAverageCapacity().getValue();
+		line(table, jvm.getHeap().getSpaces(), "Peak usage capacity",
+				new ClosureIO<Space, Double>() {
+					public Double call(Space in) {
+						return in.getPeakUsageCapacity();
+					}
+				});
+
+		line(table, jvm.getHeap().getSpaces(), "Average capacity", new ClosureIO<Space, Double>() {
+			public Double call(Space in) {
+				return in.getAverageCapacity();
 			}
 		});
-		line(table, this.spaces, "Average usage capacity", new ClosureIO<HeapSpace, Integer>() {
-			public Integer call(HeapSpace in) {
-				return (int) in.getAverageUsageCapacity().getValue();
-			}
-		});
+		line(table, jvm.getHeap().getSpaces(), "Average usage capacity",
+				new ClosureIO<Space, Double>() {
+					public Double call(Space in) {
+						return in.getAverageUsageCapacity();
+					}
+				});
 	}
 
 	@Override
 	protected List<TableColumn> getColumns(final Table table) {
 		List<TableColumn> columns = prepend(column(table, ""),
-				append(collect(this.spaces, new ClosureIO<HeapSpace, TableColumn>() {
-					public TableColumn call(HeapSpace in) {
+				append(collect(jvm.getHeap().getSpaces(), new ClosureIO<Space, TableColumn>() {
+					public TableColumn call(Space in) {
 						return column(table, in.getName());
 					}
 				}), column(table, "total")));
 		return columns;
 	}
 
-	private void line(Table table, List<HeapSpace> spaces, String label, ClosureIO<HeapSpace, Integer> closure) {
-		List<Integer> list = collect(spaces, closure);
+	private void line(Table table, List<Space> spaces, String label,
+			ClosureIO<Space, Double> closure) {
+		List<Double> list = collect(spaces, closure);
 		new TableItem(table, SWT.NONE).setText(toArray(prepend(label,
-				stringList(append(list, (int) sum(list))))));
+				stringList(append(list, sum(list))))));
 	}
 
 }

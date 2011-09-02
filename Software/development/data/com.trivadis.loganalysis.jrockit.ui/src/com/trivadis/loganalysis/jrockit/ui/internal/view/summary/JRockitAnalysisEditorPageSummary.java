@@ -34,7 +34,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		//new TableModelHeapCapacity(logFile, table);
+		new TableModelHeapCapacity(logFile, table);
 	}
 
 	private void gcActivitySummary(IManagedForm managedForm, FormToolkit toolkit) {
@@ -44,7 +44,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		//new TableModelActivity(logFile, table);
+		new TableModelGcActivity(logFile, table);
 	}
 
 	private void overallStatistics(IManagedForm managedForm, FormToolkit toolkit) {
@@ -54,7 +54,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		//new TableModelOverallStatistics(logFile, table);
+		new TableModelOverallStatistics(logFile, table);
 	}
 
 }

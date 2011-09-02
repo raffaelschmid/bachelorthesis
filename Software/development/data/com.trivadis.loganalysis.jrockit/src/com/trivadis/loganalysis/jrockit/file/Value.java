@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.old;
+package com.trivadis.loganalysis.jrockit.file;
 
 public class Value {
 	private final String value;

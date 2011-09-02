@@ -9,8 +9,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.trivadis.loganalysis.jrockit.file.Value;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitExtractor.HeapInfoGroups;
-import com.trivadis.loganalysis.jrockit.old.Value;
 
 public class JRockitExtractorTest {
 

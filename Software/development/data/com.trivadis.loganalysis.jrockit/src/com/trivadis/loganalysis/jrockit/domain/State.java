@@ -1,5 +1,7 @@
 package com.trivadis.loganalysis.jrockit.domain;
 
+import com.trivadis.loganalysis.jrockit.domain.gc.Transition;
+
 public class State {
 
 	private final double timestamp;
@@ -17,6 +19,7 @@ public class State {
 
 	public State transitionStart(Transition transition) {
 		transitionStart = transition;
+		transition.startState(this);
 		return this;
 	}
 

@@ -19,9 +19,9 @@ public class DomainIntegrationTest {
 		Heap heap = jvm.getHeap();
 		assertEquals(3, heap.getSpaces().size());
 
-		AbstractGarbageCollection transition = new YoungCollection();
-		heap.addStates(new State(4.472).transitionStart(transition),
-				new State(4.575).transitionEnd(transition));
+		AbstractGarbageCollection transition = new YoungCollection(45);
+		heap.addStates(transition,new State(4.472),
+				new State(4.575));
 		List<State> states = heap.getStates();
 		assertEquals(2, states.size());
 	}

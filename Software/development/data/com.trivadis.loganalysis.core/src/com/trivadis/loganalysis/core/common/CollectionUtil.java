@@ -13,10 +13,23 @@ public class CollectionUtil {
 		return retVal;
 	}
 
+	public static double avg(List<Double> list) {
+		return sum(list) / list.size();
+	}
+
 	public static <I> void foreach(List<I> list, Closure<I> closure) {
 		for (I item : list) {
 			closure.call(item);
 		}
+	}
+
+	public static <T> List<T> findAll(List<T> list, Predicate<T> predicate) {
+		List<T> retVal = new ArrayList<T>();
+		for (T item : list) {
+			if (predicate.matches(item))
+				retVal.add(item);
+		}
+		return retVal;
 	}
 
 	public static <T> List<T> prepend(T value, List<T> list) {
@@ -37,9 +50,9 @@ public class CollectionUtil {
 		return values.toArray(new String[values.size()]);
 	}
 
-	public static List<String> stringList(List<Integer> list) {
-		return collect(list, new ClosureIO<Integer, String>() {
-			public String call(Integer in) {
+	public static <T> List<String> stringList(List<T> list) {
+		return collect(list, new ClosureIO<T, String>() {
+			public String call(T in) {
 				return String.valueOf(in);
 			}
 		});
