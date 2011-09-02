@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.core.common.Assert;
-import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 
 public class CompositeModuleProcessor implements IModuleProcessor {
 
@@ -16,7 +16,7 @@ public class CompositeModuleProcessor implements IModuleProcessor {
 		Assert.assertTrue(members.length>0);
 	}
 
-	public ModuleResult proceed(JRockitLog logFile, String line) {
+	public ModuleResult proceed(JRockitJvmRun logFile, String line) {
 		ModuleResult retVal = ModuleResult.RETURN;
 		for (IModuleProcessor handler : chain) {
 			retVal = handler.proceed(logFile, line);

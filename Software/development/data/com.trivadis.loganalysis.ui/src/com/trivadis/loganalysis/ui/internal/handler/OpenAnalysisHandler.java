@@ -14,7 +14,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.Progress;
-import com.trivadis.loganalysis.core.domain.ILogFile;
+import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.core.exception.FileProcessingException;
 import com.trivadis.loganalysis.ui.EditorInput;
@@ -42,7 +42,7 @@ public class OpenAnalysisHandler extends AbstractHandler {
 	private void openAnalysis(ExecutionEvent event, final IFileDescriptor logFileDescriptor) {
 		try {
 			final IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-			IAnalyzer<ILogFile> analyzer = Loganalysis.fileProcessor(logFileDescriptor);
+			IAnalyzer<IJvmRun> analyzer = Loganalysis.fileProcessor(logFileDescriptor);
 			if (analyzer != null) {
 				showAnalysis(logFileDescriptor, page, analyzer);
 			} else {
@@ -54,12 +54,12 @@ public class OpenAnalysisHandler extends AbstractHandler {
 	}
 
 	private void showAnalysis(final IFileDescriptor logFileDescriptor,
-			final IWorkbenchPage page, final IAnalyzer<ILogFile> analyzer) {
+			final IWorkbenchPage page, final IAnalyzer<IJvmRun> analyzer) {
 		try {
 			page.openEditor(
 					new EditorInput(Ui.getDefault().busyCursorWithResultWhile(
-							new ResultRunnableWithProgress<ILogFile>() {
-								public ILogFile result(IProgressMonitor monitor) {
+							new ResultRunnableWithProgress<IJvmRun>() {
+								public IJvmRun result(IProgressMonitor monitor) {
 									return analyzer.process(logFileDescriptor, new Progress(
 											monitor, Messages.OpenGcLoganalysis_progress_message));
 								}

@@ -8,21 +8,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 
 import com.trivadis.loganalysis.core.ModuleResult;
-import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.IModuleProcessor;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.CompositeModuleProcessor;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 
 public class CompositeModuleProcessorTest {
 	AtomicInteger i = new AtomicInteger(0);
 	private IModuleProcessor proceedModule = new IModuleProcessor() {
-		public ModuleResult proceed(JRockitLog logFile, String line) {
+		public ModuleResult proceed(JRockitJvmRun logFile, String line) {
 			i.incrementAndGet();
 			return ModuleResult.PROCEED;
 		}
 	};
 
 	private IModuleProcessor returnModule = new IModuleProcessor() {
-		public ModuleResult proceed(JRockitLog logFile, String line) {
+		public ModuleResult proceed(JRockitJvmRun logFile, String line) {
 			i.incrementAndGet();
 			return ModuleResult.RETURN;
 		}

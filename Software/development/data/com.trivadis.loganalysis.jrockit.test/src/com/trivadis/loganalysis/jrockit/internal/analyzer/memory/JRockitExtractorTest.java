@@ -5,15 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 
-import com.trivadis.loganalysis.jrockit.domain.JRockitLogData;
-import com.trivadis.loganalysis.jrockit.domain.Value;
-import com.trivadis.loganalysis.jrockit.domain.ValueType;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitExtractor.HeapInfoGroups;
+import com.trivadis.loganalysis.jrockit.old.Value;
 
 public class JRockitExtractorTest {
 
@@ -70,25 +67,25 @@ public class JRockitExtractorTest {
 		assertTrue(instance.checkDataLine(LOG[14]));
 		assertTrue(instance.checkDataLine(LOG[15]));
 		assertTrue(instance.checkDataLine(LOG[16]));
-		
+
 	}
 
 	@Test
 	public void test_extractDataLine() throws Exception {
 
-		List<JRockitLogData> data = instance.extractDataLine(LOG[15]);
-		assertEquals("INFO", data.get(0).get(ValueType.LOG_LEVEL).toString());
-		assertEquals("memory", data.get(0).get(ValueType.MODULE).toString());
-		assertEquals("YC", data.get(0).get(ValueType.TYPE).toString());
-		assertEquals("1.531", data.get(0).get(ValueType.TIME).toString());
-		assertEquals("1.532", data.get(1).get(ValueType.TIME).toString());
-		assertEquals("YC", data.get(1).get(ValueType.TYPE).toString());
-		assertEquals("156652", data.get(1).get(ValueType.MEMORY).toString());
-		assertEquals("156691", data.get(0).get(ValueType.MEMORY).toString());
-		assertEquals("233624", data.get(1).get(ValueType.HEAP_SIZE).toString());
-		assertEquals("0.001", data.get(1).get(ValueType.TOTAL_COLLECTION_TIME).toString());
-		assertEquals("0.564", data.get(1).get(ValueType.TOTAL_SUM_PAUSE).toString());
-		assertEquals("0.564", data.get(1).get(ValueType.LONGEST_PAUSE).toString());
+		Map<DataGroups, Value> data = instance.extractDataLine(LOG[15]);
+		assertEquals("INFO", data.get(DataGroups.LOG_LEVEL).toString());
+		assertEquals("memory", data.get(DataGroups.MODULE).toString());
+		assertEquals("YC", data.get(DataGroups.TYPE1).toString());
+		assertEquals("1.531", data.get(DataGroups.START_TIME).toString());
+		assertEquals("1.532", data.get(DataGroups.END_TIME).toString());
+		assertEquals("YC", data.get(DataGroups.TYPE2).toString());
+		assertEquals("156691", data.get(DataGroups.MEMORY_BEFORE).toString());
+		assertEquals("156652", data.get(DataGroups.MEMORY_AFTER).toString());
+		assertEquals("233624", data.get(DataGroups.HEAP_SIZE_AFTER).toString());
+		assertEquals("0.001", data.get(DataGroups.TOTAL_COLLECTION_TIME).toString());
+		assertEquals("0.564", data.get(DataGroups.TOTAL_SUM_PAUSE).toString());
+		assertEquals("0.564", data.get(DataGroups.LONGEST_PAUSE).toString());
 	}
 
 	//@formatter:off

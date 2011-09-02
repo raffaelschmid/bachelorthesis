@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.domain;
+package com.trivadis.loganalysis.jrockit.old;
 
 public class Value {
 	private final String value;
@@ -11,6 +11,10 @@ public class Value {
 	}
 	public Double toDouble(){
 		return Double.valueOf(value);
+	}
+
+	public long toLong() {
+		return Long.valueOf(value);
 	}
 
 }

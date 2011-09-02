@@ -1,7 +1,9 @@
-package com.trivadis.loganalysis.jrockit.domain;
+package com.trivadis.loganalysis.jrockit.file;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.trivadis.loganalysis.jrockit.old.Value;
 
 public class JRockitLogData {
 	

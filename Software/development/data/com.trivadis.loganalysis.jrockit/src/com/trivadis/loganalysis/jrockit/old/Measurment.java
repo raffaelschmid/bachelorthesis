@@ -1,10 +1,10 @@
-package com.trivadis.loganalysis.jrockit.domain;
+package com.trivadis.loganalysis.jrockit.old;
 
-public class SummaryItem {
+public class Measurment {
 	private final String name;
 	private final double value;
 
-	public SummaryItem(String name, double value) {
+	public Measurment(String name, double value) {
 		this.name = name;
 		this.value = value;
 	}

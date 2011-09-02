@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 import com.trivadis.loganalysis.core.common.Assert;
-import com.trivadis.loganalysis.core.domain.ILogFile;
+import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.core.exception.FileProcessingException;
 import com.trivadis.loganalysis.core.internal.Context;
@@ -43,7 +43,7 @@ public class Loganalysis {
 		return contentReader;
 	}
 
-	public static IAnalyzer<ILogFile> fileProcessor(IFileDescriptor fileDescriptor)
+	public static IAnalyzer<IJvmRun> fileProcessor(IFileDescriptor fileDescriptor)
 			throws FileProcessingException {
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(EXTENSION_POINT_ID);
@@ -51,7 +51,7 @@ public class Loganalysis {
 			if (ELEMENT_NAME.equals(element.getName())) {
 				try {
 					@SuppressWarnings("unchecked")
-					IAnalyzer<ILogFile> processor = (IAnalyzer<ILogFile>) element
+					IAnalyzer<IJvmRun> processor = (IAnalyzer<IJvmRun>) element
 							.createExecutableExtension("class");
 					if (processor.canHandleLogFile(fileDescriptor))
 						return processor;

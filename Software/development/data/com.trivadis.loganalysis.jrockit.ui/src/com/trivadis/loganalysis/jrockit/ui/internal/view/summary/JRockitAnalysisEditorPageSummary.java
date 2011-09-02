@@ -6,17 +6,17 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;
 import com.trivadis.loganalysis.ui.GridFormPage;
 
 public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 
-	private final JRockitLog logFile;
+	private final JRockitJvmRun logFile;
 
 	public static final String ID = JRockitAnalysisEditorPageSummary.class.getName();
 
-	public JRockitAnalysisEditorPageSummary(JRockitAnalysisEditor editor, JRockitLog logFile) {
+	public JRockitAnalysisEditorPageSummary(JRockitAnalysisEditor editor, JRockitJvmRun logFile) {
 		super(editor, ID, "Summary", 1, 1);
 		this.logFile = logFile;
 	}
@@ -34,7 +34,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		new TableModelHeapCapacity(logFile, table);
+		//new TableModelHeapCapacity(logFile, table);
 	}
 
 	private void gcActivitySummary(IManagedForm managedForm, FormToolkit toolkit) {
@@ -44,7 +44,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		new TableModelActivity(logFile, table);
+		//new TableModelActivity(logFile, table);
 	}
 
 	private void overallStatistics(IManagedForm managedForm, FormToolkit toolkit) {
@@ -54,6 +54,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		//new TableModelOverallStatistics(logFile, table);
 	}
 
 }

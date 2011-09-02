@@ -1,23 +1,17 @@
 package com.trivadis.loganalysis.jrockit.internal.analyzer.memory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.trivadis.loganalysis.jrockit.domain.JRockitLogData;
-import com.trivadis.loganalysis.jrockit.domain.ValueType;
-import com.trivadis.loganalysis.jrockit.domain.Value;
+import com.trivadis.loganalysis.jrockit.old.Value;
 
 public class JRockitExtractor {
 	private final Pattern heapInfoLine, infoGeneralLine, infoSpecificLine, infoPlainLine, dataLine;
 
-	private enum DataGroups {
-		LOG_LEVEL, MODULE, TYPE1, INDEX, START_TIME, END_TIME, TYPE2, MEMORY_AFTER, MEMORY_BEFORE, HEAP_SIZE_AFTER, TOTAL_COLLECTION_TIME, TOTAL_SUM_PAUSE, LONGEST_PAUSE;
-	}
 	public enum HeapInfoGroups {
 		LOG_LEVEL, MODULE,HEAP_SIZE, MAXIMAL_HEAP_SIZE, NURSERY_SIZE;
 	}
@@ -52,29 +46,8 @@ public class JRockitExtractor {
 		return extractGroups(HeapInfoGroups.values(), line, heapInfoLine);
 	}
 
-	public List<JRockitLogData> extractDataLine(String line) {
-		Map<DataGroups, Value> extraction = extractGroups(DataGroups.values(), line, dataLine);
-
-		JRockitLogData before = new JRockitLogData();
-		before.put(ValueType.LOG_LEVEL, extraction.get(DataGroups.LOG_LEVEL));
-		before.put(ValueType.MODULE, extraction.get(DataGroups.MODULE));
-		before.put(ValueType.TYPE, extraction.get(DataGroups.TYPE1));
-		before.put(ValueType.INDEX, extraction.get(DataGroups.INDEX));
-		before.put(ValueType.TIME, extraction.get(DataGroups.START_TIME));
-		before.put(ValueType.MEMORY, extraction.get(DataGroups.MEMORY_BEFORE));
-
-		JRockitLogData after = new JRockitLogData();
-		after.put(ValueType.LOG_LEVEL, extraction.get(DataGroups.LOG_LEVEL));
-		after.put(ValueType.MODULE, extraction.get(DataGroups.MODULE));
-		after.put(ValueType.TYPE, extraction.get(DataGroups.TYPE1));
-		after.put(ValueType.INDEX, extraction.get(DataGroups.INDEX));
-		after.put(ValueType.TIME, extraction.get(DataGroups.END_TIME));
-		after.put(ValueType.MEMORY, extraction.get(DataGroups.MEMORY_AFTER));
-		after.put(ValueType.HEAP_SIZE, extraction.get(DataGroups.HEAP_SIZE_AFTER));
-		after.put(ValueType.TOTAL_COLLECTION_TIME, extraction.get(DataGroups.TOTAL_COLLECTION_TIME));
-		after.put(ValueType.TOTAL_SUM_PAUSE, extraction.get(DataGroups.TOTAL_SUM_PAUSE));
-		after.put(ValueType.LONGEST_PAUSE, extraction.get(DataGroups.LONGEST_PAUSE));
-		return Arrays.asList(new JRockitLogData[] { before, after });
+	public Map<DataGroups, Value> extractDataLine(String line) {
+		return extractGroups(DataGroups.values(), line, dataLine);
 	}
 
 	private <T extends Enum<?>> Map<T, Value> extractGroups(T[] enums, String line, Pattern p) {

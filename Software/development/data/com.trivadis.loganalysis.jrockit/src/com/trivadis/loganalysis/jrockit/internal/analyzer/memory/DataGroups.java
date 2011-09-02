@@ -1,0 +1,5 @@
+package com.trivadis.loganalysis.jrockit.internal.analyzer.memory;
+
+enum DataGroups {
+	LOG_LEVEL, MODULE, TYPE1, INDEX, START_TIME, END_TIME, TYPE2, MEMORY_AFTER, MEMORY_BEFORE, HEAP_SIZE_AFTER, TOTAL_COLLECTION_TIME, TOTAL_SUM_PAUSE, LONGEST_PAUSE;
+}

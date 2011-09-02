@@ -6,22 +6,22 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 
-import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.JRockitAnalysisEditorPageHeapUsage;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.JRockitAnalysisEditorPageSummary;
 import com.trivadis.loganalysis.ui.EditorInput;
 
 public class JRockitAnalysisEditor extends FormEditor {
 	public static final String ID = JRockitAnalysisEditor.class.getName();
-	private JRockitLog logFile;
+	private JRockitJvmRun jvm;
 
 	public JRockitAnalysisEditor() {
 	}
 
 	protected void addPages() {
 		try {
-			addPage(new JRockitAnalysisEditorPageSummary(this, this.logFile));
-			addPage(new JRockitAnalysisEditorPageHeapUsage(this, this.logFile));
+			addPage(new JRockitAnalysisEditorPageSummary(this, this.jvm));
+			addPage(new JRockitAnalysisEditorPageHeapUsage(this, this.jvm));
 		} catch (PartInitException e) {
 		}
 	}
@@ -32,9 +32,9 @@ public class JRockitAnalysisEditor extends FormEditor {
 			throw new PartInitException(
 					"Invalid Input: Must be AnalysisEditorInput");
 		EditorInput input = (EditorInput) editorInput;
-		if(!(input.getLogFile() instanceof JRockitLog))
+		if(!(input.getLogFile() instanceof JRockitJvmRun))
 			throw new PartInitException("Invalid Log File Input");
-		this.logFile = (JRockitLog)input.getLogFile();
+		this.jvm = (JRockitJvmRun)input.getLogFile();
 		super.init(site, input);
 	}
 

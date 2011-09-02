@@ -13,14 +13,14 @@ import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.core.common.progress.EmptyProgress;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
-import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.IModuleProcessor;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
 
 public class JRockitAnalyzerTest {
 	private AtomicInteger count = new AtomicInteger();
-	private IAnalyzer<JRockitLog> analyzer = new JRockitAnalyzer(null, new IModuleProcessor() {
-		public ModuleResult proceed(JRockitLog logFile, String line) {
+	private IAnalyzer<JRockitJvmRun> analyzer = new JRockitAnalyzer(null, new IModuleProcessor() {
+		public ModuleResult proceed(JRockitJvmRun logFile, String line) {
 			count.incrementAndGet();
 			return ModuleResult.PROCEED;
 		}
@@ -51,7 +51,7 @@ public class JRockitAnalyzerTest {
 
 	@Test
 	public void test_process() {
-		JRockitLog logFile = analyzer.process(jrockitLog, new EmptyProgress());
+		JRockitJvmRun logFile = analyzer.process(jrockitLog, new EmptyProgress());
 		assertNotNull(logFile);
 		assertEquals(JROCKIT.length, count.get());
 	}

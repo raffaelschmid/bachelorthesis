@@ -7,19 +7,18 @@ import java.util.Map;
 
 import org.jfree.data.xy.XYSeries;
 
-import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
-import com.trivadis.loganalysis.jrockit.domain.JRockitLogData;
-import com.trivadis.loganalysis.jrockit.domain.Value;
-import com.trivadis.loganalysis.jrockit.domain.ValueType;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.jrockit.domain.State;
+import com.trivadis.loganalysis.jrockit.file.ValueType;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 
 public class HeapUsageDataWrapper {
-	private final JRockitLog logFile;
+	private final JRockitJvmRun jvm;
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	private Map<Axis, ValueType> axisSelection = new HashMap<Axis, ValueType>();
 
-	public HeapUsageDataWrapper(JRockitLog logFile) {
-		this.logFile = logFile;
+	public HeapUsageDataWrapper(JRockitJvmRun logFile) {
+		this.jvm = logFile;
 		axisSelection.put(Axis.X, ValueType.TIME);
 		axisSelection.put(Axis.Y, ValueType.MEMORY);
 	}
@@ -28,12 +27,9 @@ public class HeapUsageDataWrapper {
 		ValueType xAxis = getAxisSelection(Axis.X);
 		ValueType yAxis = getAxisSelection(Axis.Y);
 		final XYSeries series = new XYSeries(xAxis + "/" + yAxis);
-		if (logFile != null) {
-			for (JRockitLogData line : logFile.getData()) {
-				Value y = line.get(yAxis);
-				Value x = line.get(xAxis);
-				if (y != null && x != null)
-					series.add(x.toDouble(), y.toDouble());
+		if (jvm != null) {
+			for (State state : jvm.getHeap().getStates()) {
+				series.add(state.getTimestamp(), state.getMemoryUsed());
 			}
 		}
 		return series;

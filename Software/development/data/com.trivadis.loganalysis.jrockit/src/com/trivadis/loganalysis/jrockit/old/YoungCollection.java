@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.domain;
+package com.trivadis.loganalysis.jrockit.old;
 
 public class YoungCollection extends AbstractSpace {
 

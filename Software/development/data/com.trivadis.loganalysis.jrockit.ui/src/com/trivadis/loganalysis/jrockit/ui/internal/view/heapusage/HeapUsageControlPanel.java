@@ -12,7 +12,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import com.trivadis.loganalysis.jrockit.domain.ValueType;
+import com.trivadis.loganalysis.jrockit.file.ValueType;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 
 public class HeapUsageControlPanel extends Composite {

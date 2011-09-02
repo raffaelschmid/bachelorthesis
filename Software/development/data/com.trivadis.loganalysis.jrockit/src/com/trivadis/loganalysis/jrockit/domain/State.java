@@ -1,0 +1,45 @@
+package com.trivadis.loganalysis.jrockit.domain;
+
+public class State {
+
+	private final double timestamp;
+	private Transition transitionStart;
+	private Transition transitionEnd;
+	private long memoryUsed;
+
+	public State(double timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public double getTimestamp() {
+		return timestamp;
+	}
+
+	public State transitionStart(Transition transition) {
+		transitionStart = transition;
+		return this;
+	}
+
+	public State transitionEnd(Transition transition) {
+		transitionEnd = transition;
+		return this;
+	}
+
+	public State memoryUsed(long memoryUsed) {
+		this.memoryUsed = memoryUsed;
+		return this;
+	}
+
+	public Transition getTransitionStart() {
+		return transitionStart;
+	}
+
+	public Transition getTransitionEnd() {
+		return transitionEnd;
+	}
+
+	public long getMemoryUsed() {
+		return memoryUsed;
+	}
+
+}

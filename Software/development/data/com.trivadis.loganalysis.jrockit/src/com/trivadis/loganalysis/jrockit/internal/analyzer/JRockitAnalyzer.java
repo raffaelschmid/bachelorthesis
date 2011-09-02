@@ -8,10 +8,10 @@ import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.IProgress;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
-import com.trivadis.loganalysis.jrockit.domain.JRockitLog;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.MemoryLogModuleProcessor;
 
-public class JRockitAnalyzer implements IAnalyzer<JRockitLog> {
+public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 
 	private Pattern firstLinePattern = Pattern.compile("\\[" + "(.+)\\s" + "\\]\\[" + "(.+)\\s"
 			+ "\\]\\s.*");
@@ -34,9 +34,9 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitLog> {
 		return firstLinePattern.matcher(logs.get(0)).matches();
 	}
 
-	public JRockitLog process(IFileDescriptor descriptor, IProgress progress) {
+	public JRockitJvmRun process(IFileDescriptor descriptor, IProgress progress) {
 		List<String> content = descriptor.getListContent(contentReader);
-		JRockitLog logFile = new JRockitLog(descriptor);
+		JRockitJvmRun logFile = new JRockitJvmRun(descriptor);
 		progress.beginTask(content.size());
 		for (int i = 0; i < content.size(); i++) {
 			if (shouldReportProgress(i)) {

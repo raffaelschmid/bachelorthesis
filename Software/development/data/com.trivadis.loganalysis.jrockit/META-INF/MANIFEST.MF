@@ -6,4 +6,9 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: %Bundle-Vendor
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: com.trivadis.loganalysis.core;bundle-version="1.0.0";visibility:=reexport
-Export-Package: com.trivadis.loganalysis.jrockit.domain
+Export-Package: com.trivadis.loganalysis.jrockit.domain,
+ com.trivadis.loganalysis.jrockit.domain.gc,
+ com.trivadis.loganalysis.jrockit.domain.gc.phase,
+ com.trivadis.loganalysis.jrockit.domain.space,
+ com.trivadis.loganalysis.jrockit.file,
+ com.trivadis.loganalysis.jrockit.old

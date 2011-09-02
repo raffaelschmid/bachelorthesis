@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui.internal.view.summary;
+package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
 import java.util.List;
 
