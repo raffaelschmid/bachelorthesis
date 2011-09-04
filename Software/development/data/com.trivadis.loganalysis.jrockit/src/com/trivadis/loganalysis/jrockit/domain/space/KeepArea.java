@@ -8,7 +8,7 @@ public class KeepArea extends AbstractSpace {
 
 
 	public KeepArea(JRockitJvmRun jvm) {
-		super(jvm);
+		super("Keep Area", jvm);
 	}
 
 	public String getName() {

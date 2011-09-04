@@ -10,6 +10,8 @@ import com.trivadis.loganalysis.jrockit.domain.gc.GarbageCollection;
 
 public class GcActivityAggregation {
 
+	private static final String NAN = "NaN";
+
 	private final List<GarbageCollection> collections;
 
 	public GcActivityAggregation(List<GarbageCollection> collections) {
@@ -17,12 +19,12 @@ public class GcActivityAggregation {
 	}
 
 	public String getName() {
-		return collections.get(0).getName();
+		return hasCollections() ? collections.get(0).getName() : NAN;
 	}
 
 	public String getLastOccurence() {
-		return String.valueOf(collections.get(collections.size() - 1).getStartState()
-				.getTimestamp());
+		return String.valueOf(hasCollections() ? (collections.get(collections.size() - 1)
+				.getStartState().getTimestamp()) : "Nan");
 	}
 
 	public String getCount() {
@@ -30,7 +32,7 @@ public class GcActivityAggregation {
 	}
 
 	public String getAverageDuration() {
-		return String.valueOf(average(collections));
+		return hasCollections() ? String.valueOf(average(collections)) : NAN;
 	}
 
 	private double average(List<GarbageCollection> allOld) {
@@ -40,5 +42,13 @@ public class GcActivityAggregation {
 			}
 		}));
 		return oldDurationAvg;
+	}
+
+	private boolean hasCollections() {
+		return collections.size() > 0;
+	}
+
+	public String getAverageInterval() {
+		return NAN;
 	}
 }

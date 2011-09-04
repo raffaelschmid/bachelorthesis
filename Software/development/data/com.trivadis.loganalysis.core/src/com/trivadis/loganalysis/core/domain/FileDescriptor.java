@@ -27,7 +27,7 @@ public class FileDescriptor implements IFileDescriptor {
 	
 	@Override
 	public String toString() {
-		return getAbsolutePath();
+		return getFileName();
 	}
 
 	@Override

@@ -80,8 +80,8 @@ public class JRockitExtractorTest {
 		assertEquals("1.531", data.get(DataGroups.START_TIME).toString());
 		assertEquals("1.532", data.get(DataGroups.END_TIME).toString());
 		assertEquals("YC", data.get(DataGroups.TYPE2).toString());
-		assertEquals("156691", data.get(DataGroups.MEMORY_BEFORE).toString());
-		assertEquals("156652", data.get(DataGroups.MEMORY_AFTER).toString());
+		assertEquals("156652", data.get(DataGroups.MEMORY_BEFORE).toString());
+		assertEquals("156691", data.get(DataGroups.MEMORY_AFTER).toString());
 		assertEquals("233624", data.get(DataGroups.HEAP_SIZE_AFTER).toString());
 		assertEquals("0.001", data.get(DataGroups.TOTAL_COLLECTION_TIME).toString());
 		assertEquals("0.564", data.get(DataGroups.TOTAL_SUM_PAUSE).toString());

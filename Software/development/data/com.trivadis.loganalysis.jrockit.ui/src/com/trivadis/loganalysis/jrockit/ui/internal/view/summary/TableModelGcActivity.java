@@ -6,6 +6,7 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.prepend;
 import static com.trivadis.loganalysis.jrockit.ui.internal.view.TableUtil.column;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,26 +35,36 @@ public class TableModelGcActivity extends OverviewAbstractTableModel {
 	@Override
 	protected void getData(final Table table) {
 		List<GarbageCollection> list = jvm.getGarbageCollections();
-		GcActivityAggregation young = new GcActivityAggregation(findAll(list, new Predicate<GarbageCollection>() {
-			public boolean matches(GarbageCollection item) {
-				return (item instanceof YoungCollection);
-			}
-		}));
-		GcActivityAggregation old = new GcActivityAggregation(findAll(list, new Predicate<GarbageCollection>() {
+		List<GarbageCollection> youngCollections = findAll(list,
+				new Predicate<GarbageCollection>() {
+					public boolean matches(GarbageCollection item) {
+						return (item instanceof YoungCollection);
+					}
+				});
+		List<GarbageCollection> oldCollections = findAll(list, new Predicate<GarbageCollection>() {
 			public boolean matches(GarbageCollection item) {
 				return (item instanceof OldCollection);
 			}
-		}));
-		List<Tuple> aggregation = Arrays.asList(new Tuple[] {
-				new Tuple(young.getName(), young.getLastOccurence(), young.getCount(),
-						"avg intervals", young.getAverageDuration(), "df"),
-				new Tuple(old.getName(), old.getLastOccurence(), old.getCount(), "avg intervals",
-						old.getAverageDuration(), "") });
+		});
+
+		List<Tuple> aggregation = new ArrayList<Tuple>();
+		aggregate(youngCollections, aggregation);
+		aggregate(oldCollections, aggregation);
+
 		foreach(aggregation, new Closure<Tuple>() {
 			public void call(Tuple in) {
 				new TableItem(table, SWT.NONE).setText(in.toArray());
 			}
 		});
+	}
+
+	private void aggregate(List<GarbageCollection> youngCollections, List<Tuple> aggregation) {
+		if (youngCollections.size() > 0) {
+			GcActivityAggregation gcAggregation = new GcActivityAggregation(youngCollections);
+			aggregation.add(new Tuple(gcAggregation.getName(), gcAggregation.getLastOccurence(),
+					gcAggregation.getCount(), gcAggregation.getAverageInterval(), gcAggregation
+							.getAverageDuration(), "df"));
+		}
 	}
 
 	@Override

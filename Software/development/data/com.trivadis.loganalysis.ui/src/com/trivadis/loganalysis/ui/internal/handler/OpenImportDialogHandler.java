@@ -8,10 +8,8 @@ import com.trivadis.loganalysis.ui.internal.ImportWizard;
 import com.trivadis.loganalysis.ui.internal.wizard.ImportGCLogWizard;
 
 public class OpenImportDialogHandler extends AbstractHandler {
-
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ImportWizard.open(new ImportGCLogWizard());
 		return null;
 	}
-
 }

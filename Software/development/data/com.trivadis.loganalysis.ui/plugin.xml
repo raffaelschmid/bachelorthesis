@@ -110,7 +110,11 @@
       <menuContribution
             locationURI="popup:com.trivadis.loganalysis.ui.internal.view.logfiles.LogFilesView?after=additions">
          <command
-               commandId="com.trivadis.loganalysis.ui.deleteLogFile">
+               commandId="com.trivadis.loganalysis.ui.deleteLogFile"
+               disabledIcon="IMG_TOOL_DELETE_DISABLED"
+               icon="IMG_TOOL_DELETE"
+               label="Delete"
+               tooltip="Remove this log file from the view.">
                 <visibleWhen>
             <with variable="selection">
                 <iterate ifEmpty="false" operator="or">
@@ -118,6 +122,12 @@
                 </iterate>
             </with>
         </visibleWhen>
+         </command>
+         <command
+               commandId="org.eclipse.ui.file.import">
+         </command>
+         <command
+               commandId="org.eclipse.ui.file.export">
          </command>
       </menuContribution>
       <menuContribution

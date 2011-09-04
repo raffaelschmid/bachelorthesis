@@ -7,5 +7,17 @@ public interface Area {
 
 	JRockitJvmRun getJvm();
 
+	double getMaximumCapacity();
+
+	double getInitialCapacity();
+
+	double getAverageCapacity();
+
+	double getAverageUsageCapacity();
+
+	double getPeakUsageCapacity();
+
+	String getName();
+
 
 }

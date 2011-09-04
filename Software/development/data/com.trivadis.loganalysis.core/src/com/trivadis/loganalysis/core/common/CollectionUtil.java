@@ -13,7 +13,7 @@ public class CollectionUtil {
 		return retVal;
 	}
 
-	public static double avg(List<Double> list) {
+	public static double avg(List<? extends Number> list) {
 		return sum(list) / list.size();
 	}
 
@@ -67,11 +67,20 @@ public class CollectionUtil {
 		return list.toArray(new String[list.size()]);
 	}
 
-	public static <T extends Number> double sum(List<T> df) {
+	public static <T extends Number> double sum(List<T> list) {
 		double total = 0;
-		for (Number item : df) {
+		for (Number item : list) {
 			total += item.doubleValue();
 		}
 		return total;
+	}
+
+	public static <T extends Number> double max(List<T> list) {
+		double max = 0;
+		for (Number n : list) {
+			if (n.doubleValue() > max)
+				max = n.doubleValue();
+		}
+		return max;
 	}
 }

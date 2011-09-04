@@ -7,7 +7,7 @@ public class State {
 	private final double timestamp;
 	private Transition transitionStart;
 	private Transition transitionEnd;
-	private long memoryUsed;
+	private long memoryUsed, memoryCapacity;
 
 	public State(double timestamp) {
 		this.timestamp = timestamp;
@@ -43,6 +43,15 @@ public class State {
 
 	public long getMemoryUsed() {
 		return memoryUsed;
+	}
+
+	public State memoryCapacity(long memoryCapacity) {
+		this.memoryCapacity = memoryCapacity;
+		return this;
+	}
+
+	public long getMemoryCapacity() {
+		return memoryCapacity;
 	}
 
 }
