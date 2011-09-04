@@ -12,4 +12,5 @@ Export-Package: com.trivadis.loganalysis.core,
  com.trivadis.loganalysis.core.common,
  com.trivadis.loganalysis.core.common.progress,
  com.trivadis.loganalysis.core.domain,
+ com.trivadis.loganalysis.core.domain.unit,
  com.trivadis.loganalysis.core.exception

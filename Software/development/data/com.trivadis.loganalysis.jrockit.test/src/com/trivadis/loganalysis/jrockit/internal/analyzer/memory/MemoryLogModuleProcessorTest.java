@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.trivadis.loganalysis.core.ModuleResult;
+import com.trivadis.loganalysis.core.domain.unit.Size;
 import com.trivadis.loganalysis.jrockit.analyzer.DummyDescriptor;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.State;
@@ -22,9 +23,9 @@ public class MemoryLogModuleProcessorTest {
 		State beginCollection = jvm.getHeap().getStates().get(0);
 		State endCollection = jvm.getHeap().getStates().get(1);
 
-		assertEquals(156652.0, beginCollection.getMemoryUsed(), 0.0);
-		assertEquals(156691.0, endCollection.getMemoryUsed(), 0.0);
-		assertEquals(233624.0, endCollection.getMemoryCapacity(), 0.0);
+		assertEquals(new Size(156652), beginCollection.getMemoryUsed());
+		assertEquals(new Size(156691), endCollection.getMemoryUsed());
+		assertEquals(new Size(233624), endCollection.getMemoryCapacity());
 		assertEquals(ModuleResult.RETURN, chainResult);
 	}
 
@@ -34,9 +35,9 @@ public class MemoryLogModuleProcessorTest {
 		ModuleResult chainResult = instance.proceed(jvm, heapInfoLine);
 		assertEquals(ModuleResult.RETURN, chainResult);
 
-		assertEquals(1048576.0, jvm.getHeap().getMaximumCapacity(), 0.0);
-		assertEquals(65536.0, jvm.getHeap().getInitialCapacity(), 0.0);
-		assertEquals(20480.0, jvm.getHeap().getNursery().getInitialCapacity(), 0.0);
-		assertEquals(65536d - 20480d, jvm.getHeap().getTenured().getInitialCapacity(), 0.0);
+		assertEquals(new Size(1048576.0), jvm.getHeap().getMaximumCapacity());
+		assertEquals(new Size(65536.0), jvm.getHeap().getInitialCapacity());
+		assertEquals(new Size(20480.0), jvm.getHeap().getNursery().getInitialCapacity());
+		assertEquals(new Size(65536d - 20480d), jvm.getHeap().getTenured().getInitialCapacity());
 	}
 }

@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import com.trivadis.loganalysis.core.common.ClosureIO;
+import com.trivadis.loganalysis.core.domain.unit.Size;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.space.Area;
 import com.trivadis.loganalysis.jrockit.domain.space.Heap;
@@ -77,8 +78,8 @@ public class TableModelHeapCapacity extends OverviewAbstractTableModel {
 		new TableItem(table, SWT.NONE).setText(toArray(prepend(label, stringList(list))));
 	}
 
-	private String normalize(Double d) {
-		return (d != null && d != 0.0 && Double.NaN!=d) ? String.valueOf(d) : "-";
+	private String normalize(Size d) {
+		return (d != null && d.getByte() != 0.0) ? String.valueOf(d.getKiloByte()) + " (KB)" : "-";
 	}
 
 }

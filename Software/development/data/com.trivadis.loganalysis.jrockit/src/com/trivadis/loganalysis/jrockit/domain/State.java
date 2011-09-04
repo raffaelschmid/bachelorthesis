@@ -1,5 +1,6 @@
 package com.trivadis.loganalysis.jrockit.domain;
 
+import com.trivadis.loganalysis.core.domain.unit.Size;
 import com.trivadis.loganalysis.jrockit.domain.gc.Transition;
 
 public class State {
@@ -7,7 +8,7 @@ public class State {
 	private final double timestamp;
 	private Transition transitionStart;
 	private Transition transitionEnd;
-	private long memoryUsed, memoryCapacity;
+	private Size memoryUsed, memoryCapacity;
 
 	public State(double timestamp) {
 		this.timestamp = timestamp;
@@ -28,7 +29,7 @@ public class State {
 		return this;
 	}
 
-	public State memoryUsed(long memoryUsed) {
+	public State memoryUsed(Size memoryUsed) {
 		this.memoryUsed = memoryUsed;
 		return this;
 	}
@@ -41,16 +42,16 @@ public class State {
 		return transitionEnd;
 	}
 
-	public long getMemoryUsed() {
+	public Size getMemoryUsed() {
 		return memoryUsed;
 	}
 
-	public State memoryCapacity(long memoryCapacity) {
+	public State memoryCapacity(Size memoryCapacity) {
 		this.memoryCapacity = memoryCapacity;
 		return this;
 	}
 
-	public long getMemoryCapacity() {
+	public Size getMemoryCapacity() {
 		return memoryCapacity;
 	}
 

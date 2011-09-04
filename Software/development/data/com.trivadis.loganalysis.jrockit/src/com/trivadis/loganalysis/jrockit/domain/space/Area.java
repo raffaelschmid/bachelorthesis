@@ -1,5 +1,6 @@
 package com.trivadis.loganalysis.jrockit.domain.space;
 
+import com.trivadis.loganalysis.core.domain.unit.Size;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 
 
@@ -7,15 +8,15 @@ public interface Area {
 
 	JRockitJvmRun getJvm();
 
-	double getMaximumCapacity();
+	Size getMaximumCapacity();
 
-	double getInitialCapacity();
+	Size getInitialCapacity();
 
-	double getAverageCapacity();
+	Size getAverageCapacity();
 
-	double getAverageUsageCapacity();
+	Size getAverageUsageCapacity();
 
-	double getPeakUsageCapacity();
+	Size getPeakUsageCapacity();
 
 	String getName();
 

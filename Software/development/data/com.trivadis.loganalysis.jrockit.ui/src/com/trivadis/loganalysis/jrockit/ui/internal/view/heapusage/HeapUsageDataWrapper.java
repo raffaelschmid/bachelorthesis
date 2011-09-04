@@ -29,7 +29,7 @@ public class HeapUsageDataWrapper {
 		final XYSeries series = new XYSeries(xAxis + "/" + yAxis);
 		if (jvm != null) {
 			for (State state : jvm.getHeap().getStates()) {
-				series.add(state.getTimestamp(), state.getMemoryUsed());
+				series.add(state.getTimestamp(), state.getMemoryUsed().getKiloByte());
 			}
 		}
 		return series;
