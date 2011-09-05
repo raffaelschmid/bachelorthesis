@@ -3,7 +3,22 @@
 \subsection{Zweck}
 
 \section{Lizenzierung}
+Die Software wird lizenziert unter der Eclipse Public License\footnote{http://www.eclipse.org/legal/epl-v10.html} in der Version 1.0. Dies ist eine freie Software-Lizenz und gewährt das Recht zur freien Nutzung, Weiterverbreitung und Veränderung der Software. Die Benutzung einer Open-Source Lizenz hat insbesondere folgende Vorteile:
+\begin{itemize}
+	\item An der Entwicklung von Open-Source Software können sich eine beliebige Anzahl an Entwicklern beteiligen. Der Entwicklungsaufwand wird skaliert.
+	\item Jedermann kann Erweiterungen entwickeln oder Fehler beheben.
+\end{itemize}
 
+Bei der Wahl der Lizenz muss gleichzeitig in Betracht gezogen werden, dass die Lizenzen der verwendeten Bibliotheken ebenfalls eingehalten werden. Übersicht der verwendeten Bibliotheken:
+
+
+
+\begin{longtable}{|p{3cm}|p{7cm}|p{4cm}|}
+    \caption{Verwendete Bibliotheken und deren Lizenzen}\\\hline
+	\textbf{Bibliothek} & \textbf{Beschreibung}  & \textbf{Lizenz}\\\hline
+	Eclipse Framework & Framework zur Erstellung von Destkop-Anwendungen. & Eclipse Public License\\\hline 
+	JFreeChart & Wird für im Bereich des Reportings verwendet um Graphiken und Charts anzuzeigen. & Lesser General Public License\footnote{http://www.gnu.org/licenses/lgpl.html}\\\hline
+\end{longtable}
 
 \section{Ausgangslage}
 Der Abschnitt hier basiert auf dem vorangehenden Entscheid bei der Auswahl des Rich Client Frameworks. Aus den im Abschnitt \titleref{rcp_entscheid} beschriebenen und nachvollziehbaren Gründen wird zur Implementation des Garbage Collection Log Analyzers die Eclipse Rich Client Plattform in der Version 3.x\footnote{die aktuelle Version ist 3.7 (stand: 31.8.2011)} genommen. Die in der Anforderungsanalyse allgemein definierten Anforderungen werden nun spezifisch auf diese Plattform konzipiert, für die einzelnen Thematiken werden nun auch die Begrifflichkeiten innerhalb Eclipse verwendet.

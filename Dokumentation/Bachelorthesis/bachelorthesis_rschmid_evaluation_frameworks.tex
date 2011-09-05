@@ -1,0 +1,53 @@
+\chapter{Auswahl Frameworks und Komponenten}
+\section{Rich Client Frameworks}
+Die zu Implementierende Analysesoftware für Garbage Collection Log Dateien soll als einen Rich Client oder als Plugin für eine bestehende Entwicklungsumgebung implementiert werden. Die am meisten verbreiteten Plattformen dieser Art sind die Netbeans Plattform und Eclipse. Die Weiterentwicklung von Eclipse findet aktuell in zwei Entwicklungssträngen statt, während die Version 3.x (aktuell 3.7 Eclipse Indigo) eine weit verbreitete Plattform ist, soll die Version 4.x (aktuell 4.1) aber wegweisend sein und die Zukunft von Eclipse aufzeigen. Dahinter verstecken sich zwar ähnliche Konzepte, das Programmiermodell ist allerdings ziemlich stark überarbeitet und lehnt sich in einigen Bereichen auch an bereits vorhandene Java Standars\footnote{als Beispiel sei hier ``Dependency Injection for Java'' (JSR 330) genannt} an. Dieser Abschnitt zeigt eine Übersicht der verschiedenen Frameworks. Der Entscheid befindet sich dann auf Seite \pageref{rcp_entscheid} im Abschnitt  \titleref{rcp_entscheid}.
+
+\subsection{Übersicht}
+\subsubsection{Eclipse RCP}
+Bis zur Version 2.1 war Eclipse bekannt als eine Open Source Entwicklungsumgebung für Programmierer. Der Vorgänger hiess Visual Age vor Java und wurde von IBM entwickelt. 
+
+Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Nun handelt es sich um einen relativ kleinen Kern der Applikation, der die eigentliche Funktionalität der Applikation als Plugins lädt. Diese Funktionalität basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen sind in SWT implementiert. Eclipse ist für 14 verschiedene Systeme und Architekturen bereitgestellt und gilt somit als plattformunabhängig \cite{wiki:eclipse}. 
+
+Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins für die Entwicklungsumgebung entwickeln verwendet werden. Bei eigenen Desktop-Anwendungen spricht man auch von Eclipse-RCP\footnote{Rich Client Platform} Anwendungen.
+
+
+
+\subsubsection{Netbeans RCP}
+Wie bei Eclipse RCP handelt es sich bei Netbeans RCP ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Dem Entwickler wird ein API für typische Anforderungen in diesem Bereich zur Verfügung gestellt. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet.
+
+\subsection{Entscheidungskriterien}
+\begin{longtable}{|p{2.8cm}|p{0.7cm}|p{2.1cm}|p{0.7cm}|p{2.1cm}|p{0.7cm}|p{2.2cm}|p{0.7cm}|}
+    \caption{Entscheidungskriterien Rich Client Frameworks}\\\hline
+  & \textbf{Gw.\footnote{Gewichtung [1-5]}} & \textbf{Eclipse 3.x}& \textbf{Pkt.\footnote{Anzahl Punkte: Gewichtung x erziehlte Punkte}} & \textbf{Eclipse 4.x} &\textbf{Pkt.} & \textbf{Netbeans 3.x}& \textbf{Pkt.}\\\hline
+ \multicolumn{8}{|l|}{}\\  
+\multicolumn{8}{|l|}{\textbf{Architektur,}}\\
+  \multicolumn{8}{|l|}{\textbf{Komponenten}}\\\hline
+  Modularisierung &5 & OSGi (5) & 25 & OSGi (5) & 25 & OSGi / Netbeans Module System (5) & 25\\\hline
+  GUI\footnote{Graphical User Interface} &5 & SWT (4) & 20 & XWT / SWT (5) & 25 & Swing (4) & 20\\\hline
+  \multicolumn{8}{|l|}{}\\
+  \multicolumn{8}{|l|}{\textbf{Tooling}}\\\hline
+  Build Tool &3 & PDE, Maven Tycho (5) & 15 & PDE, Maven Tycho (5) & 15 & Ant, Maven (5) & 15\\\hline
+  Deployment & 3 & PDE, Maven Tycho (5) & 15 & PDE, Maven Tycho (5) & 15 & Ant, Maven (5)& 15\\\hline
+ CI\footnote{Continuous Integration} &2 & Maven\footnote{Maven Projekte lassen sich automatisch auch in CI-Server wie Hudson integrieren.} (5) & 10 &Maven (5) & 10& Ant\footnote{Ant-Projekte lassen sich ebenfalls gut in CI-Server integrieren.}, Maven & 10\\\hline 
+ \multicolumn{8}{|l|}{}\\
+\multicolumn{8}{|l|}{\textbf{Strategisch}}\\\hline
+  Ressourcen (Bücher, Tutorials, Foren, Internet) & 5 & viele (5) & 25 & sehr wenige (1) &5&mittel (3)&15 \\\hline
+  Reife & 5 & stark (5) & 25 & sehr gering (1) &5&mittel (3)&15 \\\hline
+  Verbreitung & 5 & stark (5) & 25 & sehr gering (1) &5&mittel (3)&15 \\\hline
+  Potential & 3 & mittel (3) & 9 & viel (4)  & 12 & viel (4)&12 \\\hline
+ \multicolumn{8}{|l|}{}\\
+\multicolumn{8}{|l|}{\textbf{Diverses}}\\\hline
+  Präferenzen, Erfahrung Entwickler & 5 & mittel (3) & 15 & wenig (2) &10&sehr wenig (1)&5 \\\hline
+ \multicolumn{8}{|l|}{}\\\hline 
+ \textbf{Total} & 4 & &\textbf{184}&&127& & 147 \\\hline
+\end{longtable}
+
+
+\subsection{Entscheid}\label{rcp_entscheid}
+Insbesondere aufgrund der Präferenzen des Entwicklers, der Verfügbarkeit an Ressourcen wie Bücher, Tutorials und Internet-Einträgen und des Reifegrades fiel der Entscheid auf Eclipse 3.x. 
+
+
+\section{Bibliothek zur Erstellung von Charts}
+
+
+
