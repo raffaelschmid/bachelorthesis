@@ -11,8 +11,11 @@ public class Tuple {
 		this(first, second, null, null, null, null);
 	}
 
-	public Tuple(String first, String second, String third, String fourth, String fifth,
-			String sixth) {
+	public Tuple(String first, String second, String third, String fourth, String fifth) {
+		this(first, second,third, fourth, fifth,null);
+	}
+
+	public Tuple(String first, String second, String third, String fourth, String fifth, String sixth) {
 		this.first = first;
 		this.second = second;
 		this.third = third;

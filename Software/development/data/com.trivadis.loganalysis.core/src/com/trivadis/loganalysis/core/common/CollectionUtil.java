@@ -14,7 +14,7 @@ public class CollectionUtil {
 	}
 
 	public static double avg(List<? extends Number> list) {
-		return sum(list) / list.size();
+		return list.size()>0?sum(list) / list.size():0;
 	}
 
 	public static <I> void foreach(List<I> list, Closure<I> closure) {

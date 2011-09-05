@@ -35,12 +35,11 @@ public class TableModelGcActivity extends OverviewAbstractTableModel {
 	@Override
 	protected void getData(final Table table) {
 		List<GarbageCollection> list = jvm.getGarbageCollections();
-		List<GarbageCollection> youngCollections = findAll(list,
-				new Predicate<GarbageCollection>() {
-					public boolean matches(GarbageCollection item) {
-						return (item instanceof YoungCollection);
-					}
-				});
+		List<GarbageCollection> youngCollections = findAll(list, new Predicate<GarbageCollection>() {
+			public boolean matches(GarbageCollection item) {
+				return (item instanceof YoungCollection);
+			}
+		});
 		List<GarbageCollection> oldCollections = findAll(list, new Predicate<GarbageCollection>() {
 			public boolean matches(GarbageCollection item) {
 				return (item instanceof OldCollection);
@@ -61,9 +60,8 @@ public class TableModelGcActivity extends OverviewAbstractTableModel {
 	private void aggregate(List<GarbageCollection> youngCollections, List<Tuple> aggregation) {
 		if (youngCollections.size() > 0) {
 			GcActivityAggregation gcAggregation = new GcActivityAggregation(youngCollections);
-			aggregation.add(new Tuple(gcAggregation.getName(), gcAggregation.getLastOccurence(),
-					gcAggregation.getCount(), gcAggregation.getAverageInterval(), gcAggregation
-							.getAverageDuration(), "df"));
+			aggregation.add(new Tuple(gcAggregation.getName(), gcAggregation.getLastOccurence(), gcAggregation
+					.getCount(), gcAggregation.getAverageInterval(), gcAggregation.getAverageDuration()));
 		}
 	}
 
@@ -71,8 +69,8 @@ public class TableModelGcActivity extends OverviewAbstractTableModel {
 	protected List<TableColumn> getColumns(final Table table) {
 		List<TableColumn> columns = prepend(
 				column(table, ""),
-				collect(Arrays.asList(new String[] { "Last occurence", "Count", "Average interval",
-						"Average Duration", "Average rate of collection" }),
+				collect(Arrays
+						.asList(new String[] { "Last occurence", "Count", "Average interval", "Average Duration" }),
 						new ClosureIO<String, TableColumn>() {
 							public TableColumn call(String in) {
 								return column(table, in);
