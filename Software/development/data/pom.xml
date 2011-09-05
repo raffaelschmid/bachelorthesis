@@ -30,6 +30,27 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.10.b1</version>
+				<configuration>
+					<header>src/etc/header.txt</header>
+					<includes>
+						<include>src/**</include>
+					</includes>
+					<excludes>
+						<exclude>target/**</exclude>
+                    	<exclude>.clover/**</exclude>
+						<exclude>**/*.xml</exclude>
+						<exclude>**/*.html</exclude>
+						<exclude>**/*.properties</exclude>
+					</excludes>
+					<properties>
+						<year>2011</year>
+					</properties>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.sonatype.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
 				<version>${tycho.version}</version>
@@ -73,4 +94,28 @@
 			<url>http://download.eclipse.org/releases/indigo</url>
 		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>mc-release</id>
+			<name>Local Maven repository of releases</name>
+			<url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+		<!-- <pluginRepository> -->
+		<!-- <id>mc-snapshot</id> -->
+		<!-- <name>Local Maven repository of releases</name> -->
+		<!-- <url>http://mc-repo.googlecode.com/svn/maven2/snapshots</url> -->
+		<!-- <snapshots> -->
+		<!-- <enabled>true</enabled> -->
+		<!-- </snapshots> -->
+		<!-- <releases> -->
+		<!-- <enabled>false</enabled> -->
+		<!-- </releases> -->
+		<!-- </pluginRepository> -->
+	</pluginRepositories>
 </project>
