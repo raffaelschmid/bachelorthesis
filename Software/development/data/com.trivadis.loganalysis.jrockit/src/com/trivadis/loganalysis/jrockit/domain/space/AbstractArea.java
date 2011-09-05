@@ -16,6 +16,7 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.findAll;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.max;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,14 +29,15 @@ import com.trivadis.loganalysis.jrockit.domain.gc.GarbageCollection;
 
 public class AbstractArea implements Area {
 
+	private static final BigDecimal ZERO = new BigDecimal(0);
 	private final List<State> states = new ArrayList<State>();
 	private State startState, endState, maximumState;
 	private final JRockitJvmRun jvm;
 	private final String name;
 
-	private Predicate<Double> notNull = new Predicate<Double>() {
-		public boolean matches(Double item) {
-			return item != null && 0 != item;
+	private Predicate<BigDecimal> notNull = new Predicate<BigDecimal>() {
+		public boolean matches(BigDecimal item) {
+			return item != null;
 		}
 	};
 
@@ -93,25 +95,25 @@ public class AbstractArea implements Area {
 	}
 
 	public Size getAverageCapacity() {
-		return new Size(avg(findAll(collect(getStates(), new ClosureIO<State, Double>() {
-			public Double call(State in) {
-				return (in.getMemoryCapacity() != null) ? in.getMemoryCapacity().getKiloByte() : 0;
+		return new Size(avg(findAll(collect(getStates(), new ClosureIO<State, BigDecimal>() {
+			public BigDecimal call(State in) {
+				return (in.getMemoryCapacity() != null) ? in.getMemoryCapacity().getKiloByte() : ZERO;
 			}
 		}), notNull)));
 	}
 
 	public Size getAverageUsageCapacity() {
-		return new Size(avg(findAll(collect(getStates(), new ClosureIO<State, Double>() {
-			public Double call(State in) {
-				return in.getMemoryUsed() != null ? in.getMemoryUsed().getKiloByte() : 0;
+		return new Size(avg(findAll(collect(getStates(), new ClosureIO<State, BigDecimal>() {
+			public BigDecimal call(State in) {
+				return in.getMemoryUsed() != null ? in.getMemoryUsed().getKiloByte() : ZERO;
 			}
 		}), notNull)));
 	}
 
 	public Size getPeakUsageCapacity() {
-		return new Size(max(findAll(collect(getStates(), new ClosureIO<State, Double>() {
-			public Double call(State in) {
-				return in.getMemoryUsed() != null ? in.getMemoryUsed().getKiloByte() : 0;
+		return new Size(max(findAll(collect(getStates(), new ClosureIO<State, BigDecimal>() {
+			public BigDecimal call(State in) {
+				return in.getMemoryUsed() != null ? in.getMemoryUsed().getKiloByte() : ZERO;
 			}
 		}), notNull)));
 	}

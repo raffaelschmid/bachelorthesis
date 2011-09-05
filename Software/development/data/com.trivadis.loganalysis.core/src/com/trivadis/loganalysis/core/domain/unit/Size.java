@@ -11,70 +11,70 @@
  */
 package com.trivadis.loganalysis.core.domain.unit;
 
+import java.math.BigDecimal;
+
 public class Size {
-	private static final int SHIFT = 1024;
+	private static final BigDecimal SHIFT = new BigDecimal(1024);
 
 	public enum SizeType {
 		BYTE {
 			@Override
-			Double toByte(double value) {
+			BigDecimal toByte(BigDecimal value) {
 				return value;
 			}
 		},
 		KILOBYTE {
 			@Override
-			Double toByte(double value) {
-				return value * SHIFT;
+			BigDecimal toByte(BigDecimal value) {
+				return value.multiply(SHIFT);
 			}
 		},
 		MEGABYTE {
 			@Override
-			Double toByte(double value) {
-				return value * SHIFT * SHIFT;
+			BigDecimal toByte(BigDecimal value) {
+				return KILOBYTE.toByte(value).multiply(SHIFT);
 			}
 		},
 		GIGABYTE {
 			@Override
-			Double toByte(double value) {
-				return value * SHIFT * SHIFT * SHIFT;
+			BigDecimal toByte(BigDecimal value) {
+				return MEGABYTE.toByte(value).multiply(SHIFT);
 			}
 		};
-		abstract Double toByte(double value);
+		abstract BigDecimal toByte(BigDecimal value);
 	}
 
-	private final double value;
+	private final BigDecimal value;
 
 	public Size(double value, SizeType type) {
-		this.value = type.toByte(value);
+		this.value = type.toByte(new BigDecimal(value));
 	}
 
 	public Size(double value) {
 		this(value, SizeType.KILOBYTE);
 	}
 
-	public Double getByte() {
+	public BigDecimal getByte() {
 		return value;
 	}
 
-	public Double getKiloByte() {
-		return value / SHIFT;
+	public BigDecimal getKiloByte() {
+		return getByte().divide(SHIFT);
 	}
 
-	public Double getMegaByte() {
-		return getKiloByte() / SHIFT;
+	public BigDecimal getMegaByte() {
+		return getKiloByte().divide(SHIFT);
 	}
 
-	public Double getGigaByte() {
-		return getMegaByte() / SHIFT;
+	public BigDecimal getGigaByte() {
+		return getMegaByte().divide(SHIFT);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(value);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
 
@@ -87,9 +87,13 @@ public class Size {
 		if (getClass() != obj.getClass())
 			return false;
 		Size other = (Size) obj;
-		if (Double.doubleToLongBits(value) != Double.doubleToLongBits(other.value))
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
 			return false;
 		return true;
 	}
+
 	
 }
