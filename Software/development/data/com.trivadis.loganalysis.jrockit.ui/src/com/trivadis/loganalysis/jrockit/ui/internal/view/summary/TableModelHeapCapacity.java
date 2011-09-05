@@ -80,7 +80,7 @@ public class TableModelHeapCapacity extends OverviewAbstractTableModel {
 	}
 
 	private String normalize(Size d) {
-		return (d != null && d.getByte() != 0.0) ? String.valueOf(d.getKiloByte()) + " (KB)" : UNDEFINED;
+		return (d != null && d.getByte() != 0.0) ? String.valueOf(d.getKiloByte()) + " KB" : UNDEFINED;
 	}
 
 }

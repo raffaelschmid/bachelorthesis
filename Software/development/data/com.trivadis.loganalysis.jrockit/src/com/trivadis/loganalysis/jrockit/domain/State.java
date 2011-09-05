@@ -1,20 +1,24 @@
 package com.trivadis.loganalysis.jrockit.domain;
 
 import com.trivadis.loganalysis.core.domain.unit.Size;
+import com.trivadis.loganalysis.core.domain.unit.Time;
 import com.trivadis.loganalysis.jrockit.domain.gc.Transition;
 
 public class State {
 
-	private final double timestamp;
+	private final Time timestamp;
 	private Transition transitionStart;
 	private Transition transitionEnd;
 	private Size memoryUsed, memoryCapacity;
 
-	public State(double timestamp) {
+	public State(double timeInSeconds){
+		this(new Time(timeInSeconds));
+	}
+	public State(Time timestamp) {
 		this.timestamp = timestamp;
 	}
 
-	public double getTimestamp() {
+	public Time getTimestamp() {
 		return timestamp;
 	}
 

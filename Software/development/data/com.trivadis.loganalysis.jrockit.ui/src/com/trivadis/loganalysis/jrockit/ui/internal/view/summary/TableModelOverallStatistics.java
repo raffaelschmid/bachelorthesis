@@ -14,12 +14,12 @@ import org.eclipse.swt.widgets.TableItem;
 
 import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.core.common.ClosureIO;
+import com.trivadis.loganalysis.core.domain.unit.Time;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.OverviewAbstractTableModel;
 
 public class TableModelOverallStatistics extends OverviewAbstractTableModel {
 
-	@SuppressWarnings("unused")
 	private final JRockitJvmRun jvm;
 
 	public TableModelOverallStatistics(JRockitJvmRun logFile, final Table table) {
@@ -29,15 +29,15 @@ public class TableModelOverallStatistics extends OverviewAbstractTableModel {
 
 	@Override
 	protected void getData(final Table table) {
+		Time timeSpentInGc = jvm.getTimeSpentInGc();
+		Time durationOfMeasurment = jvm.getDurationOfMeasurment();
 		List<Tuple> tuples = Arrays.asList(new Tuple[] {
-				new Tuple("Duration of the measurment", "-"),
-				new Tuple("Total bytes allocated", "-"), new Tuple("Number of gc events", "-"),
-				new Tuple("Average bytes allocated per gc", "-"),
-				new Tuple("Average ideal allocation rate", "-"), new Tuple("Residual bytes", "-"),
-				new Tuple("Time spent in gc", "-"), new Tuple("Percentage of time in gc", "-"),
-				new Tuple("Time spent in full gc", "-"),
-				new Tuple("Percentage of time in full gc", "-"),
-				new Tuple("Average allocation rate", "-") });
+				new Tuple("Duration of the measurment", durationOfMeasurment.toString()),
+				new Tuple("Number of gc events", String.valueOf(jvm.getNumberOfGcEvents())),
+				new Tuple("Time spent in gc", timeSpentInGc.toString()),
+				new Tuple("Percentage of time in gc", String.valueOf(jvm.getPercentageOfTimeInGc())),
+				new Tuple("Time spent in full gc", jvm.getTimeSpentInFullGc().toString()),
+				new Tuple("Percentage of time in full gc", String.valueOf(jvm.getPercentageOfTimeInFullGc())) });
 		foreach(tuples, new Closure<Tuple>() {
 			public void call(Tuple in) {
 				new TableItem(table, SWT.NONE).setText(in.toArray());

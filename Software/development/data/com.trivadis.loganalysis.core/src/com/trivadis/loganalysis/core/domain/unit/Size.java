@@ -6,29 +6,29 @@ public class Size {
 	public enum SizeType {
 		BYTE {
 			@Override
-			double toByte(double value) {
+			Double toByte(double value) {
 				return value;
 			}
 		},
 		KILOBYTE {
 			@Override
-			double toByte(double value) {
+			Double toByte(double value) {
 				return value * SHIFT;
 			}
 		},
 		MEGABYTE {
 			@Override
-			double toByte(double value) {
+			Double toByte(double value) {
 				return value * SHIFT * SHIFT;
 			}
 		},
 		GIGABYTE {
 			@Override
-			double toByte(double value) {
+			Double toByte(double value) {
 				return value * SHIFT * SHIFT * SHIFT;
 			}
 		};
-		abstract double toByte(double value);
+		abstract Double toByte(double value);
 	}
 
 	private final double value;
@@ -41,19 +41,19 @@ public class Size {
 		this(value, SizeType.KILOBYTE);
 	}
 
-	public double getByte() {
+	public Double getByte() {
 		return value;
 	}
 
-	public double getKiloByte() {
+	public Double getKiloByte() {
 		return value / SHIFT;
 	}
 
-	public double getMegaByte() {
+	public Double getMegaByte() {
 		return getKiloByte() / SHIFT;
 	}
 
-	public double getGigaByte() {
+	public Double getGigaByte() {
 		return getMegaByte() / SHIFT;
 	}
 	
