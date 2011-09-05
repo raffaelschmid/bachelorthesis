@@ -72,7 +72,6 @@ public class JRockitExtractorTest {
 
 	@Test
 	public void test_extractDataLine() throws Exception {
-
 		Map<DataGroups, Value> data = instance.extractDataLine(LOG[15]);
 		assertEquals("INFO", data.get(DataGroups.LOG_LEVEL).toString());
 		assertEquals("memory", data.get(DataGroups.MODULE).toString());
