@@ -11,14 +11,19 @@
  */
 package com.trivadis.loganalysis.core.domain.unit;
 
-public class Time {
-	private final Double seconds;
+import java.math.BigDecimal;
 
-	public Time(Double seconds) {
+public class Time {
+	private final BigDecimal seconds;
+
+	public Time(double seconds){
+		this(new BigDecimal(seconds));
+	}
+	public Time(BigDecimal seconds) {
 		this.seconds = seconds;
 	}
 
-	public Double getSeconds() {
+	public BigDecimal getSeconds() {
 		return seconds;
 	}
 

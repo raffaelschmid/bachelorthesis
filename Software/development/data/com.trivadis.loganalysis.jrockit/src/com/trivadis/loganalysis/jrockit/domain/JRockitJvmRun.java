@@ -15,6 +15,8 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.findAll;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.sum;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,26 +60,27 @@ public class JRockitJvmRun extends AbstractJvmRun {
 	}
 
 	public Time getTimeSpentInGc() {
-		return new Time(sum(collect(getGarbageCollections(), new ClosureIO<GarbageCollection, Double>() {
-			public Double call(GarbageCollection in) {
+		return new Time(sum(collect(getGarbageCollections(), new ClosureIO<GarbageCollection, BigDecimal>() {
+			public BigDecimal call(GarbageCollection in) {
 				return in.getDuration();
 			}
 		})));
 	}
 
-	public Double getPercentageOfTimeInGc() {
-		return getTimeSpentInGc().getSeconds() / getDurationOfMeasurment().getSeconds();
+	public BigDecimal getPercentageOfTimeInGc() {
+		return getTimeSpentInGc().getSeconds().divide(getDurationOfMeasurment().getSeconds(), RoundingMode.HALF_UP);
 	}
 
 	public Time getTimeSpentInFullGc() {
 		return new Time(getTimeSpent(getOldCollections()));
 	}
 
-	private Double getTimeSpent(List<GarbageCollection> list) {
-		return sum(collect(list, new ClosureIO<GarbageCollection, Double>(){
-			public Double call(GarbageCollection in) {
+	private BigDecimal getTimeSpent(List<GarbageCollection> list) {
+		return sum(collect(list, new ClosureIO<GarbageCollection, BigDecimal>() {
+			public BigDecimal call(GarbageCollection in) {
 				return in.getDuration();
-			}}));
+			}
+		}));
 	}
 
 	private List<GarbageCollection> getOldCollections() {
@@ -88,7 +91,7 @@ public class JRockitJvmRun extends AbstractJvmRun {
 		});
 	}
 
-	public Double getPercentageOfTimeInFullGc() {
-		return getTimeSpentInFullGc().getSeconds() / getTimeSpentInGc().getSeconds();
+	public BigDecimal getPercentageOfTimeInFullGc() {
+		return getTimeSpentInFullGc().getSeconds().divide(getTimeSpentInGc().getSeconds(), RoundingMode.HALF_UP);
 	}
 }

@@ -13,7 +13,9 @@ package com.trivadis.loganalysis.jrockit.ui.internal.view.summary;
 
 import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
-import static com.trivadis.loganalysis.jrockit.ui.internal.view.TableUtil.column;
+import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.percentage;
+import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.seconds;
+import static com.trivadis.loganalysis.jrockit.ui.internal.util.TableUtil.column;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,15 +42,14 @@ public class TableModelOverallStatistics extends OverviewAbstractTableModel {
 
 	@Override
 	protected void getData(final Table table) {
-		Time timeSpentInGc = jvm.getTimeSpentInGc();
 		Time durationOfMeasurment = jvm.getDurationOfMeasurment();
 		List<Tuple> tuples = Arrays.asList(new Tuple[] {
-				new Tuple("Duration of the measurment", durationOfMeasurment.toString()),
+				new Tuple("Duration of the measurment", seconds(durationOfMeasurment.getSeconds())),
 				new Tuple("Number of gc events", String.valueOf(jvm.getNumberOfGcEvents())),
-				new Tuple("Time spent in gc", timeSpentInGc.toString()),
-				new Tuple("Percentage of time in gc", String.valueOf(jvm.getPercentageOfTimeInGc())),
-				new Tuple("Time spent in full gc", jvm.getTimeSpentInFullGc().toString()),
-				new Tuple("Percentage of time in full gc", String.valueOf(jvm.getPercentageOfTimeInFullGc())) });
+				new Tuple("Time spent in gc", seconds(jvm.getTimeSpentInGc().getSeconds())),
+				new Tuple("Percentage of time in gc", percentage(jvm.getPercentageOfTimeInGc())),
+				new Tuple("Time spent in full gc", seconds(jvm.getTimeSpentInFullGc().getSeconds())),
+				new Tuple("Percentage of time in full gc", percentage(jvm.getPercentageOfTimeInFullGc())) });
 		foreach(tuples, new Closure<Tuple>() {
 			public void call(Tuple in) {
 				new TableItem(table, SWT.NONE).setText(in.toArray());

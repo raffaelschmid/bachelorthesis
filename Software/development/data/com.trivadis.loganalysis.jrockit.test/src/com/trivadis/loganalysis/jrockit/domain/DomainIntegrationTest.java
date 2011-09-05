@@ -13,6 +13,7 @@ package com.trivadis.loganalysis.jrockit.domain;
 
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
@@ -30,7 +31,7 @@ public class DomainIntegrationTest {
 		Heap heap = jvm.getHeap();
 		assertEquals(3, heap.getSpaces().size());
 
-		AbstractGarbageCollection transition = new YoungCollection(45);
+		AbstractGarbageCollection transition = new YoungCollection(BigDecimal.valueOf(45));
 		heap.addStates(transition,new State(4.472),
 				new State(4.575));
 		List<State> states = heap.getStates();

@@ -11,9 +11,11 @@
  */
 package com.trivadis.loganalysis.jrockit.domain.gc;
 
+import java.math.BigDecimal;
+
 public class OldCollection extends AbstractGarbageCollection {
 
-	public OldCollection(double duration) {
+	public OldCollection(BigDecimal duration) {
 		super("Old Collection",duration);
 	}
 

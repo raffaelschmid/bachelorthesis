@@ -25,8 +25,8 @@ import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 
 public class HeapUsageDataWrapper {
 	private final JRockitJvmRun jvm;
-	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-	private Map<Axis, ValueType> axisSelection = new HashMap<Axis, ValueType>();
+	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	private final Map<Axis, ValueType> axisSelection = new HashMap<Axis, ValueType>();
 
 	public HeapUsageDataWrapper(JRockitJvmRun logFile) {
 		this.jvm = logFile;
@@ -40,7 +40,7 @@ public class HeapUsageDataWrapper {
 		final XYSeries series = new XYSeries(xAxis + "/" + yAxis);
 		if (jvm != null) {
 			for (State state : jvm.getHeap().getStates()) {
-				series.add(state.getTimestamp().getSeconds(), state.getMemoryUsed().getKiloByte());
+				series.add(xAxis.data(state), yAxis.data(state));
 			}
 		}
 		return series;

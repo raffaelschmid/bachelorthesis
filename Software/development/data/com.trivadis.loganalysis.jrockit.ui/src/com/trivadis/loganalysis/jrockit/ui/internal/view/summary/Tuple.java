@@ -16,17 +16,17 @@ import java.util.List;
 
 public class Tuple {
 
-	private final String first, second, third, fourth, fifth, sixth;
+	private final Object first, second, third, fourth, fifth, sixth;
 
-	public Tuple(String first, String second) {
+	public Tuple(Object first, Object second) {
 		this(first, second, null, null, null, null);
 	}
 
-	public Tuple(String first, String second, String third, String fourth, String fifth) {
+	public Tuple(Object first, Object second, Object third, Object fourth, Object fifth) {
 		this(first, second,third, fourth, fifth,null);
 	}
 
-	public Tuple(String first, String second, String third, String fourth, String fifth, String sixth) {
+	public Tuple(Object first, Object second, Object third, Object fourth, Object fifth, Object sixth) {
 		this.first = first;
 		this.second = second;
 		this.third = third;
@@ -35,44 +35,44 @@ public class Tuple {
 		this.sixth = sixth;
 	}
 
-	public String getFirst() {
+	public Object getFirst() {
 		return first;
 	}
 
-	public String getSecond() {
+	public Object getSecond() {
 		return second;
 	}
 
-	public String getThird() {
+	public Object getThird() {
 		return third;
 	}
 
-	public String getFourth() {
+	public Object getFourth() {
 		return fourth;
 	}
 
-	public String getFifth() {
+	public Object getFifth() {
 		return fifth;
 	}
 
-	public String getSixth() {
+	public Object getSixth() {
 		return sixth;
 	}
 
 	public String[] toArray() {
 		List<String> retVal = new ArrayList<String>();
 		if (first != null)
-			retVal.add(first);
+			retVal.add(first.toString());
 		if (second != null)
-			retVal.add(second);
+			retVal.add(second.toString());
 		if (third != null)
-			retVal.add(third);
+			retVal.add(third.toString());
 		if (fourth != null)
-			retVal.add(fourth);
+			retVal.add(fourth.toString());
 		if (fifth != null)
-			retVal.add(fifth);
+			retVal.add(fifth.toString());
 		if (sixth != null)
-			retVal.add(sixth);
+			retVal.add(sixth.toString());
 		return retVal.toArray(new String[retVal.size()]);
 	}
 

@@ -11,8 +11,11 @@
  */
 package com.trivadis.loganalysis.core.common;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CollectionUtil {
@@ -24,8 +27,9 @@ public class CollectionUtil {
 		return retVal;
 	}
 
-	public static double avg(List<? extends Number> list) {
-		return list.size()>0?sum(list) / list.size():0;
+	public static BigDecimal avg(List<BigDecimal> list) {
+		return list.size() > 0 ? sum(list).setScale(10, RoundingMode.HALF_UP).divide(new BigDecimal(list.size()),
+				RoundingMode.HALF_UP) : BigDecimal.ZERO;
 	}
 
 	public static <I> void foreach(List<I> list, Closure<I> closure) {
@@ -78,20 +82,33 @@ public class CollectionUtil {
 		return list.toArray(new String[list.size()]);
 	}
 
-	public static <T extends Number> double sum(List<T> list) {
-		double total = 0;
-		for (Number item : list) {
-			total += item.doubleValue();
+	public static BigDecimal sum(List<BigDecimal> list) {
+		BigDecimal total = BigDecimal.ZERO;
+		for (BigDecimal item : list) {
+			total = total.add(item);
 		}
 		return total;
 	}
 
-	public static <T extends Number> double max(List<T> list) {
-		double max = 0;
-		for (Number n : list) {
-			if (n.doubleValue() > max)
-				max = n.doubleValue();
+	public static BigDecimal max(List<BigDecimal> list) {
+		BigDecimal max = BigDecimal.ZERO;
+		for (BigDecimal item : list) {
+			if (item.compareTo(max)>0)
+				max = item;
 		}
 		return max;
+	}
+
+	public static List<BigDecimal> intervals(List<BigDecimal> list) {
+		//list must be sorted for interval calculation
+		Collections.sort(list);
+		List<BigDecimal> retVal = new ArrayList<BigDecimal>();
+		BigDecimal before = list.get(0);
+		for(int i=1;i<list.size();i++){
+			BigDecimal current = list.get(i);
+			retVal.add(current.subtract(before));
+			before=current;
+		}
+		return retVal;
 	}
 }

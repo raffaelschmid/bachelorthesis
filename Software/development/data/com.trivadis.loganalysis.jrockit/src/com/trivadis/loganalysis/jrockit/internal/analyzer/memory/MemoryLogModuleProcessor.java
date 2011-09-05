@@ -33,12 +33,12 @@ public class MemoryLogModuleProcessor implements IModuleProcessor {
 		if (extractor.checkDataLine(line)) {
 			Map<DataGroups, Value> extraction = extractor.extractDataLine(line);
 			GarbageCollection transition = ("oc".equalsIgnoreCase(extraction.get(DataGroups.TYPE1).toString())) ? new OldCollection(
-					extraction.get(DataGroups.TOTAL_COLLECTION_TIME).toDouble()) : new YoungCollection(extraction.get(
-					DataGroups.TOTAL_COLLECTION_TIME).toDouble());
+					extraction.get(DataGroups.TOTAL_COLLECTION_TIME).toBigDecimal()) : new YoungCollection(extraction
+					.get(DataGroups.TOTAL_COLLECTION_TIME).toBigDecimal());
 
 			State startState = new State(extraction.get(DataGroups.START_TIME).toDouble()).memoryUsed(
-					new Size(extraction.get(DataGroups.MEMORY_BEFORE).toDouble())).transitionStart(transition);
-			State endState = new State(extraction.get(DataGroups.END_TIME).toDouble())
+					new Size(extraction.get(DataGroups.MEMORY_BEFORE).toBigDecimal())).transitionStart(transition);
+			State endState = new State(extraction.get(DataGroups.END_TIME).toBigDecimal())
 					.memoryUsed(new Size(extraction.get(DataGroups.MEMORY_AFTER).toDouble()))
 					.memoryCapacity(new Size(extraction.get(DataGroups.HEAP_SIZE_AFTER).toDouble()))
 					.transitionEnd(transition);

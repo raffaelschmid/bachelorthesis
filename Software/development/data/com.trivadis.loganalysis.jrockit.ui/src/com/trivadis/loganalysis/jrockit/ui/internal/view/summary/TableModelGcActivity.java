@@ -15,7 +15,8 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.findAll;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.prepend;
-import static com.trivadis.loganalysis.jrockit.ui.internal.view.TableUtil.column;
+import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.seconds;
+import static com.trivadis.loganalysis.jrockit.ui.internal.util.TableUtil.column;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,8 +72,9 @@ public class TableModelGcActivity extends OverviewAbstractTableModel {
 	private void aggregate(List<GarbageCollection> youngCollections, List<Tuple> aggregation) {
 		if (youngCollections.size() > 0) {
 			GcActivityAggregation gcAggregation = new GcActivityAggregation(youngCollections);
-			aggregation.add(new Tuple(gcAggregation.getName(), gcAggregation.getLastOccurence(), gcAggregation
-					.getCount(), gcAggregation.getAverageInterval(), gcAggregation.getAverageDuration()));
+			aggregation.add(new Tuple(gcAggregation.getName(), seconds(gcAggregation.getLastOccurence().getSeconds()),
+					gcAggregation.getCount(), seconds(gcAggregation.getAverageInterval().getSeconds()),
+					seconds(gcAggregation.getAverageDuration().getSeconds())));
 		}
 	}
 

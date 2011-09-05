@@ -11,6 +11,20 @@
  */
 package com.trivadis.loganalysis.jrockit.file;
 
+import java.math.BigDecimal;
+
+import com.trivadis.loganalysis.jrockit.domain.State;
+
 public enum ValueType {
-	LOG_LEVEL, MODULE, TYPE, INDEX, TIME, MEMORY, HEAP_SIZE, TOTAL_COLLECTION_TIME, TOTAL_SUM_PAUSE, LONGEST_PAUSE;
+	TIME {
+		public BigDecimal data(State state) {
+			return state.getTimestamp().getSeconds();
+		}
+	},
+	MEMORY {
+		public BigDecimal data(State state) {
+			return state.getMemoryUsed().getKiloByte();
+		};
+	};
+	public abstract BigDecimal data(State state);
 }

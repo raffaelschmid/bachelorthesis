@@ -16,7 +16,8 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.prepend;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.stringList;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.toArray;
-import static com.trivadis.loganalysis.jrockit.ui.internal.view.TableUtil.column;
+import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.size;
+import static com.trivadis.loganalysis.jrockit.ui.internal.util.TableUtil.column;
 
 import java.util.List;
 
@@ -26,7 +27,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import com.trivadis.loganalysis.core.common.ClosureIO;
-import com.trivadis.loganalysis.core.domain.unit.Size;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.space.Area;
 import com.trivadis.loganalysis.jrockit.domain.space.Heap;
@@ -34,7 +34,6 @@ import com.trivadis.loganalysis.jrockit.ui.internal.view.OverviewAbstractTableMo
 
 public class TableModelHeapCapacity extends OverviewAbstractTableModel {
 
-	private static final String UNDEFINED = "-";
 	private final JRockitJvmRun jvm;
 
 	public TableModelHeapCapacity(JRockitJvmRun jvm, final Table table) {
@@ -46,29 +45,29 @@ public class TableModelHeapCapacity extends OverviewAbstractTableModel {
 	protected void getData(final Table table) {
 		line(table, jvm.getHeap(), "Initial capacity", new ClosureIO<Area, String>() {
 			public String call(Area in) {
-				return normalize(in.getInitialCapacity());
+				return size(in.getInitialCapacity());
 			}
 		});
 		line(table, jvm.getHeap(), "Maximum capacity", new ClosureIO<Area, String>() {
 			public String call(Area in) {
-				return normalize(in.getMaximumCapacity());
+				return size(in.getMaximumCapacity());
 			}
 		});
 
 		line(table, jvm.getHeap(), "Peak usage capacity", new ClosureIO<Area, String>() {
 			public String call(Area in) {
-				return normalize(in.getPeakUsageCapacity());
+				return size(in.getPeakUsageCapacity());
 			}
 		});
 
 		line(table, jvm.getHeap(), "Average capacity", new ClosureIO<Area, String>() {
 			public String call(Area in) {
-				return normalize(in.getAverageCapacity());
+				return size(in.getAverageCapacity());
 			}
 		});
 		line(table, jvm.getHeap(), "Average usage capacity", new ClosureIO<Area, String>() {
 			public String call(Area in) {
-				return normalize(in.getAverageUsageCapacity());
+				return size(in.getAverageUsageCapacity());
 			}
 		});
 	}
@@ -88,11 +87,6 @@ public class TableModelHeapCapacity extends OverviewAbstractTableModel {
 		List<Area> spaces = heap.getSpacesAndHeap();
 		List<String> list = collect(spaces, closure);
 		new TableItem(table, SWT.NONE).setText(toArray(prepend(label, stringList(list))));
-	}
-
-	private String normalize(Size d) {
-		return (d != null && d.getByte() != null && d.getByte().doubleValue() != 0.0) ? String.valueOf(d.getKiloByte())
-				+ " KB" : UNDEFINED;
 	}
 
 }

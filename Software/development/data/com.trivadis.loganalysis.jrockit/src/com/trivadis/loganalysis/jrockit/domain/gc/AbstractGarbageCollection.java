@@ -11,6 +11,7 @@
  */
 package com.trivadis.loganalysis.jrockit.domain.gc;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +21,11 @@ import com.trivadis.loganalysis.jrockit.domain.gc.phase.Phase;
 public class AbstractGarbageCollection implements GarbageCollection {
 	private final List<Phase> phases = new ArrayList<Phase>();
 	private final String name;
-	private final double duration;
+	private final BigDecimal duration;
 	private State startState;
 	private State endState;
 
-	public AbstractGarbageCollection(String name, double duration) {
+	public AbstractGarbageCollection(String name, BigDecimal duration) {
 		this.name = name;
 		this.duration = duration;
 	}
@@ -37,7 +38,7 @@ public class AbstractGarbageCollection implements GarbageCollection {
 		return name;
 	}
 
-	public double getDuration() {
+	public BigDecimal getDuration() {
 		return duration;
 	}
 

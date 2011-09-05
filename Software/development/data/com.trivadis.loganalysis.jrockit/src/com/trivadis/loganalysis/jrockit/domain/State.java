@@ -11,6 +11,8 @@
  */
 package com.trivadis.loganalysis.jrockit.domain;
 
+import java.math.BigDecimal;
+
 import com.trivadis.loganalysis.core.domain.unit.Size;
 import com.trivadis.loganalysis.core.domain.unit.Time;
 import com.trivadis.loganalysis.jrockit.domain.gc.Transition;
@@ -22,6 +24,9 @@ public class State {
 	private Transition transitionEnd;
 	private Size memoryUsed, memoryCapacity;
 
+	public State(BigDecimal timeInSeconds){
+		this(new Time(timeInSeconds));
+	}
 	public State(double timeInSeconds){
 		this(new Time(timeInSeconds));
 	}

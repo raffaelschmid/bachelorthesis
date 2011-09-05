@@ -47,7 +47,15 @@ public class Size {
 	private final BigDecimal value;
 
 	public Size(double value, SizeType type) {
-		this.value = type.toByte(new BigDecimal(value));
+		this(new BigDecimal(value), type);
+	}
+
+	public Size(BigDecimal value, SizeType type) {
+		this.value = type.toByte(value);
+	}
+
+	public Size(BigDecimal value) {
+		this(value, SizeType.KILOBYTE);
 	}
 
 	public Size(double value) {
@@ -95,5 +103,4 @@ public class Size {
 		return true;
 	}
 
-	
 }

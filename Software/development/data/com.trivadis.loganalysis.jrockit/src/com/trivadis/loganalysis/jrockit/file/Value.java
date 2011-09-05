@@ -11,6 +11,8 @@
  */
 package com.trivadis.loganalysis.jrockit.file;
 
+import java.math.BigDecimal;
+
 public class Value {
 	private final String value;
 	public Value(String value) {
@@ -19,6 +21,9 @@ public class Value {
 	
 	public String toString(){
 		return value;
+	}
+	public BigDecimal toBigDecimal(){
+		return new BigDecimal(value);
 	}
 	public Double toDouble(){
 		return Double.valueOf(value);
