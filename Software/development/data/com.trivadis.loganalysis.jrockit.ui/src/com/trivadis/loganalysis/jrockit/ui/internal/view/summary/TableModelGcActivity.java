@@ -17,8 +17,8 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.prepend;
 import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.seconds;
 import static com.trivadis.loganalysis.jrockit.ui.internal.util.TableUtil.column;
+import static java.util.Arrays.asList;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,6 +39,17 @@ import com.trivadis.loganalysis.jrockit.ui.internal.view.OverviewAbstractTableMo
 public class TableModelGcActivity extends OverviewAbstractTableModel {
 	private final JRockitJvmRun jvm;
 
+	private final Predicate<List<GarbageCollection>> whereListIsNotEmpty = new Predicate<List<GarbageCollection>>() {
+		public boolean matches(List<GarbageCollection> item) {
+			return item.size() > 0;
+		}
+	};
+	private ClosureIO<List<GarbageCollection>, GcActivityAggregation> toAggregation = new ClosureIO<List<GarbageCollection>, GcActivityAggregation>() {
+		public GcActivityAggregation call(List<GarbageCollection> in) {
+			return new GcActivityAggregation(in);
+		}
+	};
+
 	public TableModelGcActivity(JRockitJvmRun logFile, final Table table) {
 		this.jvm = logFile;
 		initialize(table);
@@ -58,24 +69,18 @@ public class TableModelGcActivity extends OverviewAbstractTableModel {
 			}
 		});
 
-		List<Tuple> aggregation = new ArrayList<Tuple>();
-		aggregate(youngCollections, aggregation);
-		aggregate(oldCollections, aggregation);
+		@SuppressWarnings("unchecked")
+		List<GcActivityAggregation> aggregation = collect(
+				findAll(asList(youngCollections, oldCollections), whereListIsNotEmpty), toAggregation);
 
-		foreach(aggregation, new Closure<Tuple>() {
-			public void call(Tuple in) {
-				new TableItem(table, SWT.NONE).setText(in.toArray());
+		foreach(aggregation, new Closure<GcActivityAggregation>() {
+			public void call(GcActivityAggregation gcAggregation) {
+				new TableItem(table, SWT.NONE).setText(new String[] { gcAggregation.getName(),
+						seconds(gcAggregation.getLastOccurence().getSeconds()), gcAggregation.getCount().toString(),
+						seconds(gcAggregation.getAverageInterval().getSeconds()),
+						seconds(gcAggregation.getAverageDuration().getSeconds()) });
 			}
 		});
-	}
-
-	private void aggregate(List<GarbageCollection> youngCollections, List<Tuple> aggregation) {
-		if (youngCollections.size() > 0) {
-			GcActivityAggregation gcAggregation = new GcActivityAggregation(youngCollections);
-			aggregation.add(new Tuple(gcAggregation.getName(), seconds(gcAggregation.getLastOccurence().getSeconds()),
-					gcAggregation.getCount(), seconds(gcAggregation.getAverageInterval().getSeconds()),
-					seconds(gcAggregation.getAverageDuration().getSeconds())));
-		}
 	}
 
 	@Override

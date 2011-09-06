@@ -16,6 +16,7 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
 import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.percentage;
 import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.seconds;
 import static com.trivadis.loganalysis.jrockit.ui.internal.util.TableUtil.column;
+import static java.util.Arrays.asList;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,15 +44,19 @@ public class TableModelOverallStatistics extends OverviewAbstractTableModel {
 	@Override
 	protected void getData(final Table table) {
 		Time durationOfMeasurment = jvm.getDurationOfMeasurment();
-		List<Tuple> tuples = Arrays.asList(new Tuple[] {
-				new Tuple("Duration of the measurment", seconds(durationOfMeasurment.getSeconds())),
-				new Tuple("Number of gc events", String.valueOf(jvm.getNumberOfGcEvents())),
-				new Tuple("Time spent in gc", seconds(jvm.getTimeSpentInGc().getSeconds())),
-				new Tuple("Percentage of time in gc", percentage(jvm.getPercentageOfTimeInGc())),
-				new Tuple("Time spent in full gc", seconds(jvm.getTimeSpentInFullGc().getSeconds())),
-				new Tuple("Percentage of time in full gc", percentage(jvm.getPercentageOfTimeInFullGc())) });
-		foreach(tuples, new Closure<Tuple>() {
-			public void call(Tuple in) {
+
+		@SuppressWarnings("unchecked")
+		List<Tuple<String, String>> tuples = asList(new Tuple<String, String>("Duration of the measurment",
+				seconds(durationOfMeasurment.getSeconds())),
+				new Tuple<String, String>("Number of gc events", String.valueOf(jvm.getNumberOfGcEvents())),
+				new Tuple<String, String>("Time spent in gc", seconds(jvm.getTimeSpentInGc().getSeconds())),
+				new Tuple<String, String>("Percentage of time in gc", percentage(jvm.getPercentageOfTimeInGc())),
+				new Tuple<String, String>("Time spent in full gc", seconds(jvm.getTimeSpentInFullGc().getSeconds())),
+				new Tuple<String, String>("Percentage of time in full gc",
+						percentage(jvm.getPercentageOfTimeInFullGc())));
+
+		foreach(tuples, new Closure<Tuple<String, String>>() {
+			public void call(Tuple<String, String> in) {
 				new TableItem(table, SWT.NONE).setText(in.toArray());
 			}
 		});

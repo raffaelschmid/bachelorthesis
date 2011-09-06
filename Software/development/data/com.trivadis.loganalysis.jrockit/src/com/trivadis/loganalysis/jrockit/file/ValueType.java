@@ -14,6 +14,8 @@ package com.trivadis.loganalysis.jrockit.file;
 import java.math.BigDecimal;
 
 import com.trivadis.loganalysis.jrockit.domain.State;
+import com.trivadis.loganalysis.jrockit.domain.gc.GarbageCollection;
+import com.trivadis.loganalysis.jrockit.domain.gc.Transition;
 
 public enum ValueType {
 	TIME {
@@ -25,6 +27,18 @@ public enum ValueType {
 		public BigDecimal data(State state) {
 			return state.getMemoryUsed().getKiloByte();
 		};
+	},
+	DURATION {
+		@Override
+		public BigDecimal data(State state) {
+			GarbageCollection gc = getGarbageCollection(state.getTransitionEnd());
+			return gc != null ? gc.getDuration() : null;
+		}
+
 	};
 	public abstract BigDecimal data(State state);
+
+	protected GarbageCollection getGarbageCollection(Transition gc) {
+		return (gc != null && gc instanceof GarbageCollection) ? ((GarbageCollection) gc) : null;
+	}
 }

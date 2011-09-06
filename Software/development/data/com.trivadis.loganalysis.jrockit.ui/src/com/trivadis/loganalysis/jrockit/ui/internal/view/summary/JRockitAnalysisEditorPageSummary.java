@@ -18,6 +18,7 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.jrockit.ui.Messages;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;
 import com.trivadis.loganalysis.ui.GridFormPage;
 
@@ -28,7 +29,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 	public static final String ID = JRockitAnalysisEditorPageSummary.class.getName();
 
 	public JRockitAnalysisEditorPageSummary(JRockitAnalysisEditor editor, JRockitJvmRun logFile) {
-		super(editor, ID, "Summary", 1, 1);
+		super(editor, ID, Messages.JRockitAnalysisEditorPageSummary_0, 1, 1);
 		this.logFile = logFile;
 	}
 
@@ -40,7 +41,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 	}
 
 	private void heapCapacitySection(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite section = createGridSection(managedForm, "Heap Capacity", "", 1);
+		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_1, Messages.JRockitAnalysisEditorPageSummary_2, 1);
 		Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
@@ -49,8 +50,8 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 	}
 
 	private void gcActivitySummary(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite section = createGridSection(managedForm, "Garbage Collection Activity Summary",
-				"This section shows the summary of the garbage collection activity.", 1);
+		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_3,
+				Messages.JRockitAnalysisEditorPageSummary_4, 1);
 		Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
@@ -59,7 +60,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 	}
 
 	private void overallStatistics(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite section = createGridSection(managedForm, "Overall Statistics", "", 1);
+		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_5, Messages.JRockitAnalysisEditorPageSummary_6, 1);
 
 		Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);

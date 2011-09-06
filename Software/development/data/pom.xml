@@ -40,15 +40,23 @@
 					</includes>
 					<excludes>
 						<exclude>target/**</exclude>
-                    	<exclude>.clover/**</exclude>
+						<exclude>.clover/**</exclude>
 						<exclude>**/*.xml</exclude>
 						<exclude>**/*.html</exclude>
 						<exclude>**/*.properties</exclude>
 					</excludes>
+					<strictCheck>true</strictCheck>
 					<properties>
 						<year>2011</year>
 					</properties>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.sonatype.tycho</groupId>

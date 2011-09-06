@@ -9,10 +9,11 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
+package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,17 +22,18 @@ import org.jfree.data.xy.XYSeries;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.State;
 import com.trivadis.loganalysis.jrockit.file.ValueType;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 
-public class HeapUsageDataWrapper {
+public class DataWrapper {
 	private final JRockitJvmRun jvm;
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	private final Map<Axis, ValueType> axisSelection = new HashMap<Axis, ValueType>();
 
-	public HeapUsageDataWrapper(JRockitJvmRun logFile) {
-		this.jvm = logFile;
-		axisSelection.put(Axis.X, ValueType.TIME);
-		axisSelection.put(Axis.Y, ValueType.MEMORY);
+	public DataWrapper(JRockitJvmRun jvm) {
+		this.jvm = jvm;
+	}
+
+	public ValueType addAxisSelection(Axis axis, ValueType type) {
+		return axisSelection.put(axis, type);
 	}
 
 	public XYSeries getDataset() {
@@ -40,7 +42,10 @@ public class HeapUsageDataWrapper {
 		final XYSeries series = new XYSeries(xAxis + "/" + yAxis);
 		if (jvm != null) {
 			for (State state : jvm.getHeap().getStates()) {
-				series.add(xAxis.data(state), yAxis.data(state));
+				BigDecimal x = xAxis.data(state);
+				BigDecimal y = yAxis.data(state);
+				if (x != null && y != null)
+					series.add(x, y);
 			}
 		}
 		return series;
@@ -58,5 +63,11 @@ public class HeapUsageDataWrapper {
 		ValueType oldValue = axisSelection.get(axis);
 		axisSelection.put(axis, selection);
 		this.propertyChangeSupport.firePropertyChange(axis.toString(), oldValue, selection);
+	}
+
+	public void addPropertyChangeListeners(PropertyChangeListener listener, Axis... axes) {
+		for (Axis axis : axes) {
+			addPropertyChangeListener(axis, listener);
+		}
 	}
 }

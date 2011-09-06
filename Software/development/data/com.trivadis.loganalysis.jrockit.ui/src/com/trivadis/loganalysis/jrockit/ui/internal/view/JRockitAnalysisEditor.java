@@ -18,6 +18,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.custom.JRockitAnalysisEditorPageCustom;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.duration.JRockitAnalysisEditorPageDuration;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.JRockitAnalysisEditorPageHeapUsage;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.JRockitAnalysisEditorPageSummary;
 import com.trivadis.loganalysis.ui.EditorInput;
@@ -33,6 +35,8 @@ public class JRockitAnalysisEditor extends FormEditor {
 		try {
 			addPage(new JRockitAnalysisEditorPageSummary(this, this.jvm));
 			addPage(new JRockitAnalysisEditorPageHeapUsage(this, this.jvm));
+			addPage(new JRockitAnalysisEditorPageDuration(this, this.jvm));
+			addPage(new JRockitAnalysisEditorPageCustom(this, this.jvm));
 		} catch (PartInitException e) {
 		}
 	}

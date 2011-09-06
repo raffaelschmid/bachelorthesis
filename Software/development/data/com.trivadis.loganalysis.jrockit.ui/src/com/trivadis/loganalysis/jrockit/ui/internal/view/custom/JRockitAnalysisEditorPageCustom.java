@@ -9,13 +9,15 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
+package com.trivadis.loganalysis.jrockit.ui.internal.view.custom;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.file.ValueType;
@@ -24,15 +26,17 @@ import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.ChartPanel;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.DataWrapper;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.GridLayoutUtil;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.JRockitAnalysisEditorPageHeapUsage;
 import com.trivadis.loganalysis.ui.GridFormPage;
 
-public class JRockitAnalysisEditorPageHeapUsage extends GridFormPage {
+public class JRockitAnalysisEditorPageCustom extends GridFormPage {
 
 	public static final String ID = JRockitAnalysisEditorPageHeapUsage.class.getName();
 	private JRockitJvmRun jvm;
 
-	public JRockitAnalysisEditorPageHeapUsage(JRockitAnalysisEditor editor, JRockitJvmRun logFile) {
-		super(editor, ID, Messages.JRockitAnalysisEditorPageHeapUsage_0, 1, 1);
+	public JRockitAnalysisEditorPageCustom(JRockitAnalysisEditor editor, JRockitJvmRun logFile) {
+		super(editor, ID, "Custom", 1, 1);
 		this.jvm = logFile;
 	}
 
@@ -43,15 +47,29 @@ public class JRockitAnalysisEditorPageHeapUsage extends GridFormPage {
 	}
 
 	private void createGeneralSection(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite composite = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageHeapUsage_2,
-				Messages.JRockitAnalysisEditorPageHeapUsage_1, 1, SWT.FILL, 800);
+		Composite composite = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageDuration_1,
+				Messages.JRockitAnalysisEditorPageDuration_2, 1, SWT.FILL, 800);
 		composite.setLayout(new GridLayout(1, false));
 
-		DataWrapper data = new DataWrapper(jvm);
-		data.addAxisSelection(Axis.X, ValueType.TIME);
-		data.addAxisSelection(Axis.Y, ValueType.MEMORY);
-		
-		ChartPanel chartPanel = new ChartPanel(composite, SWT.BORDER, data, "Time (seconds)", "Memory (KB)");
+		DataWrapper logWrapper = new DataWrapper(jvm);
+		logWrapper.addAxisSelection(Axis.X, ValueType.TIME);
+		logWrapper.addAxisSelection(Axis.Y, ValueType.DURATION);
+		ChartPanel chartPanel = new ChartPanel(composite, SWT.BORDER, logWrapper, "CustomX", "CustomY");
 		chartPanel.setLayoutData(GridLayoutUtil.fill());
+		chartPanel.addRangeAxis("foo", getSeries(0, "Test A"));
+		chartPanel.addRangeAxis("bar", getSeries(1, "Test B"));
+	}
+	
+	private XYSeriesCollection getSeries(int start, String seriesTitle) {
+		XYSeries xySeries = new XYSeries(seriesTitle);
+		int i=start;
+		xySeries.add(i, i++);
+		xySeries.add(i, i++);
+		xySeries.add(i, i++);
+		xySeries.add(i, i++);
+		xySeries.add(i, i++);
+		XYSeriesCollection test = new XYSeriesCollection();
+		test.addSeries(xySeries);
+		return test;
 	}
 }

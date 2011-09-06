@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
+package com.trivadis.loganalysis.jrockit.ui.internal.view.duration;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -24,15 +24,17 @@ import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.ChartPanel;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.DataWrapper;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.GridLayoutUtil;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.JRockitAnalysisEditorPageHeapUsage;
 import com.trivadis.loganalysis.ui.GridFormPage;
 
-public class JRockitAnalysisEditorPageHeapUsage extends GridFormPage {
+public class JRockitAnalysisEditorPageDuration extends GridFormPage {
 
 	public static final String ID = JRockitAnalysisEditorPageHeapUsage.class.getName();
 	private JRockitJvmRun jvm;
 
-	public JRockitAnalysisEditorPageHeapUsage(JRockitAnalysisEditor editor, JRockitJvmRun logFile) {
-		super(editor, ID, Messages.JRockitAnalysisEditorPageHeapUsage_0, 1, 1);
+	public JRockitAnalysisEditorPageDuration(JRockitAnalysisEditor editor, JRockitJvmRun logFile) {
+		super(editor, ID, Messages.JRockitAnalysisEditorPageDuration_0, 1, 1);
 		this.jvm = logFile;
 	}
 
@@ -43,15 +45,15 @@ public class JRockitAnalysisEditorPageHeapUsage extends GridFormPage {
 	}
 
 	private void createGeneralSection(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite composite = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageHeapUsage_2,
-				Messages.JRockitAnalysisEditorPageHeapUsage_1, 1, SWT.FILL, 800);
+		Composite composite = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageDuration_1,
+				Messages.JRockitAnalysisEditorPageDuration_2, 1, SWT.FILL, 800);
 		composite.setLayout(new GridLayout(1, false));
 
-		DataWrapper data = new DataWrapper(jvm);
-		data.addAxisSelection(Axis.X, ValueType.TIME);
-		data.addAxisSelection(Axis.Y, ValueType.MEMORY);
-		
-		ChartPanel chartPanel = new ChartPanel(composite, SWT.BORDER, data, "Time (seconds)", "Memory (KB)");
+		DataWrapper logWrapper = new DataWrapper(jvm);
+		logWrapper.addAxisSelection(Axis.X, ValueType.TIME);
+		logWrapper.addAxisSelection(Axis.Y, ValueType.DURATION);
+		ChartPanel chartPanel = new ChartPanel(composite, SWT.BORDER, logWrapper, "Time (seconds)",
+				"Garbage Collection Time");
 		chartPanel.setLayoutData(GridLayoutUtil.fill());
 	}
 }

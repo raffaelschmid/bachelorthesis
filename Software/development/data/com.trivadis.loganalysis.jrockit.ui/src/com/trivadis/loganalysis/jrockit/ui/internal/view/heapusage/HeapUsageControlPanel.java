@@ -24,13 +24,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import com.trivadis.loganalysis.jrockit.file.ValueType;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.DataWrapper;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 
 public class HeapUsageControlPanel extends Composite {
 
-	private final HeapUsageDataWrapper logFileWrapper;
+	private final DataWrapper logFileWrapper;
 
-	public HeapUsageControlPanel(Composite parent, int style, HeapUsageDataWrapper logFileWrapper) {
+	public HeapUsageControlPanel(Composite parent, int style, DataWrapper logFileWrapper) {
 		super(parent, style);
 		setLayout(new GridLayout(5, false));
 		this.logFileWrapper = logFileWrapper;
