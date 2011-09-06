@@ -11,8 +11,6 @@
  */
 package com.trivadis.loganalysis.ui.internal.view;
 
-import java.io.File;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -33,34 +31,33 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
-import com.trivadis.loganalysis.core.domain.FileDescriptor;
-import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
+import com.trivadis.loganalysis.ui.domain.Profile;
 import com.trivadis.loganalysis.ui.internal.Activator;
 import com.trivadis.loganalysis.ui.internal.Command;
 
-public class LogFilesView extends ViewPart implements SelectedFilesChangeListener {
+public class ProfilesView extends ViewPart implements SelectedFilesChangeListener {
 
-	public static final String ID = LogFilesView.class.getName();
+	public static final String ID = ProfilesView.class.getName();
 
-	private static final String STORAGE_KEY = ID + ".logFiles";
+	private static final String STORAGE_KEY = ID + ".profiles";
 
 	private TableViewer viewer;
 	private Action doubleClickAction;
 
 	private final IUiContext context;
 
-	public LogFilesView() {
+	public ProfilesView() {
 		this(UiLoganalysis.getContext());
 	}
 
-	public LogFilesView(IUiContext context) {
+	public ProfilesView(IUiContext context) {
 		this.context = context;
 		context.addLogFilesChangeListener(this);
 	}
 
-	class LogFilesContentProvider implements IStructuredContentProvider {
+	class ProfilesContentAdapter implements IStructuredContentProvider {
 		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
 		}
 
@@ -68,11 +65,11 @@ public class LogFilesView extends ViewPart implements SelectedFilesChangeListene
 		}
 
 		public Object[] getElements(Object parent) {
-			return context.getSelectedFiles().toArray();
+			return context.getProfiles().toArray();
 		}
 	}
 
-	class LogFilesLabelProvider extends LabelProvider implements ITableLabelProvider {
+	class ProfilesLabelAdapter extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			return getText(obj);
 		}
@@ -83,7 +80,7 @@ public class LogFilesView extends ViewPart implements SelectedFilesChangeListene
 
 		@Override
 		public Image getImage(Object obj) {
-			return Activator.getDefault().getImageDescriptor("icons/chart.gif").createImage();
+			return Activator.getDefault().getImageDescriptor("icons/profile.gif").createImage();
 		}
 	}
 
@@ -97,8 +94,8 @@ public class LogFilesView extends ViewPart implements SelectedFilesChangeListene
 
 	private void createListViewer(Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setContentProvider(new LogFilesContentProvider());
-		viewer.setLabelProvider(new LogFilesLabelProvider());
+		viewer.setContentProvider(new ProfilesContentAdapter());
+		viewer.setLabelProvider(new ProfilesLabelAdapter());
 		viewer.setSorter(new ViewerSorter());
 		viewer.setInput(getViewSite());
 	}
@@ -138,25 +135,15 @@ public class LogFilesView extends ViewPart implements SelectedFilesChangeListene
 	public void saveState(IMemento memento) {
 		super.saveState(memento);
 		StringBuffer buf = new StringBuffer();
-		for (IFileDescriptor file : context.getSelectedFiles()) {
-			buf.append(file.getAbsolutePath() + File.pathSeparator);
-		}
 		memento.putString(STORAGE_KEY, buf.toString());
 	}
 
 	@Override
 	public void init(IViewSite site, IMemento memento) throws PartInitException {
 		super.init(site, memento);
-		if (memento != null) {
-			String value = memento.getString(STORAGE_KEY);
-			if (value != null) {
-				for (String filePath : value.split(File.pathSeparator)) {
-					IFileDescriptor file = FileDescriptor.fromFile(filePath);
-					if (file != null)
-						context.addSelectedFile(file);
-				}
-			}
-		}
+//		String value = memento.getString(STORAGE_KEY);
+		// TODO: Dummy
+		context.addProfile(new Profile("Default"));
 	}
 
 	public void fileSelectionChanged() {

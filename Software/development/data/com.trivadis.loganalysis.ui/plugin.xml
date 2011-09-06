@@ -9,11 +9,19 @@
             id="com.trivadis.loganalysis.ui">
       </category>
       <view
-            name="%view.name"
+            name="%view.logfiles.name"
             icon="icons/overview.gif"
             category="com.trivadis.loganalysis.ui"
             class="com.trivadis.loganalysis.ui.internal.view.LogFilesView"
-            id="com.trivadis.loganalysis.ui.internal.view.logfiles.LogFilesView">
+            id="com.trivadis.loganalysis.ui.internal.view.LogFilesView">
+      </view>
+      <view
+            category="com.trivadis.loganalysis.ui"
+            class="com.trivadis.loganalysis.ui.internal.view.ProfilesView"
+            icon="icons/profiles_view.gif"
+            id="com.trivadis.loganalysis.ui.internal.view.ProfilesView"
+            name="%view.profiles.name"
+            restorable="true">
       </view>
    </extension>
    <extension
@@ -32,7 +40,7 @@
       <perspective
             class="com.trivadis.loganalysis.ui.internal.perspective.GarbageCollectionAnalysisPerspective"
             icon="icons/chart.gif"
-            id="com.trivadis.loganalysis.ui.inernal.perspective.GarbageCollectionAnalysisPerspective"
+            id="com.trivadis.loganalysis.ui.internal.perspective.GarbageCollectionAnalysisPerspective"
             name="%perspective.name">
       </perspective>
    </extension>

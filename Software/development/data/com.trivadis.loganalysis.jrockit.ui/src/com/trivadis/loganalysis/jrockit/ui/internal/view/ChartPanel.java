@@ -33,7 +33,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
-import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.GridLayoutUtil;
+import com.trivadis.loganalysis.ui.GridLayoutUtil;
 
 public class ChartPanel extends Composite {
 	private final XYSeriesCollection dataset = new XYSeriesCollection();

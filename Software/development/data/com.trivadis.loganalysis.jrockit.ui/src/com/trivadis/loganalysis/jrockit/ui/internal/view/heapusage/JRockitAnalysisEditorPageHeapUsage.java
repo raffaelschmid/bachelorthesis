@@ -12,7 +12,6 @@
 package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -25,6 +24,7 @@ import com.trivadis.loganalysis.jrockit.ui.internal.view.ChartPanel;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.DataWrapper;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;
 import com.trivadis.loganalysis.ui.GridFormPage;
+import com.trivadis.loganalysis.ui.GridLayoutUtil;
 
 public class JRockitAnalysisEditorPageHeapUsage extends GridFormPage {
 
@@ -38,19 +38,17 @@ public class JRockitAnalysisEditorPageHeapUsage extends GridFormPage {
 
 	protected void createSections(IManagedForm managedForm) {
 		FormToolkit toolkit = managedForm.getToolkit();
-		createGeneralSection(managedForm, toolkit);
-
+		createDiagramSection(managedForm, toolkit);
 	}
 
-	private void createGeneralSection(IManagedForm managedForm, FormToolkit toolkit) {
+	private void createDiagramSection(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite composite = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageHeapUsage_2,
-				Messages.JRockitAnalysisEditorPageHeapUsage_1, 1, SWT.FILL, 800);
-		composite.setLayout(new GridLayout(1, false));
+				Messages.JRockitAnalysisEditorPageHeapUsage_1, 1, SWT.FILL, 800, true);
 
 		DataWrapper data = new DataWrapper(jvm);
 		data.addAxisSelection(Axis.X, ValueType.TIME);
 		data.addAxisSelection(Axis.Y, ValueType.MEMORY);
-		
+
 		ChartPanel chartPanel = new ChartPanel(composite, SWT.BORDER, data, "Time (seconds)", "Memory (KB)");
 		chartPanel.setLayoutData(GridLayoutUtil.fill());
 	}

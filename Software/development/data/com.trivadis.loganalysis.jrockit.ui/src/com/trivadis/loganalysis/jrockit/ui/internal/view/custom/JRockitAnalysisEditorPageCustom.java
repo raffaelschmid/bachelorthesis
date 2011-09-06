@@ -26,9 +26,9 @@ import com.trivadis.loganalysis.jrockit.ui.internal.view.Axis;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.ChartPanel;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.DataWrapper;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.GridLayoutUtil;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.JRockitAnalysisEditorPageHeapUsage;
 import com.trivadis.loganalysis.ui.GridFormPage;
+import com.trivadis.loganalysis.ui.GridLayoutUtil;
 
 public class JRockitAnalysisEditorPageCustom extends GridFormPage {
 
@@ -38,31 +38,33 @@ public class JRockitAnalysisEditorPageCustom extends GridFormPage {
 	public JRockitAnalysisEditorPageCustom(JRockitAnalysisEditor editor, JRockitJvmRun logFile) {
 		super(editor, ID, "Custom", 1, 1);
 		this.jvm = logFile;
+		setPartName("fo");
 	}
 
 	protected void createSections(IManagedForm managedForm) {
 		FormToolkit toolkit = managedForm.getToolkit();
-		createGeneralSection(managedForm, toolkit);
-
-	}
-
-	private void createGeneralSection(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite composite = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageDuration_1,
-				Messages.JRockitAnalysisEditorPageDuration_2, 1, SWT.FILL, 800);
-		composite.setLayout(new GridLayout(1, false));
 
 		DataWrapper logWrapper = new DataWrapper(jvm);
 		logWrapper.addAxisSelection(Axis.X, ValueType.TIME);
 		logWrapper.addAxisSelection(Axis.Y, ValueType.DURATION);
+
+		createDiagramSection(managedForm, toolkit, logWrapper);
+	}
+
+	private void createDiagramSection(IManagedForm managedForm, FormToolkit toolkit, DataWrapper logWrapper) {
+		Composite composite = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageDuration_1,
+				Messages.JRockitAnalysisEditorPageDuration_2, 1, SWT.FILL, 700, true);
+		composite.setLayout(new GridLayout(1, false));
+
 		ChartPanel chartPanel = new ChartPanel(composite, SWT.BORDER, logWrapper, "CustomX", "CustomY");
 		chartPanel.setLayoutData(GridLayoutUtil.fill());
 		chartPanel.addRangeAxis("foo", getSeries(0, "Test A"));
 		chartPanel.addRangeAxis("bar", getSeries(1, "Test B"));
 	}
-	
+
 	private XYSeriesCollection getSeries(int start, String seriesTitle) {
 		XYSeries xySeries = new XYSeries(seriesTitle);
-		int i=start;
+		int i = start;
 		xySeries.add(i, i++);
 		xySeries.add(i, i++);
 		xySeries.add(i, i++);
@@ -72,4 +74,5 @@ public class JRockitAnalysisEditorPageCustom extends GridFormPage {
 		test.addSeries(xySeries);
 		return test;
 	}
+
 }

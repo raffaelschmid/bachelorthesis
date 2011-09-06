@@ -16,22 +16,22 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 
-import com.trivadis.loganalysis.ui.internal.Constants;
 import com.trivadis.loganalysis.ui.internal.view.LogFilesView;
+import com.trivadis.loganalysis.ui.internal.view.ProfilesView;
 
-public class GarbageCollectionAnalysisPerspective implements
-		IPerspectiveFactory {
+public class GarbageCollectionAnalysisPerspective implements IPerspectiveFactory {
 
-	private IPageLayout factory;
+	public static final String ID = GarbageCollectionAnalysisPerspective.class.getName();
+	private IPageLayout layout;
 
-	public void createInitialLayout(IPageLayout factory) {
-		this.factory = factory;
+	public void createInitialLayout(IPageLayout layout) {
+		this.layout = layout;
 		initializeContent();
 		initializeMenu();
 	}
 
 	private void initializeMenu() {
-		factory.addShowViewShortcut(LogFilesView.ID);
+		layout.addShowViewShortcut(LogFilesView.ID);
 	}
 
 	private void initializeContent() {
@@ -41,8 +41,7 @@ public class GarbageCollectionAnalysisPerspective implements
 
 	private void addEditor() {
 		try {
-			IHandlerService handlerService = (IHandlerService) PlatformUI
-					.getWorkbench().getActiveWorkbenchWindow()
+			IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 					.getService(IHandlerService.class);
 			handlerService.executeCommand("com.trivadis.loganalysis.ui.openDashboard", null);
 		} catch (Exception e) {
@@ -52,8 +51,8 @@ public class GarbageCollectionAnalysisPerspective implements
 	}
 
 	private void addViews() {
-		factory.createFolder(Constants.FOLDER_TOP_LEFT, IPageLayout.LEFT,
-				0.30f, factory.getEditorArea()).addView(LogFilesView.ID);
+		layout.createFolder("lefttop", IPageLayout.LEFT, 0.26f, layout.getEditorArea()).addView(LogFilesView.ID);
+		layout.createFolder("leftbottom", IPageLayout.BOTTOM, 0.5f, LogFilesView.ID).addView(ProfilesView.ID);
 	}
 
 }

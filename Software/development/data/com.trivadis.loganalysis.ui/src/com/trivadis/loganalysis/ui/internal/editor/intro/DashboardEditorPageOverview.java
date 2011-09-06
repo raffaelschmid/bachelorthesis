@@ -41,21 +41,21 @@ public class DashboardEditorPageOverview extends GridFormPage {
 	}
 
 	private void createUpdatesSection(IManagedForm managedForm, FormToolkit toolkit) {
-		createGridSection(managedForm, Messages.DashboardEditor_Section_Updates, "", 1);
+		createGridSection(managedForm, Messages.DashboardEditor_Section_Updates, "", 1, true);
 
 	}
 
 	private void createHelpAndDocumentation(IManagedForm managedForm, FormToolkit toolkit) {
-		createGridSection(managedForm, Messages.DashboardEditor_Section_HelpAndDocumentation, "", 1);
+		createGridSection(managedForm, Messages.DashboardEditor_Section_HelpAndDocumentation, "", 1, true);
 	}
 
 	private void createFeedsSection(IManagedForm managedForm, FormToolkit toolkit) {
-		createGridSection(managedForm, Messages.DashboardEditor_Section_Feeds, "", 1);
+		createGridSection(managedForm, Messages.DashboardEditor_Section_Feeds, "", 1, true);
 	}
 
 	private void createGeneralSection(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite client = createGridSection(managedForm, Messages.DashboardEditor_Section_General,
-				"", 1);
+				"", 1, true);
 
 		linkSwitchPerspective(client, toolkit);
 		linkImportGcLog(client, toolkit);

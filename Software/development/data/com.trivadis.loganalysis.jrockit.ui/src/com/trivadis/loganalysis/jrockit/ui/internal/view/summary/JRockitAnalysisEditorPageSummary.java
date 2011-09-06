@@ -41,7 +41,8 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 	}
 
 	private void heapCapacitySection(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_1, Messages.JRockitAnalysisEditorPageSummary_2, 1);
+		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_1,
+				Messages.JRockitAnalysisEditorPageSummary_2, 1, true);
 		Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
@@ -51,7 +52,7 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 
 	private void gcActivitySummary(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_3,
-				Messages.JRockitAnalysisEditorPageSummary_4, 1);
+				Messages.JRockitAnalysisEditorPageSummary_4, 1, true);
 		Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
@@ -60,7 +61,8 @@ public class JRockitAnalysisEditorPageSummary extends GridFormPage {
 	}
 
 	private void overallStatistics(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_5, Messages.JRockitAnalysisEditorPageSummary_6, 1);
+		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_5,
+				Messages.JRockitAnalysisEditorPageSummary_6, 1, true);
 
 		Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);

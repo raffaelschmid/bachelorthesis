@@ -15,7 +15,6 @@ import java.io.File;
 import java.util.List;
 
 import com.trivadis.loganalysis.core.IContentReader;
-import com.trivadis.loganalysis.core.common.Assert;
 
 public class FileDescriptor implements IFileDescriptor {
 
@@ -32,10 +31,10 @@ public class FileDescriptor implements IFileDescriptor {
 		this.rawContent = rawContent;
 	}
 
-	public boolean isLoaded(){
+	public boolean isLoaded() {
 		return (rawContent != null);
 	}
-	
+
 	@Override
 	public String toString() {
 		return getFileName();
@@ -45,8 +44,7 @@ public class FileDescriptor implements IFileDescriptor {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((fileName == null) ? 0 : fileName.hashCode());
+		result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
 		result = prime * result + ((path == null) ? 0 : path.hashCode());
 		return result;
 	}
@@ -75,10 +73,9 @@ public class FileDescriptor implements IFileDescriptor {
 
 	public List<String> getListContent(IContentReader reader) {
 		List<String> retVal;
-		if(isLoaded()){
+		if (isLoaded()) {
 			retVal = this.rawContent;
-		}
-		else{
+		} else {
 			retVal = reader.contentAsList(this);
 		}
 		return retVal;
@@ -101,8 +98,7 @@ public class FileDescriptor implements IFileDescriptor {
 	}
 
 	public static IFileDescriptor fromFile(File file) {
-		Assert.assertTrue(file.exists(),file.getAbsolutePath() + " does not exist");
-		return new FileDescriptor(file.getParentFile().getAbsolutePath(), file.getName());
+		return file.exists() ? new FileDescriptor(file.getParentFile().getAbsolutePath(), file.getName()) : null;
 	}
 
 	public static IFileDescriptor fromFile(String filePath) {

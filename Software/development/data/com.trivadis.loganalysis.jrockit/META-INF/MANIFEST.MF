@@ -11,3 +11,4 @@ Export-Package: com.trivadis.loganalysis.jrockit.domain,
  com.trivadis.loganalysis.jrockit.domain.gc.phase,
  com.trivadis.loganalysis.jrockit.domain.space,
  com.trivadis.loganalysis.jrockit.file
+ 

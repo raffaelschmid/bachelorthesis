@@ -21,20 +21,20 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.trivadis.loganalysis.core.IContext;
-import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
+import com.trivadis.loganalysis.ui.IUiContext;
+import com.trivadis.loganalysis.ui.UiLoganalysis;
 import com.trivadis.loganalysis.ui.internal.dialog.DeleteFileDialog;
 
 public class DeleteLogFileHandler extends AbstractHandler {
 
-	private final IContext context;
+	private final IUiContext context;
 
 	public DeleteLogFileHandler() {
-		this(Loganalysis.getContext());
+		this(UiLoganalysis.getContext());
 	}
 
-	public DeleteLogFileHandler(IContext context) {
+	public DeleteLogFileHandler(IUiContext context) {
 		this.context = context;
 	}
 

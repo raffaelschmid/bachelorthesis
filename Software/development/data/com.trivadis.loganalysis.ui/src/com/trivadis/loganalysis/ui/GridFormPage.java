@@ -36,6 +36,12 @@ public abstract class GridFormPage extends FormPage {
 		this.maxNumColumns = maxNumColumns;
 		this.minNumColumns = minNumColumns;
 	}
+	
+	@Override
+	public void setPartName(String partName) {
+		super.setPartName(partName);
+		firePartPropertyChanged("name", null, partName);
+	}
 
 	protected void createFormContent(IManagedForm managedForm) {
 		ScrolledForm form = managedForm.getForm();
@@ -59,7 +65,7 @@ public abstract class GridFormPage extends FormPage {
 	}
 
 	protected Composite createGridSection(IManagedForm mform, String title, String desc,
-			int numColumns, int widthHint, int heightHint) {
+			int numColumns, int widthHint, int heightHint, boolean expanded) {
 
 		final ScrolledForm form = mform.getForm();
 		FormToolkit toolkit = mform.getToolkit();
@@ -75,6 +81,7 @@ public abstract class GridFormPage extends FormPage {
 		layout.numColumns = numColumns;
 		client.setLayout(layout);
 		section.setClient(client);
+		section.setExpanded(expanded);
 		section.addExpansionListener(new ExpansionAdapter() {
 			public void expansionStateChanged(ExpansionEvent e) {
 				form.reflow(false);
@@ -84,8 +91,8 @@ public abstract class GridFormPage extends FormPage {
 	}
 
 	protected Composite createGridSection(IManagedForm form, String title, String desc,
-			int numCol) {
-		return createGridSection(form, title, desc, numCol, SWT.DEFAULT, SWT.DEFAULT);
+			int numCol, boolean expanded) {
+		return createGridSection(form, title, desc, numCol, SWT.DEFAULT, SWT.DEFAULT, expanded);
 	}
 
 }

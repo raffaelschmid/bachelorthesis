@@ -11,16 +11,18 @@
  */
 package com.trivadis.loganalysis.ui.internal.wizard;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
-import com.trivadis.loganalysis.core.IFileImporter;
-import com.trivadis.loganalysis.core.Loganalysis;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.Messages;
+import com.trivadis.loganalysis.ui.UiLoganalysis;
 import com.trivadis.loganalysis.ui.internal.Perspective;
-import com.trivadis.loganalysis.ui.internal.handler.OpenGcLoganalysisPerspective;
+import com.trivadis.loganalysis.ui.internal.perspective.GarbageCollectionAnalysisPerspective;
 
 public class ImportGCLogWizard extends Wizard implements IImportWizard {
 
@@ -28,30 +30,28 @@ public class ImportGCLogWizard extends Wizard implements IImportWizard {
 
 	public static final String ID = ImportGCLogWizard.class.getName();
 
-	private ImportGCLogWizardSelectionPage page;
-
-	private final IFileImporter processor;
+	private final ImportGCLogWizardSelectionPage page;
 
 	public ImportGCLogWizard() {
-		this(Loganalysis.fileImporter(),
-				new ImportGCLogWizardSelectionPage());
+		this(new ImportGCLogWizardSelectionPage());
 	}
 
-	ImportGCLogWizard(IFileImporter processor,
-			ImportGCLogWizardSelectionPage page) {
-		this.processor = processor;
+	ImportGCLogWizard(ImportGCLogWizardSelectionPage page) {
 		this.page = page;
 	}
 
+	@Override
 	public boolean performFinish() {
-		processor.importFiles(page.getFiles());
-		Perspective
-				.updateWithNotification(
-						SWITCH_PERSPECTIVE_ON_GC_LOG_IMPORT,
-						Messages.ImportGCLogWizard_1,
-						Messages.ImportGCLogWizard_2,
-						OpenGcLoganalysisPerspective.PERSPECTIVE_ID);
+		importFiles(page.getFiles());
+		Perspective.updateWithNotification(SWITCH_PERSPECTIVE_ON_GC_LOG_IMPORT, Messages.ImportGCLogWizard_1,
+				Messages.ImportGCLogWizard_2, GarbageCollectionAnalysisPerspective.ID);
 		return true;
+	}
+
+	public void importFiles(List<IFileDescriptor> files) {
+		for (IFileDescriptor file : files) {
+			UiLoganalysis.getContext().addSelectedFile(file);
+		}
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -59,6 +59,7 @@ public class ImportGCLogWizard extends Wizard implements IImportWizard {
 		setNeedsProgressMonitor(true);
 	}
 
+	@Override
 	public void addPages() {
 		super.addPages();
 		addPage(page);

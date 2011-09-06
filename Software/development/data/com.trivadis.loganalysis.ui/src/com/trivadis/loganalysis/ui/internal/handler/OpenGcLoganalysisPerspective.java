@@ -16,13 +16,12 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 import com.trivadis.loganalysis.ui.internal.Perspective;
+import com.trivadis.loganalysis.ui.internal.perspective.GarbageCollectionAnalysisPerspective;
 
 public class OpenGcLoganalysisPerspective extends AbstractHandler {
 
-	public static final String PERSPECTIVE_ID = "com.trivadis.loganalysis.ui.inernal.perspective.GarbageCollectionAnalysisPerspective";
-
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		Perspective.update(PERSPECTIVE_ID);
+		Perspective.update(GarbageCollectionAnalysisPerspective.ID);
 		return null;
 	}
 }

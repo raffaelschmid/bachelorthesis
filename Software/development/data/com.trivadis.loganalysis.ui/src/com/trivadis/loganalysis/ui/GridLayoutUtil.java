@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage;
+package com.trivadis.loganalysis.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;

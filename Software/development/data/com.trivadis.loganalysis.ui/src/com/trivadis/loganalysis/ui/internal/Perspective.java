@@ -27,8 +27,12 @@ public class Perspective {
 
 	public static void updateWithNotification(String key, String title,
 			String message, String perspectiveId) {
-		if (shouldSwitchPerspective(key, title, message))
+		if (isPerspectiveNotYetOpen(perspectiveId) && shouldSwitchPerspective(key, title, message))
 			update(perspectiveId);
+	}
+
+	private static boolean isPerspectiveNotYetOpen(String perspectiveId) {
+		return !perspectiveId.equals(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getPerspective().getId());
 	}
 
 	private static boolean shouldSwitchPerspective(String key, String title,
