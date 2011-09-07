@@ -9,13 +9,13 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.core.exception;
+package com.trivadis.loganalysis.ui.extensionpoint;
+
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
 
-public class FileProcessingException extends RuntimeException {
+public interface IProfileProvider {
 
-	private static final long serialVersionUID = 1L;
-	public FileProcessingException(final Exception cause) {
-		super(cause);
-	}
+	IConfiguration getConfiguration();
+
 }

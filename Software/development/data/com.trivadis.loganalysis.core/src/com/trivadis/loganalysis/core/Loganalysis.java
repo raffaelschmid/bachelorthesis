@@ -11,24 +11,27 @@
  */
 package com.trivadis.loganalysis.core;
 
+import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
+import static com.trivadis.loganalysis.core.common.CollectionUtil.findAll;
+import static com.trivadis.loganalysis.core.common.CollectionUtil.findFirst;
+import static java.util.Arrays.asList;
+
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 import com.trivadis.loganalysis.core.common.Assert;
+import com.trivadis.loganalysis.core.common.ClosureIO;
+import com.trivadis.loganalysis.core.common.Predicate;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.core.domain.IJvmRun;
-import com.trivadis.loganalysis.core.exception.FileProcessingException;
 import com.trivadis.loganalysis.core.internal.Context;
 
-/**
- * @author els
- */
 public class Loganalysis {
 
 	private static final String ELEMENT_NAME = "analyzer";
-
-	private static final String EXTENSION_POINT_ID = "com.trivadis.loganalysis.analyzer";
 
 	private static class Holder {
 		private static IContext INSTANCE = new Context();
@@ -40,28 +43,37 @@ public class Loganalysis {
 	}
 
 	public static IContentReader contentReader() {
-		IContentReader contentReader = Holder.INSTANCE.contentReader();
+		final IContentReader contentReader = Holder.INSTANCE.contentReader();
 		Assert.assertNotNull(contentReader);
 		return contentReader;
 	}
 
-	public static IAnalyzer<IJvmRun> fileProcessor(IFileDescriptor fileDescriptor) throws FileProcessingException {
-		IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(
-				EXTENSION_POINT_ID);
-		for (IConfigurationElement element : elements) {
-			if (ELEMENT_NAME.equals(element.getName())) {
+	public static IAnalyzer<IJvmRun> fileProcessor(final IFileDescriptor fileDescriptor) {
+		return findFirst(Loganalysis.<IAnalyzer<IJvmRun>> findExtensionInstances(ExtensionPoint.ANALYZER, ELEMENT_NAME),
+				new Predicate<IAnalyzer<IJvmRun>>() {
+					public boolean matches(final IAnalyzer<IJvmRun> item) {
+						return item.canHandleLogFile(fileDescriptor);
+					}
+				});
+	}
+	
+	public static <T> List<T> findExtensionInstances(final String extensionPointId, final String name) {
+		final IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(
+				extensionPointId);
+		return collect(findAll(asList(elements), new Predicate<IConfigurationElement>() {
+			public boolean matches(final IConfigurationElement element) {
+				return name.equals(element.getName());
+			}
+		}), new ClosureIO<IConfigurationElement, T>() {
+			@SuppressWarnings("unchecked")
+			public T call(final IConfigurationElement element) {
 				try {
-					@SuppressWarnings("unchecked")
-					IAnalyzer<IJvmRun> processor = (IAnalyzer<IJvmRun>) element.createExecutableExtension("class");
-					if (processor.canHandleLogFile(fileDescriptor))
-						return processor;
-				} catch (CoreException e) {
-					throw new FileProcessingException(e);
+					return (T) element.createExecutableExtension("class");
+				} catch (final CoreException e) {
+					throw new RuntimeException(e);
 				}
 			}
-		}
-
-		return null;
+		});
 	}
 
 }

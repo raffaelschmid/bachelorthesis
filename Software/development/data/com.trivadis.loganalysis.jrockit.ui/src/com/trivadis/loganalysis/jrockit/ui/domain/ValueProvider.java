@@ -9,13 +9,9 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui.domain;
+package com.trivadis.loganalysis.jrockit.ui.domain;
 
-import java.awt.Color;
+public enum ValueProvider {
+	MEMORY, TOTAL_TIME_USED, TIME;
 
-public interface IAxis {
-	
-	String getLabel();
-
-	Color getColor();
 }

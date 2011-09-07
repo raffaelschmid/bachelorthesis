@@ -9,18 +9,20 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui.domain;
+package com.trivadis.loganalysis.ui.domain.profile;
 
-public class Chart implements IChart {
+import java.util.List;
 
-	private final String label;
+import org.eclipse.ui.IMemento;
 
-	public Chart(String label, IAxis... axes) {
-		this.label = label;
-	}
+public interface IProfile {
 
-	public String getLabel() {
-		return label;
-	}
+	String getLabel();
+
+	void addChart(IChart chart);
+
+	List<IChart> getCharts();
+
+	void saveMemento(IMemento memento);
 
 }

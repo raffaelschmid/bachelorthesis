@@ -15,7 +15,7 @@ import java.util.List;
 
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
-import com.trivadis.loganalysis.ui.domain.IProfile;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
 public interface IUiContext {
 	List<IFileDescriptor> getSelectedFiles();
@@ -24,9 +24,9 @@ public interface IUiContext {
 
 	void remove(IFileDescriptor file);
 
-	List<IProfile> getProfiles();
+	List<IConfiguration> getProfiles();
 
-	void addProfile(IProfile profile);
+	void addProfiles(List<IConfiguration> profiles);
 
 	void addLogFilesChangeListener(SelectedFilesChangeListener listener);
 

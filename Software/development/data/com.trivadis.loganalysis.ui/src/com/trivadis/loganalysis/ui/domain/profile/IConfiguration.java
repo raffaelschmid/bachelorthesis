@@ -9,9 +9,21 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui.domain;
+package com.trivadis.loganalysis.ui.domain.profile;
 
-public enum ValueProvider {
-	MEMORY, TOTAL_TIME_USED;
+import java.util.List;
+
+import org.eclipse.ui.XMLMemento;
+
+
+public interface IConfiguration {
+
+	List<IProfile> getProfiles();
+
+	void addProfile(IProfile profile);
+
+	void saveMemento(XMLMemento memento);
+
+	String getLabel();
 
 }

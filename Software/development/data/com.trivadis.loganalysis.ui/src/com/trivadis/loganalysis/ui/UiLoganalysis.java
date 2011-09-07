@@ -11,15 +11,35 @@
  */
 package com.trivadis.loganalysis.ui;
 
+import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
+
+import java.util.List;
+
+import com.trivadis.loganalysis.core.ExtensionPoint;
+import com.trivadis.loganalysis.core.Loganalysis;
+import com.trivadis.loganalysis.core.common.ClosureIO;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.extensionpoint.IProfileProvider;
 import com.trivadis.loganalysis.ui.internal.UiContext;
 
-
 public class UiLoganalysis {
+	private static final String ELEMENT_NAME = "profileprovider";
+
 	private static class Holder {
 		private static IUiContext INSTANCE = new UiContext();
 	}
-	
-	public static IUiContext getContext(){
+
+	public static IUiContext getUiContext() {
 		return Holder.INSTANCE;
+	}
+
+	public static List<IConfiguration> getConfigurations() {
+		final List<IProfileProvider> findExtensionInstances = Loganalysis.findExtensionInstances(
+				ExtensionPoint.PROVIDER, ELEMENT_NAME);
+		return collect(findExtensionInstances, new ClosureIO<IProfileProvider, IConfiguration>() {
+			public IConfiguration call(final IProfileProvider in) {
+				return in.getConfiguration();
+			}
+		});
 	}
 }

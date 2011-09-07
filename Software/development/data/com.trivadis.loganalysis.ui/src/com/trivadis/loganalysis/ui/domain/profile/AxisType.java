@@ -9,12 +9,8 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui.domain;
+package com.trivadis.loganalysis.ui.domain.profile;
 
-public interface IProfile {
-
-	String getName();
-
-	void addChart(IChart chart);
-
+public enum AxisType {
+	X, Y;
 }

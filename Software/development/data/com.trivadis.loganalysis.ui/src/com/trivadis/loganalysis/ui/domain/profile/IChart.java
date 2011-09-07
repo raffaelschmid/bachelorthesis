@@ -9,8 +9,24 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui.domain;
+package com.trivadis.loganalysis.ui.domain.profile;
+
+import java.util.List;
+
+import org.eclipse.ui.IMemento;
 
 public interface IChart {
+
+	void addAxis(IAxis xAxis);
+
+	String getLabel();
+
+	List<IAxis> getAxes();
+
+	List<IAxis> getXAxes();
+
+	List<IAxis> getYAxes();
+
+	void saveMemento(IMemento parent);
 
 }

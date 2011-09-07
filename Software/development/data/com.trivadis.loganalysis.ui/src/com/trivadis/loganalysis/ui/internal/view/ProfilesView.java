@@ -33,7 +33,7 @@ import org.eclipse.ui.part.ViewPart;
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
-import com.trivadis.loganalysis.ui.domain.Profile;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.internal.Activator;
 import com.trivadis.loganalysis.ui.internal.Command;
 
@@ -49,50 +49,51 @@ public class ProfilesView extends ViewPart implements SelectedFilesChangeListene
 	private final IUiContext context;
 
 	public ProfilesView() {
-		this(UiLoganalysis.getContext());
+		this(UiLoganalysis.getUiContext());
 	}
 
-	public ProfilesView(IUiContext context) {
+	public ProfilesView(final IUiContext context) {
 		this.context = context;
 		context.addLogFilesChangeListener(this);
 	}
 
 	class ProfilesContentAdapter implements IStructuredContentProvider {
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+		public void inputChanged(final Viewer v, final Object oldInput, final Object newInput) {
 		}
 
 		public void dispose() {
 		}
 
-		public Object[] getElements(Object parent) {
+		public Object[] getElements(final Object parent) {
 			return context.getProfiles().toArray();
 		}
 	}
 
 	class ProfilesLabelAdapter extends LabelProvider implements ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
-			return getText(obj);
+		public String getColumnText(final Object obj, final int index) {
+			System.out.println(obj);
+			return (obj instanceof IConfiguration)?((IConfiguration)obj).getLabel():getText(obj);
 		}
 
-		public Image getColumnImage(Object obj, int index) {
+		public Image getColumnImage(final Object obj, final int index) {
 			return getImage(obj);
 		}
 
 		@Override
-		public Image getImage(Object obj) {
+		public Image getImage(final Object obj) {
 			return Activator.getDefault().getImageDescriptor("icons/profile.gif").createImage();
 		}
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
 		createListViewer(parent);
 		makeActions();
 		hookDoubleClickAction();
 		registerContextMenu();
 	}
 
-	private void createListViewer(Composite parent) {
+	private void createListViewer(final Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new ProfilesContentAdapter());
 		viewer.setLabelProvider(new ProfilesLabelAdapter());
@@ -103,7 +104,7 @@ public class ProfilesView extends ViewPart implements SelectedFilesChangeListene
 	private void registerContextMenu() {
 		final MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
+		final Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, viewer);
 		getSite().setSelectionProvider(viewer);
@@ -120,7 +121,7 @@ public class ProfilesView extends ViewPart implements SelectedFilesChangeListene
 
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
+			public void doubleClick(final DoubleClickEvent event) {
 				doubleClickAction.run();
 			}
 		});
@@ -132,18 +133,19 @@ public class ProfilesView extends ViewPart implements SelectedFilesChangeListene
 	}
 
 	@Override
-	public void saveState(IMemento memento) {
+	public void saveState(final IMemento memento) {
 		super.saveState(memento);
-		StringBuffer buf = new StringBuffer();
+		final StringBuffer buf = new StringBuffer();
 		memento.putString(STORAGE_KEY, buf.toString());
 	}
 
 	@Override
-	public void init(IViewSite site, IMemento memento) throws PartInitException {
+	public void init(final IViewSite site, final IMemento memento) throws PartInitException {
 		super.init(site, memento);
+		context.addProfiles(UiLoganalysis.getConfigurations());
 //		String value = memento.getString(STORAGE_KEY);
 		// TODO: Dummy
-		context.addProfile(new Profile("Default"));
+//		context.addProfile(new Profile("Default"));
 	}
 
 	public void fileSelectionChanged() {

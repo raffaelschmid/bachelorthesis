@@ -52,7 +52,7 @@ public class LogFilesView extends ViewPart implements SelectedFilesChangeListene
 	private final IUiContext context;
 
 	public LogFilesView() {
-		this(UiLoganalysis.getContext());
+		this(UiLoganalysis.getUiContext());
 	}
 
 	public LogFilesView(IUiContext context) {

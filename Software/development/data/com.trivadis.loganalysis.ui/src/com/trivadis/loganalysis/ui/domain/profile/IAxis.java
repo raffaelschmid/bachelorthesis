@@ -9,26 +9,20 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui.domain;
+package com.trivadis.loganalysis.ui.domain.profile;
 
 import java.awt.Color;
 
-public class YAxis implements IAxis {
+import org.eclipse.ui.IMemento;
 
-	private final Color color;
-	private final String label;
+public interface IAxis {
+	
+	AxisType getAxisType();
+	
+	String getLabel();
 
-	public YAxis(String label, Color color) {
-		this.label = label;
-		this.color = color;
-	}
+	Color getColor();
 
-	public String getLabel() {
-		return label;
-	}
-
-	public Color getColor() {
-		return color;
-	}
+	void saveMemento(IMemento memento);
 
 }

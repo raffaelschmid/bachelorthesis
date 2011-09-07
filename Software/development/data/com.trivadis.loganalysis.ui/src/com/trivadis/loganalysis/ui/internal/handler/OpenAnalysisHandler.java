@@ -25,8 +25,8 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.Progress;
-import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.core.exception.FileProcessingException;
 import com.trivadis.loganalysis.ui.EditorInput;
 import com.trivadis.loganalysis.ui.Messages;
@@ -35,31 +35,31 @@ import com.trivadis.loganalysis.ui.Ui;
 
 public class OpenAnalysisHandler extends AbstractHandler {
 
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelectionService service = (ISelectionService) HandlerUtil.getActiveWorkbenchWindow(event)
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		final ISelectionService service = (ISelectionService) HandlerUtil.getActiveWorkbenchWindow(event)
 				.getService(ISelectionService.class);
-		ISelection selection = service.getSelection();
+		final ISelection selection = service.getSelection();
 		if (selection instanceof StructuredSelection) {
-			StructuredSelection sselection = (StructuredSelection) selection;
-			Object ofile = sselection.getFirstElement();
+			final StructuredSelection sselection = (StructuredSelection) selection;
+			final Object ofile = sselection.getFirstElement();
 			if (ofile instanceof IFileDescriptor) {
-				IFileDescriptor logFileDescriptor = (IFileDescriptor) ofile;
+				final IFileDescriptor logFileDescriptor = (IFileDescriptor) ofile;
 				openAnalysis(event, logFileDescriptor);
 			}
 		}
 		return null;
 	}
 
-	private void openAnalysis(ExecutionEvent event, final IFileDescriptor logFileDescriptor) {
+	private void openAnalysis(final ExecutionEvent event, final IFileDescriptor logFileDescriptor) {
 		try {
 			final IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-			IAnalyzer<IJvmRun> analyzer = Loganalysis.fileProcessor(logFileDescriptor);
+			final IAnalyzer<IJvmRun> analyzer = Loganalysis.fileProcessor(logFileDescriptor);
 			if (analyzer != null) {
 				showAnalysis(logFileDescriptor, page, analyzer);
 			} else {
 				showNoAnalyzerFoundMessage(page);
 			}
-		} catch (FileProcessingException e) {
+		} catch (final FileProcessingException e) {
 			Ui.getDefault().handleException(e);
 		}
 	}
@@ -70,17 +70,18 @@ public class OpenAnalysisHandler extends AbstractHandler {
 			page.openEditor(
 					new EditorInput(Ui.getDefault().busyCursorWithResultWhile(
 							new ResultRunnableWithProgress<IJvmRun>() {
-								public IJvmRun result(IProgressMonitor monitor) {
+								@Override
+								public IJvmRun result(final IProgressMonitor monitor) {
 									return analyzer.process(logFileDescriptor, new Progress(
 											monitor, Messages.OpenGcLoganalysis_progress_message));
 								}
 							})), analyzer.getEditorId());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void showNoAnalyzerFoundMessage(IWorkbenchPage page) {
+	private void showNoAnalyzerFoundMessage(final IWorkbenchPage page) {
 		MessageDialog.openError(page.getWorkbenchWindow().getShell(),
 				Messages.OpenGcLoganalysis_implementation_not_found_title,
 				Messages.OpenGcLoganalysis_implementation_not_found_text);

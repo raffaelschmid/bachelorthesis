@@ -9,13 +9,9 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.core.exception;
+package com.trivadis.loganalysis.core;
 
-
-public class FileProcessingException extends RuntimeException {
-
-	private static final long serialVersionUID = 1L;
-	public FileProcessingException(final Exception cause) {
-		super(cause);
-	}
+public class ExtensionPoint {
+	public static final String ANALYZER = "com.trivadis.loganalysis.analyzer";
+	public static final String PROVIDER = "com.trivadis.loganalysis.profileprovider";
 }

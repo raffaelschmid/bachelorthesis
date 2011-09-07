@@ -50,7 +50,7 @@ public class ImportGCLogWizard extends Wizard implements IImportWizard {
 
 	public void importFiles(List<IFileDescriptor> files) {
 		for (IFileDescriptor file : files) {
-			UiLoganalysis.getContext().addSelectedFile(file);
+			UiLoganalysis.getUiContext().addSelectedFile(file);
 		}
 	}
 

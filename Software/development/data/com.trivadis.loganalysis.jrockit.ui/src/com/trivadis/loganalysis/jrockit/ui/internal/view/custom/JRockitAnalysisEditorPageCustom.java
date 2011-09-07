@@ -38,7 +38,6 @@ public class JRockitAnalysisEditorPageCustom extends GridFormPage {
 	public JRockitAnalysisEditorPageCustom(JRockitAnalysisEditor editor, JRockitJvmRun logFile) {
 		super(editor, ID, "Custom", 1, 1);
 		this.jvm = logFile;
-		setPartName("fo");
 	}
 
 	protected void createSections(IManagedForm managedForm) {

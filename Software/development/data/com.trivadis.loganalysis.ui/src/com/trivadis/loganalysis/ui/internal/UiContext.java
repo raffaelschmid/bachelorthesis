@@ -11,24 +11,28 @@
  */
 package com.trivadis.loganalysis.ui.internal;
 
+import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
 import com.trivadis.loganalysis.core.common.Assert;
+import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.IUiContext;
-import com.trivadis.loganalysis.ui.domain.IProfile;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class UiContext implements IUiContext {
 
-	private final ArrayList<IProfile> profiles;
+	private final ArrayList<IConfiguration> profiles;
 	private final ArrayList<IFileDescriptor> selectedFiles;
 	private final List<SelectedFilesChangeListener> listeners;
 
 	public UiContext() {
 		this.selectedFiles = new ArrayList<IFileDescriptor>();
-		this.profiles = new ArrayList<IProfile>();
+		this.profiles = new ArrayList<IConfiguration>();
 		this.listeners = new ArrayList<SelectedFilesChangeListener>();
 	}
 
@@ -36,11 +40,11 @@ public class UiContext implements IUiContext {
 		return selectedFiles;
 	}
 
-	public void addLogFilesChangeListener(SelectedFilesChangeListener listener) {
+	public void addLogFilesChangeListener(final SelectedFilesChangeListener listener) {
 		listeners.add(listener);
 	}
 
-	public void addSelectedFile(IFileDescriptor file) {
+	public void addSelectedFile(final IFileDescriptor file) {
 		if (!selectedFiles.contains(file)) {
 			selectedFiles.add(file);
 			notifySelectedFilesListeners();
@@ -48,7 +52,7 @@ public class UiContext implements IUiContext {
 		Assert.assertTrue(selectedFiles.contains(file));
 	}
 
-	public void remove(IFileDescriptor file) {
+	public void remove(final IFileDescriptor file) {
 		if (selectedFiles.contains(file)) {
 			selectedFiles.remove(file);
 			notifySelectedFilesListeners();
@@ -57,26 +61,34 @@ public class UiContext implements IUiContext {
 	}
 
 	private void notifySelectedFilesListeners() {
-		for (SelectedFilesChangeListener selectedFilesListeners : listeners) {
+		for (final SelectedFilesChangeListener selectedFilesListeners : listeners) {
 			selectedFilesListeners.fileSelectionChanged();
 		}
 	}
 
-	public void removeProfile(IProfile profile) {
+	public void removeProfile(final IProfile profile) {
 		if (profiles.contains(profile)) {
 			profiles.remove(profile);
 		}
 		Assert.assertTrue(!profiles.contains(profile));
 	}
 
-	public void addProfile(IProfile profile) {
+	public void addProfile(final IConfiguration profile) {
 		if (!profiles.contains(profile)) {
 			profiles.add(profile);
 		}
 		Assert.assertTrue(profiles.contains(profile));
 	}
 
-	public List<IProfile> getProfiles() {
+	public List<IConfiguration> getProfiles() {
 		return profiles;
+	}
+
+	public void addProfiles(final List<IConfiguration> profiles) {
+		foreach(profiles, new Closure<IConfiguration>() {
+			public void call(final IConfiguration in) {
+				addProfile(in);
+			}
+		});
 	}
 }

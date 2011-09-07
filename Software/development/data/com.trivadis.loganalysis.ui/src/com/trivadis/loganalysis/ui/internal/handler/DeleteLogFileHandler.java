@@ -31,7 +31,7 @@ public class DeleteLogFileHandler extends AbstractHandler {
 	private final IUiContext context;
 
 	public DeleteLogFileHandler() {
-		this(UiLoganalysis.getContext());
+		this(UiLoganalysis.getUiContext());
 	}
 
 	public DeleteLogFileHandler(IUiContext context) {
