@@ -12,14 +12,16 @@
 package com.trivadis.loganalysis.ui;
 
 import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
+import static com.trivadis.loganalysis.core.common.CollectionUtil.findFirst;
 
 import java.util.List;
 
 import com.trivadis.loganalysis.core.ExtensionPoint;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.ClosureIO;
+import com.trivadis.loganalysis.core.common.Predicate;
+import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
-import com.trivadis.loganalysis.ui.extensionpoint.IProfileProvider;
 import com.trivadis.loganalysis.ui.internal.UiContext;
 
 public class UiLoganalysis {
@@ -41,5 +43,15 @@ public class UiLoganalysis {
 				return in.getConfiguration();
 			}
 		});
+	}
+
+	public static IConfiguration getConfigurationForJvm(final IJvmRun jvm) {
+		final List<IProfileProvider> findExtensionInstances = Loganalysis.findExtensionInstances(
+				ExtensionPoint.PROVIDER, ELEMENT_NAME);
+		return findFirst(findExtensionInstances, new Predicate<IProfileProvider>() {
+			public boolean matches(final IProfileProvider item) {
+				return item.knowsJvm(jvm);
+			}
+		}).getConfiguration();
 	}
 }

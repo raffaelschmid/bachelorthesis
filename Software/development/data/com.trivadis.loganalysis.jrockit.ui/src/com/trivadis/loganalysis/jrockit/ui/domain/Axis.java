@@ -52,7 +52,7 @@ public class Axis implements IAxis {
 		final IMemento memento = parent.createChild(MEMENTO_ELEMENT_NAME);
 		memento.putString(ATTRIBUTE_LABEL, label);
 		memento.putInteger(ATTRIBUTE_COLOR, color.getRGB());
-		memento.putString(ATTRIBUTE_VALUE_PROVIDER, valueProvider.name());
+		memento.putString(ATTRIBUTE_VALUE_PROVIDER, getValueProvider().name());
 		memento.putString(ATTRIBUTE_AXIS_TYPE, axisType.toString());
 	}
 

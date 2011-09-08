@@ -25,4 +25,6 @@ public interface IAxis {
 
 	void saveMemento(IMemento memento);
 
+	IValueProvider getValueProvider();
+
 }

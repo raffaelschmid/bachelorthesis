@@ -12,6 +12,7 @@
 package com.trivadis.loganalysis.jrockit.ui.domain;
 
 import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
+import static com.trivadis.loganalysis.core.common.CollectionUtil.findFirst;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
 import static java.util.Arrays.asList;
 
@@ -23,6 +24,8 @@ import org.eclipse.ui.XMLMemento;
 
 import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.core.common.ClosureIO;
+import com.trivadis.loganalysis.core.common.Predicate;
+import com.trivadis.loganalysis.jrockit.ui.profile.DefaultProfile;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
@@ -39,7 +42,10 @@ public class Configuration implements IConfiguration {
 
 	public Configuration(final String label, final List<IProfile> profiles) {
 		this.label = label;
-		this.profiles.addAll(profiles);
+		addProfile(new DefaultProfile("Default"));
+		for(final IProfile profile : profiles){
+			addProfile(profile);
+		}
 	}
 
 	public List<IProfile> getProfiles() {
@@ -48,6 +54,7 @@ public class Configuration implements IConfiguration {
 
 	public void addProfile(final IProfile profile) {
 		profiles.add(profile);
+		profile.setConfiguration(this);
 	}
 
 	public void saveMemento(final XMLMemento memento) {
@@ -62,8 +69,8 @@ public class Configuration implements IConfiguration {
 
 	public static IConfiguration loadMemento(final IMemento memento) {
 		final IMemento configuration = memento.getChild(MEMENTO_ELEMENT_NAME);
-		return new Configuration(configuration.getString(ATTRIBUTE_LABEL), collect(asList(configuration.getChildren(Profile.MEMENTO_ELEMENT_NAME)),
-				new ClosureIO<IMemento, IProfile>() {
+		return new Configuration(configuration.getString(ATTRIBUTE_LABEL), collect(
+				asList(configuration.getChildren(Profile.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IProfile>() {
 					public IProfile call(final IMemento in) {
 						return Profile.loadMemento(in);
 					}
@@ -77,6 +84,14 @@ public class Configuration implements IConfiguration {
 
 	public String getLabel() {
 		return label;
+	}
+
+	public IProfile getDefaultProfile() {
+		return findFirst(profiles, new Predicate<IProfile>() {
+			public boolean matches(final IProfile item) {
+				return item instanceof DefaultProfile;
+			}
+		});
 	}
 
 }

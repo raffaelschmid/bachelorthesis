@@ -24,5 +24,9 @@ public interface IProfile {
 	List<IChart> getCharts();
 
 	void saveMemento(IMemento memento);
+	
+	IConfiguration getConfiguration();
+
+	void setConfiguration(IConfiguration configuration);
 
 }

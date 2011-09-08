@@ -32,12 +32,14 @@ import com.trivadis.loganalysis.ui.EditorInput;
 import com.trivadis.loganalysis.ui.Messages;
 import com.trivadis.loganalysis.ui.ResultRunnableWithProgress;
 import com.trivadis.loganalysis.ui.Ui;
+import com.trivadis.loganalysis.ui.UiLoganalysis;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
 public class OpenAnalysisHandler extends AbstractHandler {
 
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		final ISelectionService service = (ISelectionService) HandlerUtil.getActiveWorkbenchWindow(event)
-				.getService(ISelectionService.class);
+		final ISelectionService service = (ISelectionService) HandlerUtil.getActiveWorkbenchWindow(event).getService(
+				ISelectionService.class);
 		final ISelection selection = service.getSelection();
 		if (selection instanceof StructuredSelection) {
 			final StructuredSelection sselection = (StructuredSelection) selection;
@@ -64,18 +66,18 @@ public class OpenAnalysisHandler extends AbstractHandler {
 		}
 	}
 
-	private void showAnalysis(final IFileDescriptor logFileDescriptor,
-			final IWorkbenchPage page, final IAnalyzer<IJvmRun> analyzer) {
+	private void showAnalysis(final IFileDescriptor logFileDescriptor, final IWorkbenchPage page,
+			final IAnalyzer<IJvmRun> analyzer) {
 		try {
-			page.openEditor(
-					new EditorInput(Ui.getDefault().busyCursorWithResultWhile(
-							new ResultRunnableWithProgress<IJvmRun>() {
-								@Override
-								public IJvmRun result(final IProgressMonitor monitor) {
-									return analyzer.process(logFileDescriptor, new Progress(
-											monitor, Messages.OpenGcLoganalysis_progress_message));
-								}
-							})), analyzer.getEditorId());
+			final IJvmRun jvm = Ui.getDefault().busyCursorWithResultWhile(new ResultRunnableWithProgress<IJvmRun>() {
+				@Override
+				public IJvmRun result(final IProgressMonitor monitor) {
+					return analyzer.process(logFileDescriptor, new Progress(monitor,
+							Messages.OpenGcLoganalysis_progress_message));
+				}
+			});
+			final IConfiguration configuration = UiLoganalysis.getConfigurationForJvm(jvm);
+			page.openEditor(new EditorInput(jvm, configuration), analyzer.getEditorId());
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}

@@ -9,20 +9,16 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view;
+package com.trivadis.loganalysis.ui;
 
-import com.trivadis.loganalysis.jrockit.ui.Messages;
+import com.trivadis.loganalysis.core.domain.IJvmRun;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
-public enum Axis {
-	X(Messages.Axis_X), Y(Messages.Axis_Y);
-	private final String msg;
 
-	Axis(String msg) {
-		this.msg = msg;
-	}
+public interface IProfileProvider {
 
-	public String getMsg() {
-		return this.msg;
-	}
+	IConfiguration getConfiguration();
+
+	boolean knowsJvm(IJvmRun jvm);
 
 }

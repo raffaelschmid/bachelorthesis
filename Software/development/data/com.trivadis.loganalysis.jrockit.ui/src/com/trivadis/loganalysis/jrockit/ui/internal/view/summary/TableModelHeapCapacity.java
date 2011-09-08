@@ -30,7 +30,6 @@ import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.space.Area;
 import com.trivadis.loganalysis.jrockit.domain.space.Heap;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.OverviewAbstractTableModel;
 
 public class TableModelHeapCapacity extends OverviewAbstractTableModel {
 

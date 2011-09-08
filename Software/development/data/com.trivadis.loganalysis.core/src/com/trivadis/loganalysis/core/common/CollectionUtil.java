@@ -37,11 +37,11 @@ public class CollectionUtil {
 			closure.call(item);
 		}
 	}
-	
-	public static <T> T findFirst(final List<T> list, final Predicate<T> predicate){
+
+	public static <T> T findFirst(final List<T> list, final Predicate<T> predicate) {
 		T retVal = null;
-		for(final T item : list){
-			if(predicate.matches(item)){
+		for (final T item : list) {
+			if (predicate.matches(item)) {
 				retVal = item;
 				break;
 			}
@@ -104,22 +104,29 @@ public class CollectionUtil {
 	public static BigDecimal max(final List<BigDecimal> list) {
 		BigDecimal max = BigDecimal.ZERO;
 		for (final BigDecimal item : list) {
-			if (item.compareTo(max)>0)
+			if (item.compareTo(max) > 0)
 				max = item;
 		}
 		return max;
 	}
 
 	public static List<BigDecimal> intervals(final List<BigDecimal> list) {
-		//list must be sorted for interval calculation
+		// list must be sorted for interval calculation
 		Collections.sort(list);
 		final List<BigDecimal> retVal = new ArrayList<BigDecimal>();
 		BigDecimal before = list.get(0);
-		for(int i=1;i<list.size();i++){
+		for (int i = 1; i < list.size(); i++) {
 			final BigDecimal current = list.get(i);
 			retVal.add(current.subtract(before));
-			before=current;
+			before = current;
 		}
+		return retVal;
+	}
+
+	public static <T> List<T> merge(final List<T> a, final List<T> b) {
+		final List<T> retVal = new ArrayList<T>();
+		retVal.addAll(a);
+		retVal.addAll(b);
 		return retVal;
 	}
 }

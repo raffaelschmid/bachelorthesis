@@ -30,7 +30,6 @@ import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.core.domain.unit.Time;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.OverviewAbstractTableModel;
 
 public class TableModelOverallStatistics extends OverviewAbstractTableModel {
 

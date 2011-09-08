@@ -29,4 +29,10 @@ public interface IChart {
 
 	void saveMemento(IMemento parent);
 
+	String getYLabel();
+
+	String getXLabel();
+
+	String getDescription();
+
 }

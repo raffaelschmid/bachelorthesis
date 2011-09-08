@@ -11,14 +11,20 @@
  */
 package com.trivadis.loganalysis.jrockit.ui.profile;
 
+import com.trivadis.loganalysis.core.domain.IJvmRun;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.domain.Configuration;
+import com.trivadis.loganalysis.ui.IProfileProvider;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
-import com.trivadis.loganalysis.ui.extensionpoint.IProfileProvider;
 
 public class ProfileProvider implements IProfileProvider {
 
 	public IConfiguration getConfiguration() {
 		return new Configuration("JRockit");
+	}
+
+	public boolean knowsJvm(final IJvmRun jvm) {
+		return jvm instanceof JRockitJvmRun;
 	}
 
 }

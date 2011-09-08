@@ -20,51 +20,58 @@ import org.eclipse.ui.forms.editor.IFormPage;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.custom.JRockitAnalysisEditorPageCustom;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.duration.JRockitAnalysisEditorPageDuration;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.heapusage.JRockitAnalysisEditorPageHeapUsage;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.JRockitAnalysisEditorPageSummary;
 import com.trivadis.loganalysis.ui.AnalysisEditor;
 import com.trivadis.loganalysis.ui.EditorInput;
+import com.trivadis.loganalysis.ui.domain.profile.IChart;
+import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor {
 	public static final String ID = JRockitAnalysisEditor.class.getName();
 	private JRockitJvmRun jvm;
+	private IProfile profile;
 
 	public JRockitAnalysisEditor() {
 	}
 
 	@Override
-	public IFormPage setActivePage(String pageId) {
+	public IFormPage setActivePage(final String pageId) {
 		return super.setActivePage(pageId);
 	}
 
+	@Override
 	protected void addPages() {
 		try {
-			addPage(new JRockitAnalysisEditorPageCustom(this, this.jvm));
-			addPage(new JRockitAnalysisEditorPageSummary(this, this.jvm));
-			addPage(new JRockitAnalysisEditorPageHeapUsage(this, this.jvm));
-			addPage(new JRockitAnalysisEditorPageDuration(this, this.jvm));
-		} catch (PartInitException e) {
+			addPage(new JRockitAnalysisEditorPageSummary(this, jvm));
+			for (final IChart chart : profile.getCharts()) {
+				addPage(new JRockitAnalysisEditorPage(this, jvm, chart));
+			}
+			addPage(new JRockitAnalysisEditorPageCustom(this, jvm));
+		} catch (final PartInitException e) {
 		}
 	}
 
 	@Override
-	public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException {
+	public void init(final IEditorSite site, final IEditorInput editorInput) throws PartInitException {
 		if (!(editorInput instanceof EditorInput))
 			throw new PartInitException("Invalid Input: Must be AnalysisEditorInput");
-		EditorInput input = (EditorInput) editorInput;
+		final EditorInput input = (EditorInput) editorInput;
 		if (!(input.getLogFile() instanceof JRockitJvmRun))
 			throw new PartInitException("Invalid Log File Input");
 		this.jvm = (JRockitJvmRun) input.getLogFile();
+		this.profile = input.getConfiguration().getDefaultProfile();
 		super.init(site, input);
 	}
 
-	public void doSave(IProgressMonitor monitor) {
+	@Override
+	public void doSave(final IProgressMonitor monitor) {
 	}
 
+	@Override
 	public void doSaveAs() {
 	}
 
+	@Override
 	public boolean isSaveAsAllowed() {
 		return false;
 	}

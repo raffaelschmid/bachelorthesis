@@ -34,24 +34,25 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
 import com.trivadis.loganalysis.ui.GridLayoutUtil;
+import com.trivadis.loganalysis.ui.domain.profile.AxisType;
 
 public class ChartPanel extends Composite {
 	private final XYSeriesCollection dataset = new XYSeriesCollection();
-	private JFreeChart chart;
-	private AtomicInteger seriesNr = new AtomicInteger(0);
+	private final JFreeChart chart;
+	private final AtomicInteger seriesNr = new AtomicInteger(0);
 	private final List<Color> colors = asList(Color.blue, Color.red, Color.black, Color.yellow, Color.cyan);
 
-	public ChartPanel(Composite parent, int style, final DataWrapper data, String labelXAxis, String lableYAxis) {
+	public ChartPanel(final Composite parent, final int style, final DataWrapper data, final String labelXAxis, final String lableYAxis) {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
 		chart = createChart(dataset, this, data, "Heap Usage", labelXAxis, lableYAxis);
-		data.addPropertyChangeListeners(createPropertyChangeListener(data), Axis.X, Axis.Y);
+		data.addPropertyChangeListeners(createPropertyChangeListener(data), AxisType.X, AxisType.Y);
 		updateChart(data);
 	}
 
 	private PropertyChangeListener createPropertyChangeListener(final DataWrapper data) {
-		PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent evt) {
+		final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
+			public void propertyChange(final PropertyChangeEvent evt) {
 				updateChart(data);
 			}
 		};
@@ -63,8 +64,8 @@ public class ChartPanel extends Composite {
 		dataset.addSeries(data.getDataset());
 	}
 
-	private JFreeChart createChart(XYDataset dataset, Composite parent, DataWrapper data, String chartName,
-			String xAxisLabel, String yAxisLabel) {
+	private JFreeChart createChart(final XYDataset dataset, final Composite parent, final DataWrapper data, final String chartName,
+			final String xAxisLabel, final String yAxisLabel) {
 		final JFreeChart chart = ChartFactory.createXYLineChart(chartName, xAxisLabel, yAxisLabel, dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 		chart.setBackgroundPaint(Color.white);
@@ -76,15 +77,15 @@ public class ChartPanel extends Composite {
 
 		plot.setRenderer(seriesNr.get(), getRenderer(color()));
 
-		ChartComposite chartComposite = new ChartComposite(parent, SWT.NONE, chart, true);
+		final ChartComposite chartComposite = new ChartComposite(parent, SWT.NONE, chart, true);
 		chartComposite.setLayoutData(GridLayoutUtil.fill());
 		return chart;
 	}
 
-	public void addRangeAxis(String yLabel, XYDataset series) {
-		int index = seriesNr.incrementAndGet();
+	public void addRangeAxis(final String yLabel, final XYDataset series) {
+		final int index = seriesNr.incrementAndGet();
 
-		XYPlot plot = chart.getXYPlot();
+		final XYPlot plot = chart.getXYPlot();
 		plot.setRenderer(index, getRenderer(color()));
 		plot.setRangeAxis(index, new NumberAxis(yLabel));
 		plot.setRangeAxisLocation(index, AxisLocation.BOTTOM_OR_RIGHT);
@@ -95,8 +96,8 @@ public class ChartPanel extends Composite {
 		return colors.get(seriesNr.get());
 	}
 
-	private XYLineAndShapeRenderer getRenderer(Color color) {
-		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+	private XYLineAndShapeRenderer getRenderer(final Color color) {
+		final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 		renderer.setSeriesPaint(0, color);
 		return renderer;
 	}

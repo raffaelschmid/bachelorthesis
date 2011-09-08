@@ -34,7 +34,6 @@ import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.gc.GarbageCollection;
 import com.trivadis.loganalysis.jrockit.domain.gc.OldCollection;
 import com.trivadis.loganalysis.jrockit.domain.gc.YoungCollection;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.OverviewAbstractTableModel;
 
 public class TableModelGcActivity extends OverviewAbstractTableModel {
 	private final JRockitJvmRun jvm;

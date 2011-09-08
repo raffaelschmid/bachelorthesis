@@ -9,13 +9,8 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui.extensionpoint;
+package com.trivadis.loganalysis.ui.domain.profile;
 
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
-
-
-public interface IProfileProvider {
-
-	IConfiguration getConfiguration();
+public interface IValueProvider {
 
 }

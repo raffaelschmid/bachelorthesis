@@ -21,29 +21,31 @@ import org.jfree.data.xy.XYSeries;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.State;
-import com.trivadis.loganalysis.jrockit.file.ValueType;
+import com.trivadis.loganalysis.jrockit.ui.domain.ValueProvider;
+import com.trivadis.loganalysis.ui.domain.profile.AxisType;
+import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 
 public class DataWrapper {
 	private final JRockitJvmRun jvm;
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-	private final Map<Axis, ValueType> axisSelection = new HashMap<Axis, ValueType>();
+	private final Map<AxisType, ValueProvider> axisSelection = new HashMap<AxisType, ValueProvider>();
 
-	public DataWrapper(JRockitJvmRun jvm) {
+	public DataWrapper(final JRockitJvmRun jvm) {
 		this.jvm = jvm;
 	}
 
-	public ValueType addAxisSelection(Axis axis, ValueType type) {
-		return axisSelection.put(axis, type);
+	public void addAxisSelection(final AxisType axisType, final IValueProvider iValueProvider) {
+		axisSelection.put(axisType, (ValueProvider) iValueProvider);
 	}
 
 	public XYSeries getDataset() {
-		ValueType xAxis = getAxisSelection(Axis.X);
-		ValueType yAxis = getAxisSelection(Axis.Y);
+		final ValueProvider xAxis = getAxisSelection(AxisType.X);
+		final ValueProvider yAxis = getAxisSelection(AxisType.Y);
 		final XYSeries series = new XYSeries(xAxis + "/" + yAxis);
 		if (jvm != null) {
-			for (State state : jvm.getHeap().getStates()) {
-				BigDecimal x = xAxis.data(state);
-				BigDecimal y = yAxis.data(state);
+			for (final State state : jvm.getHeap().getStates()) {
+				final BigDecimal x = xAxis.data(state);
+				final BigDecimal y = yAxis.data(state);
 				if (x != null && y != null)
 					series.add(x, y);
 			}
@@ -51,22 +53,22 @@ public class DataWrapper {
 		return series;
 	}
 
-	public ValueType getAxisSelection(Axis axis) {
+	public ValueProvider getAxisSelection(final AxisType axis) {
 		return axisSelection.get(axis);
 	}
 
-	public void addPropertyChangeListener(Axis propertyName, PropertyChangeListener listener) {
+	public void addPropertyChangeListener(final AxisType propertyName, final PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(propertyName.toString(), listener);
 	}
 
-	public void setSelection(Axis axis, ValueType selection) {
-		ValueType oldValue = axisSelection.get(axis);
+	public void setSelection(final AxisType axis, final ValueProvider selection) {
+		final ValueProvider oldValue = axisSelection.get(axis);
 		axisSelection.put(axis, selection);
 		this.propertyChangeSupport.firePropertyChange(axis.toString(), oldValue, selection);
 	}
 
-	public void addPropertyChangeListeners(PropertyChangeListener listener, Axis... axes) {
-		for (Axis axis : axes) {
+	public void addPropertyChangeListeners(final PropertyChangeListener listener, final AxisType... axes) {
+		for (final AxisType axis : axes) {
 			addPropertyChangeListener(axis, listener);
 		}
 	}

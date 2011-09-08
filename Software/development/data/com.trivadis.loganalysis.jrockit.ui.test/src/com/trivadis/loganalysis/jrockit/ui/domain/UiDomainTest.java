@@ -39,11 +39,12 @@ public class UiDomainTest {
 	private static final String Y_AXIS_LABEL = "y-axis";
 	private static final String X_AXIS_LABEL = "x-axis";
 	private static final String CHART_LABEL = "mychart";
-	private static final String PROFILE_LABEL = "default";
+	private static final String PROFILE_LABEL = "Default";
+	private static final String CHART_DESCRIPTION = "desc";
 
 	@Test
 	public void test_create_domain_model_long() {
-		final IChart chart01 = new Chart(CHART_LABEL);
+		final IChart chart01 = new Chart(CHART_LABEL, CHART_DESCRIPTION);
 		final IAxis xAxis = new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X);
 		final IAxis yAxis = new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y);
 		chart01.addAxis(xAxis);
@@ -60,12 +61,13 @@ public class UiDomainTest {
 
 	@Test
 	public void test_create_domain_model_short() {
-		verifyConfiguration(new Configuration(CONFIG_LABEL, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, new Axis(
-				X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))));
+		verifyConfiguration(new Configuration(CONFIG_LABEL, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL,
+				CHART_DESCRIPTION, new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL,
+						COLOR_Y, VALUE_PROVIDER_Y)))));
 	}
 
 	protected void verifyConfiguration(final IConfiguration configuration) {
-		final IProfile profile = configuration.getProfiles().get(0);
+		final IProfile profile = configuration.getProfiles().get(1);
 		assertEquals(1, profile.getCharts().size());
 		assertEquals(PROFILE_LABEL, profile.getLabel());
 
@@ -91,10 +93,11 @@ public class UiDomainTest {
 	}
 
 	protected IConfiguration profile() {
-		return new Configuration(CONFIG_LABEL, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, new Axis(X,
-				X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y))),
-				new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X),
-						new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y))));
+		return new Configuration(CONFIG_LABEL, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
+				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
+						VALUE_PROVIDER_Y))), new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
+				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
+						VALUE_PROVIDER_Y))));
 
 	}
 

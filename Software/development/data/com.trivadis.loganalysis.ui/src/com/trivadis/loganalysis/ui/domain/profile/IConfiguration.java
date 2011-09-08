@@ -26,4 +26,6 @@ public interface IConfiguration {
 
 	String getLabel();
 
+	IProfile getDefaultProfile();
+
 }

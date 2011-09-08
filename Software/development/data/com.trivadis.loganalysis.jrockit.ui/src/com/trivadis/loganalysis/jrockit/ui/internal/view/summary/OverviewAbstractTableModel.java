@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view;
+package com.trivadis.loganalysis.jrockit.ui.internal.view.summary;
 
 import java.util.List;
 
