@@ -100,7 +100,7 @@ Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 		\end{itemize}
 \end{itemize}
 
-\section{Basissoftware (Core Feature)}
+\section{Basissoftware (Core)}
 \subsection{Ablauf Garbage Collection Analyse}
 Nach dem Import der sich auf einem lokalen Laufwerk befindenden Log Datei befindet sich diese im Fenster ``Log Files''. Beim Doppelklick auf diese Datei wird der Analyse-Vorgang gestartet. Mit der Voraussetzung, dass die JRockit Extension (Feature) installiert ist, passiert danach folgendes:
 \begin{enumerate}
@@ -127,7 +127,7 @@ Die Definition von benutzerdefinierten Analysen kann innerhalb von Profilen gesp
 \end{figure}
 \textit{IExtension} ist eine Abstraktion der Extension und dient zur Gruppierung der für die Extension angelegten Profile. Innerhalb eines Profils können unterschiedliche Diagramme (\textit{IChart}) angelegt werden, welche wiederum durch Achsen (\textit{IAxis}) und deren Daten. Die Abfrage der Daten findet über sogenannte \textit{IValueProvider} statt. Diese definieren den Weg, wie die Daten aus dem Domänen-Modell gelesen werden.
 
-\section{JRockit (Extension)}
+\section{JRockit Erweiterung (JRockit Extension)}
 \subsection{Parsen JRockit Garbage Collection Log Datei}
 Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Modulen. Genauer genommen ist es eine Log-Datei, bei welcher die Informationen zur Garbage Collection und Memory Allokation eingeschaltet werden können (siehe Abschnit \ref{logmodule} \titleref{logmodule}). Für die Garbage Collection Analyse sind nur ein Teil dieser Einträge interessant - es werden also niemals alle dieser Einträge von der Analyse-Software verstanden. Für die Analyse der Einträge ist der \textit{JRockitAnalyzer} zuständig.Die Einträge werden durch einen Prozessor, der nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut ist, prozessiert. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules (\textit{MemoryModuleProzessor}). 
 
