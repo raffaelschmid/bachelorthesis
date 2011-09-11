@@ -26,10 +26,10 @@ import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.core.common.Predicate;
 import com.trivadis.loganalysis.jrockit.ui.domain.profile.StandardProfile;
 import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
-public class Configuration implements IConfiguration {
+public class Configuration implements IExtension {
 
 	public static final String MEMENTO_ELEMENT_NAME = "jrockit-r28";
 	private final BindingArrayList<IProfile> profiles = new BindingArrayList<IProfile>(new ArrayList<IProfile>());
@@ -55,7 +55,7 @@ public class Configuration implements IConfiguration {
 		profile.setConfiguration(this);
 	}
 
-	public void saveMemento(final IMemento memento) {
+	public void save(final IMemento memento) {
 		final IMemento configuration = memento.createChild(MEMENTO_ELEMENT_NAME);
 		foreach(findAll(profiles, new Predicate<IProfile>() {
 			public boolean matches(final IProfile item) {
@@ -68,7 +68,7 @@ public class Configuration implements IConfiguration {
 		});
 	}
 
-	public static IConfiguration loadMemento(final IMemento memento) {
+	public static IExtension loadMemento(final IMemento memento) {
 		final List<IProfile> list = new ArrayList<IProfile>();
 		final IMemento jrockitConfig = memento.getChild(Configuration.MEMENTO_ELEMENT_NAME);
 		foreach(asList(jrockitConfig.getChildren(Profile.MEMENTO_ELEMENT_NAME)), new Closure<IMemento>() {

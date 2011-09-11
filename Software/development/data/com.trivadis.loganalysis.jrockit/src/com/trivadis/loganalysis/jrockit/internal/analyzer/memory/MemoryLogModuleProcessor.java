@@ -28,7 +28,7 @@ public class MemoryLogModuleProcessor implements IModuleProcessor {
 
 	private final JRockitExtractor extractor = new JRockitExtractor();
 
-	public ModuleResult proceed(JRockitJvmRun jvm, String line) {
+	public ModuleResult process(JRockitJvmRun jvmRun, String line) {
 		ModuleResult retVal = ModuleResult.PROCEED;
 		if (extractor.checkDataLine(line)) {
 			Map<DataGroups, Value> extraction = extractor.extractDataLine(line);
@@ -43,7 +43,7 @@ public class MemoryLogModuleProcessor implements IModuleProcessor {
 					.memoryCapacity(new Size(extraction.get(DataGroups.HEAP_SIZE_AFTER).toDouble()))
 					.transitionEnd(transition);
 
-			jvm.getHeap().addStates(transition, startState, endState);
+			jvmRun.getHeap().addStates(transition, startState, endState);
 
 			retVal = ModuleResult.RETURN;
 		} else if (extractor.checkHeapInfo(line)) {
@@ -53,10 +53,10 @@ public class MemoryLogModuleProcessor implements IModuleProcessor {
 			long initNurserySize = heapInfo.get(HeapInfoGroups.NURSERY_SIZE).toLong();
 			long iniTenuredSize = initHeapSize - initNurserySize;
 
-			jvm.getHeap().setStartState(new State(0d).memoryCapacity(new Size(initHeapSize)));
-			jvm.getHeap().setMaximumState(new State(0d).memoryCapacity(new Size(maxHeapSize)));
-			jvm.getHeap().getNursery().setStartState(new State(0d).memoryCapacity(new Size(initNurserySize)));
-			jvm.getHeap().getTenured().setStartState(new State(0d).memoryCapacity(new Size(iniTenuredSize)));
+			jvmRun.getHeap().setStartState(new State(0d).memoryCapacity(new Size(initHeapSize)));
+			jvmRun.getHeap().setMaximumState(new State(0d).memoryCapacity(new Size(maxHeapSize)));
+			jvmRun.getHeap().getNursery().setStartState(new State(0d).memoryCapacity(new Size(initNurserySize)));
+			jvmRun.getHeap().getTenured().setStartState(new State(0d).memoryCapacity(new Size(iniTenuredSize)));
 
 			retVal = ModuleResult.RETURN;
 		}

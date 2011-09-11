@@ -17,18 +17,18 @@ import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.domain.Configuration;
 import com.trivadis.loganalysis.ui.IProfileProvider;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 
 public class ProfileProvider implements IProfileProvider {
 
-	private final IConfiguration defaultConfiguration;
-	private IConfiguration configuration;
+	private final IExtension defaultConfiguration;
+	private IExtension configuration;
 
 	public ProfileProvider() {
 		this(JRockitExtension.getContext().getConfiguration());
 	}
 
-	public ProfileProvider(final IConfiguration defaultConfiguration) {
+	public ProfileProvider(final IExtension defaultConfiguration) {
 		this.defaultConfiguration = defaultConfiguration;
 	}
 
@@ -40,11 +40,11 @@ public class ProfileProvider implements IProfileProvider {
 		this.configuration = Configuration.loadMemento(parent);
 	}
 
-	public void saveConfiguration(final IMemento parent, final IConfiguration configuration) {
-		configuration.saveMemento(parent);
+	public void saveConfiguration(final IMemento parent, final IExtension configuration) {
+		configuration.save(parent);
 	}
 
-	public IConfiguration getConfiguration() {
+	public IExtension getConfiguration() {
 		return configuration != null ? configuration : defaultConfiguration;
 	}
 

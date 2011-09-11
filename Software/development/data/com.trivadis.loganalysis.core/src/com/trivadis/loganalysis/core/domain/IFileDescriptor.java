@@ -26,6 +26,6 @@ public interface IFileDescriptor {
 
 	File toFile();
 
-	List<String> getListContent(IContentReader reader);
+	List<String> getContent(IContentReader reader);
 
 }

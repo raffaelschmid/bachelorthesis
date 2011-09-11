@@ -73,7 +73,7 @@ public class FileDescriptor implements IFileDescriptor {
 		return true;
 	}
 
-	public List<String> getListContent(final IContentReader reader) {
+	public List<String> getContent(final IContentReader reader) {
 		List<String> retVal;
 		if (isLoaded()) {
 			retVal = this.rawContent;

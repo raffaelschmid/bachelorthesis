@@ -11,22 +11,24 @@
  */
 package com.trivadis.loganalysis.ui.domain.profile;
 
-import java.util.List;
-
 import org.eclipse.ui.IMemento;
 
-public interface IProfile {
+import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
+
+
+public interface IExtension {
+
+	BindingArrayList<IProfile> getProfiles();
+
+	void addProfile(IProfile profile);
+
+	void save(IMemento memento);
 
 	String getLabel();
 
-	void addChart(IChart chart);
+	IProfile getDefaultProfile();
 
-	List<IChart> getCharts();
+	void addNewDefaultProfile(String label);
 
-	void saveMemento(IMemento memento);
-	
-	IExtension getConfiguration();
-
-	void setConfiguration(IExtension configuration);
-
+	void removeProfile(IProfile profile);
 }

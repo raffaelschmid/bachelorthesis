@@ -28,7 +28,7 @@ import com.trivadis.loganalysis.jrockit.ui.domain.Configuration;
 import com.trivadis.loganalysis.jrockit.ui.domain.Profile;
 import com.trivadis.loganalysis.jrockit.ui.domain.ValueProvider;
 import com.trivadis.loganalysis.ui.IProfileProvider;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 
 public class ProfileProviderTest {
 
@@ -56,7 +56,7 @@ public class ProfileProviderTest {
 		instance.saveConfiguration(memento, configuration(JROCKIT_R28));
 
 		instance.loadConfiguration(memento);
-		final IConfiguration retVal = instance.getConfiguration();
+		final IExtension retVal = instance.getConfiguration();
 		assertNotNull(retVal);
 
 		assertEquals(JROCKIT_R28, retVal.getLabel());
@@ -66,7 +66,7 @@ public class ProfileProviderTest {
 		return XMLMemento.createWriteRoot("state");
 	}
 
-	protected IConfiguration configuration(final String profileLabel) {
+	protected IExtension configuration(final String profileLabel) {
 		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
 				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
 						VALUE_PROVIDER_Y))), new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,

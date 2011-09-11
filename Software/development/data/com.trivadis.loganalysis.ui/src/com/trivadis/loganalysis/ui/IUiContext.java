@@ -15,7 +15,7 @@ import java.util.List;
 
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public interface IUiContext {
@@ -25,9 +25,9 @@ public interface IUiContext {
 
 	void remove(IFileDescriptor file);
 
-	BindingArrayList<IConfiguration> getProfiles();
+	BindingArrayList<IExtension> getProfiles();
 
-	void addConfigurations(List<IConfiguration> profiles);
+	void addConfigurations(List<IExtension> profiles);
 
 	void setSelectedProfile(IProfile selectedProfile);
 

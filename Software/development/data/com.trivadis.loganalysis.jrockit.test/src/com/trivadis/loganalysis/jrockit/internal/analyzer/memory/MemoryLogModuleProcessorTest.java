@@ -30,7 +30,7 @@ public class MemoryLogModuleProcessorTest {
 
 	@Test
 	public void test_gcLine() {
-		ModuleResult chainResult = instance.proceed(jvm, gcLine);
+		ModuleResult chainResult = instance.process(jvm, gcLine);
 		State beginCollection = jvm.getHeap().getStates().get(0);
 		State endCollection = jvm.getHeap().getStates().get(1);
 
@@ -43,7 +43,7 @@ public class MemoryLogModuleProcessorTest {
 	@Test
 	public void test_heapInfoLine() throws Exception {
 
-		ModuleResult chainResult = instance.proceed(jvm, heapInfoLine);
+		ModuleResult chainResult = instance.process(jvm, heapInfoLine);
 		assertEquals(ModuleResult.RETURN, chainResult);
 
 		assertEquals(new Size(1048576.0), jvm.getHeap().getMaximumCapacity());

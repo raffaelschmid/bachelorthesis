@@ -46,7 +46,7 @@ public class DummyDescriptor implements IFileDescriptor {
 				"descriptors method should not be used");
 	}
 
-	public List<String> getListContent(IContentReader reader) {
+	public List<String> getContent(IContentReader reader) {
 		return this.logs;
 	}
 

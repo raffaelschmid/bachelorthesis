@@ -11,10 +11,10 @@
  */
 package com.trivadis.loganalysis.jrockit.ui;
 
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 
 public interface IJRockitUiContext {
 
-	IConfiguration getConfiguration();
+	IExtension getConfiguration();
 
 }

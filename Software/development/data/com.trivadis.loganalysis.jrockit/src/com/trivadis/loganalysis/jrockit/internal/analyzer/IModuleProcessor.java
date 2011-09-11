@@ -15,5 +15,5 @@ import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 
 public interface IModuleProcessor {
-	ModuleResult proceed(JRockitJvmRun logFile, String line);
+	ModuleResult process(JRockitJvmRun jvmRun, String line);
 }

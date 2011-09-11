@@ -23,7 +23,7 @@ import org.eclipse.ui.IMemento;
 import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class Profile implements IProfile {
@@ -32,7 +32,7 @@ public class Profile implements IProfile {
 	public static final String MEMENTO_ELEMENT_NAME = "profile";
 	private final String label;
 	private final List<IChart> charts = new ArrayList<IChart>();
-	private IConfiguration configuration;
+	private IExtension configuration;
 
 	public Profile(final String label, final IChart... c) {
 		this(label, asList(c));
@@ -79,11 +79,11 @@ public class Profile implements IProfile {
 		return "Profile [label=" + label + ", charts=" + charts + "]";
 	}
 
-	public IConfiguration getConfiguration() {
+	public IExtension getConfiguration() {
 		return configuration;
 	}
 
-	public void setConfiguration(final IConfiguration configuration) {
+	public void setConfiguration(final IExtension configuration) {
 		this.configuration = configuration;
 	}
 }

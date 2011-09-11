@@ -31,7 +31,7 @@ import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
 public class JRockitAnalyzerTest {
 	private AtomicInteger count = new AtomicInteger();
 	private IAnalyzer<JRockitJvmRun> analyzer = new JRockitAnalyzer(null, new IModuleProcessor() {
-		public ModuleResult proceed(JRockitJvmRun logFile, String line) {
+		public ModuleResult process(JRockitJvmRun logFile, String line) {
 			count.incrementAndGet();
 			return ModuleResult.PROCEED;
 		}

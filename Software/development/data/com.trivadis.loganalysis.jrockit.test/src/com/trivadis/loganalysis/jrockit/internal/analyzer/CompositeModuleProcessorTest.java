@@ -24,14 +24,14 @@ import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 public class CompositeModuleProcessorTest {
 	AtomicInteger i = new AtomicInteger(0);
 	private IModuleProcessor proceedModule = new IModuleProcessor() {
-		public ModuleResult proceed(JRockitJvmRun logFile, String line) {
+		public ModuleResult process(JRockitJvmRun logFile, String line) {
 			i.incrementAndGet();
 			return ModuleResult.PROCEED;
 		}
 	};
 
 	private IModuleProcessor returnModule = new IModuleProcessor() {
-		public ModuleResult proceed(JRockitJvmRun logFile, String line) {
+		public ModuleResult process(JRockitJvmRun jvmRun, String line) {
 			i.incrementAndGet();
 			return ModuleResult.RETURN;
 		}
@@ -41,14 +41,14 @@ public class CompositeModuleProcessorTest {
 	@Test
 	public void test_proceed() {
 		IModuleProcessor module = new CompositeModuleProcessor(proceedModule, proceedModule);
-		assertSame(ModuleResult.PROCEED, module.proceed(null, null));
+		assertSame(ModuleResult.PROCEED, module.process(null, null));
 		assertEquals(2, i.get());
 	}
 
 	@Test
 	public void test_return() throws Exception {
 		IModuleProcessor chain = new CompositeModuleProcessor(returnModule, returnModule);
-		assertSame(ModuleResult.RETURN, chain.proceed(null, null));
+		assertSame(ModuleResult.RETURN, chain.process(null, null));
 		assertEquals(1, i.get());
 	}
 

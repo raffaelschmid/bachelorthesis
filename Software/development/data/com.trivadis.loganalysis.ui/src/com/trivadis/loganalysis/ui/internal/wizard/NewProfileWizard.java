@@ -17,7 +17,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.trivadis.loganalysis.ui.Messages;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 
 public class NewProfileWizard extends Wizard implements INewWizard {
 
@@ -44,7 +44,7 @@ public class NewProfileWizard extends Wizard implements INewWizard {
 	@Override
 	public boolean performFinish() {
 		boolean retVal = false;
-		final IConfiguration configuration = page.getSelectedConfiguration();
+		final IExtension configuration = page.getSelectedConfiguration();
 		final String label = page.getProfileLabel();
 		if(configuration !=null && label!=null && label.length()>0){
 			configuration.addNewDefaultProfile(label);

@@ -27,10 +27,10 @@ public class CompositeModuleProcessor implements IModuleProcessor {
 		Assert.assertTrue(members.length>0);
 	}
 
-	public ModuleResult proceed(JRockitJvmRun logFile, String line) {
+	public ModuleResult process(JRockitJvmRun jvmRun, String line) {
 		ModuleResult retVal = ModuleResult.RETURN;
 		for (IModuleProcessor handler : chain) {
-			retVal = handler.proceed(logFile, line);
+			retVal = handler.process(jvmRun, line);
 			if (retVal == ModuleResult.RETURN) {
 				break;
 			}

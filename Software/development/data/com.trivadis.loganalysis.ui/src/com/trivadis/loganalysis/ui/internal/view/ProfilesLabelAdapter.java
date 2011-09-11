@@ -14,7 +14,7 @@ package com.trivadis.loganalysis.ui.internal.view;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.internal.Activator;
 
@@ -28,8 +28,8 @@ public class ProfilesLabelAdapter extends LabelProvider {
 	@Override
 	public String getText(final Object obj) {
 		String retVal;
-		if (obj instanceof IConfiguration) {
-			retVal = ((IConfiguration) obj).getLabel();
+		if (obj instanceof IExtension) {
+			retVal = ((IExtension) obj).getLabel();
 		} else if (obj instanceof IProfile) {
 			retVal = ((IProfile) obj).getLabel();
 		} else {

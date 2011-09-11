@@ -41,19 +41,19 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 	}
 
 	public boolean canHandleLogFile(IFileDescriptor descriptor) {
-		List<String> logs = descriptor.getListContent(contentReader);
+		List<String> logs = descriptor.getContent(contentReader);
 		return firstLinePattern.matcher(logs.get(0)).matches();
 	}
 
 	public JRockitJvmRun process(IFileDescriptor descriptor, IProgress progress) {
-		List<String> content = descriptor.getListContent(contentReader);
+		List<String> content = descriptor.getContent(contentReader);
 		JRockitJvmRun logFile = new JRockitJvmRun(descriptor);
 		progress.beginTask(content.size());
 		for (int i = 0; i < content.size(); i++) {
 			if (shouldReportProgress(i)) {
 				progress.worked(i);
 			}
-			moduleProcessor.proceed(logFile, content.get(i));
+			moduleProcessor.process(logFile, content.get(i));
 		}
 		progress.done();
 		return logFile;

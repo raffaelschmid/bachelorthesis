@@ -27,7 +27,7 @@ import org.junit.Test;
 
 import com.trivadis.loganalysis.ui.domain.profile.IAxis;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class UiDomainTest {
@@ -54,7 +54,7 @@ public class UiDomainTest {
 		final IProfile profile = new Profile(PROFILE_LABEL);
 		profile.addChart(chart01);
 
-		final IConfiguration configuration = new Configuration(JROCKIT_R28);
+		final IExtension configuration = new Configuration(JROCKIT_R28);
 		configuration.addProfile(profile);
 
 		verifyConfiguration(configuration);
@@ -67,7 +67,7 @@ public class UiDomainTest {
 						COLOR_Y, VALUE_PROVIDER_Y)))));
 	}
 
-	protected void verifyConfiguration(final IConfiguration configuration) {
+	protected void verifyConfiguration(final IExtension configuration) {
 		final IProfile profile = configuration.getProfiles().get(0);
 		assertEquals(1, profile.getCharts().size());
 		assertEquals(PROFILE_LABEL, profile.getLabel());
@@ -85,23 +85,23 @@ public class UiDomainTest {
 	@Test
 	public void test_saveMemento() throws IOException {
 		final XMLMemento memento = (XMLMemento) memento();
-		configuration(PROFILE_LABEL).saveMemento(memento);
+		configuration(PROFILE_LABEL).save(memento);
 		assertNotNull(memento);
 	}
 
 	@Test
 	public void test_loadMemento() throws Exception {
 		final IMemento memento = memento();
-		configuration(JROCKIT_R28).saveMemento(memento);
+		configuration(JROCKIT_R28).save(memento);
 
-		final IConfiguration configuration = Configuration.loadMemento(memento);
+		final IExtension configuration = Configuration.loadMemento(memento);
 		assertNotNull(configuration);
 		assertEquals(JROCKIT_R28, configuration.getLabel());
 	}
 
 	
 
-	protected IConfiguration configuration(final String profileLabel) {
+	protected IExtension configuration(final String profileLabel) {
 		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
 				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
 						VALUE_PROVIDER_Y))), new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,

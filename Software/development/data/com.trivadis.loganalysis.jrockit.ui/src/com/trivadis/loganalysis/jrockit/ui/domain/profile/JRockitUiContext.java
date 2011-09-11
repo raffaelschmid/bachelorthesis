@@ -13,16 +13,16 @@ package com.trivadis.loganalysis.jrockit.ui.domain.profile;
 
 import com.trivadis.loganalysis.jrockit.ui.IJRockitUiContext;
 import com.trivadis.loganalysis.jrockit.ui.domain.Configuration;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 
 public class JRockitUiContext implements IJRockitUiContext {
-	private final IConfiguration configuartion;
+	private final IExtension configuartion;
 
 	public JRockitUiContext() {
 		this.configuartion = new Configuration("JRockit");
 	}
 
-	public IConfiguration getConfiguration() {
+	public IExtension getConfiguration() {
 		return configuartion;
 	}
 

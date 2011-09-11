@@ -23,7 +23,7 @@ import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.core.common.Predicate;
 import com.trivadis.loganalysis.core.domain.IJvmRun;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 import com.trivadis.loganalysis.ui.internal.UiContext;
 
 public class UiLoganalysis {
@@ -37,15 +37,15 @@ public class UiLoganalysis {
 		return Holder.INSTANCE;
 	}
 
-	public static List<IConfiguration> getConfigurations() {
+	public static List<IExtension> getConfigurations() {
 		return getConfigurations(null);
 	}
 
-	public static List<IConfiguration> getConfigurations(final IMemento memento) {
+	public static List<IExtension> getConfigurations(final IMemento memento) {
 		final List<IProfileProvider> findExtensionInstances = Loganalysis.findExtensionInstances(
 				ExtensionPoint.PROVIDER, ELEMENT_NAME);
-		return collect(findExtensionInstances, new ClosureIO<IProfileProvider, IConfiguration>() {
-			public IConfiguration call(final IProfileProvider in) {
+		return collect(findExtensionInstances, new ClosureIO<IProfileProvider, IExtension>() {
+			public IExtension call(final IProfileProvider in) {
 				if (memento != null)
 					in.loadConfiguration(memento);
 				return in.getConfiguration();
@@ -53,7 +53,7 @@ public class UiLoganalysis {
 		});
 	}
 
-	public static IConfiguration getConfigurationForJvm(final IJvmRun jvm) {
+	public static IExtension getConfigurationForJvm(final IJvmRun jvm) {
 		final List<IProfileProvider> findExtensionInstances = Loganalysis.findExtensionInstances(
 				ExtensionPoint.PROVIDER, ELEMENT_NAME);
 		return findFirst(findExtensionInstances, new Predicate<IProfileProvider>() {
