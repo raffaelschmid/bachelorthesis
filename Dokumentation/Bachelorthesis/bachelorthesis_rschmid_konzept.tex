@@ -2,10 +2,15 @@
 \section{Allgemeines}
 \subsection{Zweck}
 
-\section{Lizenzierung}
+\subsection{Ausgangslage}
+Der Abschnitt hier basiert auf dem vorangehenden Entscheid bei der Auswahl des Rich Client Frameworks. Aus den im Abschnitt \titleref{rcp_entscheid} beschriebenen Gründen wird zur Implementation des Garbage Collection Log Analyzers die Eclipse Rich Client Plattform in der Version 3.x\footnote{die aktuelle Version ist 3.7 (stand: 31.8.2011)} genommen. Die in der Anforderungsanalyse allgemein definierten Anforderungen werden nun spezifisch auf diese Plattform konzipiert, für die einzelnen Thematiken werden nun auch die Begrifflichkeiten innerhalb Eclipse verwendet.
+
+
+\section{Umgebung}
+\subsection{Lizenzierung}
 Die Software wird lizenziert unter der Eclipse Public License\footnote{http://www.eclipse.org/legal/epl-v10.html} in der Version 1.0. Dies ist eine freie Software-Lizenz und gewährt das Recht zur freien Nutzung, Weiterverbreitung und Veränderung der Software. Die Benutzung einer Open-Source Lizenz hat insbesondere folgende Vorteile:
 \begin{itemize}
-	\item An der Entwicklung von Open-Source Software können sich eine beliebige Anzahl an Entwicklern beteiligen. Der Entwicklungsaufwand wird skaliert.
+	\item An der Entwicklung von Open-Source Software können sich eine beliebige Anzahl an Entwicklern beteiligen. Der Entwicklungsaufwand kann skaliert werden.
 	\item Jedermann kann Erweiterungen entwickeln oder Fehler beheben.
 \end{itemize}
 
@@ -20,11 +25,6 @@ Bei der Wahl der Lizenz muss gleichzeitig in Betracht gezogen werden, dass die L
 	JFreeChart & Wird für im Bereich des Reportings verwendet um Graphiken und Charts anzuzeigen. & Lesser General Public License\footnote{http://www.gnu.org/licenses/lgpl.html}\\\hline
 \end{longtable}
 
-\section{Ausgangslage}
-Der Abschnitt hier basiert auf dem vorangehenden Entscheid bei der Auswahl des Rich Client Frameworks. Aus den im Abschnitt \titleref{rcp_entscheid} beschriebenen und nachvollziehbaren Gründen wird zur Implementation des Garbage Collection Log Analyzers die Eclipse Rich Client Plattform in der Version 3.x\footnote{die aktuelle Version ist 3.7 (stand: 31.8.2011)} genommen. Die in der Anforderungsanalyse allgemein definierten Anforderungen werden nun spezifisch auf diese Plattform konzipiert, für die einzelnen Thematiken werden nun auch die Begrifflichkeiten innerhalb Eclipse verwendet.
-
-
-\section{Umgebung}
 \subsection{Build-Automation}
 Die Automatisierung des Software-Builds ist hinsichtlich der Integration in ein Continuous Integration System Voraussetzung. Es hat zusätzlich aber andere Vorteile:
 \begin{itemize}
@@ -48,12 +48,13 @@ Als Continuous Integration Server wird Jenkins\footnote{http://jenkins-ci.org - 
 \end{itemize}
 
 \subsection{Versionskontrolle}
-Zur Versionskontrolle kommen mehrere Werkzeuge in Frage. Da Git\footnote{http://git-scm.com} in einigen Bereichen besser ist als Subversion, CVS und zusätzlich mit Github\footnote{http://github.com} ein darauf basierendes freies Repository verfügbar ist, wird Git verwendet.
-\subsection{Issue Tracker}
-Als Issue Tracker wird Jira verwendet. Es handelt sich zwar im Gegensatz zu Bugzilla um eine kostenpflichtige Software, die geringen kosten lohnen sich aber alle weil. 
+Zur Versionskontrolle kommen mehrere Werkzeuge in Frage. Git\footnote{http://git-scm.com} ist ein verteiltes Sourcecode Management System und ist konzeptionell und hinsichtlich Benutzerfreundlichkeit besser als Subversion und CVS\footnote{Git kann offline verwendet werden, das Verschieben von Verzeichnissen führt nicht zu Problemen, etc.}. Auf der Plattform Github\footnote{http://github.com} kann man öffentliche Projekte gratis ``hosten''.
 
-\section{Installation der Software}\label{installation}
-Auf der Eclipse Plattform können Funktionalitäten auf unterschiedliche Arten verteilt werden. Es handelt sich in der Regel aber um Java-Archive (Jars) die mit gewissen Meta-Informationen versehen sind. Diese Archive können sich sowohl lokal auf dem Dateisystem befinden oder via eine Update-Seite, wobei es sich um den wesentlich effizienteren Weg handelt, bereitgestellt werden. Die Funktionalität zu diesem Prozess stellt das Eclipse Framework bereits zur Verfügung: Update-Seiten\footnote{Update-Seiten werden ebenfalls als Eclipse-Projekte definiert} beinhalten Kategorien mit Features. Ein Feature ist wiederum eine wohldefinierte Software-Komponente bestehend aus unterschiedlichen Plugins - bei diesen handelt es sich um die kleinst mögliche Komponente die aus der Programmlogik und der Schnittstellendefinition\footnote{Plugins definieren die Schnittstelle durch Abhängigkeiten, Exportierte Packete, Importierte Packete und Extension-Points.} besteht.
+\subsection{Issue Tracker}
+Als Issue Tracker wird Jira verwendet. Es handelt sich dabei um eine kostenpflichtige aber relativ günstige Software für das Issue-Tracking.
+
+\subsection{Installation der Software}\label{installation}
+Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Rechner, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Eclipse\footnote{in der Basis ist es Equinox, die Implementation des OSGi Standards} ist in der Lage, Plugins zur Laufzeit zu installieren, starten, deinstallieren.
 
 Die Update-Seite für diese Software wird folgendermassen aufgebaut:
 \begin{itemize}
@@ -63,47 +64,93 @@ Die Update-Seite für diese Software wird folgendermassen aufgebaut:
 			\item JRockit Extension (Feature)
 		\end{itemize}
 \end{itemize}
-Der Vorteil dieser Struktur ist, dass man nachträglich noch zusätzliche Extensions hinzufügen kann.
+Nachträglich kann somit auch für ein anderes Log-Format eine Extension geschrieben werden.
 
 
-\section{Architektur}
-\subsection{Basiskomponenten}
-Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zwei getrennten Features. Das Core-Feature ist verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, etc.). Die JRockit Extension ist eine wird benötigt, um überhaupt den Inhalt der Log Dateien zu parsen, ein adäquates Domänenmodell zu erstellen und die Charts/Reports dafür anzuzeigen. Diese Aufteilung hat zum Zweck, dass die Software mit anderen Log-Formaten erweitert werden kann.
+\section{Übersicht}
+\subsection{Architektur}
+Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zwei getrennten Features. Das Core-Feature ist die Basis und verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, Profil-Verwaltung, etc.). Die JRockit Extension ist eine für die Garbage Collection Logs der JRockit geschriebene Erweiterung. Sie ist für das Parsing der Log-Dateien, die Aufbereitung der Daten und die Anzeige der Charts zuständig. Beinhaltet aber keine Core-Funktionalität.
  \begin{figure}[H]
   	\centering
         	\caption{Architektur: Komponentendiagramm}
     	\includegraphics[width=15cm]{images/architektur_komponenten_uebersicht}
 \end{figure}
 
-Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einer von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für den Presentation Layer verwendet} unabhängigen Teil (``loganalysis.core''). Startet der Anwender einen Import einer Garbage Collection Datei, werden durch das Core-Feature alle registrierten Extensions abgefragt, ob sie den Inhalt dieser Datei verstehen. Sobald dies zutrifft, wird das Parsing und die Anzeige des Reports, Charts an diese Extension delegiert. Im Eclipse Framework passiert diese Registrierung über das Prinzip der Extension-Points.
+Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einem von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für den Presentation Layer verwendet} unabhängigen Teil (``loganalysis.core''). Öffnet der Benutzer eine Garbage Collection Log Datei, wird diese durch das Core Feature eingelesen und an alle verfügbaren Extensions weitergeleitet. Die erste Extension welche den Inhalt der Datei versteht, öffnet seine dafür vorgesehenen Reports und Charts. Jede Extension hat ein basierend auf dem Log-Format eigenes Domänen-Modell.
 
-\subsection{Weitere Bundles}
-Zusätzlich zu den behandelten Plugins wurden noch einige nicht erwähnt:
-
+\subsection{Weitere Projekte}
+Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 \begin{itemize}
-	\item Feature Bundles
+	\item Features\footnote{Feature-Projekte definieren im Eclipse-Umfeld ein in sich lauffähiges Software-Packet. Via einen Xml-Deskriptor werden die abhängigen Plugin-Projekte definiert und in das Feature gepackt.}
 		\begin{itemize}
 			\item loganalysis.feature
 			\item loganalysis.jrockit.feature
 		\end{itemize}
-	\item Thirdparty Bibliotheken
+	\item Thirdparty Bibliotheken\footnote{Thirdparty Bibliotheken werden ebenfalls in ein Plugin gepackt, da innerhalb der Eclipse-Runntime nur Plugins installiert werden können. Die ``Plugin-Hülle'' definiert die exportierten und importierten Packete und die Abhängigkeiten.}
 		\begin{itemize}
 			\item  loganalysis.jfreechart.libs (JFreeChart Library)
 		\end{itemize}
-	\item Diverses
+	\item Targetplattform\footnote{Die Targetplattform ist eine Konfiguration welche definiert, gegen welche Plattform die Anwendung entwickelt wird.}
 		\begin{itemize}
 			\item  loganalysis.targetplatform (beinhaltet die Target-Plattform)
+		\end{itemize}
+	\item Update-Seite\footnote{Die Konfiguration innerhalb eines Projekts zur Erstellung einer Update-Seite definiert die auf der Seite publizierten Features.}
+		\begin{itemize}
 			\item loganalysis.updatesite (definiert und generiert die Update-Seite)
 		\end{itemize}
 \end{itemize}
 
-\section{Domänenmodell}
+\section{Basissoftware (Core Feature)}
+\subsection{Ablauf Garbage Collection Analyse}
+Nach dem Import der sich auf einem lokalen Laufwerk befindenden Log Datei befindet sich diese im Fenster ``Log Files''. Beim Doppelklick auf diese Datei wird der Analyse-Vorgang gestartet. Mit der Voraussetzung, dass die JRockit Extension (Feature) installiert ist, passiert danach folgendes:
+\begin{enumerate}
+	\item Die Garbage Collection Log Datei wird eingelesen und im FileDescriptor gespeichert.
+	\item Für alle durch Extensions registrierte Log-File Analyzer, wird abgefragt, ob er die Datei versteht.
+	\item Dem ersten dieser Analyzer wird dieses FileDescriptor Objekt übergeben um den Inhalt zu prozessieren. Als Resultat wird ein Objekt vom Typ IJvmRun erwartet. Zusätzlich dazu wird der Identifikator des zu öffnenden Analyse-Fensters zurückgeliefert.
+	\item Der passende Analysebildschirm (befindet sich innerhalb der Extension) wird geöffnet.
+\end{enumerate}
+\subsubsection{Domänenmodell}
  \begin{figure}[H]
   	\centering
-        	\caption{Architektur: Komponentendiagramm}
-    	\includegraphics[width=15.5cm]{images/domainmodel_basic}
+        	\caption{Domänenmodell: Garbage Collection}
+    	\includegraphics[width=11cm]{images/core_domain}
 \end{figure}
-\section{Funktionalität}
+\textit{IFileDescriptor} wird für die Abstraktion der Garbage Collection Log Datei verwendet. Darin enthalten sind Metadaten wie Dateiname und Pfad sowie der Inhalt der Datei - dieser wird allerdings erst beim öffnen der Analyse geladen (lazy). Das Basis-Modell beinhaltet zusätzlich eine naive Abstraktion eines Runs: \textit{IJvmRun} und \textit{AbstractJvmRun}. Diese werden dann in der jeweiligen Extension realisiert (Beispiel: \textit{JRockitJvmRun}). 
+
+\subsection{Profilverwaltung}
+Die Definition von benutzerdefinierten Analysen kann innerhalb von Profilen gespeichert werden. Diese Profile werden in einer Übersicht dargestellt und sind gruppiert nach der jeweiligen Extension (Beispiel: JRockit). Sofern eine Log-Datei geöffnet oder selektiert ist, kann durch Doppelklick auf ein gespeichertes Profil die Analyse dafür geöffnet werden. Die Implementation der View-Domäne befindet sich in der jeweiligen Extension. Damit das Profil über die View ``Profiles'' ersichtlich ist, muss es \textit{IProfile} realisieren.
+\subsubsection{Domänenmodell}
+ \begin{figure}[H]
+  	\centering
+        	\caption{Domänenmodell: Profilverwaltung}
+    	\includegraphics[width=13cm]{images/core_domain_profiles}
+\end{figure}
+\textit{IExtension} ist eine Abstraktion der Extension und dient zur Gruppierung der für die Extension angelegten Profile. Innerhalb eines Profils können unterschiedliche Diagramme (\textit{IChart}) angelegt werden, welche wiederum durch Achsen (\textit{IAxis}) und deren Daten. Die Abfrage der Daten findet über sogenannte \textit{IValueProvider} statt. Diese definieren den Weg, wie die Daten aus dem Domänen-Modell gelesen werden.
+
+\section{JRockit (Extension)}
+\subsection{Parsen JRockit Garbage Collection Log Datei}
+Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Modulen. Genauer genommen ist es eine Log-Datei, bei welcher die Informationen zur Garbage Collection und Memory Allokation eingeschaltet werden können (siehe Abschnit \ref{logmodule} \titleref{logmodule}). Für die Garbage Collection Analyse sind nur ein Teil dieser Einträge interessant - es werden also niemals alle dieser Einträge von der Analyse-Software verstanden. Für die Analyse der Einträge ist der \textit{JRockitAnalyzer} zuständig.Die Einträge werden durch einen Prozessor, der nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut ist, prozessiert. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules (\textit{MemoryModuleProzessor}). 
+
+
+
+
+ \begin{figure}[H]
+  	\centering
+        	\caption{JRockit Analyseprozess}
+    	\includegraphics[width=16cm]{images/jrockit_log_processing}
+\end{figure}
+
+\subsection{JRockit Garbage Collection}
+\begin{landscape}
+ \begin{figure}[H]
+  	\centering
+        	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
+    	\includegraphics[width=19.5cm]{images/jrockit_extension_domain}
+\end{figure}
+\end{landscape}
+\subsection{Charts, Reports}
+
+\section{Funktionalitäten}
 \subsection{Software-Installationsprozess}
 \subsubsection{Relevante Requirements}
 \begin{itemize}
