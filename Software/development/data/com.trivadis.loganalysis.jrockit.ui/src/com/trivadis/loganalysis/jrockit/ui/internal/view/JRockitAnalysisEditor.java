@@ -59,7 +59,7 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 		if (!(input.getLogFile() instanceof JRockitJvmRun))
 			throw new PartInitException("Invalid Log File Input");
 		this.jvm = (JRockitJvmRun) input.getLogFile();
-		this.profile = input.getConfiguration().getDefaultProfile();
+		this.profile = input.getProfile();
 		super.init(site, input);
 	}
 

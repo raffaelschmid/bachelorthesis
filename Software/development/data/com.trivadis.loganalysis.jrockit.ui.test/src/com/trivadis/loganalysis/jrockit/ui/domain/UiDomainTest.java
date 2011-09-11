@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import org.eclipse.ui.IMemento;
 import org.eclipse.ui.XMLMemento;
 import org.junit.Test;
 
@@ -31,7 +32,7 @@ import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class UiDomainTest {
 
-	private static final String CONFIG_LABEL = "label";
+	private static final String JROCKIT_R28 = "JRockit R28";
 	private static final Color COLOR_X = Color.red;
 	private static final ValueProvider VALUE_PROVIDER_X = ValueProvider.TIME;
 	private static final ValueProvider VALUE_PROVIDER_Y = ValueProvider.MEMORY;
@@ -39,7 +40,7 @@ public class UiDomainTest {
 	private static final String Y_AXIS_LABEL = "y-axis";
 	private static final String X_AXIS_LABEL = "x-axis";
 	private static final String CHART_LABEL = "mychart";
-	private static final String PROFILE_LABEL = "Default";
+	private static final String PROFILE_LABEL = "profile-label-01";
 	private static final String CHART_DESCRIPTION = "desc";
 
 	@Test
@@ -53,7 +54,7 @@ public class UiDomainTest {
 		final IProfile profile = new Profile(PROFILE_LABEL);
 		profile.addChart(chart01);
 
-		final IConfiguration configuration = new Configuration(CONFIG_LABEL);
+		final IConfiguration configuration = new Configuration(JROCKIT_R28);
 		configuration.addProfile(profile);
 
 		verifyConfiguration(configuration);
@@ -61,13 +62,13 @@ public class UiDomainTest {
 
 	@Test
 	public void test_create_domain_model_short() {
-		verifyConfiguration(new Configuration(CONFIG_LABEL, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL,
+		verifyConfiguration(new Configuration(JROCKIT_R28, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL,
 				CHART_DESCRIPTION, new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL,
 						COLOR_Y, VALUE_PROVIDER_Y)))));
 	}
 
 	protected void verifyConfiguration(final IConfiguration configuration) {
-		final IProfile profile = configuration.getProfiles().get(1);
+		final IProfile profile = configuration.getProfiles().get(0);
 		assertEquals(1, profile.getCharts().size());
 		assertEquals(PROFILE_LABEL, profile.getLabel());
 
@@ -83,17 +84,25 @@ public class UiDomainTest {
 
 	@Test
 	public void test_saveMemento() throws IOException {
-		final XMLMemento memento = memento();
-		profile().saveMemento(memento);
+		final XMLMemento memento = (XMLMemento) memento();
+		configuration(PROFILE_LABEL).saveMemento(memento);
 		assertNotNull(memento);
-
-		final Writer sw = new StringWriter();
-		memento.save(sw);
-		System.out.println(sw.toString());
 	}
 
-	protected IConfiguration profile() {
-		return new Configuration(CONFIG_LABEL, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
+	@Test
+	public void test_loadMemento() throws Exception {
+		final IMemento memento = memento();
+		configuration(JROCKIT_R28).saveMemento(memento);
+
+		final IConfiguration configuration = Configuration.loadMemento(memento);
+		assertNotNull(configuration);
+		assertEquals(JROCKIT_R28, configuration.getLabel());
+	}
+
+	
+
+	protected IConfiguration configuration(final String profileLabel) {
+		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
 				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
 						VALUE_PROVIDER_Y))), new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
 				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
@@ -101,17 +110,14 @@ public class UiDomainTest {
 
 	}
 
-	@Test
-	public void test_loadMemento() throws Exception {
-		final XMLMemento memento = memento();
-		profile().saveMemento(memento);
-
-		final IConfiguration configuration = Configuration.loadMemento(memento);
-		System.out.println(configuration);
-
-	}
-
-	protected XMLMemento memento() {
+	protected IMemento memento() {
 		return XMLMemento.createWriteRoot("state");
 	}
+
+	protected void showXmlContent(final XMLMemento memento) throws IOException {
+		final Writer sw = new StringWriter();
+		memento.save(sw);
+		System.out.println(sw.toString());
+	}
+
 }

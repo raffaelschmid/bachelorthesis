@@ -9,23 +9,12 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui;
+package com.trivadis.loganalysis.jrockit.ui;
 
-import org.eclipse.ui.IMemento;
-
-import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
-
-public interface IProfileProvider {
-
-	boolean knowsJvm(IJvmRun jvm);
-
-	void saveConfiguration(IMemento memento, IConfiguration configuration);
-
-	void loadConfiguration(IMemento memento);
+public interface IJRockitUiContext {
 
 	IConfiguration getConfiguration();
-
 
 }

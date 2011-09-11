@@ -66,7 +66,6 @@ public class Profile implements IProfile {
 	}
 
 	public static IProfile loadMemento(final IMemento in) {
-		System.out.println(in.getType());
 		return new Profile(in.getString(ATTRIBUTE_LABEL), collect(asList(in.getChildren(Chart.MEMENTO_ELEMENT_NAME)),
 				new ClosureIO<IMemento, IChart>() {
 					public IChart call(final IMemento in) {
@@ -84,7 +83,7 @@ public class Profile implements IProfile {
 		return configuration;
 	}
 
-	public void setConfiguration(IConfiguration configuration) {
+	public void setConfiguration(final IConfiguration configuration) {
 		this.configuration = configuration;
 	}
 }

@@ -9,8 +9,10 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.core;
+package com.trivadis.loganalysis.ui.common.binding;
 
-public interface SelectedFilesChangeListener {
-	void fileSelectionChanged();
+public interface IListChangeListener {
+
+	void listChanged();
+
 }

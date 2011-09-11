@@ -9,17 +9,16 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui;
+package com.trivadis.loganalysis.jrockit.ui.domain.profile;
 
-import static org.junit.Assert.assertTrue;
+import com.trivadis.loganalysis.jrockit.ui.IJRockitUiContext;
 
-import org.junit.Test;
-
-public class FooTest {
-
-	@Test
-	public void test() {
-		assertTrue(true);
+public class JRockitExtension {
+	private static class Holder{
+		private static final IJRockitUiContext context = new JRockitUiContext();
+	}
+	public static IJRockitUiContext getContext() {
+		return Holder.context;
 	}
 
 }

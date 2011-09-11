@@ -17,9 +17,11 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
@@ -28,19 +30,21 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
-import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
 import com.trivadis.loganalysis.core.domain.FileDescriptor;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
+import com.trivadis.loganalysis.ui.common.binding.IListChangeListener;
 import com.trivadis.loganalysis.ui.internal.Activator;
 import com.trivadis.loganalysis.ui.internal.Command;
 
-public class LogFilesView extends ViewPart implements SelectedFilesChangeListener {
+public class LogFilesView extends ViewPart implements IListChangeListener, ISelectionListener {
 
 	public static final String ID = LogFilesView.class.getName();
 
@@ -55,47 +59,52 @@ public class LogFilesView extends ViewPart implements SelectedFilesChangeListene
 		this(UiLoganalysis.getUiContext());
 	}
 
-	public LogFilesView(IUiContext context) {
+	public LogFilesView(final IUiContext context) {
 		this.context = context;
-		context.addLogFilesChangeListener(this);
 	}
 
 	class LogFilesContentProvider implements IStructuredContentProvider {
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
+		public void inputChanged(final Viewer v, final Object oldInput, final Object newInput) {
 		}
 
 		public void dispose() {
 		}
 
-		public Object[] getElements(Object parent) {
+		public Object[] getElements(final Object parent) {
 			return context.getSelectedFiles().toArray();
 		}
 	}
 
 	class LogFilesLabelProvider extends LabelProvider implements ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
-			return getText(obj);
+		public String getColumnText(final Object obj, final int index) {
+			String retVal;
+			if (obj instanceof IFileDescriptor) {
+				retVal = ((IFileDescriptor) obj).getFileName();
+			} else {
+				retVal = getText(obj);
+			}
+			return retVal;
 		}
 
-		public Image getColumnImage(Object obj, int index) {
+		public Image getColumnImage(final Object obj, final int index) {
 			return getImage(obj);
 		}
 
 		@Override
-		public Image getImage(Object obj) {
+		public Image getImage(final Object obj) {
 			return Activator.getDefault().getImageDescriptor("icons/chart.gif").createImage();
 		}
 	}
 
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(final Composite parent) {
 		createListViewer(parent);
 		makeActions();
 		hookDoubleClickAction();
 		registerContextMenu();
 	}
 
-	private void createListViewer(Composite parent) {
+	private void createListViewer(final Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new LogFilesContentProvider());
 		viewer.setLabelProvider(new LogFilesLabelProvider());
@@ -106,7 +115,7 @@ public class LogFilesView extends ViewPart implements SelectedFilesChangeListene
 	private void registerContextMenu() {
 		final MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
+		final Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
 		getSite().registerContextMenu(menuMgr, viewer);
 		getSite().setSelectionProvider(viewer);
@@ -123,7 +132,7 @@ public class LogFilesView extends ViewPart implements SelectedFilesChangeListene
 
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			public void doubleClick(DoubleClickEvent event) {
+			public void doubleClick(final DoubleClickEvent event) {
 				doubleClickAction.run();
 			}
 		});
@@ -135,31 +144,44 @@ public class LogFilesView extends ViewPart implements SelectedFilesChangeListene
 	}
 
 	@Override
-	public void saveState(IMemento memento) {
+	public void saveState(final IMemento memento) {
 		super.saveState(memento);
-		StringBuffer buf = new StringBuffer();
-		for (IFileDescriptor file : context.getSelectedFiles()) {
+		final StringBuffer buf = new StringBuffer();
+		for (final IFileDescriptor file : context.getSelectedFiles()) {
 			buf.append(file.getAbsolutePath() + File.pathSeparator);
 		}
 		memento.putString(STORAGE_KEY, buf.toString());
 	}
 
 	@Override
-	public void init(IViewSite site, IMemento memento) throws PartInitException {
+	public void init(final IViewSite site, final IMemento memento) throws PartInitException {
 		super.init(site, memento);
 		if (memento != null) {
-			String value = memento.getString(STORAGE_KEY);
+			final String value = memento.getString(STORAGE_KEY);
 			if (value != null) {
-				for (String filePath : value.split(File.pathSeparator)) {
-					IFileDescriptor file = FileDescriptor.fromFile(filePath);
+				for (final String filePath : value.split(File.pathSeparator)) {
+					final IFileDescriptor file = FileDescriptor.fromFile(filePath);
 					if (file != null)
 						context.addSelectedFile(file);
 				}
 			}
 		}
+		getSite().getPage().addSelectionListener(this);
+		context.getSelectedFiles().addChangeListener(this);
 	}
 
-	public void fileSelectionChanged() {
+	public void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
+		if (selection instanceof StructuredSelection) {
+			final StructuredSelection ss = (StructuredSelection) selection;
+			if (ss.getFirstElement() instanceof IFileDescriptor) {
+				final IFileDescriptor fd = (IFileDescriptor) ss.getFirstElement();
+				context.setSelectedLogFile(fd);
+			}
+		}
+
+	}
+
+	public void listChanged() {
 		if (viewer != null)
 			viewer.refresh();
 	}

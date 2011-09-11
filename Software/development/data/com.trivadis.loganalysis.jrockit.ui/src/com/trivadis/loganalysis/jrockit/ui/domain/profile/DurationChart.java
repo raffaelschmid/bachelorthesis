@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.profile;
+package com.trivadis.loganalysis.jrockit.ui.domain.profile;
 
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.X;
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.Y;
@@ -21,11 +21,11 @@ import com.trivadis.loganalysis.jrockit.ui.domain.Axis;
 import com.trivadis.loganalysis.jrockit.ui.domain.Chart;
 import com.trivadis.loganalysis.jrockit.ui.domain.ValueProvider;
 
-public class HeapChart extends Chart {
+public class DurationChart extends Chart {
 
-	public HeapChart() {
-		super("Heap Analysis", Messages.JRockitAnalysisEditorPageHeapUsage_1, new Axis(X, "Time (Seconds)", Color.red,
-				ValueProvider.TIME), new Axis(Y, "Heap Size (KB)", Color.blue, ValueProvider.MEMORY));
+	public DurationChart() {
+		super("Duration", Messages.JRockitAnalysisEditorPageDuration_2, new Axis(X, "Time (Seconds)", Color.red, ValueProvider.TIME), new Axis(Y,
+				"Garbage Collection Duration (Seconds)", Color.blue, ValueProvider.DURATION));
 	}
 
 }

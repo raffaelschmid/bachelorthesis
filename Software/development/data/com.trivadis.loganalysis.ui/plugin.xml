@@ -75,6 +75,10 @@
             id="com.trivadis.loganalysis.ui.openImportDialog"
             name="%command.openImportDialog">
       </command>
+      <command
+            id="com.trivadis.loganalysis.ui.deleteProfile"
+            name="Delete Profile">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -98,6 +102,10 @@
             class="com.trivadis.loganalysis.ui.internal.handler.OpenImportDialogHandler"
             commandId="com.trivadis.loganalysis.ui.openImportDialog">
       </handler>
+      <handler
+            class="com.trivadis.loganalysis.ui.internal.handler.DeleteProfileHandler"
+            commandId="com.trivadis.loganalysis.ui.deleteProfile">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.importWizards">
@@ -116,7 +124,7 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="popup:com.trivadis.loganalysis.ui.internal.view.logfiles.LogFilesView?after=additions">
+            locationURI="popup:com.trivadis.loganalysis.ui.internal.view.LogFilesView?after=additions">
          <command
                commandId="com.trivadis.loganalysis.ui.deleteLogFile"
                disabledIcon="IMG_TOOL_DELETE_DISABLED"
@@ -149,5 +157,42 @@
             </command>
         </toolbar>
    </menuContribution>
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:com.trivadis.loganalysis.ui.internal.view.ProfilesView?after=additions">
+         <command
+               commandId="com.trivadis.loganalysis.ui.deleteProfile"
+               icon="IMG_TOOL_DELETE"
+               label="Delete"
+               style="push"
+               tooltip="Remove this profile from the view.">
+               <visibleWhen>
+            <with variable="selection">
+                <iterate ifEmpty="false" operator="and">
+                    <instanceof value="com.trivadis.loganalysis.ui.domain.profile.IProfile"/>
+                    <not>
+                    	<instanceof value="com.trivadis.loganalysis.ui.domain.profile.IDefaultProfile"/>
+                    </not>
+                </iterate>
+            </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="com.trivadis.loganalysis.ui.internal.wizard.new.garbageCollection"
+            name="Garbage Collection">
+      </category>
+      <wizard
+            category="com.trivadis.loganalysis.ui.internal.wizard.new.garbageCollection"
+            class="com.trivadis.loganalysis.ui.internal.wizard.NewProfileWizard"
+            finalPerspective="com.trivadis.loganalysis.ui.internal.perspective.GarbageCollectionAnalysisPerspective"
+            hasPages="true"
+            icon="icons/profile.gif"
+            id="com.trivadis.loganalysis.ui.internal.wizard.newProfile"
+            name="Analysis Profile">
+      </wizard>
    </extension>
 </plugin>

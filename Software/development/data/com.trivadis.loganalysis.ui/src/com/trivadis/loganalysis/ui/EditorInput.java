@@ -16,17 +16,17 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
 
 import com.trivadis.loganalysis.core.domain.IJvmRun;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.internal.Activator;
 
 public class EditorInput implements IEditorInput {
 
 	private final IJvmRun logFile;
-	private final IConfiguration configuration;
+	private final IProfile profile;
 
-	public EditorInput(final IJvmRun logFile, final IConfiguration configuration) {
+	public EditorInput(final IJvmRun logFile, final IProfile profile) {
 		this.logFile = logFile;
-		this.configuration = configuration;
+		this.profile = profile;
 	}
 
 	public ImageDescriptor getImageDescriptor() {
@@ -58,8 +58,8 @@ public class EditorInput implements IEditorInput {
 		return logFile;
 	}
 
-	public IConfiguration getConfiguration() {
-		return configuration;
+	public IProfile getProfile() {
+		return profile;
 	}
 
 }

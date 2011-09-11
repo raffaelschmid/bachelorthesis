@@ -11,38 +11,42 @@
  */
 package com.trivadis.loganalysis.ui.internal.view;
 
+import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.part.ViewPart;
 
-import com.trivadis.loganalysis.core.SelectedFilesChangeListener;
+import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
+import com.trivadis.loganalysis.ui.common.binding.IListChangeListener;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
-import com.trivadis.loganalysis.ui.internal.Activator;
 import com.trivadis.loganalysis.ui.internal.Command;
 
-public class ProfilesView extends ViewPart implements SelectedFilesChangeListener {
+public class ProfilesView extends ViewPart implements ISelectionListener, IListChangeListener {
 
 	public static final String ID = ProfilesView.class.getName();
-
-	private static final Object[] EMPTY_ARRAY = new Object[] {};
-	private static final String STORAGE_KEY = ID + ".profiles";
 
 	private TreeViewer viewer;
 	private Action doubleClickAction;
@@ -55,59 +59,6 @@ public class ProfilesView extends ViewPart implements SelectedFilesChangeListene
 
 	public ProfilesView(final IUiContext context) {
 		this.context = context;
-		context.addLogFilesChangeListener(this);
-	}
-
-	class ProfilesContentAdapter implements ITreeContentProvider {
-
-		public void dispose() {
-		}
-
-		public void inputChanged(final Viewer viewer, final Object oldInput, final Object newInput) {
-		}
-
-		public Object[] getElements(final Object inputElement) {
-			return UiLoganalysis.getConfigurations().toArray();
-		}
-
-		public Object[] getChildren(final Object parentElement) {
-			Object[] retVal = EMPTY_ARRAY;
-			if (parentElement instanceof IConfiguration) {
-				final IConfiguration box = (IConfiguration) parentElement;
-				retVal = box.getProfiles().toArray();
-			}
-			return retVal;
-		}
-
-		public Object getParent(final Object element) {
-			return (element instanceof IProfile) ? ((IProfile) element).getConfiguration() : null;
-		}
-
-		public boolean hasChildren(final Object element) {
-			return element != null && element instanceof IConfiguration
-					&& ((IConfiguration) element).getProfiles().size() > 0;
-		}
-	}
-
-	class ProfilesLabelAdapter extends LabelProvider {
-
-		@Override
-		public Image getImage(final Object obj) {
-			return Activator.getDefault().getImageDescriptor("icons/profile.gif").createImage();
-		}
-
-		@Override
-		public String getText(final Object obj) {
-			String retVal;
-			if (obj instanceof IConfiguration) {
-				retVal = ((IConfiguration) obj).getLabel();
-			} else if (obj instanceof IProfile) {
-				retVal = ((IProfile) obj).getLabel();
-			} else {
-				retVal = getText(obj);
-			}
-			return retVal;
-		}
 	}
 
 	@Override
@@ -120,7 +71,7 @@ public class ProfilesView extends ViewPart implements SelectedFilesChangeListene
 
 	private void createListViewer(final Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		viewer.setContentProvider(new ProfilesContentAdapter());
+		viewer.setContentProvider(new ProfilesContentAdapter(true));
 		viewer.setLabelProvider(new ProfilesLabelAdapter());
 		viewer.setSorter(new ViewerSorter());
 		viewer.setInput(getViewSite());
@@ -159,23 +110,50 @@ public class ProfilesView extends ViewPart implements SelectedFilesChangeListene
 
 	@Override
 	public void saveState(final IMemento memento) {
-		super.saveState(memento);
-		final StringBuffer buf = new StringBuffer();
-		memento.putString(STORAGE_KEY, buf.toString());
+		foreach(context.getProfiles(), new Closure<IConfiguration>() {
+			public void call(final IConfiguration in) {
+				in.saveMemento(memento);
+			}
+		});
+		showXml(memento);
+	}
+
+	protected void showXml(final IMemento memento) {
+		final Writer sw = new StringWriter();
+		final XMLMemento xmlMemento = (XMLMemento) memento;
+		try {
+			xmlMemento .save(sw);
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(sw.toString());
 	}
 
 	@Override
 	public void init(final IViewSite site, final IMemento memento) throws PartInitException {
 		super.init(site, memento);
-		context.addProfiles(UiLoganalysis.getConfigurations());
-		// String value = memento.getString(STORAGE_KEY);
-		// TODO: Dummy
-		// context.addProfile(new Profile("Default"));
+		
+		showXml(memento);
+		context.addConfigurations(UiLoganalysis.getConfigurations(memento));
+		context.getProfiles().addChangeListener(this); // data binding
+		for (final IConfiguration configuration : context.getProfiles()) {
+			configuration.getProfiles().addChangeListener(this);
+		}
+		getSite().getPage().addSelectionListener(this);
 	}
 
-	public void fileSelectionChanged() {
+	public void selectionChanged(final IWorkbenchPart part, final ISelection selection) {
+		if (selection instanceof StructuredSelection) {
+			final StructuredSelection ss = (StructuredSelection) selection;
+			if (ss.getFirstElement() instanceof IProfile) {
+				final IProfile profile = (IProfile) ss.getFirstElement();
+				context.setSelectedProfile(profile);
+			}
+		}
+	}
+
+	public void listChanged() {
 		if (viewer != null)
 			viewer.refresh();
 	}
-
 }

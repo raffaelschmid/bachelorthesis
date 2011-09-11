@@ -9,15 +9,16 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.profile;
+package com.trivadis.loganalysis.jrockit.ui.domain.profile;
 
 import java.util.Arrays;
 import java.util.List;
 
 import com.trivadis.loganalysis.jrockit.ui.domain.Profile;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
+import com.trivadis.loganalysis.ui.domain.profile.IDefaultProfile;
 
-public class DefaultProfile extends Profile {
+public class DefaultProfile extends Profile implements IDefaultProfile {
 
 	private static List<IChart> defaultCharts = Arrays.asList(new IChart[] { new HeapChart(), new DurationChart() });
 

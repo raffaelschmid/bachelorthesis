@@ -9,22 +9,21 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.profile;
+package com.trivadis.loganalysis.jrockit.ui.domain.profile;
 
-import com.trivadis.loganalysis.core.domain.IJvmRun;
-import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.jrockit.ui.IJRockitUiContext;
 import com.trivadis.loganalysis.jrockit.ui.domain.Configuration;
-import com.trivadis.loganalysis.ui.IProfileProvider;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
-public class ProfileProvider implements IProfileProvider {
+public class JRockitUiContext implements IJRockitUiContext {
+	private final IConfiguration configuartion;
 
-	public IConfiguration getConfiguration() {
-		return new Configuration("JRockit");
+	public JRockitUiContext() {
+		this.configuartion = new Configuration("JRockit");
 	}
 
-	public boolean knowsJvm(final IJvmRun jvm) {
-		return jvm instanceof JRockitJvmRun;
+	public IConfiguration getConfiguration() {
+		return configuartion;
 	}
 
 }

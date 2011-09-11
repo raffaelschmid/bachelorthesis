@@ -19,13 +19,13 @@ import com.trivadis.loganalysis.core.IContentReader;
 public class FileDescriptor implements IFileDescriptor {
 
 	private final String path, fileName;
-	private List<String> rawContent;
+	private final List<String> rawContent;
 
-	public FileDescriptor(String path, String fileName) {
+	public FileDescriptor(final String path, final String fileName) {
 		this(path, fileName, null);
 	}
 
-	public FileDescriptor(String path, String fileName, List<String> rawContent) {
+	public FileDescriptor(final String path, final String fileName, final List<String> rawContent) {
 		this.path = path;
 		this.fileName = fileName;
 		this.rawContent = rawContent;
@@ -35,9 +35,11 @@ public class FileDescriptor implements IFileDescriptor {
 		return (rawContent != null);
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return getFileName();
+		return "FileDescriptor [fileName=" + fileName + "]";
 	}
 
 	@Override
@@ -50,14 +52,14 @@ public class FileDescriptor implements IFileDescriptor {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FileDescriptor other = (FileDescriptor) obj;
+		final FileDescriptor other = (FileDescriptor) obj;
 		if (fileName == null) {
 			if (other.fileName != null)
 				return false;
@@ -71,7 +73,7 @@ public class FileDescriptor implements IFileDescriptor {
 		return true;
 	}
 
-	public List<String> getListContent(IContentReader reader) {
+	public List<String> getListContent(final IContentReader reader) {
 		List<String> retVal;
 		if (isLoaded()) {
 			retVal = this.rawContent;
@@ -97,11 +99,11 @@ public class FileDescriptor implements IFileDescriptor {
 		return new File(getAbsolutePath());
 	}
 
-	public static IFileDescriptor fromFile(File file) {
+	public static IFileDescriptor fromFile(final File file) {
 		return file.exists() ? new FileDescriptor(file.getParentFile().getAbsolutePath(), file.getName()) : null;
 	}
 
-	public static IFileDescriptor fromFile(String filePath) {
+	public static IFileDescriptor fromFile(final String filePath) {
 		return fromFile(new File(filePath));
 	}
 

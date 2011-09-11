@@ -16,6 +16,8 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.findFirst;
 
 import java.util.List;
 
+import org.eclipse.ui.IMemento;
+
 import com.trivadis.loganalysis.core.ExtensionPoint;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.ClosureIO;
@@ -36,10 +38,16 @@ public class UiLoganalysis {
 	}
 
 	public static List<IConfiguration> getConfigurations() {
+		return getConfigurations(null);
+	}
+
+	public static List<IConfiguration> getConfigurations(final IMemento memento) {
 		final List<IProfileProvider> findExtensionInstances = Loganalysis.findExtensionInstances(
 				ExtensionPoint.PROVIDER, ELEMENT_NAME);
 		return collect(findExtensionInstances, new ClosureIO<IProfileProvider, IConfiguration>() {
 			public IConfiguration call(final IProfileProvider in) {
+				if (memento != null)
+					in.loadConfiguration(memento);
 				return in.getConfiguration();
 			}
 		});
