@@ -18,12 +18,12 @@ import com.trivadis.loganalysis.jrockit.ui.domain.Profile;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IDefaultProfile;
 
-public class DefaultProfile extends Profile implements IDefaultProfile {
+public class StandardProfile extends Profile implements IDefaultProfile {
 
-	private static List<IChart> defaultCharts = Arrays.asList(new IChart[] { new HeapChart(), new DurationChart() });
+	private static List<IChart> standardCharts = Arrays.asList(new IChart[] { new HeapChart(), new DurationChart() });
 
-	public DefaultProfile(final String label) {
-		super(label, defaultCharts);
+	public StandardProfile(final String label) {
+		super(label, standardCharts);
 	}
 
 }

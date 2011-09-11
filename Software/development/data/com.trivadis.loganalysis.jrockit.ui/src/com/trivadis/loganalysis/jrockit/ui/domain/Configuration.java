@@ -24,7 +24,7 @@ import org.eclipse.ui.IMemento;
 
 import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.core.common.Predicate;
-import com.trivadis.loganalysis.jrockit.ui.domain.profile.DefaultProfile;
+import com.trivadis.loganalysis.jrockit.ui.domain.profile.StandardProfile;
 import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
@@ -59,7 +59,7 @@ public class Configuration implements IConfiguration {
 		final IMemento configuration = memento.createChild(MEMENTO_ELEMENT_NAME);
 		foreach(findAll(profiles, new Predicate<IProfile>() {
 			public boolean matches(final IProfile item) {
-				return !(item instanceof DefaultProfile);
+				return !(item instanceof StandardProfile);
 			}
 		}), new Closure<IProfile>() {
 			public void call(final IProfile in) {
@@ -76,7 +76,7 @@ public class Configuration implements IConfiguration {
 				list.add(Profile.loadMemento(in));
 			}
 		});
-		return new Configuration("JRockit R28", prepend(new DefaultProfile("Standard Profile"), list));
+		return new Configuration("JRockit R28", prepend(new StandardProfile("Standard Profile"), list));
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class Configuration implements IConfiguration {
 	public IProfile getDefaultProfile() {
 		return findFirst(profiles, new Predicate<IProfile>() {
 			public boolean matches(final IProfile item) {
-				return item instanceof DefaultProfile;
+				return item instanceof StandardProfile;
 			}
 		});
 	}
