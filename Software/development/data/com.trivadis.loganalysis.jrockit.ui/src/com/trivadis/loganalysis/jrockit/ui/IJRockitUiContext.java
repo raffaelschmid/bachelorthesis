@@ -15,6 +15,8 @@ import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 
 public interface IJRockitUiContext {
 
-	IExtension getConfiguration();
+	IExtension getExtension();
+
+	void setExtension(IExtension extension);
 
 }

@@ -13,23 +13,24 @@ package com.trivadis.loganalysis.jrockit.ui.domain.profile;
 
 import org.eclipse.ui.IMemento;
 
+import com.trivadis.loganalysis.core.common.Assert;
 import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.jrockit.ui.IJRockitUiContext;
 import com.trivadis.loganalysis.jrockit.ui.domain.Configuration;
 import com.trivadis.loganalysis.ui.IProfileProvider;
 import com.trivadis.loganalysis.ui.domain.profile.IExtension;
 
 public class ProfileProvider implements IProfileProvider {
 
-	private final IExtension defaultConfiguration;
-	private IExtension configuration;
+	private final IJRockitUiContext context;
 
 	public ProfileProvider() {
-		this(JRockitExtension.getContext().getConfiguration());
+		this(JRockitExtension.getContext());
 	}
 
-	public ProfileProvider(final IExtension defaultConfiguration) {
-		this.defaultConfiguration = defaultConfiguration;
+	public ProfileProvider(final IJRockitUiContext context) {
+		this.context = context;
 	}
 
 	public boolean knowsJvm(final IJvmRun jvm) {
@@ -37,7 +38,7 @@ public class ProfileProvider implements IProfileProvider {
 	}
 
 	public void loadConfiguration(final IMemento parent) {
-		this.configuration = Configuration.loadMemento(parent);
+		context.setExtension(Configuration.loadMemento(parent));
 	}
 
 	public void saveConfiguration(final IMemento parent, final IExtension configuration) {
@@ -45,7 +46,8 @@ public class ProfileProvider implements IProfileProvider {
 	}
 
 	public IExtension getConfiguration() {
-		return configuration != null ? configuration : defaultConfiguration;
+		Assert.assertNotNull(context.getExtension());
+		return context.getExtension();
 	}
 
 }
