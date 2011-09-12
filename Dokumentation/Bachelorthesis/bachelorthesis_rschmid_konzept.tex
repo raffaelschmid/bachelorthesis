@@ -66,9 +66,11 @@ Die Update-Seite für diese Software wird folgendermassen aufgebaut:
 \end{itemize}
 Nachträglich kann somit auch für ein anderes Log-Format eine Extension geschrieben werden.
 
-
 \section{Übersicht}
+
 \subsection{Architektur}
+
+\subsection{Projektstruktur}
 Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zwei getrennten Features. Das Core-Feature ist die Basis und verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, Profil-Verwaltung, etc.). Die JRockit Extension ist eine für die Garbage Collection Logs der JRockit geschriebene Erweiterung. Sie ist für das Parsing der Log-Dateien, die Aufbereitung der Daten und die Anzeige der Charts zuständig. Beinhaltet aber keine Core-Funktionalität.
  \begin{figure}[H]
   	\centering
@@ -78,7 +80,7 @@ Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zw
 
 Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einem von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für den Presentation Layer verwendet} unabhängigen Teil (``loganalysis.core''). Öffnet der Benutzer eine Garbage Collection Log Datei, wird diese durch das Core Feature eingelesen und an alle verfügbaren Extensions weitergeleitet. Die erste Extension welche den Inhalt der Datei versteht, öffnet seine dafür vorgesehenen Reports und Charts. Jede Extension hat ein basierend auf dem Log-Format eigenes Domänen-Modell.
 
-\subsection{Weitere Projekte}
+\subsubsection{Weitere Projekte}
 Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 \begin{itemize}
 	\item Features\footnote{Feature-Projekte definieren im Eclipse-Umfeld ein in sich lauffähiges Software-Packet. Via einen Xml-Deskriptor werden die abhängigen Plugin-Projekte definiert und in das Feature gepackt.}
@@ -100,14 +102,22 @@ Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 		\end{itemize}
 \end{itemize}
 
+\subsection{Internationalisierung (I18n)}
+Basierend auf dem Lokalisierungssystem der Java Virtual Machine kann man in Eclipse alle Spracheressourcen in Properties-Dateien auslagern (Eclipse bietet dafür sogar einen Wizard). Normalerweise liefert man die Default-Sprache innerhalb des Projektes für welches die Ressource-Bundles definiert wurden, erweiterte Sprachpackete werden dann als Fragmente ausgeliefert. Den Sprachwechsel der Eclipse Entwicklungsumgebung muss man allerdings in der Eclipse-Konfigurationsdatei eclipse.ini vollziehen - dieser benötigt auch immer einen Neustart der Entwicklungsumgebunt.
+
+\subsection{Hilfesystem}
+Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfeseiten und Dienste wie die Suche und Indizierung bereitstellt. Eclipse kann zum einen auf einem Index basierenden Hilfeseiten anbieten, zum anderen können aber die Seiten auch an Gui-Komponenten gebunden werden. Man spricht dann von Kontextsensitiver Hilfe.
+
+\subsection{Testing}
+
 \section{Basissoftware (Core)}
 \subsection{Ablauf Garbage Collection Analyse}
 Nach dem Import der sich auf einem lokalen Laufwerk befindenden Log Datei befindet sich diese im Fenster ``Log Files''. Beim Doppelklick auf diese Datei wird der Analyse-Vorgang gestartet. Mit der Voraussetzung, dass die JRockit Extension (Feature) installiert ist, passiert danach folgendes:
 \begin{enumerate}
-	\item Die Garbage Collection Log Datei wird eingelesen und im FileDescriptor gespeichert.
-	\item Für alle durch Extensions registrierte Log-File Analyzer, wird abgefragt, ob er die Datei versteht.
-	\item Dem ersten dieser Analyzer wird dieses FileDescriptor Objekt übergeben um den Inhalt zu prozessieren. Als Resultat wird ein Objekt vom Typ IJvmRun erwartet. Zusätzlich dazu wird der Identifikator des zu öffnenden Analyse-Fensters zurückgeliefert.
-	\item Der passende Analysebildschirm (befindet sich innerhalb der Extension) wird geöffnet.
+	\item Die Garbage Collection Log Datei wird ins Memory geladen und wird via \textit{FileDescriptor} referenziert.
+	\item Der Reihe nach werden alle registrierten \textit{IAnalyzer} gefragt, ob sie den Inhalt der Datei verstehen und interpretieren können. 
+	\item Dem ersten Match wird das FileDescriptor Objekt zur Analyse übergeben. Als Resultat wird ein Objekt vom Typ IJvmRun erwartet. 
+	\item Der von der Extension definierte Analysebildschirm wird mit dem Inhalt der Log Datei geöffnet.
 \end{enumerate}
 \subsubsection{Domänenmodell}
  \begin{figure}[H]
@@ -127,12 +137,15 @@ Die Definition von benutzerdefinierten Analysen kann innerhalb von Profilen gesp
 \end{figure}
 \textit{IExtension} ist eine Abstraktion der Extension und dient zur Gruppierung der für die Extension angelegten Profile. Innerhalb eines Profils können unterschiedliche Diagramme (\textit{IChart}) angelegt werden, welche wiederum durch Achsen (\textit{IAxis}) und deren Daten. Die Abfrage der Daten findet über sogenannte \textit{IValueProvider} statt. Diese definieren den Weg, wie die Daten aus dem Domänen-Modell gelesen werden.
 
+\subsubsection{Profile persistieren}
+Die erstellten Profile mit den darin definierten Charts müssen über die Grenze der Session hinweg gespeichert werden. Ein dafür mögliches Design Pattern wurde durch die Gang of Four\footnote{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides} in \cite[S. 283]{gamma1995design} definiert. Mit dem Memento Pattern kann man den Zustand eines oder mehreren Objekten (Objektgraphen) erfassen und externalisieren. Im Eclipse-Umfeld wurde dieses Pattern durch \textit{IMemento} und \textit{XmlMemento} realisiert und kann für die Speicherung der View-Zustände verwendet werden. Für die Speicherung der Profile wird beginnend vom Root-Objekt (\textit{IExtension}), auf der Basis des Visitor-Patterns\cite[S. 331]{gamma1995design}, ein Memento-Objekt erstellt. Dieses wird anschliessend im Eclipse-Context (dieser überlebt Shutdown und Restart der Workbench) oder als XML auf dem Datei-System gespeichert. 
+
+
+
 \section{JRockit Erweiterung (JRockit Extension)}
 \subsection{Parsen JRockit Garbage Collection Log Datei}
-Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Modulen. Genauer genommen ist es eine Log-Datei, bei welcher die Informationen zur Garbage Collection und Memory Allokation eingeschaltet werden können (siehe Abschnit \ref{logmodule} \titleref{logmodule}). Für die Garbage Collection Analyse sind nur ein Teil dieser Einträge interessant - es werden also niemals alle dieser Einträge von der Analyse-Software verstanden. Für die Analyse der Einträge ist der \textit{JRockitAnalyzer} zuständig.Die Einträge werden durch einen Prozessor, der nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut ist, prozessiert. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules (\textit{MemoryModuleProzessor}). 
-
-
-
+Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Genauer genommen können die Ausgaben betreffend Garbage Collection und Memory Allokation per Kommandozeile eingeschaltet werden (siehe Abschnit \ref{logmodule} \titleref{logmodule}). Für die Garbage Collection Analyse sind nur ein Teil dieser Einträge interessant - es werden also niemals alle dieser Einträge von der Analyse-Software verstanden. Für die Analyse der Einträge ist der \textit{JRockitAnalyzer} zuständig.Die Einträge werden durch einen Prozessor, der nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut ist, prozessiert. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules und werden vom 
+\textit{MemoryModuleProzessor} geparst. Die gelesenen Daten werden interpretiert und innerhalb des Domänenmodells abgelegt. Das Chain-of-Responsibility Pattern ermöglicht es an dieser Stelle, neue Funktionalität in Form von neuen oder erweiterten Prozessoren zu definieren.
 
  \begin{figure}[H]
   	\centering
@@ -148,34 +161,52 @@ Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen 
     	\includegraphics[width=19.5cm]{images/jrockit_extension_domain}
 \end{figure}
 \end{landscape}
-\subsection{Charts, Reports}
 
-\section{Funktionalitäten}
-\subsection{Software-Installationsprozess}
-\subsubsection{Relevante Requirements}
+Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Für all diese Bereiche sind unterschiedliche Zustände definiert. Obwohl sich die Zustände der einzelnen Bereiche kontinuierlich verändern, wird bei Beginn und Ende der Garbage Collection ein Schnappschuss produziert und es werden die verfügbaren Messgrössen aufgezeichnet. Zustandsübergänge werden in der Automatentheorie als Transitionen bezeichnet, werden hier im Domänenmodell aber als Garbage Collection Zyklen 
+registriert. Es kann sich dabei bei der JRockit Virtual Machine um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung ausgelöst - zum Beispiel wenn die Nursery oder die Old Collection voll ist, etc. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert. Je nach Algorithmus folgt die Sweep-Phase oder Kopaktierung auf eine Markierungs-Phase.
+
+
+\subsection{Zusammenfassung der Daten}
+Auf der initialen Übersichtsseite wird die Zusammenfassung des JVM-Laufs dargestellt. Folgende Daten werden aus der Log Datei geparst und tabellarisch gesammelt:
 \begin{itemize}
-	\item UC-A-01 (Software installieren)
-	\item UC-A-02 (Software updaten)
-	\item UC-E-01 (Neuer Software-Release erstellen)
-	\item QA-01 Installierbarkeit
+	\item Heap Kapazität
+	\begin{itemize}
+		\item Initiale Kapazität (Nursery, Tenured, Heap)
+		\item Maximale Kapazität (Heap)
+		\item Speicherbedarf Peak (Heap)
+		\item Kapazität Durchschnittlich (Heap)
+		\item Speicherbedarf Durchschnittlich (Heap)
+	\end{itemize}
+	\item Garbage Collection Aktivität (Young und Old Collection)
+	\begin{itemize}
+		\item Letzter Zyklus
+		\item Anzahl Zyklen
+		\item Durchschnittlicher Interval in Sekunden
+		\item Durchschnittliche Dauer in Sekunden		
+	\end{itemize}	
+	\item Gesamtstatistik
+	\begin{itemize}
+		\item Dauer der Messung in Sekunden
+		\item Anzahl Garbage Collection Zyklen
+		\item Total Zeit der Garbage Collection
+		\item Prozentuale Zeit der Garbage Collection
+		\item Totale Zeit der Old Garbage Collection Zyklen
+		\item Prozentuale Zeit der Old Garbage Collection Zyklen
+	\end{itemize}
 \end{itemize}
 
+\subsection{Charts}
+Basierend auf der JFreeChart (siehe Seite \pageref{library_charting} Abschnitt \ref{library_charting} \titleref{library_charting}) Bibliothek können verschiedene Standard-Charts angezeigt werden. Zusätzlich gibt es die Möglichkeit, eigene Charts basierend aus der Auswahl von X- und Y-Datenquelle zu erstellen. 
 
-\subsection{Import JRockit}
-\subsubsection{Relevante Requirements}
+\subsubsection{Standard Charts}
+Als vordefinierte (standard) Charts werden dem Benutzer zwei Charts angeboten:
 \begin{itemize}
-	\item UC-A-03 (Garbage Collectio nLog Datei importieren)
+	\item \textbf{Heap Analyse:} Die Heap-Analyse zeichnet den Verlauf des benutzten Speichers im Heap über die Zeit auf. Die einzelnen Garbage Collection Zyklen inklusive der Farbe als Kennzeichnung Young, Old Collection werden als Punkte im Chart markiert.
+	\item \textbf{Dauer:} Die Dauer der einzelnen Garbage Collection Zyklen wird gegenüber der verstrichenen Laufzeit dargestellt. Die einzelnen Garbage Collection Zyklen inklusive der Farbe als Kennzeichnung Young, Old Collection werden werden als Punkte im Chart markiert.
 \end{itemize}
 
-\subsection{Analyse JRockit}
-\subsubsection{Relevante Requirements}
-\begin{itemize}
-	\item UC-A-04 (Garbage Collection Log Datei analysieren)
-	\item UC-A-04-a (Statistik Übersicht)
-	\item UC-A-04-b (Heap Benutzung)
-	\item UC-A-04-c (Dauer Garbage Collection)
-	\item UC-A-04-d (Benutzerdefinierte Auswertung)
-\end{itemize}
+\subsubsection{Custom Charts}
+Der Benutzer kann aus den verfügbaren Daten frei die X- und Y-Achse definieren und entsprechend den Chart benennen. Die Selektion kann in einem eigenen Profil gespeichert werden und bleibt über die Session der Applikation erhalten.
 
 
 
