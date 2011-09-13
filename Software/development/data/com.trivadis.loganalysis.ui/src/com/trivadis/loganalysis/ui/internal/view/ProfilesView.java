@@ -40,7 +40,7 @@ import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
 import com.trivadis.loganalysis.ui.common.binding.IListChangeListener;
-import com.trivadis.loganalysis.ui.domain.profile.IExtension;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.internal.Command;
 
@@ -110,8 +110,8 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 
 	@Override
 	public void saveState(final IMemento memento) {
-		foreach(context.getProfiles(), new Closure<IExtension>() {
-			public void call(final IExtension in) {
+		foreach(context.getProfiles(), new Closure<IConfiguration>() {
+			public void call(final IConfiguration in) {
 				in.save(memento);
 			}
 		});
@@ -136,7 +136,7 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 		showXml(memento);
 		context.addConfigurations(UiLoganalysis.getConfigurations(memento));
 		context.getProfiles().addChangeListener(this); // data binding
-		for (final IExtension configuration : context.getProfiles()) {
+		for (final IConfiguration configuration : context.getProfiles()) {
 			configuration.getProfiles().addChangeListener(this);
 		}
 		getSite().getPage().addSelectionListener(this);

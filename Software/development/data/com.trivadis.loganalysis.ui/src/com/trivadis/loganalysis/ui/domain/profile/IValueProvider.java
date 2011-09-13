@@ -13,4 +13,6 @@ package com.trivadis.loganalysis.ui.domain.profile;
 
 public interface IValueProvider {
 
+	String name();
+
 }

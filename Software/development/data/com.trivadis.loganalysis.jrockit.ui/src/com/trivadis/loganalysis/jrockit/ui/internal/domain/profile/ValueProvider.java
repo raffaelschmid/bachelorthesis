@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.domain;
+package com.trivadis.loganalysis.jrockit.ui.internal.domain.profile;
 
 import java.math.BigDecimal;
 

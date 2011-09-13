@@ -17,7 +17,7 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
-import com.trivadis.loganalysis.jrockit.ui.Messages;
+import com.trivadis.loganalysis.jrockit.ui.internal.Messages;
 import com.trivadis.loganalysis.ui.GridFormPage;
 import com.trivadis.loganalysis.ui.GridLayoutUtil;
 import com.trivadis.loganalysis.ui.domain.profile.IAxis;

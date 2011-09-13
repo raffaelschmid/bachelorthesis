@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.domain.profile;
+package com.trivadis.loganalysis.jrockit.ui.internal.domain.profile;
 
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.X;
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.Y;
@@ -22,13 +22,14 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.XMLMemento;
 import org.junit.Test;
 
-import com.trivadis.loganalysis.jrockit.ui.domain.Axis;
-import com.trivadis.loganalysis.jrockit.ui.domain.Chart;
-import com.trivadis.loganalysis.jrockit.ui.domain.Configuration;
-import com.trivadis.loganalysis.jrockit.ui.domain.Profile;
-import com.trivadis.loganalysis.jrockit.ui.domain.ValueProvider;
+import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ProfileProvider;
+import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider;
 import com.trivadis.loganalysis.ui.IProfileProvider;
-import com.trivadis.loganalysis.ui.domain.profile.IExtension;
+import com.trivadis.loganalysis.ui.domain.profile.Axis;
+import com.trivadis.loganalysis.ui.domain.profile.Chart;
+import com.trivadis.loganalysis.ui.domain.profile.Configuration;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.Profile;
 
 public class ProfileProviderTest {
 
@@ -56,7 +57,7 @@ public class ProfileProviderTest {
 		instance.saveConfiguration(memento, configuration(JROCKIT_R28));
 
 		instance.loadConfiguration(memento);
-		final IExtension retVal = instance.getConfiguration();
+		final IConfiguration retVal = instance.getExtension();
 		assertNotNull(retVal);
 
 		assertEquals(JROCKIT_R28, retVal.getLabel());
@@ -66,7 +67,7 @@ public class ProfileProviderTest {
 		return XMLMemento.createWriteRoot("state");
 	}
 
-	protected IExtension configuration(final String profileLabel) {
+	protected IConfiguration configuration(final String profileLabel) {
 		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
 				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
 						VALUE_PROVIDER_Y))), new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,

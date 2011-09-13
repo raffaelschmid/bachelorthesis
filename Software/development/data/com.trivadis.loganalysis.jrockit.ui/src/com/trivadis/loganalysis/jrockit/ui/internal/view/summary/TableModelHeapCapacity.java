@@ -16,8 +16,8 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.prepend;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.stringList;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.toArray;
-import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.size;
-import static com.trivadis.loganalysis.jrockit.ui.internal.util.TableUtil.column;
+import static com.trivadis.loganalysis.ui.util.FormatUtil.size;
+import static com.trivadis.loganalysis.ui.util.TableUtil.column;
 
 import java.util.List;
 

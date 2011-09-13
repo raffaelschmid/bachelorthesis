@@ -9,17 +9,16 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.domain.profile;
+package com.trivadis.loganalysis.jrockit.ui.internal.domain.profile;
 
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.X;
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.Y;
 
 import java.awt.Color;
 
-import com.trivadis.loganalysis.jrockit.ui.Messages;
-import com.trivadis.loganalysis.jrockit.ui.domain.Axis;
-import com.trivadis.loganalysis.jrockit.ui.domain.Chart;
-import com.trivadis.loganalysis.jrockit.ui.domain.ValueProvider;
+import com.trivadis.loganalysis.jrockit.ui.internal.Messages;
+import com.trivadis.loganalysis.ui.domain.profile.Axis;
+import com.trivadis.loganalysis.ui.domain.profile.Chart;
 
 public class HeapChart extends Chart {
 

@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import com.trivadis.loganalysis.ui.domain.profile.IExtension;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.internal.view.ProfilesContentAdapter;
 import com.trivadis.loganalysis.ui.internal.view.ProfilesLabelAdapter;
 
@@ -79,11 +79,11 @@ public class NewProfileWizardPage extends WizardPage {
 		return fileSelectionLayout;
 	}
 
-	public IExtension getSelectedConfiguration() {
-		IExtension retVal = null;
+	public IConfiguration getSelectedConfiguration() {
+		IConfiguration retVal = null;
 		if (viewer.getSelection() instanceof StructuredSelection) {
 			final StructuredSelection ss = (StructuredSelection) viewer.getSelection();
-			retVal = (IExtension) ss.getFirstElement();
+			retVal = (IConfiguration) ss.getFirstElement();
 		}
 		return retVal;
 	}

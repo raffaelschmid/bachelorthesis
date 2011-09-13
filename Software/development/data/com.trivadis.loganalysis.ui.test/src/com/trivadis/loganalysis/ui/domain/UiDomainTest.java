@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.domain;
+package com.trivadis.loganalysis.ui.domain;
 
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.X;
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.Y;
@@ -25,17 +25,22 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.XMLMemento;
 import org.junit.Test;
 
+import com.trivadis.loganalysis.ui.domain.profile.Axis;
+import com.trivadis.loganalysis.ui.domain.profile.Chart;
+import com.trivadis.loganalysis.ui.domain.profile.Configuration;
 import com.trivadis.loganalysis.ui.domain.profile.IAxis;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
-import com.trivadis.loganalysis.ui.domain.profile.IExtension;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
+import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
+import com.trivadis.loganalysis.ui.domain.profile.Profile;
 
 public class UiDomainTest {
 
 	private static final String JROCKIT_R28 = "JRockit R28";
 	private static final Color COLOR_X = Color.red;
-	private static final ValueProvider VALUE_PROVIDER_X = ValueProvider.TIME;
-	private static final ValueProvider VALUE_PROVIDER_Y = ValueProvider.MEMORY;
+	private static final IValueProvider VALUE_PROVIDER_X = new DummyValueProvider("x");
+	private static final IValueProvider VALUE_PROVIDER_Y = new DummyValueProvider("y");
 	private static final Color COLOR_Y = Color.blue;
 	private static final String Y_AXIS_LABEL = "y-axis";
 	private static final String X_AXIS_LABEL = "x-axis";
@@ -54,7 +59,7 @@ public class UiDomainTest {
 		final IProfile profile = new Profile(PROFILE_LABEL);
 		profile.addChart(chart01);
 
-		final IExtension configuration = new Configuration(JROCKIT_R28);
+		final IConfiguration configuration = new Configuration(JROCKIT_R28);
 		configuration.addProfile(profile);
 
 		verifyConfiguration(configuration);
@@ -67,7 +72,7 @@ public class UiDomainTest {
 						COLOR_Y, VALUE_PROVIDER_Y)))));
 	}
 
-	protected void verifyConfiguration(final IExtension configuration) {
+	protected void verifyConfiguration(final IConfiguration configuration) {
 		final IProfile profile = configuration.getProfiles().get(0);
 		assertEquals(1, profile.getCharts().size());
 		assertEquals(PROFILE_LABEL, profile.getLabel());
@@ -89,19 +94,7 @@ public class UiDomainTest {
 		assertNotNull(memento);
 	}
 
-	@Test
-	public void test_loadMemento() throws Exception {
-		final IMemento memento = memento();
-		configuration(JROCKIT_R28).save(memento);
-
-		final IExtension configuration = Configuration.loadMemento(memento);
-		assertNotNull(configuration);
-		assertEquals(JROCKIT_R28, configuration.getLabel());
-	}
-
-	
-
-	protected IExtension configuration(final String profileLabel) {
+	protected IConfiguration configuration(final String profileLabel) {
 		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
 				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
 						VALUE_PROVIDER_Y))), new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,

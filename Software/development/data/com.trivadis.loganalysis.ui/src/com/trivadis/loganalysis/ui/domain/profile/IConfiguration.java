@@ -11,6 +11,24 @@
  */
 package com.trivadis.loganalysis.ui.domain.profile;
 
-public interface IDefaultProfile {
+import org.eclipse.ui.IMemento;
 
+import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
+
+
+public interface IConfiguration {
+
+	BindingArrayList<IProfile> getProfiles();
+
+	void addProfile(IProfile profile);
+
+	void save(IMemento memento);
+
+	String getLabel();
+
+	IProfile getDefaultProfile();
+
+	void addNewDefaultProfile(String label);
+
+	void removeProfile(IProfile profile);
 }

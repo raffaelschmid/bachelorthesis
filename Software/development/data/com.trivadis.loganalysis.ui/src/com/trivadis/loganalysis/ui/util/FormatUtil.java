@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.util;
+package com.trivadis.loganalysis.ui.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

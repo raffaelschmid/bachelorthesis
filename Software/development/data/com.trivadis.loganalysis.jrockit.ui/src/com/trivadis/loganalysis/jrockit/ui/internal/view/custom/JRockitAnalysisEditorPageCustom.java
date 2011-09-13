@@ -22,8 +22,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
-import com.trivadis.loganalysis.jrockit.ui.Messages;
-import com.trivadis.loganalysis.jrockit.ui.domain.ValueProvider;
+import com.trivadis.loganalysis.jrockit.ui.internal.Messages;
+import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.ChartPanel;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.DataWrapper;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;

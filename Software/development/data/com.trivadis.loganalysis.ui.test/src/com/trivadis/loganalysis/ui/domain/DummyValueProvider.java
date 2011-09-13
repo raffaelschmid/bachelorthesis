@@ -9,16 +9,18 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.domain.profile;
+package com.trivadis.loganalysis.ui.domain;
 
-import com.trivadis.loganalysis.jrockit.ui.IJRockitUiContext;
+import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 
-public class JRockitExtension {
-	private static class Holder{
-		private static final IJRockitUiContext context = new JRockitUiContext();
+final class DummyValueProvider implements IValueProvider {
+	private final String name;
+
+	public DummyValueProvider(final String name) {
+		this.name = name;
 	}
-	public static IJRockitUiContext getContext() {
-		return Holder.context;
-	}
 
+	public String name() {
+		return this.name;
+	}
 }

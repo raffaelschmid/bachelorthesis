@@ -30,11 +30,11 @@ import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.core.exception.FileProcessingException;
 import com.trivadis.loganalysis.ui.EditorInput;
 import com.trivadis.loganalysis.ui.IUiContext;
-import com.trivadis.loganalysis.ui.Messages;
 import com.trivadis.loganalysis.ui.ResultRunnableWithProgress;
 import com.trivadis.loganalysis.ui.Ui;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
+import com.trivadis.loganalysis.ui.internal.Messages;
 
 public class OpenAnalysisHandler extends AbstractHandler {
 

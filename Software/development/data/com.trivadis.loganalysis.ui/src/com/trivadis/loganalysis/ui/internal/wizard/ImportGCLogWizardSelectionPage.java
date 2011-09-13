@@ -37,8 +37,8 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.core.domain.FileDescriptor;
-import com.trivadis.loganalysis.ui.Messages;
 import com.trivadis.loganalysis.ui.internal.Activator;
+import com.trivadis.loganalysis.ui.internal.Messages;
 
 public class ImportGCLogWizardSelectionPage extends WizardPage implements
 		ICheckStateListener {

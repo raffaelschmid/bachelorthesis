@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import com.trivadis.loganalysis.ui.UiLoganalysis;
-import com.trivadis.loganalysis.ui.domain.profile.IExtension;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class ProfilesContentAdapter implements ITreeContentProvider {
@@ -39,8 +39,8 @@ public class ProfilesContentAdapter implements ITreeContentProvider {
 
 	public Object[] getChildren(final Object parentElement) {
 		Object[] retVal = EMPTY_ARRAY;
-		if (parentElement instanceof IExtension) {
-			final IExtension box = (IExtension) parentElement;
+		if (parentElement instanceof IConfiguration) {
+			final IConfiguration box = (IConfiguration) parentElement;
 			retVal = box.getProfiles().toArray();
 		}
 		return retVal;
@@ -52,7 +52,7 @@ public class ProfilesContentAdapter implements ITreeContentProvider {
 
 	public boolean hasChildren(final Object element) {
 		return showProfiles
-				&& (element != null && element instanceof IExtension && ((IExtension) element).getProfiles()
+				&& (element != null && element instanceof IConfiguration && ((IConfiguration) element).getProfiles()
 						.size() > 0);
 	}
 }

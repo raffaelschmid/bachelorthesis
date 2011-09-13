@@ -14,18 +14,18 @@ package com.trivadis.loganalysis.ui;
 import org.eclipse.ui.IMemento;
 
 import com.trivadis.loganalysis.core.domain.IJvmRun;
-import com.trivadis.loganalysis.ui.domain.profile.IExtension;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
 
 public interface IProfileProvider {
 
 	boolean knowsJvm(IJvmRun jvm);
 
-	void saveConfiguration(IMemento memento, IExtension configuration);
+	void saveConfiguration(IMemento memento, IConfiguration configuration);
 
 	void loadConfiguration(IMemento memento);
 
-	IExtension getConfiguration();
+	IConfiguration getExtension();
 
 
 }

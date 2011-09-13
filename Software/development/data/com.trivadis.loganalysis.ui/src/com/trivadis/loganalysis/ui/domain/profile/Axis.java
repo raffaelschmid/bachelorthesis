@@ -9,27 +9,24 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.domain;
+package com.trivadis.loganalysis.ui.domain.profile;
 
 import java.awt.Color;
 
 import org.eclipse.ui.IMemento;
 
-import com.trivadis.loganalysis.ui.domain.profile.AxisType;
-import com.trivadis.loganalysis.ui.domain.profile.IAxis;
-
 public class Axis implements IAxis {
-	private static final String ATTRIBUTE_VALUE_PROVIDER = "valueProvider";
-	protected static final String ATTRIBUTE_AXIS_TYPE = "axisType";
-	private static final String ATTRIBUTE_COLOR = "color";
+	public static final String ATTRIBUTE_VALUE_PROVIDER = "valueProvider";
+	public static final String ATTRIBUTE_AXIS_TYPE = "axisType";
+	public static final String ATTRIBUTE_COLOR = "color";
 	public static final String MEMENTO_ELEMENT_NAME = "axis";
-	private static final String ATTRIBUTE_LABEL = "label";
+	public static final String ATTRIBUTE_LABEL = "label";
 	private final String label;
 	private final Color color;
-	private final ValueProvider valueProvider;
+	private final IValueProvider valueProvider;
 	private final AxisType axisType;
 
-	public Axis(final AxisType axisType, final String label, final Color color, final ValueProvider valueProvider) {
+	public Axis(final AxisType axisType, final String label, final Color color, final IValueProvider valueProvider) {
 		this.axisType = axisType;
 		this.label = label;
 		this.color = color;
@@ -44,7 +41,7 @@ public class Axis implements IAxis {
 		return color;
 	}
 
-	public ValueProvider getValueProvider() {
+	public IValueProvider getValueProvider() {
 		return valueProvider;
 	}
 
@@ -58,11 +55,6 @@ public class Axis implements IAxis {
 
 	public AxisType getAxisType() {
 		return axisType;
-	}
-
-	public static IAxis loadMemento(final IMemento in) {
-		return new Axis(AxisType.valueOf(in.getString(ATTRIBUTE_AXIS_TYPE)), in.getString(ATTRIBUTE_LABEL), new Color(
-				in.getInteger(ATTRIBUTE_COLOR)), ValueProvider.valueOf(in.getString(ATTRIBUTE_VALUE_PROVIDER)));
 	}
 
 }

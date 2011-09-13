@@ -20,9 +20,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 
 import com.trivadis.loganalysis.ui.GridFormPage;
-import com.trivadis.loganalysis.ui.Messages;
 import com.trivadis.loganalysis.ui.internal.Activator;
 import com.trivadis.loganalysis.ui.internal.Command;
+import com.trivadis.loganalysis.ui.internal.Messages;
 
 public class DashboardEditorPageOverview extends GridFormPage {
 

@@ -13,9 +13,9 @@ package com.trivadis.loganalysis.jrockit.ui.internal.view.summary;
 
 import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
-import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.percentage;
-import static com.trivadis.loganalysis.jrockit.ui.internal.util.FormatUtil.seconds;
-import static com.trivadis.loganalysis.jrockit.ui.internal.util.TableUtil.column;
+import static com.trivadis.loganalysis.ui.util.FormatUtil.percentage;
+import static com.trivadis.loganalysis.ui.util.FormatUtil.seconds;
+import static com.trivadis.loganalysis.ui.util.TableUtil.column;
 import static java.util.Arrays.asList;
 
 import java.util.Arrays;

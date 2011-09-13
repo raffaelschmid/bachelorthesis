@@ -21,19 +21,19 @@ import com.trivadis.loganalysis.core.common.Closure;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
-import com.trivadis.loganalysis.ui.domain.profile.IExtension;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class UiContext implements IUiContext {
 
 	private IProfile selectedProfile = null;
 	private IFileDescriptor selectedLogFile = null;
-	private final BindingArrayList<IExtension> configurations;
+	private final BindingArrayList<IConfiguration> configurations;
 	private final BindingArrayList<IFileDescriptor> selectedFiles;
 
 	public UiContext() {
 		this.selectedFiles = new BindingArrayList<IFileDescriptor>(new ArrayList<IFileDescriptor>());
-		this.configurations = new BindingArrayList<IExtension>(new ArrayList<IExtension>());
+		this.configurations = new BindingArrayList<IConfiguration>(new ArrayList<IConfiguration>());
 	}
 
 	public BindingArrayList<IFileDescriptor> getSelectedFiles() {
@@ -54,20 +54,20 @@ public class UiContext implements IUiContext {
 		Assert.assertTrue(!selectedFiles.contains(file));
 	}
 
-	public void addConfiguration(final IExtension configuration) {
+	public void addConfiguration(final IConfiguration configuration) {
 		if (!configurations.contains(configuration)) {
 			configurations.add(configuration);
 		}
 		Assert.assertTrue(configurations.contains(configuration));
 	}
 
-	public BindingArrayList<IExtension> getProfiles() {
+	public BindingArrayList<IConfiguration> getProfiles() {
 		return configurations;
 	}
 
-	public void addConfigurations(final List<IExtension> configurations) {
-		foreach(configurations, new Closure<IExtension>() {
-			public void call(final IExtension in) {
+	public void addConfigurations(final List<IConfiguration> configurations) {
+		foreach(configurations, new Closure<IConfiguration>() {
+			public void call(final IConfiguration in) {
 				addConfiguration(in);
 			}
 		});

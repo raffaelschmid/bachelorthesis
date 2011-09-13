@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui;
+package com.trivadis.loganalysis.ui.internal;
 
 import org.eclipse.osgi.util.NLS;
 

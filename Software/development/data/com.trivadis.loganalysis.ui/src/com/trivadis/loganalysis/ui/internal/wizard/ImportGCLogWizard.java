@@ -19,8 +19,8 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
-import com.trivadis.loganalysis.ui.Messages;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
+import com.trivadis.loganalysis.ui.internal.Messages;
 import com.trivadis.loganalysis.ui.internal.Perspective;
 import com.trivadis.loganalysis.ui.internal.perspective.GarbageCollectionAnalysisPerspective;
 

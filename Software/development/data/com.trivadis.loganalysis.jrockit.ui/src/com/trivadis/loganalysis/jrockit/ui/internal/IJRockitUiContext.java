@@ -9,16 +9,14 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.util;
+package com.trivadis.loganalysis.jrockit.ui.internal;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
-public class TableUtil {
-	public static TableColumn column(Table table, String string) {
-		TableColumn column = new TableColumn(table, SWT.NONE);
-		column.setText(string);
-		return column;
-	}
+public interface IJRockitUiContext {
+
+	IConfiguration getExtension();
+
+	void setExtension(IConfiguration extension);
+
 }

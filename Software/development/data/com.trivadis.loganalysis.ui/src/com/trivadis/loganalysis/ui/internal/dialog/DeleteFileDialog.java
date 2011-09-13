@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
-import com.trivadis.loganalysis.ui.Messages;
+import com.trivadis.loganalysis.ui.internal.Messages;
 
 public class DeleteFileDialog extends MessageDialog {
 

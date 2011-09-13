@@ -9,22 +9,21 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.domain.profile;
+package com.trivadis.loganalysis.jrockit.ui.internal;
 
-import com.trivadis.loganalysis.jrockit.ui.IJRockitUiContext;
-import com.trivadis.loganalysis.ui.domain.profile.IExtension;
+import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
 public class JRockitUiContext implements IJRockitUiContext {
-	private IExtension extension = null;
+	private IConfiguration extension = null;
 
 	public JRockitUiContext() {
 	}
 
-	public IExtension getExtension() {
+	public IConfiguration getExtension() {
 		return extension;
 	}
 
-	public void setExtension(final IExtension extension) {
+	public void setExtension(final IConfiguration extension) {
 		this.extension = extension;
 	}
 

@@ -9,12 +9,12 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui;
+package com.trivadis.loganalysis.jrockit.ui.internal;
 
 import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
-	private static final String BUNDLE_NAME = "com.trivadis.loganalysis.jrockit.ui.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "com.trivadis.loganalysis.jrockit.ui.internal.messages"; //$NON-NLS-1$
 	public static String Axis_X;
 	public static String Axis_Y;
 	public static String JRockitAnalysisEditorPageDuration_0;

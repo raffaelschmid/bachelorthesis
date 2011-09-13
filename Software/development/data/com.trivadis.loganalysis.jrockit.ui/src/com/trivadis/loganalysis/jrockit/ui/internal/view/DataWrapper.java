@@ -21,7 +21,7 @@ import org.jfree.data.xy.XYSeries;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.State;
-import com.trivadis.loganalysis.jrockit.ui.domain.ValueProvider;
+import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider;
 import com.trivadis.loganalysis.ui.domain.profile.AxisType;
 import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 
