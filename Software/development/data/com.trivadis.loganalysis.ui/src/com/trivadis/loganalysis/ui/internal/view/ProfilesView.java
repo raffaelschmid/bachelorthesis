@@ -122,7 +122,7 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 		final Writer sw = new StringWriter();
 		final XMLMemento xmlMemento = (XMLMemento) memento;
 		try {
-			xmlMemento .save(sw);
+			xmlMemento.save(sw);
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}

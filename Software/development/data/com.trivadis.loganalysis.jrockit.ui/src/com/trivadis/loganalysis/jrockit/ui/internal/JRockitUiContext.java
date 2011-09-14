@@ -11,6 +11,7 @@
  */
 package com.trivadis.loganalysis.jrockit.ui.internal;
 
+import com.trivadis.loganalysis.core.common.Assert;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
 public class JRockitUiContext implements IJRockitUiContext {
@@ -26,6 +27,7 @@ public class JRockitUiContext implements IJRockitUiContext {
 	}
 
 	public void setExtension(final IConfiguration extension) {
+		Assert.assertNotNull(extension);
 		this.extension = extension;
 	}
 

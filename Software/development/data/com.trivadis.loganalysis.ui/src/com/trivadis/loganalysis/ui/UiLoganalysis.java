@@ -46,7 +46,6 @@ public class UiLoganalysis {
 				ExtensionPoint.PROVIDER, ELEMENT_NAME);
 		return collect(findExtensionInstances, new ClosureIO<IProfileProvider, IConfiguration>() {
 			public IConfiguration call(final IProfileProvider in) {
-				if (memento != null)
 					in.loadConfiguration(memento);
 				return in.getExtension();
 			}

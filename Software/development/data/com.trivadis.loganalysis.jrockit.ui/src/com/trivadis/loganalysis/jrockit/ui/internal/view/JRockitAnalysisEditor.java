@@ -46,6 +46,7 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 			for (final IChart chart : profile.getCharts()) {
 				addPage(new JRockitAnalysisEditorPage(this, jvm, chart));
 			}
+			//TODO add page only in custom profile
 			addPage(new JRockitAnalysisEditorPageCustom(this, jvm));
 		} catch (final PartInitException e) {
 		}

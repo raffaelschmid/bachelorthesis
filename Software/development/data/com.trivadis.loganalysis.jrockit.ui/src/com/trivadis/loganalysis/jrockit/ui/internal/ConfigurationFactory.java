@@ -16,6 +16,7 @@ import static com.trivadis.loganalysis.core.common.CollectionUtil.prepend;
 import static java.util.Arrays.asList;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.ui.IMemento;
@@ -36,13 +37,13 @@ import com.trivadis.loganalysis.ui.domain.profile.Profile;
 public class ConfigurationFactory implements IConfigurationFactory {
 
 	public IConfiguration loadConfigurationFrom(final IMemento memento) {
-		final IMemento jrockitConfig = memento.getChild(Configuration.MEMENTO_ELEMENT_NAME);
-		final List<IProfile> list = collect(asList(jrockitConfig.getChildren(Profile.MEMENTO_ELEMENT_NAME)),
-				new ClosureIO<IMemento, IProfile>() {
+		final IMemento jrockitConfig = (memento != null) ? memento.getChild(Configuration.MEMENTO_ELEMENT_NAME) : null;
+		final List<IProfile> list = (jrockitConfig != null) ? collect(
+				asList(jrockitConfig.getChildren(Profile.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IProfile>() {
 					public IProfile call(final IMemento in) {
 						return getProfile(in);
 					}
-				});
+				}) : new ArrayList<IProfile>();
 		return new Configuration("JRockit R28", prepend(new StandardProfile("Standard Profile"), list));
 	}
 
