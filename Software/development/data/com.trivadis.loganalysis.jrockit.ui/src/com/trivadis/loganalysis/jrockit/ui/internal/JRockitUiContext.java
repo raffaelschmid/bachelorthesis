@@ -15,8 +15,10 @@ import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
 public class JRockitUiContext implements IJRockitUiContext {
 	private IConfiguration extension = null;
+	private final IConfigurationFactory configurationFactory;
 
 	public JRockitUiContext() {
+		this.configurationFactory = new ConfigurationFactory();
 	}
 
 	public IConfiguration getExtension() {
@@ -27,5 +29,7 @@ public class JRockitUiContext implements IJRockitUiContext {
 		this.extension = extension;
 	}
 
-
+	public IConfigurationFactory getConfigurationFactory() {
+		return configurationFactory;
+	}
 }

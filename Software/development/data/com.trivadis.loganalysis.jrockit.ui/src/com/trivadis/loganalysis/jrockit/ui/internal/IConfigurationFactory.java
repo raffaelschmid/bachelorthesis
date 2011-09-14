@@ -11,14 +11,12 @@
  */
 package com.trivadis.loganalysis.jrockit.ui.internal;
 
+import org.eclipse.ui.IMemento;
+
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
-public interface IJRockitUiContext {
+public interface IConfigurationFactory {
 
-	IConfiguration getExtension();
-
-	void setExtension(IConfiguration extension);
-
-	IConfigurationFactory getConfigurationFactory();
+	IConfiguration loadConfigurationFrom(IMemento memento);
 
 }

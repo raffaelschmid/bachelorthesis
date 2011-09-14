@@ -91,6 +91,7 @@ public class UiDomainTest {
 	public void test_saveMemento() throws IOException {
 		final XMLMemento memento = (XMLMemento) memento();
 		configuration(PROFILE_LABEL).save(memento);
+		showXmlContent(memento);
 		assertNotNull(memento);
 	}
 
