@@ -115,10 +115,10 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 				in.save(memento);
 			}
 		});
-		showXml(memento);
 	}
 
-	protected void showXml(final IMemento memento) {
+	@SuppressWarnings("unused")
+	private void showXml(final IMemento memento) {
 		final Writer sw = new StringWriter();
 		final XMLMemento xmlMemento = (XMLMemento) memento;
 		try {
@@ -133,7 +133,6 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 	public void init(final IViewSite site, final IMemento memento) throws PartInitException {
 		super.init(site, memento);
 		
-		showXml(memento);
 		context.addConfigurations(UiLoganalysis.getConfigurations(memento));
 		context.getProfiles().addChangeListener(this); // data binding
 		for (final IConfiguration configuration : context.getProfiles()) {

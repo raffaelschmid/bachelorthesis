@@ -64,7 +64,6 @@ public class OpenAnalysisHandler extends AbstractHandler {
 					openAnalysis(event, context.getSelectedLogFile(), profile);
 				}
 				else{
-					System.out.println("select log file");
 					// TODO handle case where file is not selected and double
 					// click on profile occures
 				}
