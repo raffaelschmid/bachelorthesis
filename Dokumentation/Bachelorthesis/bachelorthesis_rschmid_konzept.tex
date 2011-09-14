@@ -83,20 +83,27 @@ Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') 
 \subsubsection{Weitere Projekte}
 Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 \begin{itemize}
-	\item Features\footnote{Feature-Projekte definieren im Eclipse-Umfeld ein in sich lauffähiges Software-Packet. Via einen Xml-Deskriptor werden die abhängigen Plugin-Projekte definiert und in das Feature gepackt.}
+	\item Test-Projekte\footnote{Der Test-Code befindet sich in eigenen Projekten. Siehe Abschnit \ref{testing} \titleref{testing}}.
+		\begin{itemize}
+			\item core.test
+			\item core.ui.test
+			\item jrockit.test
+			\item jrockit.ui.test
+		\end{itemize}
+	\item  Features\footnote{Feature-Projekte definieren im Eclipse-Umfeld ein in sich lauffähiges Software-Packet. Via einen Xml-Deskriptor werden die abhängigen Plugin-Projekte definiert und in das Feature gepackt.}
 		\begin{itemize}
 			\item loganalysis.feature
 			\item loganalysis.jrockit.feature
 		\end{itemize}
-	\item Thirdparty Bibliotheken\footnote{Thirdparty Bibliotheken werden ebenfalls in ein Plugin gepackt, da innerhalb der Eclipse-Runntime nur Plugins installiert werden können. Die ``Plugin-Hülle'' definiert die exportierten und importierten Packete und die Abhängigkeiten.}
+	\item  Thirdparty Bibliotheken\footnote{Thirdparty Bibliotheken werden ebenfalls in ein Plugin gepackt, da innerhalb der Eclipse-Runntime nur Plugins installiert werden können. Die ``Plugin-Hülle'' definiert die exportierten und importierten Packete und die Abhängigkeiten.}
 		\begin{itemize}
 			\item  loganalysis.jfreechart.libs (JFreeChart Library)
 		\end{itemize}
-	\item Targetplattform\footnote{Die Targetplattform ist eine Konfiguration welche definiert, gegen welche Plattform die Anwendung entwickelt wird.}
+	\item  Targetplattform\footnote{Die Targetplattform ist eine Konfiguration welche definiert, gegen welche Plattform die Anwendung entwickelt wird.}
 		\begin{itemize}
 			\item  loganalysis.targetplatform (beinhaltet die Target-Plattform)
 		\end{itemize}
-	\item Update-Seite\footnote{Die Konfiguration innerhalb eines Projekts zur Erstellung einer Update-Seite definiert die auf der Seite publizierten Features.}
+	\item  Update-Seite\footnote{Die Konfiguration innerhalb eines Projekts zur Erstellung einer Update-Seite definiert die auf der Seite publizierten Features.}
 		\begin{itemize}
 			\item loganalysis.updatesite (definiert und generiert die Update-Seite)
 		\end{itemize}
@@ -106,10 +113,16 @@ Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 Basierend auf dem Lokalisierungssystem der Java Virtual Machine kann man in Eclipse alle Spracheressourcen in Properties-Dateien auslagern (Eclipse bietet dafür sogar einen Wizard). Normalerweise liefert man die Default-Sprache innerhalb des Projektes für welches die Ressource-Bundles definiert wurden, erweiterte Sprachpackete werden dann als Fragmente ausgeliefert. Den Sprachwechsel der Eclipse Entwicklungsumgebung muss man allerdings in der Eclipse-Konfigurationsdatei eclipse.ini vollziehen - dieser benötigt auch immer einen Neustart der Entwicklungsumgebunt.
 
 \subsection{Hilfesystem}
-Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfeseiten und Dienste wie die Suche und Indizierung bereitstellt. Eclipse kann zum einen auf einem Index basierenden Hilfeseiten anbieten, zum anderen können aber die Seiten auch an Gui-Komponenten gebunden werden. Man spricht dann von Kontextsensitiver Hilfe.
+Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfeseiten und Dienste wie die Suche und Indizierung bereitstellt. Die Hilfeseiten werden in zwei unterschiedliche Arten unterteilt:
+\begin{itemize}
+\item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 
+\item \textbf{Kontextsensitive Hilfen:} Tipps die im Zusammenhang mit einer Aktion oder eines Fensters eines Benutzers stehen werden mit den Kontextsensitiven Hilfen implementiert. Bei diesen Hilfen besteht eine Verbindung zwischen Fenstern, Aktionen auf der einen Seite und den Hilfeseiten auf der Anderen.
+\end{itemize}
 
-\subsection{Testing}
+\subsection{Testing}\label{testing}
+In Nicht-Plugin-Projekten legt man den Test-Code in einem zusätzlichen Quelltext-Ordner an (Beispielsweise src/main/java und src/main/test). Damit ist der Zugriff auf package-private\footnote{Felder und Methoden ohne Deklaration der Sichtbarkeit (private, protected, public) sind in Java implizit package-private - sie sind also für alle Subklassen und innerhalb des selben Ordners (Package) sichtbar. } Felder und Methoden ebenfalls möglicht, zusätzlich bleibt der Test-Code von der Implementation getrennt. Dieses vorgehen wird auch vom Build-Werkzeug Maven Tycho unterstützt. Wenn man das entsprechende Test-Plugin als Eclipse-Test-Plugin konfiguriert\footnote{Dies kann innerhalb der Maven-Konfigurationsdatei pom.xml mit dem Element packaging gemacht werden.}, können die Tests auch während dem Build automatisiert durchgeführt werden.
 
+Bei Eclipse-Plugin-Projekten erstellt man für den Test-Code ein separates Projekt. In das zu verteilende Softwarepacket (Feature) werden nur die Nicht-Test-Plugins getan. Der Zugriff vom Test-Projekt auf die Implementationen ist per se nicht möglich\footnote{Jedes Plugin muss definieren, welche Packages für die anderen Plugins sichtbar sind.}, zu diesem Zweck wird das Test-Projekt als Fragment definiert.
 \section{Basissoftware (Core)}
 \subsection{Ablauf Garbage Collection Analyse}
 Nach dem Import der sich auf einem lokalen Laufwerk befindenden Log Datei befindet sich diese im Fenster ``Log Files''. Beim Doppelklick auf diese Datei wird der Analyse-Vorgang gestartet. Mit der Voraussetzung, dass die JRockit Extension (Feature) installiert ist, passiert danach folgendes:
@@ -167,7 +180,7 @@ registriert. Es kann sich dabei bei der JRockit Virtual Machine um Young oder Ol
 
 
 \subsection{Zusammenfassung der Daten}
-Auf der initialen Übersichtsseite wird die Zusammenfassung des JVM-Laufs dargestellt. Folgende Daten werden aus der Log Datei geparst und tabellarisch gesammelt:
+Der initiale Tab der Analyseseite zeigt verschiedene zusammenfassende Daten des Garbage Collection Logs. Diese werden folgendermassen tabellarisch dargestellt:
 \begin{itemize}
 	\item Heap Kapazität
 	\begin{itemize}
