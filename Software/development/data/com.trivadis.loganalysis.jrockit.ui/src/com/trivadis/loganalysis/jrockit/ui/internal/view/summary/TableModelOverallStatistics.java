@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-import com.trivadis.loganalysis.core.common.Closure;
+import com.trivadis.loganalysis.core.common.ClosureI;
 import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.core.domain.unit.Time;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
@@ -54,7 +54,7 @@ public class TableModelOverallStatistics extends OverviewAbstractTableModel {
 				new Tuple<String, String>("Percentage of time in full gc",
 						percentage(jvm.getPercentageOfTimeInFullGc())));
 
-		foreach(tuples, new Closure<Tuple<String, String>>() {
+		foreach(tuples, new ClosureI<Tuple<String, String>>() {
 			public void call(Tuple<String, String> in) {
 				new TableItem(table, SWT.NONE).setText(in.toArray());
 			}

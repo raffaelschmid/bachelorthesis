@@ -15,6 +15,8 @@ import java.util.List;
 
 import org.eclipse.ui.IMemento;
 
+import com.trivadis.loganalysis.ui.IChartChangeListener;
+
 public interface IProfile {
 
 	String getLabel();
@@ -28,5 +30,9 @@ public interface IProfile {
 	IConfiguration getConfiguration();
 
 	void setConfiguration(IConfiguration configuration);
+
+	void addChartListener(IChartChangeListener iChartChangeListener);
+
+	boolean removeChart(IChart chart);
 
 }

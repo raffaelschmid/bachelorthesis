@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.eclipse.ui.IMemento;
 
-import com.trivadis.loganalysis.core.common.Closure;
+import com.trivadis.loganalysis.core.common.ClosureI;
 import com.trivadis.loganalysis.core.common.Predicate;
 import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
 
@@ -57,7 +57,7 @@ public class Configuration implements IConfiguration {
 			public boolean matches(final IProfile item) {
 				return !(item instanceof IStandardProfile);
 			}
-		}), new Closure<IProfile>() {
+		}), new ClosureI<IProfile>() {
 			public void call(final IProfile in) {
 				in.saveMemento(configuration);
 			}

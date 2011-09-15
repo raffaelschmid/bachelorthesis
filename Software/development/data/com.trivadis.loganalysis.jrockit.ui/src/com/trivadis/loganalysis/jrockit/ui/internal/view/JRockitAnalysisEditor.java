@@ -19,10 +19,11 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.IFormPage;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.custom.JRockitAnalysisEditorPageCustom;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.JRockitAnalysisEditorPageSummary;
 import com.trivadis.loganalysis.ui.AnalysisEditor;
 import com.trivadis.loganalysis.ui.EditorInput;
+import com.trivadis.loganalysis.ui.IChartChangeListener;
+import com.trivadis.loganalysis.ui.Ui;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
@@ -42,12 +43,23 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 	@Override
 	protected void addPages() {
 		try {
-			addPage(new JRockitAnalysisEditorPageSummary(this, jvm));
+			addPage(new JRockitAnalysisEditorPageSummary(this, jvm, profile));
 			for (final IChart chart : profile.getCharts()) {
-				addPage(new JRockitAnalysisEditorPage(this, jvm, chart));
+				addPage(new JRockitAnalysisEditorPage(this, jvm, profile, chart));
 			}
-			//TODO add page only in custom profile
-			addPage(new JRockitAnalysisEditorPageCustom(this, jvm));
+			profile.addChartListener(new IChartChangeListener() {
+				public void added(final IChart chart) {
+					try {
+						addPage(new JRockitAnalysisEditorPage(JRockitAnalysisEditor.this, jvm, profile, chart));
+					} catch (final PartInitException e) {
+						Ui.getDefault().handleException(e);
+					}
+				}
+
+				public void removed(final int index) {
+					removePage(index+1);
+				}
+			});
 		} catch (final PartInitException e) {
 		}
 	}

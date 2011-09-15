@@ -19,6 +19,7 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Export-Package: com.trivadis.loganalysis.ui,
+ com.trivadis.loganalysis.ui.common,
  com.trivadis.loganalysis.ui.common.binding,
  com.trivadis.loganalysis.ui.domain.profile,
  com.trivadis.loganalysis.ui.util

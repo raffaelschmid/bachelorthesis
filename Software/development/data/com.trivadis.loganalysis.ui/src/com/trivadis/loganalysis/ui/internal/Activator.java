@@ -11,13 +11,55 @@
  */
 package com.trivadis.loganalysis.ui.internal;
 
-import com.trivadis.loganalysis.ui.LoganalysisAbstractUiPlugin;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.BundleContext;
 
-public class Activator extends LoganalysisAbstractUiPlugin {
+import com.trivadis.loganalysis.core.common.Cache;
+import com.trivadis.loganalysis.ui.common.ImageCache;
 
-	public static final String PLUGIN_ID = "com.trivadis.loganalysis.ui";
+public class Activator extends AbstractUIPlugin {
+
+	private static final String PLUGIN_ID = "com.trivadis.loganalysis.ui";
 
 	public String getPluginId() {
 		return PLUGIN_ID;
+	}
+	private static Activator plugin;
+	private final Cache<ImageDescriptor, Image> cache = new ImageCache();
+
+	@Override
+	public void start(final BundleContext context) throws Exception {
+		super.start(context);
+		System.out.println(this.getClass());
+		plugin = this;
+	}
+
+	@Override
+	public void stop(final BundleContext context) throws Exception {
+		cache.dispose();
+		plugin = null;
+		super.stop(context);
+	}
+
+	public static Activator getDefault() {
+		return plugin;
+	}
+
+	public Cache<ImageDescriptor, Image> getCache() {
+		return cache;
+	}
+
+	public Image getImage(final ImageDescriptor imageDescriptor) {
+		return getDefault().cache.get(imageDescriptor);
+	}
+
+	public Image getImage(final String path) {
+		return getDefault().cache.get(getImageDescriptor(path));
+	}
+
+	public ImageDescriptor getImageDescriptor(final String path) {
+		return imageDescriptorFromPlugin(getPluginId(), path);
 	}
 }

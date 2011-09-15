@@ -19,7 +19,8 @@ import java.util.List;
 
 import org.eclipse.ui.IMemento;
 
-import com.trivadis.loganalysis.core.common.Closure;
+import com.trivadis.loganalysis.core.common.ClosureI;
+import com.trivadis.loganalysis.ui.IChartChangeListener;
 
 public class Profile implements IProfile {
 
@@ -28,6 +29,7 @@ public class Profile implements IProfile {
 	private final String label;
 	private final List<IChart> charts = new ArrayList<IChart>();
 	private IConfiguration configuration;
+	private final List<IChartChangeListener> listeners = new ArrayList<IChartChangeListener>();
 
 	public Profile(final String label, final IChart... c) {
 		this(label, asList(c));
@@ -44,6 +46,9 @@ public class Profile implements IProfile {
 
 	public void addChart(final IChart chart) {
 		this.charts.add(chart);
+		for (final IChartChangeListener listener : listeners) {
+			listener.added(chart);
+		}
 	}
 
 	public List<IChart> getCharts() {
@@ -53,7 +58,7 @@ public class Profile implements IProfile {
 	public void saveMemento(final IMemento parent) {
 		final IMemento memento = parent.createChild(MEMENTO_ELEMENT_NAME);
 		memento.putString(ATTRIBUTE_LABEL, label);
-		foreach(charts, new Closure<IChart>() {
+		foreach(charts, new ClosureI<IChart>() {
 			public void call(final IChart chart) {
 				chart.saveMemento(memento);
 			}
@@ -71,5 +76,20 @@ public class Profile implements IProfile {
 
 	public void setConfiguration(final IConfiguration configuration) {
 		this.configuration = configuration;
+	}
+
+	public void addChartListener(final IChartChangeListener iChartChangeListener) {
+		this.listeners.add(iChartChangeListener);
+	}
+
+	public boolean removeChart(final IChart chart) {
+		final int indexOf = charts.indexOf(chart);
+		final boolean retVal = charts.remove(chart);
+		if (retVal) {
+			for (final IChartChangeListener listener : listeners) {
+				listener.removed(indexOf);
+			}
+		}
+		return retVal;
 	}
 }

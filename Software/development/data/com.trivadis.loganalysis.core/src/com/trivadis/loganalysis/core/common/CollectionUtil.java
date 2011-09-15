@@ -32,7 +32,7 @@ public class CollectionUtil {
 				RoundingMode.HALF_UP) : BigDecimal.ZERO;
 	}
 
-	public static <I> void foreach(final List<I> list, final Closure<I> closure) {
+	public static <I> void foreach(final List<I> list, final ClosureI<I> closure) {
 		for (final I item : list) {
 			closure.call(item);
 		}

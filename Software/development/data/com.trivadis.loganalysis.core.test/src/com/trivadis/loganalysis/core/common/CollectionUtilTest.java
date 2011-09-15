@@ -59,7 +59,7 @@ public class CollectionUtilTest {
 	@Test
 	public void test_foreach() {
 		final AtomicInteger sum = new AtomicInteger();
-		foreach(list, new Closure<BigDecimal>() {
+		foreach(list, new ClosureI<BigDecimal>() {
 			public void call(BigDecimal in) {
 				sum.addAndGet(in.intValue());
 			}

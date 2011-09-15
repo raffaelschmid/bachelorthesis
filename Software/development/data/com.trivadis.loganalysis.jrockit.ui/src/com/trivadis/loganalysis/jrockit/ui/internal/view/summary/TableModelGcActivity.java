@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
-import com.trivadis.loganalysis.core.common.Closure;
+import com.trivadis.loganalysis.core.common.ClosureI;
 import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.core.common.Predicate;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
@@ -72,7 +72,7 @@ public class TableModelGcActivity extends OverviewAbstractTableModel {
 		List<GcActivityAggregation> aggregation = collect(
 				findAll(asList(youngCollections, oldCollections), whereListIsNotEmpty), toAggregation);
 
-		foreach(aggregation, new Closure<GcActivityAggregation>() {
+		foreach(aggregation, new ClosureI<GcActivityAggregation>() {
 			public void call(GcActivityAggregation gcAggregation) {
 				new TableItem(table, SWT.NONE).setText(new String[] { gcAggregation.getName(),
 						seconds(gcAggregation.getLastOccurence().getSeconds()), gcAggregation.getCount().toString(),

@@ -9,8 +9,14 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.core.common;
+package com.trivadis.loganalysis.ui;
 
-public interface Closure {
-	public void call();
+import com.trivadis.loganalysis.ui.domain.profile.IChart;
+
+public interface IChartChangeListener {
+
+	void added(IChart chart);
+
+	void removed(int index);
+
 }

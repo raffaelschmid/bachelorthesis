@@ -36,7 +36,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.part.ViewPart;
 
-import com.trivadis.loganalysis.core.common.Closure;
+import com.trivadis.loganalysis.core.common.ClosureI;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
 import com.trivadis.loganalysis.ui.common.binding.IListChangeListener;
@@ -110,7 +110,7 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 
 	@Override
 	public void saveState(final IMemento memento) {
-		foreach(context.getProfiles(), new Closure<IConfiguration>() {
+		foreach(context.getProfiles(), new ClosureI<IConfiguration>() {
 			public void call(final IConfiguration in) {
 				in.save(memento);
 			}

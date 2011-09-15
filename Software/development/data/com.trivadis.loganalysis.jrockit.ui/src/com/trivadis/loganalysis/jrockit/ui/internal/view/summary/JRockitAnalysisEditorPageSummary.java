@@ -20,51 +20,52 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.internal.Messages;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;
-import com.trivadis.loganalysis.ui.GridFormPage;
+import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
-public class JRockitAnalysisEditorPageSummary extends GridFormPage {
+public class JRockitAnalysisEditorPageSummary extends AnalysisPage {
 
 	private final JRockitJvmRun logFile;
 
 	public static final String ID = JRockitAnalysisEditorPageSummary.class.getName();
 
-	public JRockitAnalysisEditorPageSummary(JRockitAnalysisEditor editor, JRockitJvmRun logFile) {
-		super(editor, ID, Messages.JRockitAnalysisEditorPageSummary_0, 1, 1);
+	public JRockitAnalysisEditorPageSummary(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile, final IProfile profile) {
+		super(editor, ID, Messages.JRockitAnalysisEditorPageSummary_0, profile, null);
 		this.logFile = logFile;
 	}
 
-	protected void createSections(IManagedForm managedForm) {
-		FormToolkit toolkit = managedForm.getToolkit();
+	@Override
+	protected void sections(final IManagedForm managedForm) {
+		final FormToolkit toolkit = managedForm.getToolkit();
 		heapCapacitySection(managedForm, toolkit);
 		gcActivitySummary(managedForm, toolkit);
 		overallStatistics(managedForm, toolkit);
 	}
 
-	private void heapCapacitySection(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_1,
+	private void heapCapacitySection(final IManagedForm managedForm, final FormToolkit toolkit) {
+		final Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_1,
 				Messages.JRockitAnalysisEditorPageSummary_2, 1, true);
-		Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
+		final Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		new TableModelHeapCapacity(logFile, table);
 	}
 
-	private void gcActivitySummary(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_3,
+	private void gcActivitySummary(final IManagedForm managedForm, final FormToolkit toolkit) {
+		final Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_3,
 				Messages.JRockitAnalysisEditorPageSummary_4, 1, true);
-		Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
+		final Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		new TableModelGcActivity(logFile, table);
 	}
 
-	private void overallStatistics(IManagedForm managedForm, FormToolkit toolkit) {
-		Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_5,
+	private void overallStatistics(final IManagedForm managedForm, final FormToolkit toolkit) {
+		final Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_5,
 				Messages.JRockitAnalysisEditorPageSummary_6, 1, true);
 
-		Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
+		final Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);

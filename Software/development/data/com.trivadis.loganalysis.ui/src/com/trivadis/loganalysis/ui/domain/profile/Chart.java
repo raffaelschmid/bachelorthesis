@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.eclipse.ui.IMemento;
 
-import com.trivadis.loganalysis.core.common.Closure;
+import com.trivadis.loganalysis.core.common.ClosureI;
 import com.trivadis.loganalysis.core.common.Predicate;
 
 public class Chart implements IChart {
@@ -74,7 +74,7 @@ public class Chart implements IChart {
 		final IMemento memento = parent.createChild(MEMENTO_ELEMENT_NAME);
 		memento.putString(ATTRIBUTE_LABEL, label);
 		memento.putString(ATTRIBUTE_DESCRIPTION, description);
-		foreach(axes, new Closure<IAxis>() {
+		foreach(axes, new ClosureI<IAxis>() {
 			public void call(final IAxis axis) {
 				axis.saveMemento(memento);
 			}
@@ -87,11 +87,13 @@ public class Chart implements IChart {
 	}
 
 	public String getYLabel() {
-		return getYAxes().get(0).getLabel();
+		final List<IAxis> yAxes = getYAxes();
+		return yAxes.size() > 0 ? yAxes.get(0).getLabel() : null;
 	}
 
 	public String getXLabel() {
-		return getXAxes().get(0).getLabel();
+		final List<IAxis> xAxes = getXAxes();
+		return xAxes.size() > 0 ? xAxes.get(0).getLabel() : null;
 	}
 
 	public String getDescription() {

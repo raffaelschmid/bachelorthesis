@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.trivadis.loganalysis.core.common.Assert;
-import com.trivadis.loganalysis.core.common.Closure;
+import com.trivadis.loganalysis.core.common.ClosureI;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
@@ -66,7 +66,7 @@ public class UiContext implements IUiContext {
 	}
 
 	public void addConfigurations(final List<IConfiguration> configurations) {
-		foreach(configurations, new Closure<IConfiguration>() {
+		foreach(configurations, new ClosureI<IConfiguration>() {
 			public void call(final IConfiguration in) {
 				addConfiguration(in);
 			}

@@ -42,7 +42,7 @@ public class DataWrapper {
 		final ValueProvider xAxis = getAxisSelection(AxisType.X);
 		final ValueProvider yAxis = getAxisSelection(AxisType.Y);
 		final XYSeries series = new XYSeries(xAxis + "/" + yAxis);
-		if (jvm != null) {
+		if (jvm != null && xAxis != null && yAxis != null) {
 			for (final State state : jvm.getHeap().getStates()) {
 				final BigDecimal x = xAxis.data(state);
 				final BigDecimal y = yAxis.data(state);

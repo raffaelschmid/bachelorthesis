@@ -11,6 +11,7 @@
  */
 package com.trivadis.loganalysis.core.common;
 
-public interface Closure {
-	public void call();
+public interface ClosureI<I> {
+	public void call(I in);
+
 }

@@ -12,36 +12,42 @@
 package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.internal.Messages;
-import com.trivadis.loganalysis.ui.GridFormPage;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.AnalysisPage;
 import com.trivadis.loganalysis.ui.GridLayoutUtil;
 import com.trivadis.loganalysis.ui.domain.profile.IAxis;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
+import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
-public class JRockitAnalysisEditorPage extends GridFormPage {
+public class JRockitAnalysisEditorPage extends AnalysisPage {
 
 	public static final String ID = JRockitAnalysisEditorPage.class.getName();
 	private final JRockitJvmRun jvm;
 	private final IChart chart;
 
-	public JRockitAnalysisEditorPage(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile, final IChart chart) {
-		super(editor, ID, chart.getLabel(), 1, 1);
+	public JRockitAnalysisEditorPage(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile,
+			final IProfile profile, final IChart chart) {
+		super(editor, ID, chart.getLabel(), profile, chart);
 		this.jvm = logFile;
 		this.chart = chart;
 	}
 
 	@Override
-	protected void createSections(final IManagedForm managedForm) {
+	protected void sections(final IManagedForm managedForm) {
 		final FormToolkit toolkit = managedForm.getToolkit();
 		createDiagramSection(managedForm, toolkit);
 	}
 
 	private void createDiagramSection(final IManagedForm managedForm, final FormToolkit toolkit) {
+		final Composite toolbar = toolkit.createComposite(managedForm.getForm().getBody());
+		toolbar.setLayout(new GridLayout(1,false));
+		
 		final Composite composite = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageHeapUsage_2,
 				chart.getDescription(), 1, SWT.FILL, 800, true);
 
