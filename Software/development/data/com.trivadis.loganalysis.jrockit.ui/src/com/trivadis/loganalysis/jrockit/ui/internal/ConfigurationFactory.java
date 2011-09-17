@@ -27,12 +27,14 @@ import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
 import com.trivadis.loganalysis.ui.domain.profile.AxisType;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
+import com.trivadis.loganalysis.ui.domain.profile.ChartType;
 import com.trivadis.loganalysis.ui.domain.profile.Configuration;
 import com.trivadis.loganalysis.ui.domain.profile.IAxis;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.domain.profile.Profile;
+import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class ConfigurationFactory implements IConfigurationFactory {
 
@@ -63,12 +65,21 @@ public class ConfigurationFactory implements IConfigurationFactory {
 	}
 
 	private IChart getChart(final IMemento in) {
-		return new Chart(in.getString(Chart.ATTRIBUTE_LABEL), in.getString(Chart.ATTRIBUTE_DESCRIPTION), collect(
-				asList(in.getChildren(Axis.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IAxis>() {
-					public IAxis call(final IMemento in) {
-						return getAxis(in);
-					}
-				}));
+		return new Chart(ChartType.CUSTOM, in.getString(Chart.ATTRIBUTE_TAB_NAME), in.getString(Chart.ATTRIBUTE_LABEL),
+				in.getString(Chart.ATTRIBUTE_DESCRIPTION), collect(asList(in.getChildren(Serie.MEMENTO_ELEMENT_NAME)),
+						new ClosureIO<IMemento, Serie>() {
+							public Serie call(final IMemento in) {
+								return getSerie(in);
+							}
+
+						}));
 	}
 
+	private Serie getSerie(final IMemento in) {
+		return new Serie(collect(asList(in.getChildren(Axis.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IAxis>() {
+			public IAxis call(final IMemento in) {
+				return getAxis(in);
+			}
+		}));
+	}
 }

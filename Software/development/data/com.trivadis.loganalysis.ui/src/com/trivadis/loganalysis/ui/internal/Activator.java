@@ -32,7 +32,6 @@ public class Activator extends AbstractUIPlugin {
 	@Override
 	public void start(final BundleContext context) throws Exception {
 		super.start(context);
-		System.out.println(this.getClass());
 		plugin = this;
 	}
 

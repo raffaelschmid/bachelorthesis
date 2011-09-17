@@ -22,14 +22,14 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.XMLMemento;
 import org.junit.Test;
 
-import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ProfileProvider;
-import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider;
 import com.trivadis.loganalysis.ui.IProfileProvider;
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
+import com.trivadis.loganalysis.ui.domain.profile.ChartType;
 import com.trivadis.loganalysis.ui.domain.profile.Configuration;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.Profile;
+import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class ProfileProviderTest {
 
@@ -43,6 +43,7 @@ public class ProfileProviderTest {
 	private static final String CHART_LABEL = "mychart";
 	private static final String PROFILE_LABEL = "profile-label-01";
 	private static final String CHART_DESCRIPTION = "desc";
+	private static final String PROFILE_TAB_NAME = "tab-name";
 
 	private final IProfileProvider instance = new ProfileProvider();
 
@@ -68,11 +69,11 @@ public class ProfileProviderTest {
 	}
 
 	protected IConfiguration configuration(final String profileLabel) {
-		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
-				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
-						VALUE_PROVIDER_Y))), new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
-				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
-						VALUE_PROVIDER_Y))));
+		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL,
+				CHART_DESCRIPTION, new Serie(new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y,
+						Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))), new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, 
+				PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie(new Axis(X, X_AXIS_LABEL, COLOR_X,
+						VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))));
 
 	}
 }

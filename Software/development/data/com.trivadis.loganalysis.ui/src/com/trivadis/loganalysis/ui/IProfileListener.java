@@ -9,22 +9,12 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui.domain.profile;
+package com.trivadis.loganalysis.ui;
 
-import java.awt.Color;
+import com.trivadis.loganalysis.ui.domain.profile.IChart;
 
-import org.eclipse.ui.IMemento;
+public interface IProfileListener {
+	void added(IChart chart);
 
-public interface IAxis {
-	
-	AxisType getAxisType();
-	
-	String getLabel();
-
-	Color getColor();
-
-	void save(IMemento memento);
-
-	IValueProvider getValueProvider();
-
+	void removed(int index);
 }

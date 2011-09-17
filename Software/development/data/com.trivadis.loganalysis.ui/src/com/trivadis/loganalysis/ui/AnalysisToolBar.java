@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view.summary;
+package com.trivadis.loganalysis.ui;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -24,10 +24,12 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.trivadis.loganalysis.core.common.Assert;
-import com.trivadis.loganalysis.jrockit.ui.internal.Activator;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
+import com.trivadis.loganalysis.ui.domain.profile.ChartType;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
+import com.trivadis.loganalysis.ui.domain.profile.IStandardProfile;
+import com.trivadis.loganalysis.ui.internal.Activator;
 
 public class AnalysisToolBar {
 	private static AtomicInteger sequence = new AtomicInteger();
@@ -52,15 +54,16 @@ public class AnalysisToolBar {
 			});
 		}
 
-		final Button btnAddChart = toolkit.createButton(composite, null, SWT.NONE);
-		btnAddChart.setImage(Activator.getDefault().getImage(CHART_ICON_ADD));
-		btnAddChart.setLayoutData(new GridData(SWT.END, SWT.TOP, chart == null, false));
-		btnAddChart.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				profile.addChart(new Chart("foo" + sequence.getAndIncrement(), "bar"));
-			}
-		});
-
+		if (!(profile instanceof IStandardProfile)) {
+			final Button btnAddChart = toolkit.createButton(composite, null, SWT.NONE);
+			btnAddChart.setImage(Activator.getDefault().getImage(CHART_ICON_ADD));
+			btnAddChart.setLayoutData(new GridData(SWT.END, SWT.TOP, chart == null, false));
+			btnAddChart.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(final SelectionEvent e) {
+					profile.addChart(new Chart(ChartType.CUSTOM, "New Chart " + sequence.getAndIncrement(), "", ""));
+				}
+			});
+		}
 	}
 }

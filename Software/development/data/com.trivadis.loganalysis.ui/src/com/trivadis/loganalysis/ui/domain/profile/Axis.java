@@ -45,7 +45,7 @@ public class Axis implements IAxis {
 		return valueProvider;
 	}
 
-	public void saveMemento(final IMemento parent) {
+	public void save(final IMemento parent) {
 		final IMemento memento = parent.createChild(MEMENTO_ELEMENT_NAME);
 		memento.putString(ATTRIBUTE_LABEL, label);
 		memento.putInteger(ATTRIBUTE_COLOR, color.getRGB());
@@ -55,6 +55,16 @@ public class Axis implements IAxis {
 
 	public AxisType getAxisType() {
 		return axisType;
+	}
+
+	public static Axis create(final AxisType type, final IValueProvider vp) {
+		return new Axis(type, "", Color.red, vp);
+	}
+
+	@Override
+	public String toString() {
+		return "Axis [label=" + label + ", color=" + color + ", valueProvider=" + valueProvider + ", axisType="
+				+ axisType + "]";
 	}
 
 }

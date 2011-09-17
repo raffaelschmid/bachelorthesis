@@ -9,14 +9,9 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui;
+package com.trivadis.loganalysis.ui.domain.profile;
 
-import com.trivadis.loganalysis.ui.domain.profile.IChart;
-
-public interface IChartChangeListener {
-
-	void added(IChart chart);
-
-	void removed(int index);
+public enum ChartType {
+	DEFAULT, CUSTOM;
 
 }

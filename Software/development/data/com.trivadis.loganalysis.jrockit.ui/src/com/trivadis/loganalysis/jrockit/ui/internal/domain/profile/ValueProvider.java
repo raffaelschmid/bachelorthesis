@@ -11,6 +11,8 @@
  */
 package com.trivadis.loganalysis.jrockit.ui.internal.domain.profile;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.math.BigDecimal;
 
 import com.trivadis.loganalysis.jrockit.domain.State;
@@ -18,7 +20,7 @@ import com.trivadis.loganalysis.jrockit.domain.gc.GarbageCollection;
 import com.trivadis.loganalysis.jrockit.domain.gc.Transition;
 import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 
-public enum ValueProvider implements IValueProvider{
+public enum ValueProvider implements IValueProvider {
 	TIME {
 		@Override
 		public BigDecimal data(final State state) {
@@ -40,6 +42,20 @@ public enum ValueProvider implements IValueProvider{
 
 	};
 	public abstract BigDecimal data(State state);
+
+	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
+	public void addPropertyChangeListener(final PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(listener);
+	}
+
+	public void removePropertyChangeListener(final PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+
+	public String getName() {
+		return name();
+	}
 
 	protected GarbageCollection getGarbageCollection(final Transition gc) {
 		return (gc != null && gc instanceof GarbageCollection) ? ((GarbageCollection) gc) : null;

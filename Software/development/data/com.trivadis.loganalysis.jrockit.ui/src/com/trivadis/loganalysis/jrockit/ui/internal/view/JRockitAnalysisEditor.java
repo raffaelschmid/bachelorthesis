@@ -11,6 +11,9 @@
  */
 package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -22,8 +25,9 @@ import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.JRockitAnalysisEditorPageSummary;
 import com.trivadis.loganalysis.ui.AnalysisEditor;
 import com.trivadis.loganalysis.ui.EditorInput;
-import com.trivadis.loganalysis.ui.IChartChangeListener;
+import com.trivadis.loganalysis.ui.IProfileListener;
 import com.trivadis.loganalysis.ui.Ui;
+import com.trivadis.loganalysis.ui.domain.profile.ChartType;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
@@ -45,23 +49,43 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 		try {
 			addPage(new JRockitAnalysisEditorPageSummary(this, jvm, profile));
 			for (final IChart chart : profile.getCharts()) {
-				addPage(new JRockitAnalysisEditorPage(this, jvm, profile, chart));
+				final AbstractJRockitAnalysisEditorPage page = ChartType.CUSTOM.equals(chart.getType()) ? new CustomJRockitAnalysisEditorPage(
+						this, jvm, profile, chart) : new JRockitAnalysisEditorPage(this, jvm, profile, chart);
+				chart.addPropertyChangeListener("tabName", chartListener(page));
+				addPage(page);
 			}
-			profile.addChartListener(new IChartChangeListener() {
-				public void added(final IChart chart) {
-					try {
-						addPage(new JRockitAnalysisEditorPage(JRockitAnalysisEditor.this, jvm, profile, chart));
-					} catch (final PartInitException e) {
-						Ui.getDefault().handleException(e);
-					}
-				}
-
-				public void removed(final int index) {
-					removePage(index+1);
-				}
-			});
+			profile.addChartListener(profileListener());
 		} catch (final PartInitException e) {
+			Ui.getDefault().handleException(e);
 		}
+	}
+
+	protected IProfileListener profileListener() {
+		return new IProfileListener() {
+			public void added(final IChart chart) {
+				try {
+					final AbstractJRockitAnalysisEditorPage page = ChartType.CUSTOM.equals(chart.getType()) ? new CustomJRockitAnalysisEditorPage(
+							JRockitAnalysisEditor.this, jvm, profile, chart) : new JRockitAnalysisEditorPage(
+							JRockitAnalysisEditor.this, jvm, profile, chart);
+					chart.addPropertyChangeListener("tabName", chartListener(page));
+					addPage(page);
+				} catch (final PartInitException e) {
+					Ui.getDefault().handleException(e);
+				}
+			}
+
+			public void removed(final int index) {
+				removePage(index + 1);
+			}
+		};
+	}
+
+	protected PropertyChangeListener chartListener(final AbstractJRockitAnalysisEditorPage page) {
+		return new PropertyChangeListener() {
+			public void propertyChange(final PropertyChangeEvent evt) {
+				JRockitAnalysisEditor.this.setPageText(page.getIndex(), (String) evt.getNewValue());
+			}
+		};
 	}
 
 	@Override

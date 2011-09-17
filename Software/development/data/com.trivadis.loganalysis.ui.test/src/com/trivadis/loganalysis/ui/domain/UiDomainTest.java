@@ -26,7 +26,9 @@ import org.eclipse.ui.XMLMemento;
 import org.junit.Test;
 
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
+import com.trivadis.loganalysis.ui.domain.profile.AxisType;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
+import com.trivadis.loganalysis.ui.domain.profile.ChartType;
 import com.trivadis.loganalysis.ui.domain.profile.Configuration;
 import com.trivadis.loganalysis.ui.domain.profile.IAxis;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
@@ -34,6 +36,7 @@ import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 import com.trivadis.loganalysis.ui.domain.profile.Profile;
+import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class UiDomainTest {
 
@@ -47,14 +50,14 @@ public class UiDomainTest {
 	private static final String CHART_LABEL = "mychart";
 	private static final String PROFILE_LABEL = "profile-label-01";
 	private static final String CHART_DESCRIPTION = "desc";
+	private static final String PROFILE_TAB_NAME = "tab-name";
 
 	@Test
 	public void test_create_domain_model_long() {
-		final IChart chart01 = new Chart(CHART_LABEL, CHART_DESCRIPTION);
+		final IChart chart01 = new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION);
 		final IAxis xAxis = new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X);
 		final IAxis yAxis = new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y);
-		chart01.addAxis(xAxis);
-		chart01.addAxis(yAxis);
+		chart01.addSerie(new Serie(xAxis, yAxis));
 
 		final IProfile profile = new Profile(PROFILE_LABEL);
 		profile.addChart(chart01);
@@ -67,9 +70,9 @@ public class UiDomainTest {
 
 	@Test
 	public void test_create_domain_model_short() {
-		verifyConfiguration(new Configuration(JROCKIT_R28, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL,
-				CHART_DESCRIPTION, new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL,
-						COLOR_Y, VALUE_PROVIDER_Y)))));
+		verifyConfiguration(new Configuration(JROCKIT_R28, new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM,
+				PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie(new Axis(X, X_AXIS_LABEL, COLOR_X,
+						VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y))))));
 	}
 
 	protected void verifyConfiguration(final IConfiguration configuration) {
@@ -80,10 +83,10 @@ public class UiDomainTest {
 		final IChart chart02 = profile.getCharts().get(0);
 		assertEquals(CHART_LABEL, chart02.getLabel());
 
-		final IAxis xAxis = chart02.getXAxes().get(0);
+		final IAxis xAxis = chart02.getSeries().get(0).getAxes(AxisType.X).get(0);
 		assertEquals(X_AXIS_LABEL, xAxis.getLabel());
 
-		final IAxis yAxis = chart02.getYAxes().get(0);
+		final IAxis yAxis = chart02.getSeries().get(0).getAxes(AxisType.Y).get(0);
 		assertEquals(Y_AXIS_LABEL, yAxis.getLabel());
 	}
 
@@ -96,11 +99,11 @@ public class UiDomainTest {
 	}
 
 	protected IConfiguration configuration(final String profileLabel) {
-		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
-				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
-						VALUE_PROVIDER_Y))), new Profile(PROFILE_LABEL, new Chart(CHART_LABEL, CHART_DESCRIPTION,
-				new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y,
-						VALUE_PROVIDER_Y))));
+		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME,
+				CHART_LABEL, CHART_DESCRIPTION, new Serie(new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X),
+						new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))), new Profile(PROFILE_LABEL, new Chart(
+				ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie(new Axis(X, X_AXIS_LABEL,
+						COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))));
 
 	}
 

@@ -16,6 +16,8 @@ import static java.util.Arrays.asList;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,42 +32,75 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.jrockit.domain.State;
+import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider;
 import com.trivadis.loganalysis.ui.GridLayoutUtil;
 import com.trivadis.loganalysis.ui.domain.profile.AxisType;
+import com.trivadis.loganalysis.ui.domain.profile.IAxis;
+import com.trivadis.loganalysis.ui.domain.profile.IChart;
+import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class ChartPanel extends Composite {
 	private final XYSeriesCollection dataset = new XYSeriesCollection();
 	private final JFreeChart chart;
 	private final AtomicInteger seriesNr = new AtomicInteger(0);
 	private final List<Color> colors = asList(Color.blue, Color.red, Color.black, Color.yellow, Color.cyan);
+	private final JRockitJvmRun jvm;
+	private final IChart ichart;
 
-	public ChartPanel(final Composite parent, final int style, final DataWrapper data, final String labelXAxis, final String lableYAxis) {
+	public ChartPanel(final Composite parent, final int style, final JRockitJvmRun jvm, final IChart ichart) {
 		super(parent, style);
+		this.jvm = jvm;
 		setLayout(new GridLayout(1, false));
-		chart = createChart(dataset, this, data, "Heap Usage", labelXAxis, lableYAxis);
-		data.addPropertyChangeListeners(createPropertyChangeListener(data), AxisType.X, AxisType.Y);
-		updateChart(data);
-	}
-
-	private PropertyChangeListener createPropertyChangeListener(final DataWrapper data) {
-		final PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
+		chart = createChart(dataset, this, ichart, "Heap Usage", "x", "y");
+		this.ichart = ichart;
+		updateChart();
+		ichart.addPropertyChangeListener("series", new PropertyChangeListener() {
 			public void propertyChange(final PropertyChangeEvent evt) {
-				updateChart(data);
+				updateChart();
 			}
-		};
-		return propertyChangeListener;
+		});
 	}
 
-	private void updateChart(final DataWrapper data) {
+	public void updateChart() {
 		dataset.removeAllSeries();
-		dataset.addSeries(data.getDataset());
+		final List<XYSeries> list = getDataset(ichart.getSeries());
+		for (final XYSeries s : list)
+			dataset.addSeries(s);
 	}
 
-	private JFreeChart createChart(final XYDataset dataset, final Composite parent, final DataWrapper data, final String chartName,
-			final String xAxisLabel, final String yAxisLabel) {
+	public List<XYSeries> getDataset(final List<Serie> s) {
+		final List<XYSeries> retVal = new ArrayList<XYSeries>();
+		for (final Serie serie : s) {
+			final List<IAxis> xAxes = serie.getAxes(AxisType.X);
+			final List<IAxis> yAxes = serie.getAxes(AxisType.Y);
+
+			if (xAxes.size() > 0 && yAxes.size() > 0) {
+				final IAxis xAxis = xAxes.get(0);
+				final IAxis yAxis = yAxes.get(0);
+
+				final XYSeries series = new XYSeries(xAxis.getLabel() + "/" + yAxis.getLabel());
+				if (xAxis != null && yAxis != null) {
+					for (final State state : jvm.getHeap().getStates()) {
+						final BigDecimal x = ((ValueProvider) xAxis.getValueProvider()).data(state);
+						final BigDecimal y = ((ValueProvider) yAxis.getValueProvider()).data(state);
+						if (x != null && y != null)
+							series.add(x, y);
+					}
+					retVal.add(series);
+				}
+			}
+		}
+		return retVal;
+	}
+
+	private JFreeChart createChart(final XYDataset dataset, final Composite parent, final IChart data,
+			final String chartName, final String xAxisLabel, final String yAxisLabel) {
 		final JFreeChart chart = ChartFactory.createXYLineChart(chartName, xAxisLabel, yAxisLabel, dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 		chart.setBackgroundPaint(Color.white);

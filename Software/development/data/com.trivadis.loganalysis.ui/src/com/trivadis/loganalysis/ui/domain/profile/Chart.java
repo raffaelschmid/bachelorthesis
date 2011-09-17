@@ -11,93 +11,99 @@
  */
 package com.trivadis.loganalysis.ui.domain.profile;
 
-import static com.trivadis.loganalysis.core.common.CollectionUtil.findAll;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
 import static java.util.Arrays.asList;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.ui.IMemento;
 
 import com.trivadis.loganalysis.core.common.ClosureI;
-import com.trivadis.loganalysis.core.common.Predicate;
 
 public class Chart implements IChart {
 
 	public static final String ATTRIBUTE_LABEL = "label";
 	public static final String MEMENTO_ELEMENT_NAME = "chart";
 	public static final String ATTRIBUTE_DESCRIPTION = "description";
+	public static final String ATTRIBUTE_TAB_NAME = "tabName";
+
+	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+	private final List<Serie> series = new ArrayList<Serie>();
 	private final String label;
-	private final List<IAxis> axes = new ArrayList<IAxis>();
-	private final String description;
+	private String description, tabName;
+	private final ChartType type;
 
-	public Chart(final String label, final String description, final IAxis... axes) {
-		this(label, description, asList(axes));
+	public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
 	}
 
-	public Chart(final String label, final String description, final List<IAxis> axes) {
+	public void removePropertyChangeListener(final PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(listener);
+	}
+
+	public Chart(final ChartType type, final String tabName, final String label, final String description, final Serie... axes) {
+		this(type, tabName, label, description, asList(axes));
+	}
+
+	public Chart(final ChartType type, final String tabName, final String label, final String description, final List<Serie> series) {
 		this.label = label;
+		this.tabName = tabName;
 		this.description = description;
-		this.axes.addAll(axes);
+		this.type = type;
+		this.series.addAll(series);
 	}
 
-	public void addAxis(final IAxis axis) {
-		axes.add(axis);
+	public void addSerie(final Serie axis) {
+		series.add(axis);
+		propertyChangeSupport.firePropertyChange("series", null, null);
 	}
 
 	public String getLabel() {
 		return label;
 	}
 
-	public List<IAxis> getAxes() {
-		return axes;
-	}
-
-	public List<IAxis> getXAxes() {
-		return findAll(axes, new Predicate<IAxis>() {
-			public boolean matches(final IAxis item) {
-				return AxisType.X.equals(item.getAxisType());
-			}
-		});
-	}
-
-	public List<IAxis> getYAxes() {
-		return findAll(axes, new Predicate<IAxis>() {
-			public boolean matches(final IAxis item) {
-				return AxisType.Y.equals(item.getAxisType());
-			}
-		});
-	}
-
 	public void saveMemento(final IMemento parent) {
 		final IMemento memento = parent.createChild(MEMENTO_ELEMENT_NAME);
 		memento.putString(ATTRIBUTE_LABEL, label);
 		memento.putString(ATTRIBUTE_DESCRIPTION, description);
-		foreach(axes, new ClosureI<IAxis>() {
-			public void call(final IAxis axis) {
-				axis.saveMemento(memento);
+		memento.putString(ATTRIBUTE_TAB_NAME, tabName);
+		foreach(series, new ClosureI<Serie>() {
+			public void call(final Serie serie) {
+				serie.save(memento);
 			}
 		});
 	}
 
 	@Override
 	public String toString() {
-		return "Chart [label=" + label + ", axes=" + axes + "]";
-	}
-
-	public String getYLabel() {
-		final List<IAxis> yAxes = getYAxes();
-		return yAxes.size() > 0 ? yAxes.get(0).getLabel() : null;
-	}
-
-	public String getXLabel() {
-		final List<IAxis> xAxes = getXAxes();
-		return xAxes.size() > 0 ? xAxes.get(0).getLabel() : null;
+		return "Chart [label=" + label + ", axes=" + series + "]";
 	}
 
 	public String getDescription() {
 		return description;
+	}
+
+	public void setDescription(final String description) {
+		propertyChangeSupport.firePropertyChange("description", this.description, this.description = description);
+	}
+
+	public void setTabName(final String tabName) {
+		propertyChangeSupport.firePropertyChange("tabName", this.tabName, this.tabName = tabName);
+	}
+
+	public String getTabName() {
+		return tabName;
+	}
+
+	public List<Serie> getSeries() {
+		return series;
+	}
+
+	public ChartType getType() {
+		return type;
 	}
 
 }

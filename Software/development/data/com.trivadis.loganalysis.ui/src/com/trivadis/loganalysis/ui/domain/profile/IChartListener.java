@@ -11,20 +11,8 @@
  */
 package com.trivadis.loganalysis.ui.domain.profile;
 
-import java.awt.Color;
+public interface IChartListener {
 
-import org.eclipse.ui.IMemento;
-
-public interface IAxis {
-	
-	AxisType getAxisType();
-	
-	String getLabel();
-
-	Color getColor();
-
-	void save(IMemento memento);
-
-	IValueProvider getValueProvider();
+	void tabNameChanged(String tabName);
 
 }

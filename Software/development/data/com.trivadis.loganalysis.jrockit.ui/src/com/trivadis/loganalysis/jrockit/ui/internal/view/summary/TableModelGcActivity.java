@@ -39,41 +39,42 @@ public class TableModelGcActivity extends OverviewAbstractTableModel {
 	private final JRockitJvmRun jvm;
 
 	private final Predicate<List<GarbageCollection>> whereListIsNotEmpty = new Predicate<List<GarbageCollection>>() {
-		public boolean matches(List<GarbageCollection> item) {
+		public boolean matches(final List<GarbageCollection> item) {
 			return item.size() > 0;
 		}
 	};
-	private ClosureIO<List<GarbageCollection>, GcActivityAggregation> toAggregation = new ClosureIO<List<GarbageCollection>, GcActivityAggregation>() {
-		public GcActivityAggregation call(List<GarbageCollection> in) {
+	private final ClosureIO<List<GarbageCollection>, GcActivityAggregation> toAggregation = new ClosureIO<List<GarbageCollection>, GcActivityAggregation>() {
+		public GcActivityAggregation call(final List<GarbageCollection> in) {
 			return new GcActivityAggregation(in);
 		}
 	};
 
-	public TableModelGcActivity(JRockitJvmRun logFile, final Table table) {
+	public TableModelGcActivity(final JRockitJvmRun logFile, final Table table) {
 		this.jvm = logFile;
 		initialize(table);
 	}
 
 	@Override
 	protected void getData(final Table table) {
-		List<GarbageCollection> list = jvm.getGarbageCollections();
-		List<GarbageCollection> youngCollections = findAll(list, new Predicate<GarbageCollection>() {
-			public boolean matches(GarbageCollection item) {
+		final List<GarbageCollection> list = jvm.getGarbageCollections();
+		final List<GarbageCollection> youngCollections = findAll(list, new Predicate<GarbageCollection>() {
+			public boolean matches(final GarbageCollection item) {
 				return (item instanceof YoungCollection);
 			}
 		});
-		List<GarbageCollection> oldCollections = findAll(list, new Predicate<GarbageCollection>() {
-			public boolean matches(GarbageCollection item) {
+		final List<GarbageCollection> oldCollections = findAll(list, new Predicate<GarbageCollection>() {
+			public boolean matches(final GarbageCollection item) {
 				return (item instanceof OldCollection);
 			}
 		});
 
 		@SuppressWarnings("unchecked")
+		final
 		List<GcActivityAggregation> aggregation = collect(
 				findAll(asList(youngCollections, oldCollections), whereListIsNotEmpty), toAggregation);
 
 		foreach(aggregation, new ClosureI<GcActivityAggregation>() {
-			public void call(GcActivityAggregation gcAggregation) {
+			public void call(final GcActivityAggregation gcAggregation) {
 				new TableItem(table, SWT.NONE).setText(new String[] { gcAggregation.getName(),
 						seconds(gcAggregation.getLastOccurence().getSeconds()), gcAggregation.getCount().toString(),
 						seconds(gcAggregation.getAverageInterval().getSeconds()),
@@ -84,12 +85,12 @@ public class TableModelGcActivity extends OverviewAbstractTableModel {
 
 	@Override
 	protected List<TableColumn> getColumns(final Table table) {
-		List<TableColumn> columns = prepend(
+		final List<TableColumn> columns = prepend(
 				column(table, ""),
 				collect(Arrays
 						.asList(new String[] { "Last occurence", "Count", "Average interval", "Average Duration" }),
 						new ClosureIO<String, TableColumn>() {
-							public TableColumn call(String in) {
+							public TableColumn call(final String in) {
 								return column(table, in);
 							}
 						}));

@@ -11,28 +11,30 @@
  */
 package com.trivadis.loganalysis.ui.domain.profile;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import org.eclipse.ui.IMemento;
 
 public interface IChart {
 
-	void addAxis(IAxis xAxis);
+	void addSerie(Serie xAxis);
 
 	String getLabel();
 
-	List<IAxis> getAxes();
-
-	List<IAxis> getXAxes();
-
-	List<IAxis> getYAxes();
+	List<Serie> getSeries();
 
 	void saveMemento(IMemento parent);
 
-	String getYLabel();
-
-	String getXLabel();
-
 	String getDescription();
 
+	void setTabName(String valueOf);
+
+	void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
+
+	void removePropertyChangeListener(PropertyChangeListener listener);
+
+	String getTabName();
+
+	ChartType getType();
 }

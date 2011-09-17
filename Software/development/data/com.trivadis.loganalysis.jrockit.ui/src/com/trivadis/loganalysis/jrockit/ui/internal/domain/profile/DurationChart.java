@@ -19,12 +19,15 @@ import java.awt.Color;
 import com.trivadis.loganalysis.jrockit.ui.internal.Messages;
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
+import com.trivadis.loganalysis.ui.domain.profile.ChartType;
+import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class DurationChart extends Chart {
 
 	public DurationChart() {
-		super("Duration", Messages.JRockitAnalysisEditorPageDuration_2, new Axis(X, "Time (Seconds)", Color.red, ValueProvider.TIME), new Axis(Y,
-				"Garbage Collection Duration (Seconds)", Color.blue, ValueProvider.DURATION));
+		super(ChartType.DEFAULT, "Duration", "Duration", Messages.JRockitAnalysisEditorPageDuration_2, new Serie(new Axis(X, "Time (Seconds)",
+				Color.red, ValueProvider.TIME), new Axis(Y, "Garbage Collection Duration (Seconds)", Color.blue,
+				ValueProvider.DURATION)));
 	}
 
 }

@@ -18,15 +18,17 @@ import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
-public class JRockitAnalysisEditorPage extends AbstractJRockitAnalysisEditorPage {
+public class CustomJRockitAnalysisEditorPage extends AbstractJRockitAnalysisEditorPage {
 
-	public JRockitAnalysisEditorPage(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile, final IProfile profile, final IChart chart) {
+	public CustomJRockitAnalysisEditorPage(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile, final IProfile profile, final IChart chart) {
 		super(editor, logFile, profile, chart);
 	}
 
 	@Override
 	protected void sections(final IManagedForm managedForm) {
 		final FormToolkit toolkit = managedForm.getToolkit();
+		createCustomizationGeneral(managedForm, toolkit);
+		createCustomizationChart(managedForm, toolkit);
 		createDiagramSection(managedForm, toolkit);
 	}
 

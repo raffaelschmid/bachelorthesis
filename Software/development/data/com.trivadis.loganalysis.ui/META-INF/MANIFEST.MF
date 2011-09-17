@@ -14,7 +14,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench,
  org.eclipse.ui.forms,
  org.eclipse.core.resources,
- com.trivadis.loganalysis.jfreechart.libs;bundle-version="1.0.13";visibility:=reexport
+ com.trivadis.loganalysis.jfreechart.libs;bundle-version="1.0.13";visibility:=reexport,
+ org.eclipse.core.databinding;bundle-version="1.4.0",
+ org.eclipse.core.databinding.beans;bundle-version="1.2.100",
+ org.eclipse.jface.databinding;bundle-version="1.5.0",
+ org.eclipse.core.databinding.property;bundle-version="1.4.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .

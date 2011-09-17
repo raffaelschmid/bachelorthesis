@@ -19,12 +19,14 @@ import java.awt.Color;
 import com.trivadis.loganalysis.jrockit.ui.internal.Messages;
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
+import com.trivadis.loganalysis.ui.domain.profile.ChartType;
+import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class HeapChart extends Chart {
 
 	public HeapChart() {
-		super("Heap Analysis", Messages.JRockitAnalysisEditorPageHeapUsage_1, new Axis(X, "Time (Seconds)", Color.red,
-				ValueProvider.TIME), new Axis(Y, "Heap Size (KB)", Color.blue, ValueProvider.MEMORY));
+		super(ChartType.DEFAULT, "Heap Analysis", "Heap Analysis", Messages.JRockitAnalysisEditorPageHeapUsage_1, new Serie(new Axis(X,
+				"Time (Seconds)", Color.red, ValueProvider.TIME), new Axis(Y, "Heap Size (KB)", Color.blue,
+				ValueProvider.MEMORY)));
 	}
-
 }
