@@ -115,7 +115,6 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 				in.save(memento);
 			}
 		});
-		showXml(memento);
 	}
 
 	@SuppressWarnings("unused")
@@ -133,7 +132,6 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 	@Override
 	public void init(final IViewSite site, final IMemento memento) throws PartInitException {
 		super.init(site, memento);
-		showXml(memento);
 		context.addConfigurations(UiLoganalysis.getConfigurations(memento));
 		context.getProfiles().addChangeListener(this); // data binding
 		for (final IConfiguration configuration : context.getProfiles()) {
