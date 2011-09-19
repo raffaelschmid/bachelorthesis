@@ -32,7 +32,7 @@ public class Chart implements IChart {
 
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	private final List<Serie> series = new ArrayList<Serie>();
-	private final String label;
+	private String label;
 	private String description, tabName;
 	private final ChartType type;
 	private boolean editable = false;
@@ -70,7 +70,7 @@ public class Chart implements IChart {
 
 	public void saveMemento(final IMemento parent) {
 		final IMemento memento = parent.createChild(MEMENTO_ELEMENT_NAME);
-		memento.putString(ATTRIBUTE_LABEL, label);
+		memento.putString(ATTRIBUTE_LABEL, getLabel());
 		memento.putString(ATTRIBUTE_DESCRIPTION, description);
 		memento.putString(ATTRIBUTE_TAB_NAME, tabName);
 		foreach(series, new ClosureI<Serie>() {
@@ -82,7 +82,7 @@ public class Chart implements IChart {
 
 	@Override
 	public String toString() {
-		return "Chart [label=" + label + ", axes=" + series + "]";
+		return "Chart [label=" + getLabel() + ", axes=" + series + "]";
 	}
 
 	public String getDescription() {
@@ -110,10 +110,11 @@ public class Chart implements IChart {
 	}
 
 	public void removed(final Serie serie) {
-		propertyChangeSupport.firePropertyChange("series", serie,null);
+		propertyChangeSupport.firePropertyChange("series", serie, null);
 	}
+
 	public void added(final Serie serie) {
-		propertyChangeSupport.firePropertyChange("series", null,serie);
+		propertyChangeSupport.firePropertyChange("series", null, serie);
 	}
 
 	public boolean isEditable() {
@@ -122,6 +123,10 @@ public class Chart implements IChart {
 
 	public void setEditable(final boolean editable) {
 		propertyChangeSupport.firePropertyChange("editable", this.editable, this.editable = editable);
+	}
+
+	public void setLabel(final String label) {
+		propertyChangeSupport.firePropertyChange("label", this.editable, this.label = label);
 	}
 
 }

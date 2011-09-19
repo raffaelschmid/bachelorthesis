@@ -11,6 +11,7 @@
  */
 package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
+import static com.trivadis.loganalysis.ui.common.CompositeBuilder.composite;
 import static org.eclipse.core.databinding.beans.BeanProperties.value;
 import static org.eclipse.jface.databinding.swt.WidgetProperties.text;
 
@@ -27,11 +28,25 @@ import com.trivadis.loganalysis.ui.domain.profile.IChart;
 public class GeneralCustomizationPanel extends Composite {
 	public GeneralCustomizationPanel(final Composite composite, final int style, final IChart chart) {
 		super(composite, style);
-		this.setLayout(new GridLayout(2, false));
+		final GridLayout layout = new GridLayout(2, false);
+		layout.marginLeft = 10;
+		this.setLayout(layout);
 		final DataBindingContext ctx = new DataBindingContext();
-		final Label label = new Label(this, SWT.NONE);
-		label.setText("Tab Name:");
-		final Text name = new Text(this, SWT.BORDER);
-		ctx.bindValue(text(SWT.Modify).observe(name), value(Chart.class, "tabName").observe(chart));
+
+		{
+			// label
+			final Composite panel = composite(this, SWT.NONE, new FillLayoutBuilder().marginWidth(10).vertical());
+			final Label label = new Label(panel, SWT.NONE);
+			label.setText("Chart Label:");
+			final Text txt = new Text(panel, SWT.BORDER);
+			ctx.bindValue(text(SWT.Modify).observe(txt), value(Chart.class, "tabName").observe(chart));
+		}
+		{
+			// name
+			final Composite panel = composite(this, SWT.NONE, new FillLayoutBuilder().marginWidth(10).vertical());
+			new Label(panel, SWT.NONE).setText("Chart Name:");
+			final Text txt = new Text(panel, SWT.BORDER);
+			ctx.bindValue(text(SWT.Modify).observe(txt), value(Chart.class, "label").observe(chart));
+		}
 	}
 }

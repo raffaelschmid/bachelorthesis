@@ -37,6 +37,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import com.trivadis.loganalysis.core.common.Assert;
 import com.trivadis.loganalysis.core.domain.AbstractJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.State;
@@ -49,20 +50,20 @@ import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class ChartPanel extends Composite {
 	private final XYSeriesCollection dataset = new XYSeriesCollection();
-	private final JFreeChart chart;
+	private final JFreeChart jfreeChart;
 	private final AtomicInteger seriesNr = new AtomicInteger(0);
 	private final List<Color> colors = asList(Color.blue, Color.red, Color.black, Color.yellow, Color.cyan);
 	private final JRockitJvmRun jvm;
-	private final IChart ichart;
+	private final IChart chart;
 
-	public ChartPanel(final Composite parent, final int style, final AbstractJvmRun jvm, final IChart ichart) {
+	public ChartPanel(final Composite parent, final int style, final AbstractJvmRun jvm, final IChart chart) {
 		super(parent, style);
 		this.jvm = (JRockitJvmRun) jvm;
 		setLayout(new GridLayout(1, false));
-		chart = createChart(dataset, this, ichart, "Heap Usage", "x", "y");
-		this.ichart = ichart;
+		jfreeChart = createChart(dataset, this, chart, chart.getLabel(), "x", "y");
+		this.chart = chart;
 		init();
-		ichart.addPropertyChangeListener("series", new PropertyChangeListener() {
+		chart.addPropertyChangeListener("series", new PropertyChangeListener() {
 			public void propertyChange(final PropertyChangeEvent evt) {
 				if (evt.getOldValue() == null)
 					serieAdded((Serie) evt.getNewValue());
@@ -70,24 +71,41 @@ public class ChartPanel extends Composite {
 					serieRemoved((Serie) evt.getOldValue());
 			}
 		});
+		chart.addPropertyChangeListener("label", new PropertyChangeListener() {
+			public void propertyChange(final PropertyChangeEvent evt) {
+				jfreeChart.setTitle((String) evt.getNewValue());
+			}
+		});
 	}
 
-	public void serieRemoved(final Serie serie) {
-		XYSeries toRemove = seriesmap.get(serie);
+	private void serieRemoved(final Serie serie) {
+		final XYSeries toRemove = seriesmap.get(serie);
+		Assert.assertNotNull(toRemove);
 		dataset.removeSeries(toRemove);
 		seriesmap.remove(serie);
 	}
 
 	private final Map<Serie, XYSeries> seriesmap = new HashMap<Serie, XYSeries>();
 
-	public void serieAdded(final Serie serie) {
+	private void serieAdded(final Serie serie) {
 		final XYSeries series = getDataset(serie);
 		dataset.addSeries(series);
 		seriesmap.put(serie, series);
 	}
 
+	private void serieChanged(final Serie serie) {
+		serieRemoved(serie);
+		serieAdded(serie);
+	}
+
 	private void init() {
-		for (final Serie s : ichart.getSeries()) {
+		for (final Serie s : chart.getSeries()) {
+			s.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(final PropertyChangeEvent evt) {
+					serieChanged(s);
+				}
+			});
+
 			final XYSeries series = getDataset(s);
 			dataset.addSeries(series);
 			seriesmap.put(s, series);
@@ -103,7 +121,7 @@ public class ChartPanel extends Composite {
 			final IAxis xAxis = xAxes.get(0);
 			final IAxis yAxis = yAxes.get(0);
 
-			final XYSeries series = new XYSeries(xAxis.getLabel() + "/" + yAxis.getLabel());
+			final XYSeries series = new XYSeries(serie.getLabel());
 			if (xAxis != null && yAxis != null) {
 				for (final State state : jvm.getHeap().getStates()) {
 					final BigDecimal x = ((ValueProvider) xAxis.getValueProvider()).data(state);
@@ -138,7 +156,7 @@ public class ChartPanel extends Composite {
 	public void addRangeAxis(final String yLabel, final XYDataset series) {
 		final int index = seriesNr.incrementAndGet();
 
-		final XYPlot plot = chart.getXYPlot();
+		final XYPlot plot = jfreeChart.getXYPlot();
 		plot.setRenderer(index, getRenderer(color()));
 		plot.setRangeAxis(index, new NumberAxis(yLabel));
 		plot.setRangeAxisLocation(index, AxisLocation.BOTTOM_OR_RIGHT);

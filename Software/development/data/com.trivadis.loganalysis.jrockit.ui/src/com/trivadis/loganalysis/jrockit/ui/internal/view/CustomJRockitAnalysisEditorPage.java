@@ -38,7 +38,7 @@ public class CustomJRockitAnalysisEditorPage extends AbstractJRockitAnalysisEdit
 	}
 
 	protected void createCustomizationChart(final IManagedForm managedForm, final FormToolkit toolkit) {
-		new ChartCustomizationPanel(createGridSection(managedForm, "Chart Customization", "", 6, true), SWT.NONE, toolkit, chart);
+		new ChartCustomizationPanel(createGridSection(managedForm, "Chart Customization", "", 2, true), SWT.NONE, toolkit, chart);
 	}
 
 	protected void createCustomizationGeneral(final IManagedForm managedForm, final FormToolkit toolkit) {

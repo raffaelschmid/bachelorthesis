@@ -15,7 +15,6 @@ import static org.eclipse.core.databinding.beans.BeansObservables.observeMaps;
 
 import java.awt.Color;
 import java.util.Arrays;
-import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -42,7 +41,6 @@ import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider
 import com.trivadis.loganalysis.ui.common.GridDataBuilder;
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
 import com.trivadis.loganalysis.ui.domain.profile.AxisType;
-import com.trivadis.loganalysis.ui.domain.profile.IAxis;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 import com.trivadis.loganalysis.ui.domain.profile.Serie;
@@ -50,39 +48,43 @@ import com.trivadis.loganalysis.ui.domain.profile.Serie;
 public class ChartCustomizationPanel extends Composite {
 	private final WritableList series;
 	private final ComboViewer cboXAxis, cboYAxis;
+	private final Text txtLabel;
 
 	public ChartCustomizationPanel(final Composite section, final int style, final FormToolkit toolkit,
 			final IChart chart) {
 		super(section, style);
-		this.setLayout(new GridLayout(1,false));
+		this.setLayout(new GridLayout(2, false));
+		final Composite left = toolkit.createComposite(this, SWT.BORDER);
+		left.setLayout(new GridLayout(1, false));
+		left.setLayoutData(new GridDataBuilder().fillVertical().build());
 		series = new WritableList(chart.getSeries(), Serie.class);
-		final TableViewer tableViewer = tableSeries(section, toolkit);
-		final Composite right = toolkit.createComposite(section, SWT.NONE);
-		right.setLayoutData(new GridDataBuilder().fill().build());
-		right.setLayout(new GridLayout(2, false));
+		new Label(left, SWT.NONE).setText("Series:");
+		final TableViewer tableViewer = tableSeries(left, toolkit);
+		tableViewer.getTable().setLayoutData(new GridDataBuilder().fillVertical().build());
+		final Composite right = toolkit.createComposite(this, SWT.BORDER);
+		right.setLayoutData(new GridDataBuilder().fillVertical().build());
+		right.setLayout(new GridLayout(1, false));
 		final Label lblLabel = new Label(right, SWT.NONE);
 		lblLabel.setText("Label:");
-		new Text(right, SWT.BORDER);
+		txtLabel = new Text(right, SWT.BORDER);
+		txtLabel.setLayoutData(new GridDataBuilder().fill().build());
 		cboXAxis = comboAxisSelection(right, "X-Axis:");
+		cboXAxis.getCombo().setLayoutData(new GridDataBuilder().fill().build());
 		cboYAxis = comboAxisSelection(right, "Y-Axis:");
+		cboYAxis.getCombo().setLayoutData(new GridDataBuilder().fill().build());
 		new Label(right, SWT.NONE);
-		buttonPanel(toolkit, chart, tableViewer, right);
-	}
-
-	private void buttonPanel(final FormToolkit toolkit, final IChart chart, final TableViewer tableViewer,
-			final Composite right) {
 		final Composite buttonPanel = toolkit.createComposite(right, SWT.NONE);
 		buttonPanel.setLayout(new FillLayout(SWT.HORIZONTAL));
-		buttonPanel.setLayoutData(new GridDataBuilder().horizontalSpan(3).build());
-
-		button(chart, buttonPanel, "Remove Serie", new SelectionAdapter() {
+		button(chart, left, "Remove Serie", new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				final ISelection selection = tableViewer.getSelection();
 				if (selection instanceof StructuredSelection) {
 					final Serie element = (Serie) ((StructuredSelection) selection).getFirstElement();
-					series.remove(element);
-					chart.removed(element);
+					if (element != null) {
+						series.remove(element);
+						chart.removed(element);
+					}
 				}
 			}
 
@@ -94,8 +96,9 @@ public class ChartCustomizationPanel extends Composite {
 				final ValueProvider xValue = (ValueProvider) getValue(cboXAxis);
 				final ValueProvider yValue = (ValueProvider) getValue(cboYAxis);
 				if (xValue != null && yValue != null) {
-					final Serie serie = new Serie(new Axis(AxisType.X, "", new Color(255, 0, 0), xValue), new Axis(
-							AxisType.Y, "", new Color(255, 255, 0), yValue));
+					if(txtLabel.getText()!=null && !txtLabel.getText().equals(""));
+					final Serie serie = new Serie(txtLabel.getText(), new Axis(AxisType.X, "", new Color(255, 0, 0),
+							xValue), new Axis(AxisType.Y, "", new Color(255, 255, 0), yValue));
 					series.add(serie);
 					chart.added(serie);
 				}
@@ -124,6 +127,7 @@ public class ChartCustomizationPanel extends Composite {
 	private ComboViewer comboAxisSelection(final Composite right, final String label) {
 		final Label lblXAxis = new Label(right, SWT.NONE);
 		lblXAxis.setText(label);
+
 		final ComboViewer cboXAxis = new ComboViewer(right, SWT.DROP_DOWN | SWT.READ_ONLY);
 		final ObservableListContentProvider contentProvider = new ObservableListContentProvider();
 		cboXAxis.setContentProvider(contentProvider);
@@ -136,7 +140,6 @@ public class ChartCustomizationPanel extends Composite {
 	private TableViewer tableSeries(final Composite section, final FormToolkit toolkit) {
 		final Table table = toolkit.createTable(section, SWT.NONE);
 		final TableViewer tableViewer = new TableViewer(table);
-		table.setLayoutData(new GridDataBuilder().fillVertical().build());
 		tableViewer.setContentProvider(new ObservableListContentProvider());
 		tableViewer.setInput(series);
 		tableViewer.setLabelProvider(new LabelProvider() {
@@ -144,18 +147,13 @@ public class ChartCustomizationPanel extends Composite {
 			public String getText(final Object element) {
 				final String retVal;
 				if (element instanceof Serie) {
-					final Serie s = (Serie) element;
-					final List<IAxis> xAxis = s.getAxes(AxisType.X);
-					final List<IAxis> yAxis = s.getAxes(AxisType.Y);
-					retVal = ((xAxis.size() > 0) ? xAxis.get(0).getValueProvider() : "") + "-"
-							+ ((yAxis.size() > 0) ? yAxis.get(0).getValueProvider() : "");
+					return ((Serie) element).getLabel();
 				} else {
 					retVal = super.getText(element);
 				}
 				return retVal;
 			}
 		});
-		tableViewer.getTable().setSize(300, 300);
 		return tableViewer;
 	}
 

@@ -50,7 +50,7 @@ public class ConfigurationFactory implements IConfigurationFactory {
 	}
 
 	private IProfile getProfile(final IMemento in) {
-		return new Profile(in.getString(Profile.ATTRIBUTE_LABEL), collect(
+		return new Profile(emptyIfNull(in.getString(Profile.ATTRIBUTE_LABEL)), collect(
 				asList(in.getChildren(Chart.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IChart>() {
 					public IChart call(final IMemento in) {
 						return getChart(in);
@@ -65,9 +65,9 @@ public class ConfigurationFactory implements IConfigurationFactory {
 	}
 
 	private IChart getChart(final IMemento in) {
-		return new Chart(ChartType.CUSTOM, in.getString(Chart.ATTRIBUTE_TAB_NAME), in.getString(Chart.ATTRIBUTE_LABEL),
-				in.getString(Chart.ATTRIBUTE_DESCRIPTION), collect(asList(in.getChildren(Serie.MEMENTO_ELEMENT_NAME)),
-						new ClosureIO<IMemento, Serie>() {
+		return new Chart(ChartType.CUSTOM, emptyIfNull(in.getString(Chart.ATTRIBUTE_TAB_NAME)),
+				emptyIfNull(in.getString(Chart.ATTRIBUTE_LABEL)), in.getString(Chart.ATTRIBUTE_DESCRIPTION), collect(
+						asList(in.getChildren(Serie.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, Serie>() {
 							public Serie call(final IMemento in) {
 								return getSerie(in);
 							}
@@ -76,10 +76,15 @@ public class ConfigurationFactory implements IConfigurationFactory {
 	}
 
 	private Serie getSerie(final IMemento in) {
-		return new Serie(collect(asList(in.getChildren(Axis.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IAxis>() {
-			public IAxis call(final IMemento in) {
-				return getAxis(in);
-			}
-		}));
+		return new Serie(emptyIfNull(in.getString(Serie.ATTRIBUTE_LABEL)), collect(
+				asList(in.getChildren(Axis.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IAxis>() {
+					public IAxis call(final IMemento in) {
+						return getAxis(in);
+					}
+				}));
+	}
+
+	private String emptyIfNull(final String in) {
+		return in != null ? in : "";
 	}
 }

@@ -22,6 +22,7 @@ public class GridDataBuilder {
 	private boolean grabExcessVerticalSpace = false;
 	private int horizontalSpan = 1;
 	private int verticalSpan = 1;
+	private int horizontalIndent = 0;
 
 	public GridDataBuilder fill() {
 		horizontalAlignment = SWT.FILL;
@@ -65,6 +66,7 @@ public class GridDataBuilder {
 		gridData.grabExcessVerticalSpace = grabExcessVerticalSpace;
 		gridData.horizontalSpan = horizontalSpan;
 		gridData.verticalSpan = verticalSpan;
+		gridData.horizontalIndent = horizontalIndent ;
 		return gridData;
 	}
 
@@ -75,6 +77,11 @@ public class GridDataBuilder {
 
 	public GridDataBuilder verticalSpan(final int verticalSpan) {
 		this.verticalSpan = verticalSpan;
+		return this;
+	}
+
+	public GridDataBuilder horizontalIndent(final int horizontalIndent) {
+		this.horizontalIndent = horizontalIndent;
 		return this;
 	}
 

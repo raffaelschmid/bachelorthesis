@@ -25,7 +25,7 @@ import com.trivadis.loganalysis.ui.domain.profile.Serie;
 public class HeapChart extends Chart {
 
 	public HeapChart() {
-		super(ChartType.DEFAULT, "Heap Analysis", "Heap Analysis", Messages.JRockitAnalysisEditorPageHeapUsage_1, new Serie(new Axis(X,
+		super(ChartType.DEFAULT, "Heap Analysis", "Heap Analysis", Messages.JRockitAnalysisEditorPageHeapUsage_1, new Serie("Heap Usage",new Axis(X,
 				"Time (Seconds)", Color.red, ValueProvider.TIME), new Axis(Y, "Heap Size (KB)", Color.blue,
 				ValueProvider.MEMORY)));
 	}

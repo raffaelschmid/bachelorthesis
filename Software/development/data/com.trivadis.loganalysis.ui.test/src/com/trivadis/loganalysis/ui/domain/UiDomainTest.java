@@ -57,7 +57,7 @@ public class UiDomainTest {
 		final IChart chart01 = new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION);
 		final IAxis xAxis = new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X);
 		final IAxis yAxis = new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y);
-		chart01.addSerie(new Serie(xAxis, yAxis));
+		chart01.addSerie(new Serie("",xAxis, yAxis));
 
 		final IProfile profile = new Profile(PROFILE_LABEL);
 		profile.addChart(chart01);
@@ -71,7 +71,7 @@ public class UiDomainTest {
 	@Test
 	public void test_create_domain_model_short() {
 		verifyConfiguration(new Configuration(JROCKIT_R28, new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM,
-				PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie(new Axis(X, X_AXIS_LABEL, COLOR_X,
+				PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL, COLOR_X,
 						VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y))))));
 	}
 
@@ -100,9 +100,9 @@ public class UiDomainTest {
 
 	protected IConfiguration configuration(final String profileLabel) {
 		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME,
-				CHART_LABEL, CHART_DESCRIPTION, new Serie(new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X),
+				CHART_LABEL, CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X),
 						new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))), new Profile(PROFILE_LABEL, new Chart(
-				ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie(new Axis(X, X_AXIS_LABEL,
+				ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL,
 						COLOR_X, VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))));
 
 	}

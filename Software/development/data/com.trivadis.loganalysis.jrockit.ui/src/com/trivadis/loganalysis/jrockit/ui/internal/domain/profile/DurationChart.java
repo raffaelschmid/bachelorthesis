@@ -25,7 +25,7 @@ import com.trivadis.loganalysis.ui.domain.profile.Serie;
 public class DurationChart extends Chart {
 
 	public DurationChart() {
-		super(ChartType.DEFAULT, "Duration", "Duration", Messages.JRockitAnalysisEditorPageDuration_2, new Serie(new Axis(X, "Time (Seconds)",
+		super(ChartType.DEFAULT, "Duration", "Duration", Messages.JRockitAnalysisEditorPageDuration_2, new Serie("Duration",new Axis(X, "Time (Seconds)",
 				Color.red, ValueProvider.TIME), new Axis(Y, "Garbage Collection Duration (Seconds)", Color.blue,
 				ValueProvider.DURATION)));
 	}
