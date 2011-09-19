@@ -15,8 +15,12 @@ import java.math.BigDecimal;
 
 public interface IValueProvider {
 
-	String name();
+	String getLabel();
 
 	BigDecimal data(Object state);
+
+	String getUnit();
+
+	String name();
 
 }

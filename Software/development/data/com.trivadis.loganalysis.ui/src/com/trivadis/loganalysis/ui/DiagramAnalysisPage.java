@@ -27,14 +27,12 @@ public class DiagramAnalysisPage extends AnalysisPage {
 	private static final String ID = DiagramAnalysisPage.class.getName();
 	private final IJvmRun jvm;
 	private final IChart chart;
-	private ChartPanel chartPanel;
-	
+
 	private static final String SECTION_KEY_DIAGRAM = "section.diagram.customization";
 
-
-	public DiagramAnalysisPage(final FormEditor editor, final IJvmRun jvm,
-			final IProfile profile, final IChart chart, final IDatasetProvider datasetProvider) {
-		super(editor,ID, chart.getTabName(), profile, chart);
+	public DiagramAnalysisPage(final FormEditor editor, final IJvmRun jvm, final IProfile profile, final IChart chart,
+			final IDatasetProvider datasetProvider) {
+		super(editor, ID, chart.getTabName(), profile, chart);
 		this.jvm = jvm;
 		this.chart = chart;
 		this.datasetProvider = datasetProvider;
@@ -55,10 +53,9 @@ public class DiagramAnalysisPage extends AnalysisPage {
 	private final IDatasetProvider datasetProvider;
 
 	protected void createDiagramSection(final IManagedForm managedForm, final FormToolkit toolkit) {
-		chartPanel = new ChartPanel(createGridSection(managedForm, "Chart", chart.getDescription(), 1, SWT.FILL, 800,
+		new ChartPanel(createGridSection(managedForm, "Chart", chart.getDescription(), 1, SWT.FILL, 800,
 				Boolean.valueOf(chart.getMeta(SECTION_KEY_DIAGRAM, "true")), sectionExpansionListener), SWT.BORDER,
-				jvm, chart, datasetProvider);
-		chartPanel.setLayoutData(new GridDataBuilder().fill().build());
+				jvm, chart, datasetProvider).setLayoutData(new GridDataBuilder().fill().build());
 	}
 
 }

@@ -21,22 +21,19 @@ import com.trivadis.loganalysis.jrockit.domain.gc.Transition;
 import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 
 public enum ValueProvider implements IValueProvider {
-	TIME {
-		@Override
+	TIME("Time", "Seconds") {
 		public BigDecimal data(final Object o) {
 			final State state = (State) o;
 			return state.getTimestamp().getSeconds();
 		}
 	},
-	MEMORY {
-		@Override
+	MEMORY("Memory used", "KB") {
 		public BigDecimal data(final Object o) {
 			final State state = (State) o;
 			return state.getMemoryUsed().getKiloByte();
 		};
 	},
-	DURATION {
-		@Override
+	DURATION("Garbage Collection Time", "Seconds") {
 		public BigDecimal data(final Object o) {
 			final State state = (State) o;
 			final GarbageCollection gc = getGarbageCollection(state.getTransitionEnd());
@@ -44,7 +41,13 @@ public enum ValueProvider implements IValueProvider {
 		}
 
 	};
-	public abstract BigDecimal data(Object state);
+
+	private final String unit,label;
+
+	private ValueProvider(final String label, final String unit) {
+		this.label = label;
+		this.unit = unit;
+	}
 
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
@@ -62,6 +65,14 @@ public enum ValueProvider implements IValueProvider {
 
 	protected GarbageCollection getGarbageCollection(final Transition gc) {
 		return (gc != null && gc instanceof GarbageCollection) ? ((GarbageCollection) gc) : null;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public String getLabel() {
+		return label;
 	}
 
 }

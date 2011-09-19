@@ -93,7 +93,7 @@ public abstract class GridFormPage extends FormPage {
 		section.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(final ExpansionEvent e) {
-				form.reflow(false);
+				form.reflow(true);
 				if (listener != null)
 					listener.expansionStateChanged(e);
 

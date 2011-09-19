@@ -29,4 +29,12 @@ final class DummyValueProvider implements IValueProvider {
 	public BigDecimal data(final Object state) {
 		return BigDecimal.ONE;
 	}
+
+	public String getUnit() {
+		return "seconds";
+	}
+
+	public String getLabel() {
+		return this.name;
+	}
 }

@@ -12,6 +12,7 @@
 package com.trivadis.loganalysis.jrockit.ui.internal;
 
 import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
+import static com.trivadis.loganalysis.core.common.CollectionUtil.findFirst;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.prepend;
 import static java.util.Arrays.asList;
 
@@ -24,6 +25,7 @@ import java.util.Map;
 import org.eclipse.ui.IMemento;
 
 import com.trivadis.loganalysis.core.common.ClosureIO;
+import com.trivadis.loganalysis.core.common.Predicate;
 import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.StandardProfile;
 import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider;
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
@@ -39,6 +41,9 @@ import com.trivadis.loganalysis.ui.domain.profile.Profile;
 import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class ConfigurationFactory implements IConfigurationFactory {
+
+	final Predicate<IAxis> xType = typePredicate(AxisType.X);
+	final Predicate<IAxis> yType = typePredicate(AxisType.Y);
 
 	public IConfiguration loadConfigurationFrom(final IMemento memento) {
 		final IMemento jrockitConfig = (memento != null) ? memento.getChild(Configuration.MEMENTO_ELEMENT_NAME) : null;
@@ -76,24 +81,37 @@ public class ConfigurationFactory implements IConfigurationFactory {
 		}
 
 		return new Chart(ChartType.CUSTOM, emptyIfNull(in.getString(Chart.ATTRIBUTE_TAB_NAME)),
-				emptyIfNull(in.getString(Chart.ATTRIBUTE_LABEL)), in.getString(Chart.ATTRIBUTE_DESCRIPTION), meta,collect(
-						asList(in.getChildren(Serie.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, Serie>() {
-							public Serie call(final IMemento in) {
-								return getSerie(in);
-							}
-						}));
+				emptyIfNull(in.getString(Chart.ATTRIBUTE_LABEL)), in.getString(Chart.ATTRIBUTE_DESCRIPTION), meta,
+				collect(asList(in.getChildren(Serie.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, Serie>() {
+					public Serie call(final IMemento in) {
+						return getSerie(in);
+					}
+				}));
 	}
 
 	private Serie getSerie(final IMemento in) {
-		return new Serie(emptyIfNull(in.getString(Serie.ATTRIBUTE_LABEL)), collect(
-				asList(in.getChildren(Axis.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IAxis>() {
+		final List<IAxis> axis = collect(asList(in.getChildren(Axis.MEMENTO_ELEMENT_NAME)),
+				new ClosureIO<IMemento, IAxis>() {
 					public IAxis call(final IMemento in) {
 						return getAxis(in);
 					}
-				}));
+				});
+
+		final IAxis xAxis = findFirst(axis, xType);
+		final IAxis yAxis = findFirst(axis, yType);
+		return new Serie(emptyIfNull(in.getString(Serie.ATTRIBUTE_LABEL)), xAxis, yAxis);
 	}
 
 	private String emptyIfNull(final String in) {
 		return in != null ? in : "";
 	}
+
+	protected Predicate<IAxis> typePredicate(final AxisType type) {
+		return new Predicate<IAxis>() {
+			public boolean matches(final IAxis item) {
+				return type.equals(item.getAxisType());
+			}
+		};
+	}
+
 }

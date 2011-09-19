@@ -27,28 +27,27 @@ public class Ui {
 		return Holder.INSTANCE;
 	}
 
-	public void asyncExec(Runnable runnable) {
+	public void asyncExec(final Runnable runnable) {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(runnable);
 	}
 
-	public <T> T busyCursorWithResultWhile(ResultRunnableWithProgress<T> runnable) {
+	public <T> T busyCursorWithResultWhile(final ResultRunnableWithProgress<T> runnable) {
 		try {
 			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(runnable);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 		return runnable.get();
 	}
-	public void busyCursorWhile(IRunnableWithProgress runnable){
+	public void busyCursorWhile(final IRunnableWithProgress runnable){
 		try {
 			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(runnable);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Ui.getDefault().handleException(e);
 		}
 	}
 
-	public void handleException(Exception e) {
-		// TODO alter exception handling
-		e.printStackTrace();
+	public void handleException(final Exception e) {
+		throw new RuntimeException(e);
 	}
 }

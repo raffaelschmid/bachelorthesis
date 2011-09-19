@@ -27,7 +27,6 @@ import com.trivadis.loganalysis.ui.domain.profile.Axis;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
 import com.trivadis.loganalysis.ui.domain.profile.ChartType;
 import com.trivadis.loganalysis.ui.domain.profile.Configuration;
-import com.trivadis.loganalysis.ui.domain.profile.IAxis;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
@@ -77,11 +76,8 @@ public class ConfigurationFactoryTest {
 		assertEquals(1, chart.getSeries().size());
 		
 		final Serie serie = chart.getSeries().get(0);
-		assertEquals(2, serie.getAxes().size());
-		final IAxis axis0 = serie.getAxes().get(0);
-		assertEquals(VALUE_PROVIDER_X, axis0.getValueProvider());
-		final IAxis axis1 = serie.getAxes().get(1);
-		assertEquals(VALUE_PROVIDER_Y, axis1.getValueProvider());
+		assertEquals(VALUE_PROVIDER_X, serie.getXaxis().getValueProvider());
+		assertEquals(VALUE_PROVIDER_Y, serie.getYaxis().getValueProvider());
 	}
 	
 	protected IConfiguration configuration(final String profileLabel) {

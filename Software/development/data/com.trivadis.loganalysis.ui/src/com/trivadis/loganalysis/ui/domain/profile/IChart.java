@@ -45,4 +45,6 @@ public interface IChart {
 
 	void setMeta(String key, String value);
 
+	void removePropertyChangeListener(String property, PropertyChangeListener listener);
+
 }

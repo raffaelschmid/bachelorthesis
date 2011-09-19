@@ -11,35 +11,30 @@
  */
 package com.trivadis.loganalysis.ui.domain.profile;
 
-import static com.trivadis.loganalysis.core.common.CollectionUtil.findAll;
-import static com.trivadis.loganalysis.core.common.CollectionUtil.foreach;
-import static java.util.Arrays.asList;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.List;
 
 import org.eclipse.ui.IMemento;
 
-import com.trivadis.loganalysis.core.common.ClosureI;
-import com.trivadis.loganalysis.core.common.Predicate;
-
 public class Serie {
+
 	public static final String MEMENTO_ELEMENT_NAME = "serie";
 	public static final String ATTRIBUTE_LABEL = "label";
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-	private final List<IAxis> axes;
 	private String label;
 	private int index = -1;
-	
+	private final IAxis yaxis, xaxis;
+	private final boolean dotted;
 
-	public Serie(final String label, final IAxis... axes) {
-		this(label, asList(axes));
+	public Serie(final String label, final IAxis xAxis, final IAxis yAxis) {
+		this(label, xAxis, yAxis, false);
 	}
 
-	public Serie(final String label, final List<IAxis> axes) {
-		this.axes = axes;
+	public Serie(final String label, final IAxis xAxis, final IAxis yAxis, final boolean dotted) {
 		this.label = label;
+		this.xaxis = xAxis;
+		this.yaxis = yAxis;
+		this.dotted = dotted;
 	}
 
 	public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
@@ -54,31 +49,16 @@ public class Serie {
 		propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 
-	public List<IAxis> getAxes() {
-		return axes;
-	}
-
-	public List<IAxis> getAxes(final AxisType type) {
-		return findAll(axes, new Predicate<IAxis>() {
-			public boolean matches(final IAxis item) {
-				return type.equals(item.getAxisType());
-			}
-		});
-	}
-
 	public void save(final IMemento parent) {
 		final IMemento memento = parent.createChild(MEMENTO_ELEMENT_NAME);
 		memento.putString(ATTRIBUTE_LABEL, label);
-		foreach(axes, new ClosureI<IAxis>() {
-			public void call(final IAxis serie) {
-				serie.save(memento);
-			}
-		});
+		xaxis.save(memento);
+		yaxis.save(memento);
 	}
 
 	@Override
 	public String toString() {
-		return "Serie [axes=" + axes + "]";
+		return "Serie [label=" + label + ", yAxis=" + yaxis + ", xAxis=" + xaxis + "]";
 	}
 
 	public String getLabel() {
@@ -95,6 +75,18 @@ public class Serie {
 
 	public void setIndex(final int index) {
 		this.index = index;
+	}
+
+	public IAxis getYaxis() {
+		return yaxis;
+	}
+
+	public IAxis getXaxis() {
+		return xaxis;
+	}
+
+	public boolean isDotted() {
+		return dotted;
 	}
 
 }

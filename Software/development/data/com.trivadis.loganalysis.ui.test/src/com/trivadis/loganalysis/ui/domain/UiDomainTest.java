@@ -26,7 +26,6 @@ import org.eclipse.ui.XMLMemento;
 import org.junit.Test;
 
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
-import com.trivadis.loganalysis.ui.domain.profile.AxisType;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
 import com.trivadis.loganalysis.ui.domain.profile.ChartType;
 import com.trivadis.loganalysis.ui.domain.profile.Configuration;
@@ -83,10 +82,10 @@ public class UiDomainTest {
 		final IChart chart02 = profile.getCharts().get(0);
 		assertEquals(CHART_LABEL, chart02.getLabel());
 
-		final IAxis xAxis = chart02.getSeries().get(0).getAxes(AxisType.X).get(0);
+		final IAxis xAxis = chart02.getSeries().get(0).getXaxis();
 		assertEquals(X_AXIS_LABEL, xAxis.getLabel());
 
-		final IAxis yAxis = chart02.getSeries().get(0).getAxes(AxisType.Y).get(0);
+		final IAxis yAxis = chart02.getSeries().get(0).getYaxis();
 		assertEquals(Y_AXIS_LABEL, yAxis.getLabel());
 	}
 

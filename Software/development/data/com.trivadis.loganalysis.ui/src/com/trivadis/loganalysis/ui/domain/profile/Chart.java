@@ -47,6 +47,9 @@ public class Chart implements IChart {
 	public void removePropertyChangeListener(final PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
 	}
+	public void removePropertyChangeListener(final String property, final PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(property, listener);
+	}
 
 	public Chart(final ChartType type, final String tabName, final String label, final String description,
 			final List<Serie> series) {

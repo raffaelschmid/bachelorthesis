@@ -23,6 +23,8 @@ public class GridDataBuilder {
 	private int horizontalSpan = 1;
 	private int verticalSpan = 1;
 	private int horizontalIndent = 0;
+	private int heightHint = SWT.DEFAULT;
+	private int widthHint = SWT.DEFAULT;
 
 	public GridDataBuilder fill() {
 		horizontalAlignment = SWT.FILL;
@@ -67,6 +69,8 @@ public class GridDataBuilder {
 		gridData.horizontalSpan = horizontalSpan;
 		gridData.verticalSpan = verticalSpan;
 		gridData.horizontalIndent = horizontalIndent ;
+		gridData.widthHint = widthHint;
+		gridData.heightHint = heightHint;
 		return gridData;
 	}
 
@@ -82,6 +86,20 @@ public class GridDataBuilder {
 
 	public GridDataBuilder horizontalIndent(final int horizontalIndent) {
 		this.horizontalIndent = horizontalIndent;
+		return this;
+	}
+
+	public int getWidthHint() {
+		return widthHint;
+	}
+
+	public GridDataBuilder widthHint(final int widthHint) {
+		this.widthHint = widthHint;
+		return this;
+	}
+
+	public GridDataBuilder heightHint(final int heightHint) {
+		this.heightHint = heightHint;
 		return this;
 	}
 

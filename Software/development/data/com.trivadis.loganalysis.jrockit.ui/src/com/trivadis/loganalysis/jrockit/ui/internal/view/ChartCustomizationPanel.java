@@ -19,16 +19,17 @@ import java.util.Arrays;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.databinding.viewers.ObservableMapLabelProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -48,7 +49,6 @@ import com.trivadis.loganalysis.ui.domain.profile.Serie;
 public class ChartCustomizationPanel extends Composite {
 	private static final int MAX_NUMBER_OF_SERIES = 4;
 	private final WritableList series;
-	private final ComboViewer cboXAxis, cboYAxis;
 	private final Text txtLabel;
 
 	public ChartCustomizationPanel(final Composite section, final int style, final FormToolkit toolkit,
@@ -57,25 +57,29 @@ public class ChartCustomizationPanel extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		final Composite left = toolkit.createComposite(this, SWT.BORDER);
 		left.setLayout(new GridLayout(1, false));
-		left.setLayoutData(new GridDataBuilder().fillVertical().build());
+		left.setLayoutData(new GridDataBuilder().heightHint(200).build());
 		series = new WritableList(chart.getSeries(), Serie.class);
-		new Label(left, SWT.NONE).setText("Series:");
 		final TableViewer tableViewer = tableSeries(left, toolkit);
+		new Label(left,SWT.NONE).setLayoutData(new GridDataBuilder().fillVertical().build());
 		tableViewer.getTable().setLayoutData(new GridDataBuilder().fillVertical().build());
 		final Composite right = toolkit.createComposite(this, SWT.BORDER);
-		right.setLayoutData(new GridDataBuilder().fillVertical().build());
-		right.setLayout(new GridLayout(1, false));
-		final Label lblLabel = new Label(right, SWT.NONE);
-		lblLabel.setText("Label:");
+		right.setLayoutData(new GridDataBuilder().heightHint(200).build());
+		right.setLayout(new GridLayout(2,false));
+
+		new Label(right, SWT.NONE).setText("Label:");
 		txtLabel = new Text(right, SWT.BORDER);
-		txtLabel.setLayoutData(new GridDataBuilder().fill().build());
-		cboXAxis = comboAxisSelection(right, "X-Axis:");
-		cboXAxis.getCombo().setLayoutData(new GridDataBuilder().fill().build());
-		cboYAxis = comboAxisSelection(right, "Y-Axis:");
-		cboYAxis.getCombo().setLayoutData(new GridDataBuilder().fill().build());
-		new Label(right, SWT.NONE);
-		final Composite buttonPanel = toolkit.createComposite(right, SWT.NONE);
-		buttonPanel.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		new Label(right, SWT.NONE).setText("X-Axis:");
+		final ComboViewer cboXAxis = comboAxisSelection(right, "X-Axis:");
+
+		new Label(right, SWT.NONE).setText("Y-Axis:");
+		final ComboViewer cboYAxis = comboAxisSelection(right, "Y-Axis:");
+
+		new Label(right, SWT.NONE).setText("");
+		final Button chkLine = new Button(right, SWT.CHECK);
+		chkLine.setSelection(true);
+		chkLine.setText("line");
+
 		button(chart, left, "Remove Serie", new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -90,15 +94,16 @@ public class ChartCustomizationPanel extends Composite {
 			}
 
 		});
-
-		button(chart, buttonPanel, "Add Serie", new SelectionAdapter() {
+		new Label(right, SWT.NONE).setLayoutData(new GridDataBuilder().horizontalSpan(2).fill().build());
+		new Label(right, SWT.NONE);
+		button(chart, right, "Add Serie", new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				final ValueProvider xValue = (ValueProvider) getValue(cboXAxis);
 				final ValueProvider yValue = (ValueProvider) getValue(cboYAxis);
 				if (areAxisSelected(xValue, yValue) && isLabelNotEmpty() && hasSpace()) {
 					final Serie serie = new Serie(txtLabel.getText(), new Axis(AxisType.X, "", new Color(255, 0, 0),
-							xValue), new Axis(AxisType.Y, "", new Color(255, 255, 0), yValue));
+							xValue), new Axis(AxisType.Y, "", new Color(255, 255, 0), yValue), !chkLine.getSelection());
 					series.add(serie);
 					chart.added(serie);
 				}
@@ -137,36 +142,46 @@ public class ChartCustomizationPanel extends Composite {
 	}
 
 	private ComboViewer comboAxisSelection(final Composite right, final String label) {
-		final Label lblXAxis = new Label(right, SWT.NONE);
-		lblXAxis.setText(label);
-
 		final ComboViewer cboXAxis = new ComboViewer(right, SWT.DROP_DOWN | SWT.READ_ONLY);
 		final ObservableListContentProvider contentProvider = new ObservableListContentProvider();
 		cboXAxis.setContentProvider(contentProvider);
 		cboXAxis.setLabelProvider(new ObservableMapLabelProvider(observeMaps(contentProvider.getKnownElements(),
-				ValueProvider.class, new String[] { "name" })));
-		cboXAxis.setInput(new WritableList(Arrays.asList(ValueProvider.values()), ValueProvider.class));
-		return cboXAxis;
-	}
-
-	private TableViewer tableSeries(final Composite section, final FormToolkit toolkit) {
-		final Table table = toolkit.createTable(section, SWT.NONE);
-		final TableViewer tableViewer = new TableViewer(table);
-		tableViewer.setContentProvider(new ObservableListContentProvider());
-		tableViewer.setInput(series);
-		tableViewer.setLabelProvider(new LabelProvider() {
+				ValueProvider.class, new String[] { "name" })) {
 			@Override
 			public String getText(final Object element) {
 				final String retVal;
-				if (element instanceof Serie) {
-					return ((Serie) element).getLabel();
+				if (element instanceof IValueProvider) {
+					final IValueProvider vp = (IValueProvider) element;
+					retVal = vp.getLabel() + " (" + vp.getUnit() + ")";
 				} else {
 					retVal = super.getText(element);
 				}
 				return retVal;
 			}
 		});
-		return tableViewer;
+		cboXAxis.setInput(new WritableList(Arrays.asList(ValueProvider.values()), ValueProvider.class));
+		return cboXAxis;
 	}
 
+	private TableViewer tableSeries(final Composite section, final FormToolkit toolkit) {
+		final Table table = toolkit.createTable(section, SWT.NONE);
+		table.setLayoutData(new GridDataBuilder().fill().build());
+		final TableViewer tableViewer = new TableViewer(table);
+		final TableViewerColumn viewerNameColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		viewerNameColumn.getColumn().setWidth(300);
+
+		viewerNameColumn.setLabelProvider(new CellLabelProvider() {
+		    @Override
+			public void update(final ViewerCell cell) {
+		        cell.setText(calculateLabel((Serie) cell.getElement()));
+		    }
+		    private String calculateLabel(final Serie serie) {
+				return serie.getLabel() + " (" + serie.getXaxis().getValueProvider().name() + " / "
+						+ serie.getYaxis().getValueProvider().name() + ")";
+			}
+		});
+		tableViewer.setContentProvider(new ObservableListContentProvider());
+		tableViewer.setInput(series);
+		return tableViewer;
+	}
 }
