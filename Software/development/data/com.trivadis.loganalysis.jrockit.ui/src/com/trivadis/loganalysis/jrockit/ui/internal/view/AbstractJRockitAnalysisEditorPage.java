@@ -13,6 +13,8 @@ package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.events.ExpansionAdapter;
+import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.trivadis.loganalysis.core.domain.AbstractJvmRun;
@@ -24,10 +26,18 @@ import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public abstract class AbstractJRockitAnalysisEditorPage extends AnalysisPage {
 
+	private static final String SECTION_KEY_DIAGRAM = "section.diagram.customization";
 	public static final String ID = AbstractJRockitAnalysisEditorPage.class.getName();
 	private final AbstractJvmRun jvm;
 	private final IChart chart;
 	private ChartPanel chartPanel;
+	
+	private final ExpansionAdapter sectionExpansionListener = new ExpansionAdapter() {
+		@Override
+		public void expansionStateChanged(final ExpansionEvent e) {
+			chart.setMeta(SECTION_KEY_DIAGRAM, String.valueOf(e.getState()));
+		}
+	};
 
 	public AbstractJRockitAnalysisEditorPage(final JRockitAnalysisEditor editor, final AbstractJvmRun logFile,
 			final IProfile profile, final IChart chart) {
@@ -38,7 +48,7 @@ public abstract class AbstractJRockitAnalysisEditorPage extends AnalysisPage {
 
 	protected void createDiagramSection(final IManagedForm managedForm, final FormToolkit toolkit) {
 		chartPanel = new ChartPanel(createGridSection(managedForm, Messages.JRockitAnalysisEditorPageHeapUsage_2,
-				chart.getDescription(), 1, SWT.FILL, 800, true), SWT.BORDER, jvm, chart);
+				chart.getDescription(), 1, SWT.FILL, 800, Boolean.valueOf(chart.getMeta(SECTION_KEY_DIAGRAM,"true")),sectionExpansionListener), SWT.BORDER, jvm, chart);
 		chartPanel.setLayoutData(new GridDataBuilder().fill().build());
 	}
 

@@ -13,6 +13,8 @@ package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.events.ExpansionAdapter;
+import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
@@ -21,7 +23,25 @@ import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class CustomJRockitAnalysisEditorPage extends AbstractJRockitAnalysisEditorPage {
 
+	private static final String SECTION_KEY_GENERAL = "section.general.customization";
+
+	private static final String SECTION_KEY_CHART = "section.chart.customization";
+
 	private final IChart chart;
+
+	private final ExpansionAdapter chartSectionExpansionListener = new ExpansionAdapter() {
+		@Override
+		public void expansionStateChanged(final ExpansionEvent e) {
+			chart.setMeta(SECTION_KEY_CHART, String.valueOf(e.getState()));
+		}
+	};
+
+	private final ExpansionAdapter generalSectionExpansionListener = new ExpansionAdapter() {
+		@Override
+		public void expansionStateChanged(final ExpansionEvent e) {
+			chart.setMeta(SECTION_KEY_GENERAL, String.valueOf(e.getState()));
+		}
+	};
 
 	public CustomJRockitAnalysisEditorPage(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile,
 			final IProfile profile, final IChart chart) {
@@ -38,10 +58,13 @@ public class CustomJRockitAnalysisEditorPage extends AbstractJRockitAnalysisEdit
 	}
 
 	protected void createCustomizationChart(final IManagedForm managedForm, final FormToolkit toolkit) {
-		new ChartCustomizationPanel(createGridSection(managedForm, "Chart Customization", "", 2, true), SWT.NONE, toolkit, chart);
+		new ChartCustomizationPanel(createGridSection(managedForm, "Chart Customization", "", 2,
+				Boolean.valueOf(chart.getMeta(SECTION_KEY_CHART,"true")), chartSectionExpansionListener), SWT.NONE, toolkit,
+				chart);
 	}
 
 	protected void createCustomizationGeneral(final IManagedForm managedForm, final FormToolkit toolkit) {
-		new GeneralCustomizationPanel(createGridSection(managedForm, "General Customization", "", 2, true), SWT.NONE, chart);
+		new GeneralCustomizationPanel(createGridSection(managedForm, "General Customization", "", 2,
+				Boolean.valueOf(chart.getMeta(SECTION_KEY_GENERAL,"true")), generalSectionExpansionListener), SWT.NONE, chart);
 	}
 }

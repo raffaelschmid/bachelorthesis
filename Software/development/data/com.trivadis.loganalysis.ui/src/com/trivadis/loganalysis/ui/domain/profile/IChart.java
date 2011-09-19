@@ -41,4 +41,8 @@ public interface IChart {
 	void removed(Serie element);
 	void added(Serie element);
 
+	String getMeta(String key, String defaultValue);
+
+	void setMeta(String key, String value);
+
 }

@@ -17,7 +17,9 @@ import static java.util.Arrays.asList;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.ui.IMemento;
 
@@ -29,13 +31,14 @@ public class Chart implements IChart {
 	public static final String MEMENTO_ELEMENT_NAME = "chart";
 	public static final String ATTRIBUTE_DESCRIPTION = "description";
 	public static final String ATTRIBUTE_TAB_NAME = "tabName";
+	public static final String MEMENTO_ELEMENT_META = "meta";
 
+	private String label, description, tabName;
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	private final List<Serie> series = new ArrayList<Serie>();
-	private String label;
-	private String description, tabName;
 	private final ChartType type;
-	private boolean editable = false;
+
+	private final Map<String, String> meta;
 
 	public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
@@ -46,26 +49,23 @@ public class Chart implements IChart {
 	}
 
 	public Chart(final ChartType type, final String tabName, final String label, final String description,
-			final Serie... axes) {
-		this(type, tabName, label, description, asList(axes));
+			final List<Serie> series) {
+		this(type, tabName, label, description, new HashMap<String, String>(), series);
 	}
 
 	public Chart(final ChartType type, final String tabName, final String label, final String description,
-			final List<Serie> series) {
+			final Serie... axes) {
+		this(type, tabName, label, description, new HashMap<String, String>(), asList(axes));
+	}
+
+	public Chart(final ChartType type, final String tabName, final String label, final String description,
+			final Map<String, String> meta, final List<Serie> series) {
 		this.label = label;
 		this.tabName = tabName;
 		this.description = description;
 		this.type = type;
 		this.series.addAll(series);
-	}
-
-	public void addSerie(final Serie axis) {
-		series.add(axis);
-		propertyChangeSupport.firePropertyChange("series", null, null);
-	}
-
-	public String getLabel() {
-		return label;
+		this.meta = meta;
 	}
 
 	public void saveMemento(final IMemento parent) {
@@ -78,6 +78,21 @@ public class Chart implements IChart {
 				serie.save(memento);
 			}
 		});
+		final IMemento metaMemento = memento.createChild(MEMENTO_ELEMENT_META);
+		foreach(meta.keySet(), new ClosureI<String>() {
+			public void call(final String key) {
+				metaMemento.putString(key, meta.get(key));
+			}
+		});
+	}
+
+	public void addSerie(final Serie axis) {
+		series.add(axis);
+		propertyChangeSupport.firePropertyChange("series", null, null);
+	}
+
+	public String getLabel() {
+		return label;
 	}
 
 	@Override
@@ -117,16 +132,20 @@ public class Chart implements IChart {
 		propertyChangeSupport.firePropertyChange("series", null, serie);
 	}
 
-	public boolean isEditable() {
-		return editable;
-	}
-
-	public void setEditable(final boolean editable) {
-		propertyChangeSupport.firePropertyChange("editable", this.editable, this.editable = editable);
-	}
-
 	public void setLabel(final String label) {
-		propertyChangeSupport.firePropertyChange("label", this.editable, this.label = label);
+		propertyChangeSupport.firePropertyChange("label", this.label, this.label = label);
 	}
 
+	public void setMeta(final String key, final String value) {
+		meta.put(key, value);
+	}
+
+	public String getMeta(final String key, final String defaultValue) {
+		String value = meta.get(key);
+		if(value==null){
+			meta.put(key, defaultValue);
+			value = defaultValue;
+		}
+		return value;
+	}
 }

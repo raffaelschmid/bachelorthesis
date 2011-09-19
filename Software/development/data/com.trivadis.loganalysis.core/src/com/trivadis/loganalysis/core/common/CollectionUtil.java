@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class CollectionUtil {
 				RoundingMode.HALF_UP) : BigDecimal.ZERO;
 	}
 
-	public static <I> void foreach(final List<I> list, final ClosureI<I> closure) {
+	public static <I> void foreach(final Collection<I> list, final ClosureI<I> closure) {
 		for (final I item : list) {
 			closure.call(item);
 		}

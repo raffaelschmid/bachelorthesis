@@ -17,7 +17,9 @@ import static java.util.Arrays.asList;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.ui.IMemento;
 
@@ -65,13 +67,20 @@ public class ConfigurationFactory implements IConfigurationFactory {
 	}
 
 	private IChart getChart(final IMemento in) {
+		final Map<String, String> meta = new HashMap<String, String>();
+		final IMemento metaMemento = in.getChild(Chart.MEMENTO_ELEMENT_META);
+		if (metaMemento != null) {
+			for (final String key : metaMemento.getAttributeKeys()) {
+				meta.put(key, metaMemento.getString(key));
+			}
+		}
+
 		return new Chart(ChartType.CUSTOM, emptyIfNull(in.getString(Chart.ATTRIBUTE_TAB_NAME)),
-				emptyIfNull(in.getString(Chart.ATTRIBUTE_LABEL)), in.getString(Chart.ATTRIBUTE_DESCRIPTION), collect(
+				emptyIfNull(in.getString(Chart.ATTRIBUTE_LABEL)), in.getString(Chart.ATTRIBUTE_DESCRIPTION), meta,collect(
 						asList(in.getChildren(Serie.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, Serie>() {
 							public Serie call(final IMemento in) {
 								return getSerie(in);
 							}
-
 						}));
 	}
 

@@ -20,6 +20,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
+import org.eclipse.ui.forms.events.IExpansionListener;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.ColumnLayoutData;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -67,6 +68,12 @@ public abstract class GridFormPage extends FormPage {
 
 	protected Composite createGridSection(final IManagedForm mform, final String title, final String desc,
 			final int numColumns, final int widthHint, final int heightHint, final boolean expanded) {
+		return createGridSection(mform, title, desc, numColumns, widthHint, heightHint, expanded, null);
+	}
+
+	protected Composite createGridSection(final IManagedForm mform, final String title, final String desc,
+			final int numColumns, final int widthHint, final int heightHint, final boolean expanded,
+			final IExpansionListener listener) {
 
 		final ScrolledForm form = mform.getForm();
 		final FormToolkit toolkit = mform.getToolkit();
@@ -87,6 +94,9 @@ public abstract class GridFormPage extends FormPage {
 			@Override
 			public void expansionStateChanged(final ExpansionEvent e) {
 				form.reflow(false);
+				if (listener != null)
+					listener.expansionStateChanged(e);
+
 			}
 		});
 		return client;
@@ -95,6 +105,11 @@ public abstract class GridFormPage extends FormPage {
 	protected Composite createGridSection(final IManagedForm form, final String title, final String desc,
 			final int numCol, final boolean expanded) {
 		return createGridSection(form, title, desc, numCol, SWT.DEFAULT, SWT.DEFAULT, expanded);
+	}
+
+	protected Composite createGridSection(final IManagedForm form, final String title, final String desc,
+			final int numCol, final boolean expanded, final IExpansionListener listener) {
+		return createGridSection(form, title, desc, numCol, SWT.DEFAULT, SWT.DEFAULT, expanded, listener);
 	}
 
 }
