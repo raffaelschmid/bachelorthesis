@@ -43,7 +43,7 @@ public class AnalysisToolBar {
 		final GridLayout rowLayout = new GridLayout(3, false);
 		composite.setLayout(rowLayout);
 
-		if (chart != null) {
+		if (chart != null && !(profile instanceof IStandardProfile)) {
 			final Button btnRemoveChart = toolkit.createButton(composite, null, SWT.NONE);
 			btnRemoveChart.setImage(Activator.getDefault().getImage(CHART_ICON_REMOVE));
 			btnRemoveChart.setLayoutData(new GridData(SWT.END, SWT.TOP, first, false));
