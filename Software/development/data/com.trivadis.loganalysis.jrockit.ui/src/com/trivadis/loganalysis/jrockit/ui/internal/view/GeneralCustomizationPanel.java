@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import com.trivadis.loganalysis.ui.common.FillLayoutBuilder;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 

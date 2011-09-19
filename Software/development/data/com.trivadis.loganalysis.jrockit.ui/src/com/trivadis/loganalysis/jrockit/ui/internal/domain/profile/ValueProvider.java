@@ -23,25 +23,28 @@ import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 public enum ValueProvider implements IValueProvider {
 	TIME {
 		@Override
-		public BigDecimal data(final State state) {
+		public BigDecimal data(final Object o) {
+			final State state = (State) o;
 			return state.getTimestamp().getSeconds();
 		}
 	},
 	MEMORY {
 		@Override
-		public BigDecimal data(final State state) {
+		public BigDecimal data(final Object o) {
+			final State state = (State) o;
 			return state.getMemoryUsed().getKiloByte();
 		};
 	},
 	DURATION {
 		@Override
-		public BigDecimal data(final State state) {
+		public BigDecimal data(final Object o) {
+			final State state = (State) o;
 			final GarbageCollection gc = getGarbageCollection(state.getTransitionEnd());
 			return gc != null ? gc.getDuration() : null;
 		}
 
 	};
-	public abstract BigDecimal data(State state);
+	public abstract BigDecimal data(Object state);
 
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 

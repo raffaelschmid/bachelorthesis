@@ -18,8 +18,8 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.jrockit.ui.internal.JRockitAnalysisEditor;
 import com.trivadis.loganalysis.jrockit.ui.internal.Messages;
-import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor;
 import com.trivadis.loganalysis.ui.AnalysisPage;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 

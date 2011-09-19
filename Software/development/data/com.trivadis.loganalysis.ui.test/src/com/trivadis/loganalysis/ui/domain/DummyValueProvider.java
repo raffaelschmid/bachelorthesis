@@ -11,6 +11,8 @@
  */
 package com.trivadis.loganalysis.ui.domain;
 
+import java.math.BigDecimal;
+
 import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 
 final class DummyValueProvider implements IValueProvider {
@@ -22,5 +24,9 @@ final class DummyValueProvider implements IValueProvider {
 
 	public String name() {
 		return this.name;
+	}
+
+	public BigDecimal data(final Object state) {
+		return BigDecimal.ONE;
 	}
 }

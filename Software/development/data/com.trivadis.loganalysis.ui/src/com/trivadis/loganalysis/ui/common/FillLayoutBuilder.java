@@ -1,4 +1,4 @@
-package com.trivadis.loganalysis.jrockit.ui.internal.view;
+package com.trivadis.loganalysis.ui.common;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;

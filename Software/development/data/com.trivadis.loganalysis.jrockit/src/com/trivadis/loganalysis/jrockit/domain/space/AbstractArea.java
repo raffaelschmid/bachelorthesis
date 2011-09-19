@@ -35,18 +35,18 @@ public class AbstractArea implements Area {
 	private final JRockitJvmRun jvm;
 	private final String name;
 
-	private Predicate<BigDecimal> notNull = new Predicate<BigDecimal>() {
-		public boolean matches(BigDecimal item) {
+	private final Predicate<BigDecimal> notNull = new Predicate<BigDecimal>() {
+		public boolean matches(final BigDecimal item) {
 			return item != null;
 		}
 	};
 
-	public AbstractArea(String name, JRockitJvmRun jvm) {
+	public AbstractArea(final String name, final JRockitJvmRun jvm) {
 		this.jvm = jvm;
 		this.name = name;
 	}
 
-	public void addStates(GarbageCollection transition, State from, State to) {
+	public void addStates(final GarbageCollection transition, final State from, final State to) {
 		from.transitionStart(transition);
 		to.transitionEnd(transition);
 		states.add(from);
@@ -66,7 +66,7 @@ public class AbstractArea implements Area {
 		return startState;
 	}
 
-	public void setStartState(State startState) {
+	public void setStartState(final State startState) {
 		this.startState = startState;
 	}
 
@@ -74,7 +74,7 @@ public class AbstractArea implements Area {
 		return endState;
 	}
 
-	public void setEndState(State endState) {
+	public void setEndState(final State endState) {
 		this.endState = endState;
 	}
 
@@ -82,7 +82,7 @@ public class AbstractArea implements Area {
 		return maximumState;
 	}
 
-	public void setMaximumState(State maximumState) {
+	public void setMaximumState(final State maximumState) {
 		this.maximumState = maximumState;
 	}
 
@@ -96,7 +96,7 @@ public class AbstractArea implements Area {
 
 	public Size getAverageCapacity() {
 		return new Size(avg(findAll(collect(getStates(), new ClosureIO<State, BigDecimal>() {
-			public BigDecimal call(State in) {
+			public BigDecimal call(final State in) {
 				return (in.getMemoryCapacity() != null) ? in.getMemoryCapacity().getKiloByte() : ZERO;
 			}
 		}), notNull)));
@@ -104,7 +104,7 @@ public class AbstractArea implements Area {
 
 	public Size getAverageUsageCapacity() {
 		return new Size(avg(findAll(collect(getStates(), new ClosureIO<State, BigDecimal>() {
-			public BigDecimal call(State in) {
+			public BigDecimal call(final State in) {
 				return in.getMemoryUsed() != null ? in.getMemoryUsed().getKiloByte() : ZERO;
 			}
 		}), notNull)));
@@ -112,7 +112,7 @@ public class AbstractArea implements Area {
 
 	public Size getPeakUsageCapacity() {
 		return new Size(max(findAll(collect(getStates(), new ClosureIO<State, BigDecimal>() {
-			public BigDecimal call(State in) {
+			public BigDecimal call(final State in) {
 				return in.getMemoryUsed() != null ? in.getMemoryUsed().getKiloByte() : ZERO;
 			}
 		}), notNull)));

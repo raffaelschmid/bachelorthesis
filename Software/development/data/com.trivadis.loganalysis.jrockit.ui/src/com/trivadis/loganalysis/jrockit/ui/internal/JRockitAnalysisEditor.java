@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view;
+package com.trivadis.loganalysis.jrockit.ui.internal;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -22,8 +22,12 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.IFormPage;
 
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.CustomDiagramAnalysisPage;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitDatasetProvider;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.JRockitAnalysisEditorPageSummary;
 import com.trivadis.loganalysis.ui.AnalysisEditor;
+import com.trivadis.loganalysis.ui.AnalysisPage;
+import com.trivadis.loganalysis.ui.DiagramAnalysisPage;
 import com.trivadis.loganalysis.ui.EditorInput;
 import com.trivadis.loganalysis.ui.IProfileListener;
 import com.trivadis.loganalysis.ui.Ui;
@@ -49,8 +53,9 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 		try {
 			addPage(new JRockitAnalysisEditorPageSummary(this, jvm, profile));
 			for (final IChart chart : profile.getCharts()) {
-				final AbstractJRockitAnalysisEditorPage page = ChartType.CUSTOM.equals(chart.getType()) ? new CustomJRockitAnalysisEditorPage(
-						this, jvm, profile, chart) : new JRockitAnalysisEditorPage(this, jvm, profile, chart);
+				final AnalysisPage page = ChartType.CUSTOM.equals(chart.getType()) ? new CustomDiagramAnalysisPage(
+						this, jvm, profile, chart) : new DiagramAnalysisPage(this, jvm, profile, chart,
+						new JRockitDatasetProvider());
 				chart.addPropertyChangeListener("tabName", chartListener(page));
 				addPage(page);
 			}
@@ -64,9 +69,9 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 		return new IProfileListener() {
 			public void added(final IChart chart) {
 				try {
-					final AbstractJRockitAnalysisEditorPage page = ChartType.CUSTOM.equals(chart.getType()) ? new CustomJRockitAnalysisEditorPage(
-							JRockitAnalysisEditor.this, jvm, profile, chart) : new JRockitAnalysisEditorPage(
-							JRockitAnalysisEditor.this, jvm, profile, chart);
+					final AnalysisPage page = ChartType.CUSTOM.equals(chart.getType()) ? new CustomDiagramAnalysisPage(
+							JRockitAnalysisEditor.this, jvm, profile, chart) : new DiagramAnalysisPage(
+							JRockitAnalysisEditor.this, jvm, profile, chart, new JRockitDatasetProvider());
 					chart.addPropertyChangeListener("tabName", chartListener(page));
 					addPage(page);
 				} catch (final PartInitException e) {
@@ -80,7 +85,7 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 		};
 	}
 
-	protected PropertyChangeListener chartListener(final AbstractJRockitAnalysisEditorPage page) {
+	protected PropertyChangeListener chartListener(final AnalysisPage page) {
 		return new PropertyChangeListener() {
 			public void propertyChange(final PropertyChangeEvent evt) {
 				JRockitAnalysisEditor.this.setPageText(page.getIndex(), (String) evt.getNewValue());

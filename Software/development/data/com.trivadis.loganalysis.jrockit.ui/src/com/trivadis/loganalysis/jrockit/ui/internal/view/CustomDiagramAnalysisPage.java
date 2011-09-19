@@ -13,15 +13,17 @@ package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
+import com.trivadis.loganalysis.core.domain.IJvmRun;
+import com.trivadis.loganalysis.ui.DiagramAnalysisPage;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
-public class CustomJRockitAnalysisEditorPage extends AbstractJRockitAnalysisEditorPage {
+public class CustomDiagramAnalysisPage extends DiagramAnalysisPage {
 
 	private static final String SECTION_KEY_GENERAL = "section.general.customization";
 
@@ -43,9 +45,9 @@ public class CustomJRockitAnalysisEditorPage extends AbstractJRockitAnalysisEdit
 		}
 	};
 
-	public CustomJRockitAnalysisEditorPage(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile,
+	public CustomDiagramAnalysisPage(final FormEditor editor, final IJvmRun logFile,
 			final IProfile profile, final IChart chart) {
-		super(editor, logFile, profile, chart);
+		super(editor, logFile, profile, chart,new JRockitDatasetProvider());
 		this.chart = chart;
 	}
 

@@ -4,7 +4,7 @@
  <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitAnalysisEditor"
+            class="com.trivadis.loganalysis.jrockit.ui.internal.JRockitAnalysisEditor"
             extensions="gclog"
             icon="icons/chart.gif"
             id="com.trivadis.loganalysis.jrockit.ui.AnalysisEditor"

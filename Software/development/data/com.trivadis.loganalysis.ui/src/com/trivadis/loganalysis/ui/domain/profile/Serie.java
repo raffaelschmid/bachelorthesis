@@ -30,6 +30,8 @@ public class Serie {
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	private final List<IAxis> axes;
 	private String label;
+	private int index = -1;
+	
 
 	public Serie(final String label, final IAxis... axes) {
 		this(label, asList(axes));
@@ -85,6 +87,14 @@ public class Serie {
 
 	public void setLabel(final String label) {
 		propertyChangeSupport.firePropertyChange("label", this.label, this.label = label);
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(final int index) {
+		this.index = index;
 	}
 
 }

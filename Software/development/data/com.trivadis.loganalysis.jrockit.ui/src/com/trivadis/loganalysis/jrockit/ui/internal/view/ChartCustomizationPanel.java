@@ -46,6 +46,7 @@ import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class ChartCustomizationPanel extends Composite {
+	private static final int MAX_NUMBER_OF_SERIES = 4;
 	private final WritableList series;
 	private final ComboViewer cboXAxis, cboYAxis;
 	private final Text txtLabel;
@@ -95,13 +96,24 @@ public class ChartCustomizationPanel extends Composite {
 			public void widgetSelected(final SelectionEvent e) {
 				final ValueProvider xValue = (ValueProvider) getValue(cboXAxis);
 				final ValueProvider yValue = (ValueProvider) getValue(cboYAxis);
-				if (xValue != null && yValue != null) {
-					if(txtLabel.getText()!=null && !txtLabel.getText().equals(""));
+				if (areAxisSelected(xValue, yValue) && isLabelNotEmpty() && hasSpace()) {
 					final Serie serie = new Serie(txtLabel.getText(), new Axis(AxisType.X, "", new Color(255, 0, 0),
 							xValue), new Axis(AxisType.Y, "", new Color(255, 255, 0), yValue));
 					series.add(serie);
 					chart.added(serie);
 				}
+			}
+
+			protected boolean hasSpace() {
+				return series.size() < MAX_NUMBER_OF_SERIES;
+			}
+
+			protected boolean isLabelNotEmpty() {
+				return txtLabel.getText() != null && !txtLabel.getText().equals("");
+			}
+
+			protected boolean areAxisSelected(final ValueProvider xValue, final ValueProvider yValue) {
+				return xValue != null && yValue != null;
 			}
 
 			private IValueProvider getValue(final ComboViewer cboXAxis) {

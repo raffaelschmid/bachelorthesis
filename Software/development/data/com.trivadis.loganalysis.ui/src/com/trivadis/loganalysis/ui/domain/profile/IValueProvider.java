@@ -11,8 +11,12 @@
  */
 package com.trivadis.loganalysis.ui.domain.profile;
 
+import java.math.BigDecimal;
+
 public interface IValueProvider {
 
 	String name();
+
+	BigDecimal data(Object state);
 
 }

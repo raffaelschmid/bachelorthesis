@@ -34,7 +34,7 @@ public class JRockitJvmRun extends AbstractJvmRun {
 	private final Heap heap;
 	private final List<GarbageCollection> garbageCollections = new ArrayList<GarbageCollection>();
 
-	public JRockitJvmRun(IFileDescriptor descriptor) {
+	public JRockitJvmRun(final IFileDescriptor descriptor) {
 		super(descriptor);
 		heap = new Heap(this);
 	}
@@ -43,7 +43,7 @@ public class JRockitJvmRun extends AbstractJvmRun {
 		return heap;
 	}
 
-	public void addTransition(GarbageCollection transition) {
+	public void addTransition(final GarbageCollection transition) {
 		garbageCollections.add(transition);
 	}
 
@@ -61,7 +61,7 @@ public class JRockitJvmRun extends AbstractJvmRun {
 
 	public Time getTimeSpentInGc() {
 		return new Time(sum(collect(getGarbageCollections(), new ClosureIO<GarbageCollection, BigDecimal>() {
-			public BigDecimal call(GarbageCollection in) {
+			public BigDecimal call(final GarbageCollection in) {
 				return in.getDuration();
 			}
 		})));
@@ -75,9 +75,9 @@ public class JRockitJvmRun extends AbstractJvmRun {
 		return new Time(getTimeSpent(getOldCollections()));
 	}
 
-	private BigDecimal getTimeSpent(List<GarbageCollection> list) {
+	private BigDecimal getTimeSpent(final List<GarbageCollection> list) {
 		return sum(collect(list, new ClosureIO<GarbageCollection, BigDecimal>() {
-			public BigDecimal call(GarbageCollection in) {
+			public BigDecimal call(final GarbageCollection in) {
 				return in.getDuration();
 			}
 		}));
@@ -85,7 +85,7 @@ public class JRockitJvmRun extends AbstractJvmRun {
 
 	private List<GarbageCollection> getOldCollections() {
 		return findAll(getGarbageCollections(), new Predicate<GarbageCollection>() {
-			public boolean matches(GarbageCollection item) {
+			public boolean matches(final GarbageCollection item) {
 				return item instanceof OldCollection;
 			}
 		});
@@ -93,5 +93,9 @@ public class JRockitJvmRun extends AbstractJvmRun {
 
 	public BigDecimal getPercentageOfTimeInFullGc() {
 		return getTimeSpentInFullGc().getSeconds().divide(getTimeSpentInGc().getSeconds(), RoundingMode.HALF_UP);
+	}
+
+	public List<State> getStates() {
+		return getHeap().getStates();
 	}
 }
