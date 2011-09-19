@@ -11,6 +11,7 @@
  */
 package com.trivadis.loganalysis.jrockit.ui.internal.view;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -20,8 +21,12 @@ import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class CustomJRockitAnalysisEditorPage extends AbstractJRockitAnalysisEditorPage {
 
-	public CustomJRockitAnalysisEditorPage(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile, final IProfile profile, final IChart chart) {
+	private final IChart chart;
+
+	public CustomJRockitAnalysisEditorPage(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile,
+			final IProfile profile, final IChart chart) {
 		super(editor, logFile, profile, chart);
+		this.chart = chart;
 	}
 
 	@Override
@@ -32,4 +37,11 @@ public class CustomJRockitAnalysisEditorPage extends AbstractJRockitAnalysisEdit
 		createDiagramSection(managedForm, toolkit);
 	}
 
+	protected void createCustomizationChart(final IManagedForm managedForm, final FormToolkit toolkit) {
+		new ChartCustomizationPanel(createGridSection(managedForm, "Chart Customization", "", 6, true), SWT.NONE, toolkit, chart);
+	}
+
+	protected void createCustomizationGeneral(final IManagedForm managedForm, final FormToolkit toolkit) {
+		new GeneralCustomizationPanel(createGridSection(managedForm, "General Customization", "", 2, true), SWT.NONE, chart);
+	}
 }

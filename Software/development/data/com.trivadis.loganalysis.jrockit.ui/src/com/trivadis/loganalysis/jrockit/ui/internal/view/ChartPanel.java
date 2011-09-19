@@ -17,8 +17,9 @@ import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.swt.SWT;
@@ -36,10 +37,11 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import com.trivadis.loganalysis.core.domain.AbstractJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.State;
 import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider;
-import com.trivadis.loganalysis.ui.GridLayoutUtil;
+import com.trivadis.loganalysis.ui.common.GridDataBuilder;
 import com.trivadis.loganalysis.ui.domain.profile.AxisType;
 import com.trivadis.loganalysis.ui.domain.profile.IAxis;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
@@ -53,47 +55,63 @@ public class ChartPanel extends Composite {
 	private final JRockitJvmRun jvm;
 	private final IChart ichart;
 
-	public ChartPanel(final Composite parent, final int style, final JRockitJvmRun jvm, final IChart ichart) {
+	public ChartPanel(final Composite parent, final int style, final AbstractJvmRun jvm, final IChart ichart) {
 		super(parent, style);
-		this.jvm = jvm;
+		this.jvm = (JRockitJvmRun) jvm;
 		setLayout(new GridLayout(1, false));
 		chart = createChart(dataset, this, ichart, "Heap Usage", "x", "y");
 		this.ichart = ichart;
-		updateChart();
+		init();
 		ichart.addPropertyChangeListener("series", new PropertyChangeListener() {
 			public void propertyChange(final PropertyChangeEvent evt) {
-				updateChart();
+				if (evt.getOldValue() == null)
+					serieAdded((Serie) evt.getNewValue());
+				else
+					serieRemoved((Serie) evt.getOldValue());
 			}
 		});
 	}
 
-	public void updateChart() {
-		dataset.removeAllSeries();
-		final List<XYSeries> list = getDataset(ichart.getSeries());
-		for (final XYSeries s : list)
-			dataset.addSeries(s);
+	public void serieRemoved(final Serie serie) {
+		XYSeries toRemove = seriesmap.get(serie);
+		dataset.removeSeries(toRemove);
+		seriesmap.remove(serie);
 	}
 
-	public List<XYSeries> getDataset(final List<Serie> s) {
-		final List<XYSeries> retVal = new ArrayList<XYSeries>();
-		for (final Serie serie : s) {
-			final List<IAxis> xAxes = serie.getAxes(AxisType.X);
-			final List<IAxis> yAxes = serie.getAxes(AxisType.Y);
+	private final Map<Serie, XYSeries> seriesmap = new HashMap<Serie, XYSeries>();
 
-			if (xAxes.size() > 0 && yAxes.size() > 0) {
-				final IAxis xAxis = xAxes.get(0);
-				final IAxis yAxis = yAxes.get(0);
+	public void serieAdded(final Serie serie) {
+		final XYSeries series = getDataset(serie);
+		dataset.addSeries(series);
+		seriesmap.put(serie, series);
+	}
 
-				final XYSeries series = new XYSeries(xAxis.getLabel() + "/" + yAxis.getLabel());
-				if (xAxis != null && yAxis != null) {
-					for (final State state : jvm.getHeap().getStates()) {
-						final BigDecimal x = ((ValueProvider) xAxis.getValueProvider()).data(state);
-						final BigDecimal y = ((ValueProvider) yAxis.getValueProvider()).data(state);
-						if (x != null && y != null)
-							series.add(x, y);
-					}
-					retVal.add(series);
+	private void init() {
+		for (final Serie s : ichart.getSeries()) {
+			final XYSeries series = getDataset(s);
+			dataset.addSeries(series);
+			seriesmap.put(s, series);
+		}
+	}
+
+	public XYSeries getDataset(final Serie serie) {
+		XYSeries retVal = null;
+		final List<IAxis> xAxes = serie.getAxes(AxisType.X);
+		final List<IAxis> yAxes = serie.getAxes(AxisType.Y);
+
+		if (xAxes.size() > 0 && yAxes.size() > 0) {
+			final IAxis xAxis = xAxes.get(0);
+			final IAxis yAxis = yAxes.get(0);
+
+			final XYSeries series = new XYSeries(xAxis.getLabel() + "/" + yAxis.getLabel());
+			if (xAxis != null && yAxis != null) {
+				for (final State state : jvm.getHeap().getStates()) {
+					final BigDecimal x = ((ValueProvider) xAxis.getValueProvider()).data(state);
+					final BigDecimal y = ((ValueProvider) yAxis.getValueProvider()).data(state);
+					if (x != null && y != null)
+						series.add(x, y);
 				}
+				retVal = series;
 			}
 		}
 		return retVal;
@@ -113,7 +131,7 @@ public class ChartPanel extends Composite {
 		plot.setRenderer(seriesNr.get(), getRenderer(color()));
 
 		final ChartComposite chartComposite = new ChartComposite(parent, SWT.NONE, chart, true);
-		chartComposite.setLayoutData(GridLayoutUtil.fill());
+		chartComposite.setLayoutData(new GridDataBuilder().fill().build());
 		return chart;
 	}
 

@@ -35,6 +35,7 @@ public class Chart implements IChart {
 	private final String label;
 	private String description, tabName;
 	private final ChartType type;
+	private boolean editable = false;
 
 	public void addPropertyChangeListener(final String propertyName, final PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
@@ -44,11 +45,13 @@ public class Chart implements IChart {
 		propertyChangeSupport.removePropertyChangeListener(listener);
 	}
 
-	public Chart(final ChartType type, final String tabName, final String label, final String description, final Serie... axes) {
+	public Chart(final ChartType type, final String tabName, final String label, final String description,
+			final Serie... axes) {
 		this(type, tabName, label, description, asList(axes));
 	}
 
-	public Chart(final ChartType type, final String tabName, final String label, final String description, final List<Serie> series) {
+	public Chart(final ChartType type, final String tabName, final String label, final String description,
+			final List<Serie> series) {
 		this.label = label;
 		this.tabName = tabName;
 		this.description = description;
@@ -104,6 +107,21 @@ public class Chart implements IChart {
 
 	public ChartType getType() {
 		return type;
+	}
+
+	public void removed(final Serie serie) {
+		propertyChangeSupport.firePropertyChange("series", serie,null);
+	}
+	public void added(final Serie serie) {
+		propertyChangeSupport.firePropertyChange("series", null,serie);
+	}
+
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(final boolean editable) {
+		propertyChangeSupport.firePropertyChange("editable", this.editable, this.editable = editable);
 	}
 
 }

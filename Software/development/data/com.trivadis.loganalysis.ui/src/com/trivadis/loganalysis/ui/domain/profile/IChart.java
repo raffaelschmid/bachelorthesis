@@ -37,4 +37,8 @@ public interface IChart {
 	String getTabName();
 
 	ChartType getType();
+
+	void removed(Serie element);
+	void added(Serie element);
+
 }

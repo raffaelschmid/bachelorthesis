@@ -30,21 +30,22 @@ public abstract class GridFormPage extends FormPage {
 
 	private final int maxNumColumns, minNumColumns;
 
-	public GridFormPage(FormEditor editor, String id, String title, int maxNumColumns,
-			int minNumColumns) {
+	public GridFormPage(final FormEditor editor, final String id, final String title, final int maxNumColumns,
+			final int minNumColumns) {
 		super(editor, id, title);
 		this.maxNumColumns = maxNumColumns;
 		this.minNumColumns = minNumColumns;
 	}
-	
+
 	@Override
-	public void setPartName(String partName) {
+	public void setPartName(final String partName) {
 		super.setPartName(partName);
 		firePartPropertyChanged("name", null, partName);
 	}
 
-	protected void createFormContent(IManagedForm managedForm) {
-		ScrolledForm form = managedForm.getForm();
+	@Override
+	protected void createFormContent(final IManagedForm managedForm) {
+		final ScrolledForm form = managedForm.getForm();
 		form.getBody().setLayout(getLayout());
 		createSections(managedForm);
 	}
@@ -52,7 +53,7 @@ public abstract class GridFormPage extends FormPage {
 	protected abstract void createSections(IManagedForm managedForm);
 
 	private Layout getLayout() {
-		ColumnLayout layout = new ColumnLayout();
+		final ColumnLayout layout = new ColumnLayout();
 		layout.topMargin = 0;
 		layout.bottomMargin = 5;
 		layout.leftMargin = 10;
@@ -64,34 +65,35 @@ public abstract class GridFormPage extends FormPage {
 		return layout;
 	}
 
-	protected Composite createGridSection(IManagedForm mform, String title, String desc,
-			int numColumns, int widthHint, int heightHint, boolean expanded) {
+	protected Composite createGridSection(final IManagedForm mform, final String title, final String desc,
+			final int numColumns, final int widthHint, final int heightHint, final boolean expanded) {
 
 		final ScrolledForm form = mform.getForm();
-		FormToolkit toolkit = mform.getToolkit();
-		Section section = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR
+		final FormToolkit toolkit = mform.getToolkit();
+		final Section section = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR
 				| Section.DESCRIPTION | Section.EXPANDED);
 		section.setText(title);
 		section.setDescription(desc);
 		if (widthHint != -1 && heightHint != -1)
 			section.setLayoutData(new ColumnLayoutData(widthHint, heightHint));
-		Composite client = toolkit.createComposite(section);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section);
+		final GridLayout layout = new GridLayout();
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.numColumns = numColumns;
 		client.setLayout(layout);
 		section.setClient(client);
 		section.setExpanded(expanded);
 		section.addExpansionListener(new ExpansionAdapter() {
-			public void expansionStateChanged(ExpansionEvent e) {
+			@Override
+			public void expansionStateChanged(final ExpansionEvent e) {
 				form.reflow(false);
 			}
 		});
 		return client;
 	}
 
-	protected Composite createGridSection(IManagedForm form, String title, String desc,
-			int numCol, boolean expanded) {
+	protected Composite createGridSection(final IManagedForm form, final String title, final String desc,
+			final int numCol, final boolean expanded) {
 		return createGridSection(form, title, desc, numCol, SWT.DEFAULT, SWT.DEFAULT, expanded);
 	}
 

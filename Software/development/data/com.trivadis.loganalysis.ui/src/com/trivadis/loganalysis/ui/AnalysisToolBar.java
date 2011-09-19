@@ -37,33 +37,36 @@ public class AnalysisToolBar {
 	private static final String CHART_ICON_REMOVE = "icons/chart_remove.gif";
 
 	public AnalysisToolBar(final IManagedForm managedForm, final IProfile profile, final IChart chart) {
+		boolean first = true;
 		final FormToolkit toolkit = managedForm.getToolkit();
 		final Composite composite = toolkit.createComposite(managedForm.getForm().getBody());
-		final GridLayout rowLayout = new GridLayout(2, false);
+		final GridLayout rowLayout = new GridLayout(3, false);
 		composite.setLayout(rowLayout);
 
 		if (chart != null) {
 			final Button btnRemoveChart = toolkit.createButton(composite, null, SWT.NONE);
 			btnRemoveChart.setImage(Activator.getDefault().getImage(CHART_ICON_REMOVE));
-			btnRemoveChart.setLayoutData(new GridData(SWT.END, SWT.TOP, true, false));
+			btnRemoveChart.setLayoutData(new GridData(SWT.END, SWT.TOP, first, false));
 			btnRemoveChart.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(final SelectionEvent e) {
 					Assert.assertTrue(profile.removeChart(chart));
 				}
 			});
+			first = false;
 		}
 
 		if (!(profile instanceof IStandardProfile)) {
 			final Button btnAddChart = toolkit.createButton(composite, null, SWT.NONE);
 			btnAddChart.setImage(Activator.getDefault().getImage(CHART_ICON_ADD));
-			btnAddChart.setLayoutData(new GridData(SWT.END, SWT.TOP, chart == null, false));
+			btnAddChart.setLayoutData(new GridData(SWT.END, SWT.TOP, first, false));
 			btnAddChart.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(final SelectionEvent e) {
 					profile.addChart(new Chart(ChartType.CUSTOM, "New Chart " + sequence.getAndIncrement(), "", ""));
 				}
 			});
+			first = false;
 		}
 	}
 }
