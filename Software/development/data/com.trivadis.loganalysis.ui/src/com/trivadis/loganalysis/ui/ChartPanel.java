@@ -48,8 +48,8 @@ public class ChartPanel extends Composite {
 	public ChartPanel(final Composite parent, final int style, final IJvmRun jvm, final IChart chart,
 			final IDatasetProvider datasetProvider) {
 		super(parent, style);
-		this.jvm = jvm;
 		setLayout(new GridLayout(1, false));
+		this.jvm = jvm;
 		jfreeChart = createChart(null, this, chart, chart.getLabel(), "x", "y");
 		this.chart = chart;
 		this.datasetProvider = datasetProvider;
@@ -98,7 +98,6 @@ public class ChartPanel extends Composite {
 		final int index = serie.getIndex();
 		if (index >= 0) {
 			final XYPlot plot = (XYPlot) jfreeChart.getPlot();
-			// BUGFIX: ugly removal because of "widget is disposed" exception
 			removeDataset(index, plot);
 			removeRangeAxis(index, plot);
 			removeDomainAxis(index, plot);
