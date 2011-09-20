@@ -22,7 +22,7 @@ import org.eclipse.ui.XMLMemento;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider;
+import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.StateValueProvider;
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
 import com.trivadis.loganalysis.ui.domain.profile.ChartType;
@@ -37,8 +37,8 @@ import com.trivadis.loganalysis.ui.domain.profile.Serie;
 public class ConfigurationFactoryTest {
 	private final IConfigurationFactory instance = new ConfigurationFactory();
 	private static final Color COLOR_X = Color.red;
-	private static final IValueProvider VALUE_PROVIDER_X = ValueProvider.TIME;
-	private static final IValueProvider VALUE_PROVIDER_Y = ValueProvider.MEMORY;
+	private static final IValueProvider VALUE_PROVIDER_X = StateValueProvider.TIME;
+	private static final IValueProvider VALUE_PROVIDER_Y = StateValueProvider.MEMORY;
 	private static final Color COLOR_Y = Color.blue;
 	private static final String Y_AXIS_LABEL = "y-axis";
 	private static final String X_AXIS_LABEL = "x-axis";

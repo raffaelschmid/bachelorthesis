@@ -35,8 +35,8 @@ public class ProfileProviderTest {
 
 	private static final String JROCKIT_R28 = "JRockit R28";
 	private static final Color COLOR_X = Color.red;
-	private static final ValueProvider VALUE_PROVIDER_X = ValueProvider.TIME;
-	private static final ValueProvider VALUE_PROVIDER_Y = ValueProvider.MEMORY;
+	private static final StateValueProvider VALUE_PROVIDER_X = StateValueProvider.TIME;
+	private static final StateValueProvider VALUE_PROVIDER_Y = StateValueProvider.MEMORY;
 	private static final Color COLOR_Y = Color.blue;
 	private static final String Y_AXIS_LABEL = "y-axis";
 	private static final String X_AXIS_LABEL = "x-axis";

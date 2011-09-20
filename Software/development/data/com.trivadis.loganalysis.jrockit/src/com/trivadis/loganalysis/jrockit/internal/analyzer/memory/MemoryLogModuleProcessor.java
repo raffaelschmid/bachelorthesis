@@ -11,6 +11,7 @@
  */
 package com.trivadis.loganalysis.jrockit.internal.analyzer.memory;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import com.trivadis.loganalysis.core.ModuleResult;
@@ -28,17 +29,19 @@ public class MemoryLogModuleProcessor implements IModuleProcessor {
 
 	private final JRockitExtractor extractor = new JRockitExtractor();
 
-	public ModuleResult process(JRockitJvmRun jvmRun, String line) {
+	public ModuleResult process(final JRockitJvmRun jvmRun, final String line) {
 		ModuleResult retVal = ModuleResult.PROCEED;
 		if (extractor.checkDataLine(line)) {
-			Map<DataGroups, Value> extraction = extractor.extractDataLine(line);
-			GarbageCollection transition = ("oc".equalsIgnoreCase(extraction.get(DataGroups.TYPE1).toString())) ? new OldCollection(
-					extraction.get(DataGroups.TOTAL_COLLECTION_TIME).toBigDecimal()) : new YoungCollection(extraction
-					.get(DataGroups.TOTAL_COLLECTION_TIME).toBigDecimal());
+			final Map<DataGroups, Value> extraction = extractor.extractDataLine(line);
+			final BigDecimal duration = extraction.get(DataGroups.TOTAL_COLLECTION_TIME).toBigDecimal();
+			final BigDecimal longestPause = extraction.get(DataGroups.TOTAL_SUM_PAUSE).toBigDecimal();
+			final BigDecimal sumOfPauses = extraction.get(DataGroups.LONGEST_PAUSE).toBigDecimal();
+			final GarbageCollection transition = ("oc".equalsIgnoreCase(extraction.get(DataGroups.TYPE1).toString())) ? new OldCollection(
+					duration, sumOfPauses, longestPause) : new YoungCollection(duration, sumOfPauses, longestPause);
 
-			State startState = new State(extraction.get(DataGroups.START_TIME).toDouble()).memoryUsed(
+			final State startState = new State(extraction.get(DataGroups.START_TIME).toDouble()).memoryUsed(
 					new Size(extraction.get(DataGroups.MEMORY_BEFORE).toBigDecimal())).transitionStart(transition);
-			State endState = new State(extraction.get(DataGroups.END_TIME).toBigDecimal())
+			final State endState = new State(extraction.get(DataGroups.END_TIME).toBigDecimal())
 					.memoryUsed(new Size(extraction.get(DataGroups.MEMORY_AFTER).toDouble()))
 					.memoryCapacity(new Size(extraction.get(DataGroups.HEAP_SIZE_AFTER).toDouble()))
 					.transitionEnd(transition);
@@ -47,11 +50,11 @@ public class MemoryLogModuleProcessor implements IModuleProcessor {
 
 			retVal = ModuleResult.RETURN;
 		} else if (extractor.checkHeapInfo(line)) {
-			Map<HeapInfoGroups, Value> heapInfo = extractor.extractHeapInfo(line);
-			long initHeapSize = heapInfo.get(HeapInfoGroups.HEAP_SIZE).toLong();
-			long maxHeapSize = heapInfo.get(HeapInfoGroups.MAXIMAL_HEAP_SIZE).toLong();
-			long initNurserySize = heapInfo.get(HeapInfoGroups.NURSERY_SIZE).toLong();
-			long iniTenuredSize = initHeapSize - initNurserySize;
+			final Map<HeapInfoGroups, Value> heapInfo = extractor.extractHeapInfo(line);
+			final long initHeapSize = heapInfo.get(HeapInfoGroups.HEAP_SIZE).toLong();
+			final long maxHeapSize = heapInfo.get(HeapInfoGroups.MAXIMAL_HEAP_SIZE).toLong();
+			final long initNurserySize = heapInfo.get(HeapInfoGroups.NURSERY_SIZE).toLong();
+			final long iniTenuredSize = initHeapSize - initNurserySize;
 
 			jvmRun.getHeap().setStartState(new State(0d).memoryCapacity(new Size(initHeapSize)));
 			jvmRun.getHeap().setMaximumState(new State(0d).memoryCapacity(new Size(maxHeapSize)));

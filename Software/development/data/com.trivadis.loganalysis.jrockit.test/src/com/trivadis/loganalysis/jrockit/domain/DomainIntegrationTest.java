@@ -27,14 +27,14 @@ public class DomainIntegrationTest {
 
 	@Test
 	public void test_fromLogEntry() {
-		JRockitJvmRun jvm = new JRockitJvmRun(new DummyDescriptor(""));
-		Heap heap = jvm.getHeap();
+		final JRockitJvmRun jvm = new JRockitJvmRun(new DummyDescriptor(""));
+		final Heap heap = jvm.getHeap();
 		assertEquals(3, heap.getSpaces().size());
 
-		AbstractGarbageCollection transition = new YoungCollection(BigDecimal.valueOf(45));
-		heap.addStates(transition,new State(4.472),
-				new State(4.575));
-		List<State> states = heap.getStates();
+		final AbstractGarbageCollection transition = new YoungCollection(BigDecimal.valueOf(45),
+				BigDecimal.valueOf(40), BigDecimal.valueOf(35));
+		heap.addStates(transition, new State(4.472), new State(4.575));
+		final List<State> states = heap.getStates();
 		assertEquals(2, states.size());
 	}
 

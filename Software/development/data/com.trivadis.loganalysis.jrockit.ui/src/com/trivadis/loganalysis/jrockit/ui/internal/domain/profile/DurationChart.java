@@ -26,8 +26,8 @@ public class DurationChart extends Chart {
 
 	public DurationChart() {
 		super(ChartType.DEFAULT, "Duration", "Duration", Messages.JRockitAnalysisEditorPageDuration_2, new Serie("Duration",new Axis(X, "Time (Seconds)",
-				Color.red, ValueProvider.TIME), new Axis(Y, "Garbage Collection Duration (Seconds)", Color.blue,
-				ValueProvider.DURATION)));
+				Color.red, StateValueProvider.TIME), new Axis(Y, "Garbage Collection Duration (Seconds)", Color.blue,
+				StateValueProvider.GC_TOTAL_SUM_OF_PAUSES)));
 	}
 
 }

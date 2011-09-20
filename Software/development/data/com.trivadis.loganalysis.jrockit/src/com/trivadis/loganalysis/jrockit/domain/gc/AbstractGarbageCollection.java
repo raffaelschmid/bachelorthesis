@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.trivadis.loganalysis.core.domain.GarbageCollectionType;
 import com.trivadis.loganalysis.jrockit.domain.State;
 import com.trivadis.loganalysis.jrockit.domain.gc.phase.Phase;
 
@@ -24,10 +25,16 @@ public class AbstractGarbageCollection implements GarbageCollection {
 	private final BigDecimal duration;
 	private State startState;
 	private State endState;
+	private final BigDecimal longestPause;
+	private final BigDecimal sumOfPauses;
+	private final GarbageCollectionType type;
 
-	public AbstractGarbageCollection(String name, BigDecimal duration) {
+	public AbstractGarbageCollection(final String name, final GarbageCollectionType type, final BigDecimal duration, final BigDecimal sumOfPauses, final BigDecimal longestPause) {
 		this.name = name;
 		this.duration = duration;
+		this.sumOfPauses = sumOfPauses;
+		this.longestPause = longestPause;
+		this.type = type;
 	}
 
 	public List<Phase> getPhases() {
@@ -42,12 +49,12 @@ public class AbstractGarbageCollection implements GarbageCollection {
 		return duration;
 	}
 
-	public AbstractGarbageCollection startState(State state) {
+	public AbstractGarbageCollection startState(final State state) {
 		this.startState = state;
 		return this;
 	}
 
-	public AbstractGarbageCollection endState(State state) {
+	public AbstractGarbageCollection endState(final State state) {
 		this.endState = state;
 		return this;
 	}
@@ -58,6 +65,18 @@ public class AbstractGarbageCollection implements GarbageCollection {
 
 	public State getEndState() {
 		return endState;
+	}
+
+	public BigDecimal getLongestPause() {
+		return longestPause;
+	}
+
+	public BigDecimal getSumOfPauses() {
+		return sumOfPauses;
+	}
+
+	public GarbageCollectionType getType() {
+		return type;
 	}
 
 }

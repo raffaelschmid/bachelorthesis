@@ -13,6 +13,7 @@ package com.trivadis.loganalysis.jrockit.domain.gc;
 
 import java.math.BigDecimal;
 
+import com.trivadis.loganalysis.core.domain.GarbageCollectionType;
 import com.trivadis.loganalysis.jrockit.domain.State;
 
 public interface GarbageCollection extends Transition {
@@ -24,5 +25,11 @@ public interface GarbageCollection extends Transition {
 	State getStartState();
 
 	State getEndState();
+
+	BigDecimal getLongestPause();
+
+	BigDecimal getSumOfPauses();
+
+	GarbageCollectionType getType();
 
 }

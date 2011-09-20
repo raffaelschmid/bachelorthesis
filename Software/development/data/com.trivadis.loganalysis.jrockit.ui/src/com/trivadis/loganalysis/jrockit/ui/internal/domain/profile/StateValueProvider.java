@@ -20,7 +20,7 @@ import com.trivadis.loganalysis.jrockit.domain.gc.GarbageCollection;
 import com.trivadis.loganalysis.jrockit.domain.gc.Transition;
 import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 
-public enum ValueProvider implements IValueProvider {
+public enum StateValueProvider implements IValueProvider {
 	TIME("Time", "Seconds") {
 		public BigDecimal data(final Object o) {
 			final State state = (State) o;
@@ -39,12 +39,35 @@ public enum ValueProvider implements IValueProvider {
 			final GarbageCollection gc = getGarbageCollection(state.getTransitionEnd());
 			return gc != null ? gc.getDuration() : null;
 		}
-
+	},
+	GC_TOTAL_SUM_OF_PAUSES("Sum of GC Pauses", "Seconds") {
+		public BigDecimal data(final Object o) {
+			BigDecimal retVal = null;
+			final State state = (State) o;
+			final Transition transition = state.getTransitionEnd();
+			if (transition != null && transition instanceof GarbageCollection) {
+				final GarbageCollection gc = (GarbageCollection) transition;
+				retVal = gc.getSumOfPauses();
+			}
+			return retVal;
+		}
+	},
+	GC_LONGEST_PAUSE("Longest Pause", "Seconds") {
+		public BigDecimal data(final Object o) {
+			BigDecimal retVal = null;
+			final State state = (State) o;
+			final Transition transition = state.getTransitionEnd();
+			if (transition != null && transition instanceof GarbageCollection) {
+				final GarbageCollection gc = (GarbageCollection) transition;
+				retVal = gc.getLongestPause();
+			}
+			return retVal;
+		}
 	};
 
-	private final String unit,label;
+	private final String unit, label;
 
-	private ValueProvider(final String label, final String unit) {
+	private StateValueProvider(final String label, final String unit) {
 		this.label = label;
 		this.unit = unit;
 	}
@@ -57,10 +80,6 @@ public enum ValueProvider implements IValueProvider {
 
 	public void removePropertyChangeListener(final PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
-	}
-
-	public String getName() {
-		return name();
 	}
 
 	protected GarbageCollection getGarbageCollection(final Transition gc) {

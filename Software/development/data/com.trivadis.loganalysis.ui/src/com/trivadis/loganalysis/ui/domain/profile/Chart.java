@@ -26,12 +26,23 @@ import org.eclipse.ui.IMemento;
 import com.trivadis.loganalysis.core.common.ClosureI;
 
 public class Chart implements IChart {
+	public static final String PROPERTY_SHOW_YC = "showYoungCollections";
+	public static final String PROPERTY_SHOW_OC = "showOldCollections";
+	public static final String PROPERTY_DESCRIPTION = "description";
+	public static final String PROPERTY_TAB_NAME = "tabName";
+	public static final String PROPERTY_LABEL = "label";
+	public static final String PROPERTY_SERIES = "series";
 
+	public static final String ATTRIBUTE_SHOW_OLD_COLLECTIONS = PROPERTY_SHOW_OC;
+	public static final String ATTRIBUTE_SHOW_YOUNG_COLLECTIONS = PROPERTY_SHOW_YC;
 	public static final String ATTRIBUTE_LABEL = "label";
 	public static final String MEMENTO_ELEMENT_NAME = "chart";
-	public static final String ATTRIBUTE_DESCRIPTION = "description";
-	public static final String ATTRIBUTE_TAB_NAME = "tabName";
+	public static final String ATTRIBUTE_DESCRIPTION = PROPERTY_DESCRIPTION;
+	public static final String ATTRIBUTE_TAB_NAME = PROPERTY_TAB_NAME;
 	public static final String MEMENTO_ELEMENT_META = "meta";
+
+	private boolean showYoungCollections = false;
+	private boolean showOldCollections = false;
 
 	private String label, description, tabName;
 	private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
@@ -47,6 +58,7 @@ public class Chart implements IChart {
 	public void removePropertyChangeListener(final PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(listener);
 	}
+
 	public void removePropertyChangeListener(final String property, final PropertyChangeListener listener) {
 		propertyChangeSupport.removePropertyChangeListener(property, listener);
 	}
@@ -76,6 +88,8 @@ public class Chart implements IChart {
 		memento.putString(ATTRIBUTE_LABEL, getLabel());
 		memento.putString(ATTRIBUTE_DESCRIPTION, description);
 		memento.putString(ATTRIBUTE_TAB_NAME, tabName);
+		memento.putBoolean(ATTRIBUTE_SHOW_OLD_COLLECTIONS, showOldCollections);
+		memento.putBoolean(ATTRIBUTE_SHOW_YOUNG_COLLECTIONS, showYoungCollections);
 		foreach(series, new ClosureI<Serie>() {
 			public void call(final Serie serie) {
 				serie.save(memento);
@@ -108,11 +122,12 @@ public class Chart implements IChart {
 	}
 
 	public void setDescription(final String description) {
-		propertyChangeSupport.firePropertyChange("description", this.description, this.description = description);
+		propertyChangeSupport
+				.firePropertyChange(PROPERTY_DESCRIPTION, this.description, this.description = description);
 	}
 
 	public void setTabName(final String tabName) {
-		propertyChangeSupport.firePropertyChange("tabName", this.tabName, this.tabName = tabName);
+		propertyChangeSupport.firePropertyChange(PROPERTY_TAB_NAME, this.tabName, this.tabName = tabName);
 	}
 
 	public String getTabName() {
@@ -128,15 +143,15 @@ public class Chart implements IChart {
 	}
 
 	public void removed(final Serie serie) {
-		propertyChangeSupport.firePropertyChange("series", serie, null);
+		propertyChangeSupport.firePropertyChange(PROPERTY_SERIES, serie, null);
 	}
 
 	public void added(final Serie serie) {
-		propertyChangeSupport.firePropertyChange("series", null, serie);
+		propertyChangeSupport.firePropertyChange(PROPERTY_SERIES, null, serie);
 	}
 
 	public void setLabel(final String label) {
-		propertyChangeSupport.firePropertyChange("label", this.label, this.label = label);
+		propertyChangeSupport.firePropertyChange(PROPERTY_LABEL, this.label, this.label = label);
 	}
 
 	public void setMeta(final String key, final String value) {
@@ -145,10 +160,28 @@ public class Chart implements IChart {
 
 	public String getMeta(final String key, final String defaultValue) {
 		String value = meta.get(key);
-		if(value==null){
+		if (value == null) {
 			meta.put(key, defaultValue);
 			value = defaultValue;
 		}
 		return value;
+	}
+
+	public boolean isShowOldCollections() {
+		return showOldCollections;
+	}
+
+	public void setShowOldCollections(final boolean showOldCollections) {
+		propertyChangeSupport.firePropertyChange(PROPERTY_SHOW_OC, this.showOldCollections,
+				this.showOldCollections = showOldCollections);
+	}
+
+	public boolean isShowYoungCollections() {
+		return showYoungCollections;
+	}
+
+	public void setShowYoungCollections(final boolean showYoungCollections) {
+		propertyChangeSupport.firePropertyChange(PROPERTY_SHOW_YC, this.showYoungCollections,
+				this.showYoungCollections = showYoungCollections);
 	}
 }

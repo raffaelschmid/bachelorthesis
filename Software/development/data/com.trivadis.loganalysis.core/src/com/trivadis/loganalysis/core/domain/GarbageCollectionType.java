@@ -9,18 +9,8 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui.domain.profile;
+package com.trivadis.loganalysis.core.domain;
 
-import java.math.BigDecimal;
-
-public interface IValueProvider {
-
-	String getLabel();
-
-	BigDecimal data(Object o);
-
-	String getUnit();
-
-	String name();
-
+public enum GarbageCollectionType {
+	YOUNG, OLD;
 }

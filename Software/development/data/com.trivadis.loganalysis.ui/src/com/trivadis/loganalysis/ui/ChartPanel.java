@@ -16,7 +16,9 @@ import static java.util.Arrays.asList;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.swt.SWT;
@@ -25,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.Marker;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYDotRenderer;
@@ -34,14 +37,14 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.experimental.chart.swt.ChartComposite;
 
+import com.trivadis.loganalysis.core.domain.GarbageCollectionType;
 import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.ui.common.GridDataBuilder;
+import com.trivadis.loganalysis.ui.domain.profile.Chart;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public final class ChartPanel extends Composite {
-	private static final String PROPERTY_LABEL = "label";
-	private static final String PROPERTY_SERIES = "series";
 	private final JFreeChart jfreeChart;
 	private final AtomicInteger seriesSequence = new AtomicInteger(0);
 	private final List<Color> colors = asList(Color.blue, Color.red, Color.green, Color.darkGray);
@@ -56,11 +59,15 @@ public final class ChartPanel extends Composite {
 				remove((Serie) evt.getOldValue());
 		}
 	};
-	PropertyChangeListener labelListener = new PropertyChangeListener() {
+	private final PropertyChangeListener labelListener = new PropertyChangeListener() {
 		public void propertyChange(final PropertyChangeEvent evt) {
 			jfreeChart.setTitle((String) evt.getNewValue());
 		}
 	};
+
+	private final PropertyChangeListener oldCollectionListener;
+	private final PropertyChangeListener youngCollectionListener;
+	private final Map<GarbageCollectionType, List<Marker>> markersByType;
 
 	public ChartPanel(final Composite parent, final int style, final IJvmRun jvm, final IChart chart,
 			final IDatasetProvider datasetProvider) {
@@ -70,7 +77,49 @@ public final class ChartPanel extends Composite {
 		jfreeChart = createChart(null, this, chart, chart.getLabel(), "x", "y");
 		this.chart = chart;
 		this.datasetProvider = datasetProvider;
+
+		oldCollectionListener = new PropertyChangeListener() {
+			public void propertyChange(final PropertyChangeEvent evt) {
+				final boolean showOldCollection = (Boolean) evt.getNewValue();
+				if (showOldCollection) {
+					addMarkers(GarbageCollectionType.OLD);
+				} else {
+					removeMarkers(GarbageCollectionType.OLD);
+				}
+			}
+		};
+		youngCollectionListener = new PropertyChangeListener() {
+			public void propertyChange(final PropertyChangeEvent evt) {
+				final boolean showYoungCollection = (Boolean) evt.getNewValue();
+				if (showYoungCollection) {
+					addMarkers(GarbageCollectionType.YOUNG);
+				} else {
+					removeMarkers(GarbageCollectionType.YOUNG);
+				}
+
+			}
+		};
+		markersByType = new HashMap<GarbageCollectionType, List<Marker>>();
+		markersByType.put(GarbageCollectionType.OLD, datasetProvider.getMarkers(jvm, chart, GarbageCollectionType.OLD));
+		markersByType.put(GarbageCollectionType.YOUNG,
+				datasetProvider.getMarkers(jvm, chart, GarbageCollectionType.YOUNG));
+
 		initializeChart();
+	}
+
+	private void addMarkers(final GarbageCollectionType type) {
+		final XYPlot plot = jfreeChart.getXYPlot();
+		removeMarkers(type);
+		for (final Marker marker : markersByType.get(type)) {
+			plot.addDomainMarker(marker);
+		}
+	}
+
+	private void removeMarkers(final GarbageCollectionType type) {
+		final XYPlot plot = jfreeChart.getXYPlot();
+		for (final Marker marker : markersByType.get(type)) {
+			plot.removeDomainMarker(marker);
+		}
 	}
 
 	private void initializeChart() {
@@ -80,8 +129,16 @@ public final class ChartPanel extends Composite {
 		for (final Serie serie : chart.getSeries()) {
 			add(serie);
 		}
-		chart.addPropertyChangeListener(PROPERTY_SERIES, seriesListener);
-		chart.addPropertyChangeListener(PROPERTY_LABEL, labelListener);
+		
+		if(chart.isShowOldCollections())
+			addMarkers(GarbageCollectionType.OLD);
+		if(chart.isShowYoungCollections())
+			addMarkers(GarbageCollectionType.YOUNG);
+		chart.addPropertyChangeListener(Chart.PROPERTY_SERIES, seriesListener);
+		chart.addPropertyChangeListener(Chart.PROPERTY_LABEL, labelListener);
+		chart.addPropertyChangeListener(Chart.PROPERTY_SHOW_OC, oldCollectionListener);
+		chart.addPropertyChangeListener(Chart.PROPERTY_SHOW_YC, youngCollectionListener);
+
 	}
 
 	private JFreeChart createChart(final XYDataset dataset, final Composite parent, final IChart data,
@@ -181,8 +238,11 @@ public final class ChartPanel extends Composite {
 
 	@Override
 	public void dispose() {
-		chart.removePropertyChangeListener(PROPERTY_LABEL, labelListener);
-		chart.removePropertyChangeListener(PROPERTY_SERIES, seriesListener);
+		chart.removePropertyChangeListener(Chart.PROPERTY_LABEL, labelListener);
+		chart.removePropertyChangeListener(Chart.PROPERTY_SERIES, seriesListener);
+		chart.removePropertyChangeListener(Chart.PROPERTY_SHOW_OC, oldCollectionListener);
+		chart.removePropertyChangeListener(Chart.PROPERTY_SHOW_YC, youngCollectionListener);
+
 		super.dispose();
 	}
 }

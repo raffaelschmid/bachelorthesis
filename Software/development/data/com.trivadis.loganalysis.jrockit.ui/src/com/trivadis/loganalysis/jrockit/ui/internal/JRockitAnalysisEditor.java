@@ -24,6 +24,7 @@ import org.eclipse.ui.forms.editor.IFormPage;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.CustomDiagramAnalysisPage;
 import com.trivadis.loganalysis.jrockit.ui.internal.view.JRockitDatasetProvider;
+import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.JRockitAnalysisEditorPageSummary;
 import com.trivadis.loganalysis.ui.AnalysisEditor;
 import com.trivadis.loganalysis.ui.AnalysisPage;
 import com.trivadis.loganalysis.ui.DiagramAnalysisPage;
@@ -50,8 +51,7 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 	@Override
 	protected void addPages() {
 		try {
-			//TODO uncomment
-//			addPage(new JRockitAnalysisEditorPageSummary(this, jvm, profile));
+			addPage(new JRockitAnalysisEditorPageSummary(this, jvm, profile));
 			for (final IChart chart : profile.getCharts()) {
 				final AnalysisPage page = ChartType.CUSTOM.equals(chart.getType()) ? new CustomDiagramAnalysisPage(
 						this, jvm, profile, chart) : new DiagramAnalysisPage(this, jvm, profile, chart,

@@ -13,10 +13,12 @@ package com.trivadis.loganalysis.jrockit.domain.gc;
 
 import java.math.BigDecimal;
 
+import com.trivadis.loganalysis.core.domain.GarbageCollectionType;
+
 public class YoungCollection extends AbstractGarbageCollection {
 
-	public YoungCollection(BigDecimal duration) {
-		super("Young Collection", duration);
+	public YoungCollection(final BigDecimal duration, final BigDecimal sumOfPauses, final BigDecimal longestPause) {
+		super("Young Collection", GarbageCollectionType.YOUNG, duration, sumOfPauses, longestPause);
 	}
 
 }

@@ -26,7 +26,7 @@ public class HeapChart extends Chart {
 
 	public HeapChart() {
 		super(ChartType.DEFAULT, "Heap Analysis", "Heap Analysis", Messages.JRockitAnalysisEditorPageHeapUsage_1, new Serie("Heap Usage",new Axis(X,
-				"Time (Seconds)", Color.red, ValueProvider.TIME), new Axis(Y, "Heap Size (KB)", Color.blue,
-				ValueProvider.MEMORY)));
+				"Time (Seconds)", Color.red, StateValueProvider.TIME), new Axis(Y, "Heap Size (KB)", Color.blue,
+				StateValueProvider.MEMORY)));
 	}
 }

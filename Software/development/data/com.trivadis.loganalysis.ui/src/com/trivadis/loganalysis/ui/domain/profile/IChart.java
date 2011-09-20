@@ -47,4 +47,12 @@ public interface IChart {
 
 	void removePropertyChangeListener(String property, PropertyChangeListener listener);
 
+	boolean isShowOldCollections();
+
+	void setShowOldCollections(boolean showOldCollections);
+
+	boolean isShowYoungCollections();
+
+	void setShowYoungCollections(boolean showYoungCollections);
+
 }

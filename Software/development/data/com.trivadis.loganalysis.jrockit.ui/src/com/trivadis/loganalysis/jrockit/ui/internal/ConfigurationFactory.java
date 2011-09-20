@@ -27,7 +27,7 @@ import org.eclipse.ui.IMemento;
 import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.core.common.Predicate;
 import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.StandardProfile;
-import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.ValueProvider;
+import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.StateValueProvider;
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
 import com.trivadis.loganalysis.ui.domain.profile.AxisType;
 import com.trivadis.loganalysis.ui.domain.profile.Chart;
@@ -67,7 +67,7 @@ public class ConfigurationFactory implements IConfigurationFactory {
 
 	private IAxis getAxis(final IMemento in) {
 		return new Axis(AxisType.valueOf(in.getString(Axis.ATTRIBUTE_AXIS_TYPE)), in.getString(Axis.ATTRIBUTE_LABEL),
-				new Color(in.getInteger(Axis.ATTRIBUTE_COLOR)), ValueProvider.valueOf(in
+				new Color(in.getInteger(Axis.ATTRIBUTE_COLOR)), StateValueProvider.valueOf(in
 						.getString(Axis.ATTRIBUTE_VALUE_PROVIDER)));
 	}
 
@@ -80,13 +80,16 @@ public class ConfigurationFactory implements IConfigurationFactory {
 			}
 		}
 
-		return new Chart(ChartType.CUSTOM, emptyIfNull(in.getString(Chart.ATTRIBUTE_TAB_NAME)),
+		final Chart chart = new Chart(ChartType.CUSTOM, emptyIfNull(in.getString(Chart.ATTRIBUTE_TAB_NAME)),
 				emptyIfNull(in.getString(Chart.ATTRIBUTE_LABEL)), in.getString(Chart.ATTRIBUTE_DESCRIPTION), meta,
 				collect(asList(in.getChildren(Serie.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, Serie>() {
 					public Serie call(final IMemento in) {
 						return getSerie(in);
 					}
 				}));
+		chart.setShowOldCollections(falseIfNull(in.getBoolean(Chart.ATTRIBUTE_SHOW_OLD_COLLECTIONS)));
+		chart.setShowYoungCollections(falseIfNull(in.getBoolean(Chart.ATTRIBUTE_SHOW_YOUNG_COLLECTIONS)));
+		return chart;
 	}
 
 	private Serie getSerie(final IMemento in) {
@@ -99,7 +102,13 @@ public class ConfigurationFactory implements IConfigurationFactory {
 
 		final IAxis xAxis = findFirst(axis, xType);
 		final IAxis yAxis = findFirst(axis, yType);
-		return new Serie(emptyIfNull(in.getString(Serie.ATTRIBUTE_LABEL)), xAxis, yAxis);
+		final Serie serie = new Serie(emptyIfNull(in.getString(Serie.ATTRIBUTE_LABEL)), xAxis, yAxis);
+		serie.setDotted(falseIfNull(in.getBoolean(Serie.ATTRIBUTE_DOTTED)));
+		return serie;
+	}
+
+	private boolean falseIfNull(final Boolean in) {
+		return in != null ? in : false;
 	}
 
 	private String emptyIfNull(final String in) {
