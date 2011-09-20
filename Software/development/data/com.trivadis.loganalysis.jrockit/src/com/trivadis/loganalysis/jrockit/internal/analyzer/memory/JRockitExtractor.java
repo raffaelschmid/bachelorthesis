@@ -30,48 +30,48 @@ public class JRockitExtractor {
 	/*
 	 * CHECKERS
 	 */
-	public boolean checkHeapInfo(String line) {
+	public boolean checkHeapInfo(final String line) {
 		return heapInfoLine.matcher(line).matches();
 	}
 
-	public boolean checkPatternInfoGeneral(String line) {
+	public boolean checkPatternInfoGeneral(final String line) {
 		return infoGeneralLine.matcher(line).matches();
 	}
 
-	public boolean checkPatternInfoSpecific(String line) {
+	public boolean checkPatternInfoSpecific(final String line) {
 		return infoSpecificLine.matcher(line).matches();
 	}
 
-	public boolean checkPatternInfoPlain(String line) {
+	public boolean checkPatternInfoPlain(final String line) {
 		return infoPlainLine.matcher(line).matches();
 	}
 
-	public boolean checkDataLine(String line) {
+	public boolean checkDataLine(final String line) {
 		return dataLine.matcher(line).matches();
 	}
 
 	/*
 	 * EXTRACTORS
 	 */
-	public Map<HeapInfoGroups, Value> extractHeapInfo(String line) {
+	public Map<HeapInfoGroups, Value> extractHeapInfo(final String line) {
 		return extractGroups(HeapInfoGroups.values(), line, heapInfoLine);
 	}
 
-	public Map<DataGroups, Value> extractDataLine(String line) {
+	public Map<DataGroups, Value> extractDataLine(final String line) {
 		return extractGroups(DataGroups.values(), line, dataLine);
 	}
 
-	private <T extends Enum<?>> Map<T, Value> extractGroups(T[] enums, String line, Pattern p) {
-		List<String> list = new ArrayList<String>();
-		Matcher matcher = p.matcher(line);
-		boolean matchFound = matcher.find();
+	private <T extends Enum<?>> Map<T, Value> extractGroups(final T[] enums, final String line, final Pattern p) {
+		final List<String> list = new ArrayList<String>();
+		final Matcher matcher = p.matcher(line);
+		final boolean matchFound = matcher.find();
 		if (matchFound) {
 			for (int i = 1; i <= matcher.groupCount(); i++) {
 				list.add(matcher.group(i));
 			}
 		}
-		Map<T, Value> retVal = new HashMap<T, Value>();
-		for (T d : enums) {
+		final Map<T, Value> retVal = new HashMap<T, Value>();
+		for (final T d : enums) {
 			retVal.put(d, new Value(list.get(d.ordinal())));
 		}
 		return retVal;
@@ -151,15 +151,15 @@ public class JRockitExtractor {
 	/*
 	 * Generic elements
 	 */
-	private String prefix() {
+	public static String prefix() {
 		return "\\[" + logLevel() + "\\]\\[" + module() + "\\]\\s";
 	}
 
-	private String logLevel() {
+	private static String logLevel() {
 		return "(.+)\\s";
 	}
 
-	private String module() {
+	private static String module() {
 		return "(.+)\\s";
 	}
 

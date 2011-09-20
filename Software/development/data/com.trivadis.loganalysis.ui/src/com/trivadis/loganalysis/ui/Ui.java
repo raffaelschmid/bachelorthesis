@@ -12,7 +12,6 @@
 package com.trivadis.loganalysis.ui;
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 public class Ui {
@@ -53,7 +52,4 @@ public class Ui {
 		throw new RuntimeException(e);
 	}
 
-	public void registerHelp(final Composite component, final String contextId) {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(component, contextId);
-	}
 }

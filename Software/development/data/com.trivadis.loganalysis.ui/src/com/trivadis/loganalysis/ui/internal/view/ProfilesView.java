@@ -37,8 +37,8 @@ import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.part.ViewPart;
 
 import com.trivadis.loganalysis.core.common.ClosureI;
+import com.trivadis.loganalysis.ui.Help;
 import com.trivadis.loganalysis.ui.IUiContext;
-import com.trivadis.loganalysis.ui.Ui;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
 import com.trivadis.loganalysis.ui.common.binding.IListChangeListener;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
@@ -54,20 +54,20 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 
 	private final IUiContext context;
 
-	private final Ui ui;
+	private final Help help;
 
 	public ProfilesView() {
-		this(UiLoganalysis.getUiContext(), Ui.getDefault());
+		this(UiLoganalysis.getUiContext(), Help.getDefault());
 	}
 
-	public ProfilesView(final IUiContext context, final Ui ui) {
+	public ProfilesView(final IUiContext context, final Help help) {
 		this.context = context;
-		this.ui = ui;
+		this.help = help;
 	}
 
 	@Override
 	public void createPartControl(final Composite parent) {
-		ui.registerHelp(parent, "com.trivadis.loganalysis.help.profilesView");
+		help.register(parent, "com.trivadis.loganalysis.help.profilesView");
 		createListViewer(parent);
 		makeActions();
 		hookDoubleClickAction();

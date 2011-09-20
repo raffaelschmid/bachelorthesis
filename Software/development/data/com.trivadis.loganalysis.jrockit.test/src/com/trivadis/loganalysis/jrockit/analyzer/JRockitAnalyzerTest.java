@@ -29,21 +29,17 @@ import com.trivadis.loganalysis.jrockit.internal.analyzer.IModuleProcessor;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
 
 public class JRockitAnalyzerTest {
-	private AtomicInteger count = new AtomicInteger();
-	private IAnalyzer<JRockitJvmRun> analyzer = new JRockitAnalyzer(null, new IModuleProcessor() {
-		public ModuleResult process(JRockitJvmRun logFile, String line) {
+	private final AtomicInteger count = new AtomicInteger();
+	private final IAnalyzer<JRockitJvmRun> analyzer = new JRockitAnalyzer(null, new IModuleProcessor() {
+		public ModuleResult process(final JRockitJvmRun logFile, final String line) {
 			count.incrementAndGet();
 			return ModuleResult.PROCEED;
 		}
 	});
 
-	private IFileDescriptor jrockitLog = new DummyDescriptor(JROCKIT);
-	private IFileDescriptor hotSpotLog = new DummyDescriptor(HOT_SPOT);
-
-	@Test
-	public void test_canHandleLogFile_jrockit() throws Exception {
-		assertTrue(analyzer.canHandleLogFile(jrockitLog));
-	}
+	private final IFileDescriptor jrockitLogR28 = new DummyDescriptor(JROCKIT_R28);
+	private final IFileDescriptor jrockitLogR27 = new DummyDescriptor(JROCKIT_R27);
+	private final IFileDescriptor hotSpotLog = new DummyDescriptor(HOT_SPOT);
 
 	@Test
 	public void test_canHandleLogFile_hotspot() throws Exception {
@@ -51,8 +47,13 @@ public class JRockitAnalyzerTest {
 	}
 
 	@Test
-	public void test_isResponsible_jrockit() {
-		assertTrue(analyzer.canHandleLogFile(jrockitLog));
+	public void test_isResponsible_jrockit_r28() {
+		assertTrue(analyzer.canHandleLogFile(jrockitLogR28));
+	}
+	
+	@Test
+	public void test_isResponsible_jrockit_r27() {
+		assertFalse(analyzer.canHandleLogFile(jrockitLogR27));
 	}
 
 	@Test
@@ -62,9 +63,9 @@ public class JRockitAnalyzerTest {
 
 	@Test
 	public void test_process() {
-		JRockitJvmRun logFile = analyzer.process(jrockitLog, new EmptyProgress());
+		final JRockitJvmRun logFile = analyzer.process(jrockitLogR28, new EmptyProgress());
 		assertNotNull(logFile);
-		assertEquals(JROCKIT.length, count.get());
+		assertEquals(JROCKIT_R28.length, count.get());
 	}
 
 	@Test
@@ -73,7 +74,7 @@ public class JRockitAnalyzerTest {
 	}
 
 	//@formatter:off
-	private static final String[] JROCKIT = new String[] {
+	private static final String[] JROCKIT_R28 = new String[] {
 		/* 00 */"[INFO ][memory ] GC mode: Garbage collection optimized for throughput, strategy: Generational Parallel Mark & Sweep.",
 		/* 01 */"[INFO ][memory ] Heap size: 65536KB, maximal heap size: 1048576KB, nursery size: 32768KB.",
 		/* 02 */"[INFO ][memory ] <start>-<end>: <type> <before>KB-><after>KB (<heap>KB), <time> ms, sum of pauses <pause> ms.",
@@ -89,8 +90,26 @@ public class JRockitAnalyzerTest {
 		/* 12 */"[INFO ][memory ] [OC#1] 0.830-0.833: OC 428KB->78423KB (117108KB), 0.003 s, sum of pauses 1.753 ms, longest pause 1.753 ms.",
 		/* 13 */"[INFO ][memory ] [OC#2] 0.892-0.982: OC 78450KB->156488KB (233624KB), 0.090 s, sum of pauses 88.419 ms, longest pause 88.419 ms.",
 		/* 14 */"[INFO ][memory ] [YC#1] 1.530-1.531: YC 156524KB->156628KB (233624KB), 0.001 s, sum of pauses 1.275 ms, longest pause 1.275 ms.",
-		/* 15 */"[INFO ][memory ] [YC#2] 1.531-1.532: YC 156652KB->156691KB (233624KB), 0.001 s, sum of pauses 0.564 ms, longest pause 0.564 ms." };
+		/* 15 */"[INFO ][memory ] [YC#2] 1.531-1.532: YC 156652KB->156691KB (233624KB), 0.001 s, sum of pauses 0.564 ms, longest pause 0.564 ms." 
+	};
 
+	private static final String[] JROCKIT_R27 = new String[]{
+		/* 00 */"[INFO ][memory ] Running with 32 bit heap and compressed references.",
+		/* 01 */"[INFO ][memory ] GC mode: Garbage collection optimized for throughput, initial strategy: Generational Parallel Mark & Sweep",
+		/* 02 */"[INFO ][memory ] heap size: 3276800K, maximal heap size: 3276800K, nursery size: 1638400K",
+		/* 03 */"[INFO ][memory ] <s>-<end>: GC <before>K-><after>K (<heap>K), <pause> ms",
+		/* 04 */"[INFO ][memory ] <s/start> - start time of collection (seconds since jvm start)",
+		/* 05 */"[INFO ][memory ] <end>     - end time of collection (seconds since jvm start)",
+		/* 06 */"[INFO ][memory ] <before>  - memory used by objects before collection (KB)",
+		/* 07 */"[INFO ][memory ] <after>   - memory used by objects after collection (KB)",
+		/* 08 */"[INFO ][memory ] <heap>    - size of heap after collection (KB)",
+		/* 09 */"[INFO ][memory ] <pause>   - total sum of pauses during collection (milliseconds)",
+		/* 10 */"[INFO ][memory ]             run with -Xverbose:gcpause to see individual pauses",
+		/* 11 */"[INFO ][memory ] 362.410: parallel nursery GC 1811917K->619093K (3276800K), 168.904 ms",
+		/* 12 */"[INFO ][memory ] 652.793: parallel nursery GC 1992014K->762767K (3276800K), 53.391 ms",
+		/* 13 */"[INFO ][memory ] 661.220: parallel nursery GC 1991567K->762575K (3276800K), 40.372 ms"
+	};  
+	    
 	private static final String[] HOT_SPOT = new String[] {
 		/* 00 */"0.618: [GC 250439K->250447K(295744K), 0.0863349 secs]",
 		/* 01 */"0.704: [Full GC 250447K->250426K(328768K), 0.1010896 secs]",
@@ -99,5 +118,7 @@ public class JRockitAnalyzerTest {
 		/* 04 */"1.067: [Full GC 293738K->293735K(410496K), 0.1766740 secs]",
 		/* 05 */"1.266: [GC 325863K->325991K(426816K), 0.1364323 secs]"
 	};
+	
+	
 
 }
