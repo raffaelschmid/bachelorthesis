@@ -26,6 +26,7 @@
 		<module>com.trivadis.loganalysis.ui.test</module>
 		<module>com.trivadis.loganalysis.targetplatform</module>
 		<module>com.trivadis.loganalysis.updatesite</module>
+		<module>com.trivadis.loganalysis.help</module>
 	</modules>
 	<build>
 		<plugins>

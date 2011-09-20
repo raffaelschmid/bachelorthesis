@@ -12,6 +12,7 @@
 package com.trivadis.loganalysis.ui;
 
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
 public class Ui {
@@ -39,7 +40,8 @@ public class Ui {
 		}
 		return runnable.get();
 	}
-	public void busyCursorWhile(final IRunnableWithProgress runnable){
+
+	public void busyCursorWhile(final IRunnableWithProgress runnable) {
 		try {
 			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(runnable);
 		} catch (final Exception e) {
@@ -49,5 +51,9 @@ public class Ui {
 
 	public void handleException(final Exception e) {
 		throw new RuntimeException(e);
+	}
+
+	public void registerHelp(final Composite component, final String contextId) {
+		PlatformUI.getWorkbench().getHelpSystem().setHelp(component, contextId);
 	}
 }

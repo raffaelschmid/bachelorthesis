@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.contexts"?>
+<contexts>
+   <context id="profilesView">
+      <description>Über diese View können Analyse-Profile administriert werden. Die Log-Datei wird mit dem in dieser View selektierten Profil geöffnet.</description>
+      <topic href="html/gettingstarted/createanalysisprofile.html" label="Analyse-Profile"/>
+   </context>
+</contexts>

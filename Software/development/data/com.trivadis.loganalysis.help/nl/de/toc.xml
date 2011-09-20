@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Garbage Collection Log Analyse">
+   <topic label="Start">
+      <anchor id="gettingstarted"/>
+   </topic>
+   <topic label="Konzepte">
+      <anchor id="concepts"/>
+   </topic>
+</toc>

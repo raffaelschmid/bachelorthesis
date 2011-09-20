@@ -38,6 +38,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import com.trivadis.loganalysis.core.common.ClosureI;
 import com.trivadis.loganalysis.ui.IUiContext;
+import com.trivadis.loganalysis.ui.Ui;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
 import com.trivadis.loganalysis.ui.common.binding.IListChangeListener;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
@@ -53,16 +54,20 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 
 	private final IUiContext context;
 
+	private final Ui ui;
+
 	public ProfilesView() {
-		this(UiLoganalysis.getUiContext());
+		this(UiLoganalysis.getUiContext(), Ui.getDefault());
 	}
 
-	public ProfilesView(final IUiContext context) {
+	public ProfilesView(final IUiContext context, final Ui ui) {
 		this.context = context;
+		this.ui = ui;
 	}
 
 	@Override
 	public void createPartControl(final Composite parent) {
+		ui.registerHelp(parent, "com.trivadis.loganalysis.help.profilesView");
 		createListViewer(parent);
 		makeActions();
 		hookDoubleClickAction();
