@@ -108,17 +108,21 @@ public final class ChartPanel extends Composite {
 	}
 
 	private void addMarkers(final GarbageCollectionType type) {
-		final XYPlot plot = jfreeChart.getXYPlot();
-		removeMarkers(type);
-		for (final Marker marker : markersByType.get(type)) {
-			plot.addDomainMarker(marker);
+		if (!isDisposed()) {
+			final XYPlot plot = jfreeChart.getXYPlot();
+			removeMarkers(type);
+			for (final Marker marker : markersByType.get(type)) {
+				plot.addDomainMarker(marker);
+			}
 		}
 	}
 
 	private void removeMarkers(final GarbageCollectionType type) {
-		final XYPlot plot = jfreeChart.getXYPlot();
-		for (final Marker marker : markersByType.get(type)) {
-			plot.removeDomainMarker(marker);
+		if (!isDisposed()) {
+			final XYPlot plot = jfreeChart.getXYPlot();
+			for (final Marker marker : markersByType.get(type)) {
+				plot.removeDomainMarker(marker);
+			}
 		}
 	}
 
@@ -129,10 +133,10 @@ public final class ChartPanel extends Composite {
 		for (final Serie serie : chart.getSeries()) {
 			add(serie);
 		}
-		
-		if(chart.isShowOldCollections())
+
+		if (chart.isShowOldCollections())
 			addMarkers(GarbageCollectionType.OLD);
-		if(chart.isShowYoungCollections())
+		if (chart.isShowYoungCollections())
 			addMarkers(GarbageCollectionType.YOUNG);
 		chart.addPropertyChangeListener(Chart.PROPERTY_SERIES, seriesListener);
 		chart.addPropertyChangeListener(Chart.PROPERTY_LABEL, labelListener);

@@ -49,7 +49,7 @@ public class Ui {
 	}
 
 	public void handleException(final Exception e) {
-		throw new RuntimeException(e);
+		e.printStackTrace();
 	}
 
 }
