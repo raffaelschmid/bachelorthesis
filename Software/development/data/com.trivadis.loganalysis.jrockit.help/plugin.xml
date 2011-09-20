@@ -11,12 +11,15 @@
       <toc
             file="tocgettingstarted.xml">
       </toc>
+       <toc
+            file="tocconcepts.xml">
+      </toc>
    </extension>
    <extension
-         point="org.eclipse.help.contexts">
-      <contexts
-            file="context.xml">
-      </contexts>
+         point="org.eclipse.help.contentExtension">
+      <contentExtension
+            file="contentExtensionFile.xml">
+      </contentExtension>
    </extension>
 
 </plugin>

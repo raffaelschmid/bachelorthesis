@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="JRockit Garbage Collection Log Analyse">
+   <topic href="html/overview.html" label="Übersicht">
+   </topic>
+   <topic label="Konzepte">
+      <anchor id="concepts"/>
+   </topic>
+   <topic label="Einführung">
+      <anchor id="gettingstarted"/>
+   </topic>
+</toc>

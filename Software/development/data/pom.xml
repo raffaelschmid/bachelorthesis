@@ -27,6 +27,7 @@
 		<module>com.trivadis.loganalysis.targetplatform</module>
 		<module>com.trivadis.loganalysis.updatesite</module>
 		<module>com.trivadis.loganalysis.help</module>
+		<module>com.trivadis.loganalysis.jrockit.help</module>
 	</modules>
 	<build>
 		<plugins>

@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+
+<contentExtension>
+	<contribution content="html/contribution.xml#append"
+		path="/com.trivadis.loganalysis.help/html/overview.html#tobeappended" />
+	<contribution content="html/contribution_b.xml#append"
+		path="/com.trivadis.loganalysis.help/html/overview.html#tobeappended" />
+</contentExtension>
+
