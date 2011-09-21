@@ -15,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -29,6 +30,7 @@ import com.trivadis.loganalysis.ui.AnalysisEditor;
 import com.trivadis.loganalysis.ui.AnalysisPage;
 import com.trivadis.loganalysis.ui.DiagramAnalysisPage;
 import com.trivadis.loganalysis.ui.EditorInput;
+import com.trivadis.loganalysis.ui.Help;
 import com.trivadis.loganalysis.ui.IProfileListener;
 import com.trivadis.loganalysis.ui.Ui;
 import com.trivadis.loganalysis.ui.domain.profile.ChartType;
@@ -40,12 +42,16 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 	private JRockitJvmRun jvm;
 	private IProfile profile;
 
-	public JRockitAnalysisEditor() {
-	}
-
 	@Override
 	public IFormPage setActivePage(final String pageId) {
 		return super.setActivePage(pageId);
+	}
+
+	@Override
+	protected Composite createPageContainer(final Composite parent) {
+		final Composite container = super.createPageContainer(parent);
+		Help.getDefault().register(parent, "com.trivadis.loganalysis.jrockit.help.jrockitAnalysisEditor");
+		return container;
 	}
 
 	@Override
@@ -102,6 +108,7 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 			throw new PartInitException("Invalid Log File Input");
 		this.jvm = (JRockitJvmRun) input.getLogFile();
 		this.profile = input.getProfile();
+		super.setPartName(input.getLogFile().getDescriptor().getFileName());
 		super.init(site, input);
 	}
 

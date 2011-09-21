@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.contexts"?>
+<contexts>
+   <context id="jrockitAnalysisEditor">
+      <description>Within this page you are able to make analysis based on a JRockit garbage collection log. This editor basically can be opened with different analysis profiles depending on which is selected within the Profiles View.</description>
+      <topic href="html/gettingstarted/analysis.html" label="Analysis"/>
+      <topic href="html/gettingstarted/standardprofile.html" label="Standard Profile"/>
+      <topic href="html/gettingstarted/customprofile.html" label="Custom Profile"/>
+   </context>
+</contexts>

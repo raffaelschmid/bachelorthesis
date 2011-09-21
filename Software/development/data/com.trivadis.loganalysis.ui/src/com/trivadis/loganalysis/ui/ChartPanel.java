@@ -242,6 +242,7 @@ public final class ChartPanel extends Composite {
 
 	@Override
 	public void dispose() {
+		System.out.println("disposing chartpanel");
 		chart.removePropertyChangeListener(Chart.PROPERTY_LABEL, labelListener);
 		chart.removePropertyChangeListener(Chart.PROPERTY_SERIES, seriesListener);
 		chart.removePropertyChangeListener(Chart.PROPERTY_SHOW_OC, oldCollectionListener);

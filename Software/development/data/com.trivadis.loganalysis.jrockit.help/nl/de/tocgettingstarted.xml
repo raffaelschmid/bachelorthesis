@@ -2,6 +2,7 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Einführung" link_to="toc.xml#gettingstarted"> 
-	<topic label="Analyse"  href="html/gettingstarted/analysis.html"> 
-	</topic>
+	<topic label="Analyse"  href="html/gettingstarted/analysis.html"/>
+	<topic label="Standard Profil"  href="html/gettingstarted/standardprofile.html"/> 
+	<topic label="Benutzerdefiniertes Profile"  href="html/gettingstarted/customprofile.html"/>
 </toc>

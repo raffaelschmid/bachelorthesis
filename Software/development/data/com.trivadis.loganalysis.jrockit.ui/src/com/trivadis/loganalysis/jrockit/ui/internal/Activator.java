@@ -21,7 +21,7 @@ import com.trivadis.loganalysis.ui.common.ImageCache;
 
 public class Activator extends AbstractUIPlugin {
 
-	private static final String PLUGIN_ID = "com.trivadis.loganalysis.jrockit.ui";
+	public static final String PLUGIN_ID = "com.trivadis.loganalysis.jrockit.ui";
 	private static Activator plugin=null;
 	private final Cache<ImageDescriptor, Image> cache = new ImageCache();
 

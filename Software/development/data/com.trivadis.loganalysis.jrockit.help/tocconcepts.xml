@@ -2,6 +2,5 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Concepts" link_to="toc.xml#concepts"> 
-	<topic label="Garbage Collection"  href="html/concepts/garbagecollection.html"> 
-	</topic>
+	<topic label="Garbage Collection"  href="html/concepts/garbagecollection.html"/>
 </toc>
