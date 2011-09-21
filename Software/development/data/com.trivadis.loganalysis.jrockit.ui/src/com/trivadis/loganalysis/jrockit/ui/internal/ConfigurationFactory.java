@@ -46,17 +46,17 @@ public class ConfigurationFactory implements IConfigurationFactory {
 	final Predicate<IAxis> yType = typePredicate(AxisType.Y);
 
 	public IConfiguration loadConfigurationFrom(final IMemento memento) {
-		final IMemento jrockitConfig = (memento != null) ? memento.getChild(Configuration.MEMENTO_ELEMENT_NAME) : null;
+		final IMemento jrockitConfig = (memento != null) ? memento.getChild(Configuration.KEY) : null;
 		final List<IProfile> list = (jrockitConfig != null) ? collect(
 				asList(jrockitConfig.getChildren(Profile.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IProfile>() {
 					public IProfile call(final IMemento in) {
 						return getProfile(in);
 					}
 				}) : new ArrayList<IProfile>();
-		return new Configuration("JRockit R28", prepend(new StandardProfile("Standard Profile"), list));
+		return new Configuration(prepend(new StandardProfile("Standard Profile"), list));
 	}
 
-	private IProfile getProfile(final IMemento in) {
+	public IProfile getProfile(final IMemento in) {
 		return new Profile(emptyIfNull(in.getString(Profile.ATTRIBUTE_LABEL)), collect(
 				asList(in.getChildren(Chart.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IChart>() {
 					public IChart call(final IMemento in) {

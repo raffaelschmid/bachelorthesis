@@ -16,11 +16,11 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
 import com.trivadis.loganalysis.ui.internal.WizardUtil;
-import com.trivadis.loganalysis.ui.internal.wizard.ImportGCLogWizard;
+import com.trivadis.loganalysis.ui.internal.wizard.ExportProfileWizard;
 
-public class OpenImportDialogHandler extends AbstractHandler {
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		WizardUtil.open(new ImportGCLogWizard());
+public class OpenExportProfileWizardHandler extends AbstractHandler {
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		WizardUtil.open(new ExportProfileWizard());
 		return null;
 	}
 }

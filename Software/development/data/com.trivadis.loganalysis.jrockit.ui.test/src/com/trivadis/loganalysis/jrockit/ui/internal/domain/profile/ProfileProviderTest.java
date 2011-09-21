@@ -13,7 +13,6 @@ package com.trivadis.loganalysis.jrockit.ui.internal.domain.profile;
 
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.X;
 import static com.trivadis.loganalysis.ui.domain.profile.AxisType.Y;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.awt.Color;
@@ -33,7 +32,6 @@ import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class ProfileProviderTest {
 
-	private static final String JROCKIT_R28 = "JRockit R28";
 	private static final Color COLOR_X = Color.red;
 	private static final StateValueProvider VALUE_PROVIDER_X = StateValueProvider.TIME;
 	private static final StateValueProvider VALUE_PROVIDER_Y = StateValueProvider.MEMORY;
@@ -49,27 +47,25 @@ public class ProfileProviderTest {
 
 	@Test
 	public void test_saveMementoList() throws Exception {
-		instance.saveConfiguration(memento(), configuration(JROCKIT_R28));
+		instance.saveConfiguration(memento(), configuration());
 	}
 
 	@Test
 	public void test_loadMemento_list() {
 		final IMemento memento = memento();
-		instance.saveConfiguration(memento, configuration(JROCKIT_R28));
+		instance.saveConfiguration(memento, configuration());
 
-		instance.loadConfiguration(memento);
-		final IConfiguration retVal = instance.getExtension();
+		instance.getConfiguration(memento);
+		final IConfiguration retVal = instance.getConfiguration();
 		assertNotNull(retVal);
-
-		assertEquals(JROCKIT_R28, retVal.getLabel());
 	}
 
 	protected IMemento memento() {
 		return XMLMemento.createWriteRoot("state");
 	}
 
-	protected IConfiguration configuration(final String profileLabel) {
-		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL,
+	protected IConfiguration configuration() {
+		return new Configuration(new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL,
 				CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y,
 						Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))), new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, 
 				PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL, COLOR_X,

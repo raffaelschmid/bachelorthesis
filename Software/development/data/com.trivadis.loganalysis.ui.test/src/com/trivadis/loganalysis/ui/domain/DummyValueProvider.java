@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 
 import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 
-final class DummyValueProvider implements IValueProvider {
+public final class DummyValueProvider implements IValueProvider {
 	private final String name;
 
 	public DummyValueProvider(final String name) {

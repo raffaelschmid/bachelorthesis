@@ -15,7 +15,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
 
-public class ImportWizard {
+public class WizardUtil {
 	public static void open(Wizard wizard) {
 		WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getShell(), wizard);

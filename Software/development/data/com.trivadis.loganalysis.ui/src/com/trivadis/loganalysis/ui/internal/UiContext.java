@@ -30,10 +30,13 @@ public class UiContext implements IUiContext {
 	private IFileDescriptor selectedLogFile = null;
 	private final BindingArrayList<IConfiguration> configurations;
 	private final BindingArrayList<IFileDescriptor> selectedFiles;
+	private IConfiguration selectedConfiguration;
+	private final IProfileExporter exporter;
 
 	public UiContext() {
 		this.selectedFiles = new BindingArrayList<IFileDescriptor>(new ArrayList<IFileDescriptor>());
 		this.configurations = new BindingArrayList<IConfiguration>(new ArrayList<IConfiguration>());
+		this.exporter = new ProfileExporter();
 	}
 
 	public BindingArrayList<IFileDescriptor> getSelectedFiles() {
@@ -61,7 +64,7 @@ public class UiContext implements IUiContext {
 		Assert.assertTrue(configurations.contains(configuration));
 	}
 
-	public BindingArrayList<IConfiguration> getProfiles() {
+	public BindingArrayList<IConfiguration> getConfigurations() {
 		return configurations;
 	}
 
@@ -79,6 +82,7 @@ public class UiContext implements IUiContext {
 
 	public void setSelectedProfile(final IProfile selectedProfile) {
 		this.selectedProfile = selectedProfile;
+		this.selectedConfiguration = null;
 	}
 
 	public IFileDescriptor getSelectedLogFile() {
@@ -88,4 +92,18 @@ public class UiContext implements IUiContext {
 	public void setSelectedLogFile(final IFileDescriptor selectedLogFile) {
 		this.selectedLogFile = selectedLogFile;
 	}
+
+	public void setSelectedConfiguration(final IConfiguration configuration) {
+		this.selectedConfiguration = configuration;
+		this.selectedProfile = null;
+	}
+
+	public IConfiguration getSelectedConfiguration() {
+		return selectedConfiguration;
+	}
+
+	public IProfileExporter getProfileExporter() {
+		return exporter;
+	}
+	
 }

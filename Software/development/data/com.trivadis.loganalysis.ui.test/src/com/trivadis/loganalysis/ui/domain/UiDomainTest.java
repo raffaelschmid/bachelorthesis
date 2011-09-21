@@ -39,7 +39,6 @@ import com.trivadis.loganalysis.ui.domain.profile.Serie;
 
 public class UiDomainTest {
 
-	private static final String JROCKIT_R28 = "JRockit R28";
 	private static final Color COLOR_X = Color.red;
 	private static final IValueProvider VALUE_PROVIDER_X = new DummyValueProvider("x");
 	private static final IValueProvider VALUE_PROVIDER_Y = new DummyValueProvider("y");
@@ -61,7 +60,7 @@ public class UiDomainTest {
 		final IProfile profile = new Profile(PROFILE_LABEL);
 		profile.addChart(chart01);
 
-		final IConfiguration configuration = new Configuration(JROCKIT_R28);
+		final IConfiguration configuration = new Configuration();
 		configuration.addProfile(profile);
 
 		verifyConfiguration(configuration);
@@ -69,7 +68,7 @@ public class UiDomainTest {
 
 	@Test
 	public void test_create_domain_model_short() {
-		verifyConfiguration(new Configuration(JROCKIT_R28, new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM,
+		verifyConfiguration(new Configuration(new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM,
 				PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL, COLOR_X,
 						VALUE_PROVIDER_X), new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y))))));
 	}
@@ -92,13 +91,13 @@ public class UiDomainTest {
 	@Test
 	public void test_saveMemento() throws IOException {
 		final XMLMemento memento = (XMLMemento) memento();
-		configuration(PROFILE_LABEL).save(memento);
+		configuration().save(memento);
 		showXmlContent(memento);
 		assertNotNull(memento);
 	}
 
-	protected IConfiguration configuration(final String profileLabel) {
-		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME,
+	protected IConfiguration configuration() {
+		return new Configuration(new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME,
 				CHART_LABEL, CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X),
 						new Axis(Y, Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))), new Profile(PROFILE_LABEL, new Chart(
 				ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL,

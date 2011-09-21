@@ -34,7 +34,7 @@ public class ProfilesContentAdapter implements ITreeContentProvider {
 	}
 
 	public Object[] getElements(final Object inputElement) {
-		return UiLoganalysis.getUiContext().getProfiles().toArray();
+		return UiLoganalysis.getUiContext().getConfigurations().toArray();
 	}
 
 	public Object[] getChildren(final Object parentElement) {

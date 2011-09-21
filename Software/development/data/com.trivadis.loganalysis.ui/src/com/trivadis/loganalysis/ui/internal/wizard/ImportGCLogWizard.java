@@ -30,13 +30,13 @@ public class ImportGCLogWizard extends Wizard implements IImportWizard {
 
 	public static final String ID = ImportGCLogWizard.class.getName();
 
-	private final ImportGCLogWizardSelectionPage page;
+	private final ImportGCLogWizardPage page;
 
 	public ImportGCLogWizard() {
-		this(new ImportGCLogWizardSelectionPage());
+		this(new ImportGCLogWizardPage());
 	}
 
-	ImportGCLogWizard(ImportGCLogWizardSelectionPage page) {
+	ImportGCLogWizard(ImportGCLogWizardPage page) {
 		this.page = page;
 	}
 

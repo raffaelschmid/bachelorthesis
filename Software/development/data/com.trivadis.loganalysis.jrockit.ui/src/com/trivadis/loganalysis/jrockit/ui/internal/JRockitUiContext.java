@@ -22,11 +22,11 @@ public class JRockitUiContext implements IJRockitUiContext {
 		this.configurationFactory = new ConfigurationFactory();
 	}
 
-	public IConfiguration getExtension() {
+	public IConfiguration getConfiguration() {
 		return extension;
 	}
 
-	public void setExtension(final IConfiguration extension) {
+	public void setConfiguration(final IConfiguration extension) {
 		Assert.assertNotNull(extension);
 		this.extension = extension;
 	}

@@ -14,9 +14,12 @@ package com.trivadis.loganalysis.jrockit.ui.internal;
 import org.eclipse.ui.IMemento;
 
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public interface IConfigurationFactory {
 
 	IConfiguration loadConfigurationFrom(IMemento memento);
+
+	IProfile getProfile(IMemento in);
 
 }

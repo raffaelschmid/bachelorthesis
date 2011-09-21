@@ -19,13 +19,17 @@ import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
 public interface IProfileProvider {
 
+	String getKey();
+	
 	boolean knowsJvm(IJvmRun jvm);
 
 	void saveConfiguration(IMemento memento, IConfiguration configuration);
 
-	void loadConfiguration(IMemento memento);
+	IConfiguration getConfiguration(IMemento memento);
 
-	IConfiguration getExtension();
+	IConfiguration getConfiguration();
+
+	IConfiguration getConfiguration(IMemento memento, boolean store);
 
 
 }

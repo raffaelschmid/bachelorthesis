@@ -17,6 +17,7 @@ import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
+import com.trivadis.loganalysis.ui.internal.IProfileExporter;
 
 public interface IUiContext {
 	BindingArrayList<IFileDescriptor> getSelectedFiles();
@@ -25,7 +26,7 @@ public interface IUiContext {
 
 	void remove(IFileDescriptor file);
 
-	BindingArrayList<IConfiguration> getProfiles();
+	BindingArrayList<IConfiguration> getConfigurations();
 
 	void addConfigurations(List<IConfiguration> profiles);
 
@@ -36,4 +37,10 @@ public interface IUiContext {
 	IFileDescriptor getSelectedLogFile();
 
 	void setSelectedLogFile(IFileDescriptor selectedLogFile);
+
+	void setSelectedConfiguration(IConfiguration configuration);
+
+	IConfiguration getSelectedConfiguration();
+
+	IProfileExporter getProfileExporter();
 }

@@ -64,7 +64,7 @@ public class ConfigurationFactoryTest {
 	
 	@Test
 	public void test_loadConfigurationFrom() throws Exception {
-		configuration("foo").save(XMLMemento.createWriteRoot("empty"));
+		configuration().save(XMLMemento.createWriteRoot("empty"));
 		final IConfiguration retVal = instance.loadConfigurationFrom(XMLMemento.createWriteRoot("empty"));
 		assertNotNull(retVal);
 		assertEquals(1, retVal.getProfiles().size());
@@ -80,8 +80,8 @@ public class ConfigurationFactoryTest {
 		assertEquals(VALUE_PROVIDER_Y, serie.getYaxis().getValueProvider());
 	}
 	
-	protected IConfiguration configuration(final String profileLabel) {
-		return new Configuration(profileLabel, new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL,
+	protected IConfiguration configuration() {
+		return new Configuration(new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, PROFILE_TAB_NAME, CHART_LABEL,
 				CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL, COLOR_X, VALUE_PROVIDER_X), new Axis(Y,
 						Y_AXIS_LABEL, COLOR_Y, VALUE_PROVIDER_Y)))), new Profile(PROFILE_LABEL, new Chart(ChartType.CUSTOM, 
 				PROFILE_TAB_NAME, CHART_LABEL, CHART_DESCRIPTION, new Serie("",new Axis(X, X_AXIS_LABEL, COLOR_X,

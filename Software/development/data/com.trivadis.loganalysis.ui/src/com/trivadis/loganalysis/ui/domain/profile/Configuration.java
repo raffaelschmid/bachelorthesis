@@ -27,16 +27,16 @@ import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
 
 public class Configuration implements IConfiguration {
 
-	public static final String MEMENTO_ELEMENT_NAME = "jrockit-r28";
+	public static final String KEY = "jrockit-r28";
+	
 	private final BindingArrayList<IProfile> profiles = new BindingArrayList<IProfile>(new ArrayList<IProfile>());
-	private final String label;
+	private final String label = "JRockit R28";
 
-	public Configuration(final String label, final IProfile... profiles) {
-		this(label, asList(profiles));
+	public Configuration(final IProfile... profiles) {
+		this(asList(profiles));
 	}
 
-	public Configuration(final String label, final List<IProfile> profiles) {
-		this.label = label;
+	public Configuration(final List<IProfile> profiles) {
 		for (final IProfile profile : profiles) {
 			addProfile(profile);
 		}
@@ -52,7 +52,7 @@ public class Configuration implements IConfiguration {
 	}
 
 	public void save(final IMemento memento) {
-		final IMemento configuration = memento.createChild(MEMENTO_ELEMENT_NAME);
+		final IMemento configuration = memento.createChild(KEY);
 		foreach(findAll(profiles, new Predicate<IProfile>() {
 			public boolean matches(final IProfile item) {
 				return !(item instanceof IStandardProfile);
@@ -88,5 +88,8 @@ public class Configuration implements IConfiguration {
 	public void removeProfile(final IProfile profile) {
 		this.profiles.remove(profile);
 	}
-
+	
+	public String getKey(){
+		return KEY;
+	}
 }

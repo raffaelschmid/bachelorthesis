@@ -115,7 +115,7 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 
 	@Override
 	public void saveState(final IMemento memento) {
-		foreach(context.getProfiles(), new ClosureI<IConfiguration>() {
+		foreach(context.getConfigurations(), new ClosureI<IConfiguration>() {
 			public void call(final IConfiguration in) {
 				in.save(memento);
 			}
@@ -138,8 +138,8 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 	public void init(final IViewSite site, final IMemento memento) throws PartInitException {
 		super.init(site, memento);
 		context.addConfigurations(UiLoganalysis.getConfigurations(memento));
-		context.getProfiles().addChangeListener(this); // data binding
-		for (final IConfiguration configuration : context.getProfiles()) {
+		context.getConfigurations().addChangeListener(this); // data binding
+		for (final IConfiguration configuration : context.getConfigurations()) {
 			configuration.getProfiles().addChangeListener(this);
 		}
 		getSite().getPage().addSelectionListener(this);
@@ -152,6 +152,11 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 				final IProfile profile = (IProfile) ss.getFirstElement();
 				context.setSelectedProfile(profile);
 			}
+			if(ss.getFirstElement() instanceof IConfiguration){
+				final IConfiguration configuration = (IConfiguration) ss.getFirstElement();
+				context.setSelectedConfiguration(configuration);
+			}
+			
 		}
 	}
 

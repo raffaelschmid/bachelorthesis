@@ -20,7 +20,9 @@ import com.trivadis.loganalysis.jrockit.ui.internal.IConfigurationFactory;
 import com.trivadis.loganalysis.jrockit.ui.internal.IJRockitUiContext;
 import com.trivadis.loganalysis.jrockit.ui.internal.JRockitExtension;
 import com.trivadis.loganalysis.ui.IProfileProvider;
+import com.trivadis.loganalysis.ui.domain.profile.Configuration;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
 public class ProfileProvider implements IProfileProvider {
 
@@ -40,16 +42,31 @@ public class ProfileProvider implements IProfileProvider {
 		return jvm instanceof JRockitJvmRun;
 	}
 
-	public void loadConfiguration(final IMemento memento) {
-		context.setExtension(configurationFactory.loadConfigurationFrom(memento));
+	public IProfile getProfile(final IMemento memento) {
+		return configurationFactory.getProfile(memento);
 	}
 
 	public void saveConfiguration(final IMemento parent, final IConfiguration configuration) {
 		configuration.save(parent);
 	}
 
-	public IConfiguration getExtension() {
-		Assert.assertNotNull(context.getExtension());
-		return context.getExtension();
+	public IConfiguration getConfiguration(final IMemento memento) {
+		return getConfiguration(memento, true);
+	}
+
+	public IConfiguration getConfiguration(final IMemento memento, final boolean store) {
+		final IConfiguration configuration = configurationFactory.loadConfigurationFrom(memento);
+		if (store)
+			context.setConfiguration(configuration);
+		return configuration;
+	}
+
+	public IConfiguration getConfiguration() {
+		Assert.assertNotNull(context.getConfiguration());
+		return context.getConfiguration();
+	}
+
+	public String getKey() {
+		return Configuration.KEY;
 	}
 }

@@ -40,14 +40,14 @@ import com.trivadis.loganalysis.core.domain.FileDescriptor;
 import com.trivadis.loganalysis.ui.internal.Activator;
 import com.trivadis.loganalysis.ui.internal.Messages;
 
-public class ImportGCLogWizardSelectionPage extends WizardPage implements
+public class ImportGCLogWizardPage extends WizardPage implements
 		ICheckStateListener {
 
 	private static final Object[] EMPTY = new Object[] {};
 	private CheckboxTableViewer listViewer;
 	private final List<IFileDescriptor> files = new ArrayList<IFileDescriptor>();
 
-	public ImportGCLogWizardSelectionPage() {
+	public ImportGCLogWizardPage() {
 		super(Messages.ImportGCLogWizardSelectionPage_0, Messages.ImportGCLogWizardSelectionPage_1,
 				Activator.getDefault().getImageDescriptor("icons/gclog_import.gif")); //$NON-NLS-1$
 		setDescription(Messages.ImportGCLogWizardSelectionPage_3);

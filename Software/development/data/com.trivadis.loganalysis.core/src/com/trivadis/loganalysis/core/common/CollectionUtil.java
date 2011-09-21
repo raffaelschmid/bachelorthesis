@@ -27,6 +27,14 @@ public class CollectionUtil {
 		}
 		return retVal;
 	}
+	
+	public static <I> List<I> flatten(final List<List<I>> in){
+		final List<I> retVal = new ArrayList<I>();
+		for(final List<I> list : in){
+			retVal.addAll(list);
+		}
+		return retVal;
+	}
 
 	public static BigDecimal avg(final List<BigDecimal> list) {
 		return list.size() > 0 ? sum(list).setScale(10, RoundingMode.HALF_UP).divide(new BigDecimal(list.size()),

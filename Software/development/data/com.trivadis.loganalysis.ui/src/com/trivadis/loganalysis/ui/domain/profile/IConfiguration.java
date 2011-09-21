@@ -31,4 +31,6 @@ public interface IConfiguration {
 	void addNewDefaultProfile(String label);
 
 	void removeProfile(IProfile profile);
+
+	String getKey();
 }

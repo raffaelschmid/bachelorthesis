@@ -15,9 +15,9 @@ import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
 public interface IJRockitUiContext {
 
-	IConfiguration getExtension();
+	IConfiguration getConfiguration();
 
-	void setExtension(IConfiguration extension);
+	void setConfiguration(IConfiguration extension);
 
 	IConfigurationFactory getConfigurationFactory();
 
