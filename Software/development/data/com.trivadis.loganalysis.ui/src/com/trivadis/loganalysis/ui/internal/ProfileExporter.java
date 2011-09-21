@@ -33,7 +33,7 @@ public class ProfileExporter implements IProfileExporter {
 		foreach(profiles, new ClosureI<IProfile>() {
 			public void call(final IProfile in) {
 				if(!(in instanceof IStandardProfile))
-					in.getConfiguration().save(memento);
+					in.saveMemento(memento.createChild(in.getConfiguration().getKey()));
 			}
 		});
 		memento.save(sw);

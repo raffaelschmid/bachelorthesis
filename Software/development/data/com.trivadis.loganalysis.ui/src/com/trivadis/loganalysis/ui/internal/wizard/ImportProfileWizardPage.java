@@ -11,6 +11,8 @@
  */
 package com.trivadis.loganalysis.ui.internal.wizard;
 
+import static com.trivadis.loganalysis.core.common.CollectionUtil.findAll;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +99,7 @@ public class ImportProfileWizardPage extends WizardPage implements ICheckStateLi
 
 			@SuppressWarnings("unchecked")
 			public Object[] getElements(final Object inputElement) {
-				return ((List<IProfile>)inputElement).toArray();
+				return ((List<IProfile>) inputElement).toArray();
 			}
 		});
 		listViewer.setLabelProvider(new LabelProvider() {
@@ -146,8 +148,11 @@ public class ImportProfileWizardPage extends WizardPage implements ICheckStateLi
 				final String fn = dlg.open();
 				if (fn != null) {
 					fileName.setText(fn);
-					final List<IProfile> profiles = UiLoganalysis.getProfilesFromFile(fn);
-					listViewer.setInput(profiles);
+					listViewer.setInput(findAll(UiLoganalysis.getProfilesFromFile(fn), new Predicate<IProfile>() {
+						public boolean matches(final IProfile item) {
+							return !(item instanceof IStandardProfile);
+						}
+					}));
 				}
 			}
 		});

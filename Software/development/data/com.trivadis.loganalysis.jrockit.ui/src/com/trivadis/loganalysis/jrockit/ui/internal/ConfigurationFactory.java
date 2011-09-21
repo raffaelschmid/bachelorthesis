@@ -13,11 +13,12 @@ package com.trivadis.loganalysis.jrockit.ui.internal;
 
 import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.findFirst;
+import static com.trivadis.loganalysis.core.common.CollectionUtil.flatten;
 import static com.trivadis.loganalysis.core.common.CollectionUtil.prepend;
 import static java.util.Arrays.asList;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,14 +47,19 @@ public class ConfigurationFactory implements IConfigurationFactory {
 	final Predicate<IAxis> yType = typePredicate(AxisType.Y);
 
 	public IConfiguration loadConfigurationFrom(final IMemento memento) {
-		final IMemento jrockitConfig = (memento != null) ? memento.getChild(Configuration.KEY) : null;
-		final List<IProfile> list = (jrockitConfig != null) ? collect(
-				asList(jrockitConfig.getChildren(Profile.MEMENTO_ELEMENT_NAME)), new ClosureIO<IMemento, IProfile>() {
-					public IProfile call(final IMemento in) {
-						return getProfile(in);
-					}
-				}) : new ArrayList<IProfile>();
-		return new Configuration(prepend(new StandardProfile("Standard Profile"), list));
+		final List<IMemento> configs = (memento != null) ? Arrays.asList(memento.getChildren(Configuration.KEY)) : null;
+
+		final List<IProfile> list = flatten(collect(configs, new ClosureIO<IMemento, List<IProfile>>() {
+			public List<IProfile> call(final IMemento jrockitConfig) {
+				return collect(asList(jrockitConfig.getChildren(Profile.MEMENTO_ELEMENT_NAME)),
+						new ClosureIO<IMemento, IProfile>() {
+							public IProfile call(final IMemento in) {
+								return getProfile(in);
+							}
+						});
+			}
+		}));
+		return new Configuration(prepend(new StandardProfile("Standard Profile"),list));
 	}
 
 	public IProfile getProfile(final IMemento in) {
