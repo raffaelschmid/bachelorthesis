@@ -22,15 +22,17 @@ import java.util.List;
 public class CollectionUtil {
 	public static <I, O> List<O> collect(final List<I> list, final ClosureIO<I, O> closure) {
 		final List<O> retVal = new ArrayList<O>();
-		for (final I item : list) {
-			retVal.add(closure.call(item));
+		if (list != null) {
+			for (final I item : list) {
+				retVal.add(closure.call(item));
+			}
 		}
 		return retVal;
 	}
-	
-	public static <I> List<I> flatten(final List<List<I>> in){
+
+	public static <I> List<I> flatten(final List<List<I>> in) {
 		final List<I> retVal = new ArrayList<I>();
-		for(final List<I> list : in){
+		for (final List<I> list : in) {
 			retVal.addAll(list);
 		}
 		return retVal;
