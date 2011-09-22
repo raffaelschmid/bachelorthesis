@@ -39,7 +39,7 @@ import org.eclipse.ui.PlatformUI;
 
 import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.core.common.Predicate;
-import com.trivadis.loganalysis.ui.UiLoganalysis;
+import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.domain.profile.IStandardProfile;
@@ -64,11 +64,14 @@ public class ExportProfileWizardPage extends WizardPage implements ICheckStateLi
 		}
 	};
 	private Text fileName;
+	private final IUiContext context;
 
-	public ExportProfileWizardPage() {
+	public ExportProfileWizardPage(final IUiContext context) {
 		super("Export Garbage Collection Analysis Profile", "Garbage Collection Analysis Profile", Activator
 				.getDefault().getImageDescriptor("icons/gclog_import.gif")); //$NON-NLS-1$
 		setDescription("Export Garbage Collection Analysis Profiles into a file.");
+		setTitle("Export Garbage Collection Analysis Profile");
+		this.context = context;
 	}
 
 	public void createControl(final Composite parent) {
@@ -100,8 +103,8 @@ public class ExportProfileWizardPage extends WizardPage implements ICheckStateLi
 			}
 
 			public Object[] getElements(final Object inputElement) {
-				return findAll(flatten(collect(UiLoganalysis.getUiContext().getConfigurations(), collectProfiles)),
-						noStandardProfiles).toArray();
+				return findAll(flatten(collect(context.getConfigurations(), collectProfiles)), noStandardProfiles)
+						.toArray();
 			}
 		});
 		listViewer.setLabelProvider(new LabelProvider() {
@@ -112,7 +115,7 @@ public class ExportProfileWizardPage extends WizardPage implements ICheckStateLi
 
 			@Override
 			public Image getImage(final Object element) {
-				return Activator.getDefault().getImage("icons/document.gif"); //$NON-NLS-1$
+				return Activator.getDefault().getImage("icons/profile.gif"); //$NON-NLS-1$
 			}
 
 			@Override

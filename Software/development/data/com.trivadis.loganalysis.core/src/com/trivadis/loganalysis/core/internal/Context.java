@@ -14,10 +14,6 @@ package com.trivadis.loganalysis.core.internal;
 import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.IContext;
 
-/**
- * @author els
- * 
- */
 public class Context implements IContext {
 	private final IContentReader contentReader;
 
@@ -25,9 +21,7 @@ public class Context implements IContext {
 		this.contentReader = new ContentReader();
 	}
 
-	
-	public IContentReader contentReader() {
+	public IContentReader getContentReader() {
 		return this.contentReader;
 	}
-
 }

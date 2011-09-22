@@ -28,9 +28,9 @@ public class ExportProfileWizard extends Wizard implements IExportWizard {
 	private final IProfileExporter exporter;
 
 	public ExportProfileWizard() {
-		this.page = new ExportProfileWizardPage();
-		this.context = UiLoganalysis.getUiContext();
+		this.context = UiLoganalysis.getDefault().getUiContext();
 		this.exporter = context.getProfileExporter();
+		this.page = new ExportProfileWizardPage(context);
 	}
 
 	public void init(final IWorkbench workbench, final IStructuredSelection selection) {

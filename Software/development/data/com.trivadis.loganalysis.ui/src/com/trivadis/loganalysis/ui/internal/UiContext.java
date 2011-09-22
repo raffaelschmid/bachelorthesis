@@ -19,6 +19,7 @@ import java.util.List;
 import com.trivadis.loganalysis.core.common.Assert;
 import com.trivadis.loganalysis.core.common.ClosureI;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
+import com.trivadis.loganalysis.ui.IExtensionFacade;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.common.binding.BindingArrayList;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
@@ -32,11 +33,22 @@ public class UiContext implements IUiContext {
 	private final BindingArrayList<IFileDescriptor> selectedFiles;
 	private IConfiguration selectedConfiguration;
 	private final IProfileExporter exporter;
+	private final IExtensionFacade extensionFacade;
 
 	public UiContext() {
-		this.selectedFiles = new BindingArrayList<IFileDescriptor>(new ArrayList<IFileDescriptor>());
-		this.configurations = new BindingArrayList<IConfiguration>(new ArrayList<IConfiguration>());
-		this.exporter = new ProfileExporter();
+		this(new BindingArrayList<IFileDescriptor>(new ArrayList<IFileDescriptor>()),
+				new BindingArrayList<IConfiguration>(new ArrayList<IConfiguration>()), new ProfileExporter(),
+				new ExtensionFacade());
+	}
+
+	public UiContext(final BindingArrayList<IFileDescriptor> selectedFiles,
+			final BindingArrayList<IConfiguration> configurations, final ProfileExporter exporter,
+			final IExtensionFacade extensionFacade) {
+		this.selectedFiles = selectedFiles;
+		this.configurations = configurations;
+		this.exporter = exporter;
+		this.extensionFacade = extensionFacade;
+
 	}
 
 	public BindingArrayList<IFileDescriptor> getSelectedFiles() {
@@ -105,5 +117,9 @@ public class UiContext implements IUiContext {
 	public IProfileExporter getProfileExporter() {
 		return exporter;
 	}
-	
+
+	public IExtensionFacade getExtensionFacade() {
+		return extensionFacade;
+	}
+
 }

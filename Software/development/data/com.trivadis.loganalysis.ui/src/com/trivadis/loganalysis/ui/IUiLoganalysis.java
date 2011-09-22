@@ -11,23 +11,10 @@
  */
 package com.trivadis.loganalysis.ui;
 
-import org.eclipse.ui.IMemento;
+public interface IUiLoganalysis {
 
-import com.trivadis.loganalysis.core.domain.IJvmRun;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+	public abstract IUiContext getUiContext();
 
-
-public interface IProfileProvider {
-
-	String getKey();
-	
-	boolean knowsJvm(IJvmRun jvm);
-
-	IConfiguration getConfiguration(IMemento memento);
-
-	IConfiguration getConfiguration();
-
-	IConfiguration getConfiguration(IMemento memento, boolean store);
-
+	public abstract IExtensionFacade getExtensionFacade();
 
 }

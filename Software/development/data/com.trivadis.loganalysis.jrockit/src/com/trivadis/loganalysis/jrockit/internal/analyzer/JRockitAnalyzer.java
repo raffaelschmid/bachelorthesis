@@ -34,7 +34,7 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 	private final IModuleProcessor moduleProcessor;
 
 	public JRockitAnalyzer() {
-		this(Loganalysis.contentReader(), new CompositeModuleProcessor(
+		this(Loganalysis.getDefault().contentReader(), new CompositeModuleProcessor(
 				new MemoryLogModuleProcessor()));
 	}
 

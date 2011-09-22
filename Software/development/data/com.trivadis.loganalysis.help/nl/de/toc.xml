@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Garbage Collection Log Analyse" topic="html/overview.html">
-   <topic href="html/overview.html" label="Overview">
-   </topic>
+<toc label="Garbage Collection Log Analyse">
+   <topic href="html/overview.html" label="Overview"/>
    <topic label="Start">
       <anchor id="gettingstarted"/>
    </topic>
-   <topic label="Konzepte">
-      <anchor id="concepts"/>
-   </topic>
+   <topic href="html/about.html" label="About"/>
 </toc>

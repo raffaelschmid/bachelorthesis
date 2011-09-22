@@ -11,75 +11,28 @@
  */
 package com.trivadis.loganalysis.ui;
 
-import static com.trivadis.loganalysis.core.common.CollectionUtil.collect;
-import static com.trivadis.loganalysis.core.common.CollectionUtil.findFirst;
-import static com.trivadis.loganalysis.core.common.CollectionUtil.flatten;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.List;
-
-import org.eclipse.ui.IMemento;
-import org.eclipse.ui.XMLMemento;
-
-import com.trivadis.loganalysis.core.ExtensionPoint;
-import com.trivadis.loganalysis.core.Loganalysis;
-import com.trivadis.loganalysis.core.common.ClosureIO;
-import com.trivadis.loganalysis.core.common.Predicate;
-import com.trivadis.loganalysis.core.domain.IJvmRun;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
-import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.internal.UiContext;
 
-public class UiLoganalysis {
-	private static final String ELEMENT_NAME = "profileprovider";
+public class UiLoganalysis implements IUiLoganalysis {
+	private final IUiContext context;
 
 	private static class Holder {
-		private static IUiContext INSTANCE = new UiContext();
+		private static IUiLoganalysis INSTANCE = new UiLoganalysis(new UiContext());
 	}
 
-	public static IUiContext getUiContext() {
+	public static IUiLoganalysis getDefault() {
 		return Holder.INSTANCE;
 	}
 
-	public static List<IConfiguration> getConfigurations() {
-		return getConfigurations(null);
+	public UiLoganalysis(final UiContext context) {
+		this.context = context;
 	}
 
-	public static List<IConfiguration> getConfigurations(final IMemento memento) {
-		final List<IProfileProvider> findExtensionInstances = Loganalysis.findExtensionInstances(
-				ExtensionPoint.PROVIDER, ELEMENT_NAME);
-		return collect(findExtensionInstances, new ClosureIO<IProfileProvider, IConfiguration>() {
-			public IConfiguration call(final IProfileProvider in) {
-				return in.getConfiguration(memento);
-			}
-		});
+	public IUiContext getUiContext() {
+		return context;
 	}
 
-	public static IConfiguration getConfigurationForJvm(final IJvmRun jvm) {
-		final List<IProfileProvider> findExtensionInstances = Loganalysis.findExtensionInstances(
-				ExtensionPoint.PROVIDER, ELEMENT_NAME);
-		return findFirst(findExtensionInstances, new Predicate<IProfileProvider>() {
-			public boolean matches(final IProfileProvider profileProvider) {
-				return profileProvider.knowsJvm(jvm);
-			}
-		}).getConfiguration();
-	}
-
-	public static List<IProfile> getProfilesFromFile(final String fn) {
-		final List<IProfileProvider> extensions = Loganalysis.findExtensionInstances(ExtensionPoint.PROVIDER,
-				ELEMENT_NAME);
-		return flatten(collect(extensions, new ClosureIO<IProfileProvider, List<IProfile>>() {
-			public List<IProfile> call(final IProfileProvider profileProvider) {
-				try {
-					return profileProvider.getConfiguration(
-							XMLMemento.createReadRoot(new BufferedReader(new FileReader(new File(fn)))), false)
-							.getProfiles();
-				} catch (final Exception e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}));
+	public IExtensionFacade getExtensionFacade() {
+		return context.getExtensionFacade();
 	}
 }

@@ -56,7 +56,7 @@ public class LogFilesView extends ViewPart implements IListChangeListener, ISele
 	private final IUiContext context;
 
 	public LogFilesView() {
-		this(UiLoganalysis.getUiContext());
+		this(UiLoganalysis.getDefault().getUiContext());
 	}
 
 	public LogFilesView(final IUiContext context) {
@@ -92,7 +92,7 @@ public class LogFilesView extends ViewPart implements IListChangeListener, ISele
 
 		@Override
 		public Image getImage(final Object obj) {
-			return Activator.getDefault().getImageDescriptor("icons/chart.gif").createImage();
+			return Activator.getDefault().getImageDescriptor("icons/gclog.gif").createImage();
 		}
 	}
 

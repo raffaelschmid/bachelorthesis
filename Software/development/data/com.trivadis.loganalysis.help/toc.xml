@@ -2,9 +2,9 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="Garbage Collection Log Analysis">
-   <topic href="html/overview.html" label="Overview">
-   </topic>
+   <topic href="html/overview.html" label="Overview"/>
    <topic label="Start">
       <anchor id="gettingstarted"/>
    </topic>
+   <topic href="html/about.html" label="About"/>
 </toc>

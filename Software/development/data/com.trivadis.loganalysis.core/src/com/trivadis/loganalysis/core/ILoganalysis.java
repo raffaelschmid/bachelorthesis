@@ -9,25 +9,17 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.ui;
+package com.trivadis.loganalysis.core;
 
-import org.eclipse.ui.IMemento;
-
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.core.domain.IJvmRun;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 
+public interface ILoganalysis {
 
-public interface IProfileProvider {
+	public abstract IContext getContext();
 
-	String getKey();
-	
-	boolean knowsJvm(IJvmRun jvm);
+	public abstract IContentReader contentReader();
 
-	IConfiguration getConfiguration(IMemento memento);
-
-	IConfiguration getConfiguration();
-
-	IConfiguration getConfiguration(IMemento memento, boolean store);
-
+	public abstract IAnalyzer<IJvmRun> fileProcessor(final IFileDescriptor fileDescriptor);
 
 }

@@ -46,15 +46,8 @@ public class ProfileProviderTest {
 	private final IProfileProvider instance = new ProfileProvider();
 
 	@Test
-	public void test_saveMementoList() throws Exception {
-		instance.saveConfiguration(memento(), configuration());
-	}
-
-	@Test
 	public void test_loadMemento_list() {
 		final IMemento memento = memento();
-		instance.saveConfiguration(memento, configuration());
-
 		instance.getConfiguration(memento);
 		final IConfiguration retVal = instance.getConfiguration();
 		assertNotNull(retVal);

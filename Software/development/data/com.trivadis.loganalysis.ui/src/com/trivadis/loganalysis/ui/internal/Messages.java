@@ -23,7 +23,6 @@ public class Messages extends NLS {
 	public static String DashboardEditor_Section_General;
 	public static String DashboardEditorPageOverview_5;
 	public static String DashboardEditorPageOverview_8;
-	public static String DashboardEditorPageOverview_9;
 	public static String DeleteFileDialog_0;
 	public static String DeleteFileDialog_1;
 	public static String DeleteFileDialog_3;

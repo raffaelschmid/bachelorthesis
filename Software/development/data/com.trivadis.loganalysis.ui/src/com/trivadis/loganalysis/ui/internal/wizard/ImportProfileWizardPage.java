@@ -35,10 +35,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-import com.trivadis.loganalysis.core.common.ClosureIO;
 import com.trivadis.loganalysis.core.common.Predicate;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
-import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.domain.profile.IStandardProfile;
 import com.trivadis.loganalysis.ui.internal.Activator;
@@ -51,16 +49,6 @@ public class ImportProfileWizardPage extends WizardPage implements ICheckStateLi
 	private CheckboxTableViewer listViewer;
 	private final List<IProfile> profiles = new ArrayList<IProfile>();
 
-	private final Predicate<IProfile> noStandardProfiles = new Predicate<IProfile>() {
-		public boolean matches(final IProfile item) {
-			return !(item instanceof IStandardProfile);
-		}
-	};
-	private final ClosureIO<IConfiguration, List<IProfile>> collectProfiles = new ClosureIO<IConfiguration, List<IProfile>>() {
-		public List<IProfile> call(final IConfiguration in) {
-			return in.getProfiles();
-		}
-	};
 	private Text fileName;
 
 	public ImportProfileWizardPage() {
@@ -110,7 +98,7 @@ public class ImportProfileWizardPage extends WizardPage implements ICheckStateLi
 
 			@Override
 			public Image getImage(final Object element) {
-				return Activator.getDefault().getImage("icons/document.gif"); //$NON-NLS-1$
+				return Activator.getDefault().getImage("icons/profile.gif"); //$NON-NLS-1$
 			}
 
 			@Override
@@ -148,11 +136,13 @@ public class ImportProfileWizardPage extends WizardPage implements ICheckStateLi
 				final String fn = dlg.open();
 				if (fn != null) {
 					fileName.setText(fn);
-					listViewer.setInput(findAll(UiLoganalysis.getProfilesFromFile(fn), new Predicate<IProfile>() {
-						public boolean matches(final IProfile item) {
-							return !(item instanceof IStandardProfile);
-						}
-					}));
+					listViewer.setInput(findAll(
+							UiLoganalysis.getDefault().getExtensionFacade().getProfilesFromFile(fn),
+							new Predicate<IProfile>() {
+								public boolean matches(final IProfile item) {
+									return !(item instanceof IStandardProfile);
+								}
+							}));
 				}
 			}
 		});

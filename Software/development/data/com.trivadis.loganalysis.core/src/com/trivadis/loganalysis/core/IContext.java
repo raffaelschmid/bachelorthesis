@@ -13,6 +13,6 @@ package com.trivadis.loganalysis.core;
 
 public interface IContext {
 
-	IContentReader contentReader();
+	IContentReader getContentReader();
 
 }

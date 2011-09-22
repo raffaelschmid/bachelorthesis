@@ -43,4 +43,6 @@ public interface IUiContext {
 	IConfiguration getSelectedConfiguration();
 
 	IProfileExporter getProfileExporter();
+
+	IExtensionFacade getExtensionFacade();
 }

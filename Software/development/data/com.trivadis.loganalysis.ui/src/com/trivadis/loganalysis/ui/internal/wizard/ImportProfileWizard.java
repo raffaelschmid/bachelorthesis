@@ -33,8 +33,12 @@ public class ImportProfileWizard extends Wizard implements IExportWizard {
 	private final IUiContext context;
 
 	public ImportProfileWizard() {
-		this.page = new ImportProfileWizardPage();
-		this.context = UiLoganalysis.getUiContext();
+		this(new ImportProfileWizardPage(), UiLoganalysis.getDefault().getUiContext());
+	}
+
+	public ImportProfileWizard(final ImportProfileWizardPage page, final IUiContext context) {
+		this.page = page;
+		this.context = context;
 	}
 
 	public void init(final IWorkbench workbench, final IStructuredSelection selection) {

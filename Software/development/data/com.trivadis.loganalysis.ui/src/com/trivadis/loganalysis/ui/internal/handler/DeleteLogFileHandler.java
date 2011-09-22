@@ -31,23 +31,23 @@ public class DeleteLogFileHandler extends AbstractHandler {
 	private final IUiContext context;
 
 	public DeleteLogFileHandler() {
-		this(UiLoganalysis.getUiContext());
+		this(UiLoganalysis.getDefault().getUiContext());
 	}
 
-	public DeleteLogFileHandler(IUiContext context) {
+	public DeleteLogFileHandler(final IUiContext context) {
 		this.context = context;
 	}
 
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		ISelection selected = PlatformUI.getWorkbench()
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
+		final ISelection selected = PlatformUI.getWorkbench()
 				.getActiveWorkbenchWindow().getSelectionService()
 				.getSelection();
 		if (!selected.isEmpty() && selected instanceof IStructuredSelection) {
-			Object selectedObject = ((IStructuredSelection) selected)
+			final Object selectedObject = ((IStructuredSelection) selected)
 					.getFirstElement();
 			if (selectedObject instanceof IFileDescriptor) {
-				IFileDescriptor file = (IFileDescriptor) selectedObject;
-				DeleteFileDialog dialog = new DeleteFileDialog(file,
+				final IFileDescriptor file = (IFileDescriptor) selectedObject;
+				final DeleteFileDialog dialog = new DeleteFileDialog(file,
 						HandlerUtil.getActiveWorkbenchWindow(event).getShell());
 				if (isOk(dialog.open())) {
 					removeFileFromView(file);
@@ -60,20 +60,20 @@ public class DeleteLogFileHandler extends AbstractHandler {
 		return null;
 	}
 
-	private void removeFileFromView(IFileDescriptor file) {
+	private void removeFileFromView(final IFileDescriptor file) {
 		context.remove(file);
 	}
 
-	private boolean removeFileFromDisk(IFileDescriptor fileDescriptor) {
-		File file = fileDescriptor.toFile();
-		boolean delete = !file.isDirectory();
+	private boolean removeFileFromDisk(final IFileDescriptor fileDescriptor) {
+		final File file = fileDescriptor.toFile();
+		final boolean delete = !file.isDirectory();
 		if (delete) {
 			file.delete();
 		}
 		return delete;
 	}
 
-	private boolean isOk(int code) {
+	private boolean isOk(final int code) {
 		return code == DeleteFileDialog.OK;
 	}
 }

@@ -30,4 +30,8 @@ public class Help {
 	public void register(final Composite component, final String contextId) {
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(component, contextId);
 	}
+	
+	public void displayHelpResource(final String href){
+		PlatformUI.getWorkbench().getHelpSystem().displayHelpResource(href);
+	}
 }

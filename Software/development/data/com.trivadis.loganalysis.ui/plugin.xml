@@ -10,7 +10,7 @@
       </category>
       <view
             name="%view.logfiles.name"
-            icon="icons/overview.gif"
+            icon="icons/gclogs_view.gif"
             category="com.trivadis.loganalysis.ui"
             class="com.trivadis.loganalysis.ui.internal.view.LogFilesView"
             id="com.trivadis.loganalysis.ui.internal.view.LogFilesView">
@@ -30,7 +30,7 @@
             class="com.trivadis.loganalysis.ui.internal.editor.intro.DashboardEditor"
             contributorClass="com.trivadis.loganalysis.ui.internal.editor.intro.DashboardEditorContribution"
             extensions="gclogx"
-            icon="icons/chart.gif"
+            icon="icons/gclog.gif"
             id="com.trivadis.loganalysis.ui.internal.editor.intro.DashboardEditor"
             name="%editor.name">
       </editor>
@@ -39,7 +39,7 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             class="com.trivadis.loganalysis.ui.internal.perspective.GarbageCollectionAnalysisPerspective"
-            icon="icons/chart.gif"
+            icon="icons/gclog.gif"
             id="com.trivadis.loganalysis.ui.internal.perspective.GarbageCollectionAnalysisPerspective"
             name="%perspective.name">
       </perspective>
@@ -138,24 +138,25 @@
             name="%category.wizard.gc">
       </category>
       <wizard
-            category="com.trivadis.loganalysis.ui.internal.wizard.sampleCategory"
+            category="com.trivadis.loganalysis.ui.wizard.import"
             class="com.trivadis.loganalysis.ui.internal.wizard.ImportGCLogWizard"
-            icon="icons/new_document.gif"
+            icon="icons/gclog_add.gif"
             id="com.trivadis.loganalysis.ui.internal.wizard.ImportGCLogWizard"
             name="%wizard.name">
+      </wizard>
+       <wizard
+             category="com.trivadis.loganalysis.ui.wizard.import"
+             class="com.trivadis.loganalysis.ui.internal.wizard.ImportProfileWizard"
+             icon="icons/profile.gif"
+             id="com.trivadis.loganalysis.ui.wizard.import.profile"
+             name="Import Profile">
       </wizard>
    </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
+            allPopups="false"
             locationURI="popup:com.trivadis.loganalysis.ui.internal.view.LogFilesView?after=additions">
-         <command
-               commandId="com.trivadis.loganalysis.ui.openImportDialog"
-               disabledIcon="icons/chart.gif"
-               icon="icons/chart.gif"
-               label="%wizard.name"
-               style="push">
-         </command>
          <command
                commandId="com.trivadis.loganalysis.ui.deleteLogFile"
                disabledIcon="IMG_TOOL_DELETE_DISABLED"
@@ -170,14 +171,21 @@
             </with>
         </visibleWhen>
          </command>
+         <command
+               commandId="com.trivadis.loganalysis.ui.openImportDialog"
+               icon="icons/import.gif"
+               label="%wizard.name"
+               style="push">
+         </command>
       </menuContribution>
       <menuContribution
-        locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
        	<toolbar id="com.trivadis.loganalyzer.toolbar">
             <command
             	label="%command.label"
                 commandId="com.trivadis.loganalysis.ui.openDashboard"
-                icon="icons/chart.gif"
+                icon="icons/gclog.gif"
                 style="push">
             </command>
         </toolbar>
@@ -185,12 +193,6 @@
       <menuContribution
             allPopups="false"
             locationURI="popup:com.trivadis.loganalysis.ui.internal.view.ProfilesView?after=additions">
-         <command
-               commandId="com.trivadis.loganalysis.ui.createProfile"
-               icon="icons/profile.gif"
-               label="Create Profile"
-               style="push">
-         </command>
          <command
                commandId="com.trivadis.loganalysis.ui.deleteProfile"
                icon="IMG_TOOL_DELETE"
@@ -209,10 +211,18 @@
             </visibleWhen>
          </command>
          <command
-               commandId="com.trivadis.loganalysis.ui.exportProfile">
+               commandId="com.trivadis.loganalysis.ui.createProfile"
+               icon="icons/profile.gif"
+               label="Create Profile"
+               style="push">
+         </command>
+         <command
+               commandId="com.trivadis.loganalysis.ui.exportProfile"
+               icon="icons/export.gif">
          </command>
          <command
                commandId="com.trivadis.loganalysis.ui.importProfile"
+               icon="icons/import.gif"
                style="push">
          </command>
       </menuContribution>
@@ -240,21 +250,11 @@
             name="Garbage Collection">
       </category>
       <wizard
+            category="com.trivadis.loganalysis.ui.wizard.export"
             class="com.trivadis.loganalysis.ui.internal.wizard.ExportProfileWizard"
+            icon="icons/profile.gif"
             id="com.trivadis.loganalysis.ui.wizard.export.profile"
             name="Export Profile">
-      </wizard>
-   </extension>
-   <extension
-         point="org.eclipse.ui.importWizards">
-      <category
-            id="com.trivadis.loganalysis.ui.wizard.import"
-            name="Garbage Collection">
-      </category>
-      <wizard
-            class="com.trivadis.loganalysis.ui.internal.wizard.ImportProfileWizard"
-            id="com.trivadis.loganalysis.ui.wizard.import.profile"
-            name="Import Profile">
       </wizard>
    </extension>
 </plugin>

@@ -2,8 +2,7 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="JRockit Garbage Collection Log Analysis">
-   <topic href="html/overview.html" label="Overview">
-   </topic>
+   <topic href="html/overview.html" label="Overview"/>
    <topic label="Concepts">
       <anchor id="concepts"/>
    </topic>

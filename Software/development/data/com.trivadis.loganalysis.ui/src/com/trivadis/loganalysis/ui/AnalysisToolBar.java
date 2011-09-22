@@ -33,8 +33,8 @@ import com.trivadis.loganalysis.ui.internal.Activator;
 
 public class AnalysisToolBar {
 	private static AtomicInteger sequence = new AtomicInteger();
-	private static final String CHART_ICON_ADD = "icons/chart_add.gif";
-	private static final String CHART_ICON_REMOVE = "icons/chart_remove.gif";
+	private static final String CHART_ICON_ADD = "icons/gclog_add.gif";
+	private static final String CHART_ICON_REMOVE = "icons/gclog_remove.gif";
 
 	public AnalysisToolBar(final IManagedForm managedForm, final IProfile profile, final IChart chart) {
 		boolean first = true;

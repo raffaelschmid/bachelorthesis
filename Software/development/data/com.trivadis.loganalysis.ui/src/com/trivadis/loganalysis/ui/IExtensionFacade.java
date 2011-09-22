@@ -11,23 +11,22 @@
  */
 package com.trivadis.loganalysis.ui;
 
+import java.util.List;
+
 import org.eclipse.ui.IMemento;
 
 import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
+import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 
+public interface IExtensionFacade {
 
-public interface IProfileProvider {
+	List<IProfile> getProfilesFromFile(String fileName);
 
-	String getKey();
-	
-	boolean knowsJvm(IJvmRun jvm);
+	IConfiguration getConfigurationForJvm(IJvmRun jvm);
 
-	IConfiguration getConfiguration(IMemento memento);
+	List<IConfiguration> getConfigurations(IMemento memento);
 
-	IConfiguration getConfiguration();
-
-	IConfiguration getConfiguration(IMemento memento, boolean store);
-
+	List<IConfiguration> getConfigurations();
 
 }

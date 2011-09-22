@@ -46,10 +46,6 @@ public class ProfileProvider implements IProfileProvider {
 		return configurationFactory.getProfile(memento);
 	}
 
-	public void saveConfiguration(final IMemento parent, final IConfiguration configuration) {
-		configuration.save(parent);
-	}
-
 	public IConfiguration getConfiguration(final IMemento memento) {
 		return getConfiguration(memento, true);
 	}

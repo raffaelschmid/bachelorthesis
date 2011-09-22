@@ -67,14 +67,8 @@ public abstract class GridFormPage extends FormPage {
 	}
 
 	protected Composite createGridSection(final IManagedForm mform, final String title, final String desc,
-			final int numColumns, final int widthHint, final int heightHint, final boolean expanded) {
-		return createGridSection(mform, title, desc, numColumns, widthHint, heightHint, expanded, null);
-	}
-
-	protected Composite createGridSection(final IManagedForm mform, final String title, final String desc,
 			final int numColumns, final int widthHint, final int heightHint, final boolean expanded,
 			final IExpansionListener listener) {
-
 		final ScrolledForm form = mform.getForm();
 		final FormToolkit toolkit = mform.getToolkit();
 		final Section section = toolkit.createSection(form.getBody(), Section.TWISTIE | Section.TITLE_BAR
@@ -93,10 +87,8 @@ public abstract class GridFormPage extends FormPage {
 		section.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(final ExpansionEvent e) {
-				form.reflow(true);
 				if (listener != null)
 					listener.expansionStateChanged(e);
-
 			}
 		});
 		return client;
@@ -104,8 +96,9 @@ public abstract class GridFormPage extends FormPage {
 
 	protected Composite createGridSection(final IManagedForm form, final String title, final String desc,
 			final int numCol, final boolean expanded) {
-		return createGridSection(form, title, desc, numCol, SWT.DEFAULT, SWT.DEFAULT, expanded);
+		return createGridSection(form, title, desc, numCol, SWT.DEFAULT, SWT.DEFAULT, expanded, null);
 	}
+
 
 	protected Composite createGridSection(final IManagedForm form, final String title, final String desc,
 			final int numCol, final boolean expanded, final IExpansionListener listener) {

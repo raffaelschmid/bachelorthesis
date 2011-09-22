@@ -35,8 +35,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.core.domain.FileDescriptor;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.ui.internal.Activator;
 import com.trivadis.loganalysis.ui.internal.Messages;
 
@@ -53,9 +53,9 @@ public class ImportGCLogWizardPage extends WizardPage implements
 		setDescription(Messages.ImportGCLogWizardSelectionPage_3);
 	}
 
-	public void createControl(Composite parent) {
+	public void createControl(final Composite parent) {
 		initializeDialogUnits(parent);
-		Composite topLevel = new Composite(parent, SWT.NONE);
+		final Composite topLevel = new Composite(parent, SWT.NONE);
 		topLevel.setLayout(new GridLayout());
 		topLevel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL
 				| GridData.HORIZONTAL_ALIGN_FILL));
@@ -69,36 +69,36 @@ public class ImportGCLogWizardPage extends WizardPage implements
 		setControl(topLevel);
 	}
 
-	private void createSourceGroup(Composite parent) {
-		Composite directorySelection = new Composite(parent, SWT.NONE);
+	private void createSourceGroup(final Composite parent) {
+		final Composite directorySelection = new Composite(parent, SWT.NONE);
 		directorySelection.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 				| GridData.FILL_HORIZONTAL));
 		directorySelection.setLayout(fileSelectionLayout());
 		addDirectoryFieldEditor(directorySelection);
 	}
 
-	final void createDestinationGroup(Composite parent) {
+	final void createDestinationGroup(final Composite parent) {
 		listViewer = CheckboxTableViewer.newCheckList(parent, SWT.BORDER);
-		GridData data = new GridData(GridData.FILL_BOTH);
+		final GridData data = new GridData(GridData.FILL_BOTH);
 		listViewer.getTable().setLayoutData(data);
 		listViewer.getTable().setFont(parent.getFont());
 		listViewer.setContentProvider(new IStructuredContentProvider() {
 
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
+			public void inputChanged(final Viewer viewer, final Object oldInput,
+					final Object newInput) {
 			}
 
 			public void dispose() {
 			}
 
-			public Object[] getElements(Object inputElement) {
-				Object[] retVal = EMPTY;
+			public Object[] getElements(final Object inputElement) {
+				final Object[] retVal = EMPTY;
 				if (inputElement instanceof IPath) {
-					IPath path = (IPath) inputElement;
-					File file = path.toFile();
+					final IPath path = (IPath) inputElement;
+					final File file = path.toFile();
 					if (file.isDirectory()) {
 						return file.listFiles(new FileFilter() {
-							public boolean accept(File pathName) {
+							public boolean accept(final File pathName) {
 								return pathName.isFile();
 							}
 						});
@@ -108,25 +108,25 @@ public class ImportGCLogWizardPage extends WizardPage implements
 			}
 		});
 		listViewer.setLabelProvider(new ILabelProvider() {
-			public void addListener(ILabelProviderListener listener) {
+			public void addListener(final ILabelProviderListener listener) {
 			}
 
 			public void dispose() {
 			}
 
-			public boolean isLabelProperty(Object element, String property) {
+			public boolean isLabelProperty(final Object element, final String property) {
 				return false;
 			}
 
-			public void removeListener(ILabelProviderListener listener) {
+			public void removeListener(final ILabelProviderListener listener) {
 
 			}
 
-			public Image getImage(Object element) {
-				return Activator.getDefault().getImage("icons/document.gif"); //$NON-NLS-1$
+			public Image getImage(final Object element) {
+				return Activator.getDefault().getImage("icons/profile.gif"); //$NON-NLS-1$
 			}
 
-			public String getText(Object element) {
+			public String getText(final Object element) {
 				return element.toString();
 			}
 
@@ -135,20 +135,20 @@ public class ImportGCLogWizardPage extends WizardPage implements
 
 	}
 
-	private void addDirectoryFieldEditor(Composite directorySelection) {
+	private void addDirectoryFieldEditor(final Composite directorySelection) {
 		final DirectoryFieldEditor directory = new DirectoryFieldEditor(
 				"fileSelect", Messages.ImportGCLogWizardSelectionPage_6, directorySelection); //$NON-NLS-1$
 		directory.getTextControl(directorySelection).addModifyListener(
 				new ModifyListener() {
-					public void modifyText(ModifyEvent e) {
-						IPath path = new Path(directory.getStringValue());
+					public void modifyText(final ModifyEvent e) {
+						final IPath path = new Path(directory.getStringValue());
 						listViewer.setInput(path);
 					}
 				});
 	}
 
 	private GridLayout fileSelectionLayout() {
-		GridLayout fileSelectionLayout = new GridLayout();
+		final GridLayout fileSelectionLayout = new GridLayout();
 		fileSelectionLayout.numColumns = 3;
 		fileSelectionLayout.makeColumnsEqualWidth = false;
 		fileSelectionLayout.marginWidth = 0;
@@ -156,9 +156,9 @@ public class ImportGCLogWizardPage extends WizardPage implements
 		return fileSelectionLayout;
 	}
 
-	public void checkStateChanged(CheckStateChangedEvent event) {
+	public void checkStateChanged(final CheckStateChangedEvent event) {
 		if (event.getElement() instanceof File) {
-			File file = (File) event.getElement();
+			final File file = (File) event.getElement();
 			if (event.getChecked() && !getFiles().contains(file)) {
 				files.add(FileDescriptor.fromFile(file));
 			} else if (!event.getChecked() && getFiles().contains(file)) {

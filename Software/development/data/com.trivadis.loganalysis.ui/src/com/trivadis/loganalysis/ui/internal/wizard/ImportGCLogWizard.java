@@ -19,6 +19,7 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
+import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
 import com.trivadis.loganalysis.ui.internal.Messages;
 import com.trivadis.loganalysis.ui.internal.Perspective;
@@ -32,12 +33,15 @@ public class ImportGCLogWizard extends Wizard implements IImportWizard {
 
 	private final ImportGCLogWizardPage page;
 
+	private final IUiContext context;
+
 	public ImportGCLogWizard() {
-		this(new ImportGCLogWizardPage());
+		this(new ImportGCLogWizardPage(), UiLoganalysis.getDefault().getUiContext());
 	}
 
-	ImportGCLogWizard(ImportGCLogWizardPage page) {
+	public ImportGCLogWizard(final ImportGCLogWizardPage page, final IUiContext context) {
 		this.page = page;
+		this.context = context;
 	}
 
 	@Override
@@ -48,13 +52,13 @@ public class ImportGCLogWizard extends Wizard implements IImportWizard {
 		return true;
 	}
 
-	public void importFiles(List<IFileDescriptor> files) {
-		for (IFileDescriptor file : files) {
-			UiLoganalysis.getUiContext().addSelectedFile(file);
+	public void importFiles(final List<IFileDescriptor> files) {
+		for (final IFileDescriptor file : files) {
+			context.addSelectedFile(file);
 		}
 	}
 
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
+	public void init(final IWorkbench workbench, final IStructuredSelection selection) {
 		setWindowTitle(Messages.ImportGCLogWizard_4); // NON-NLS-1
 		setNeedsProgressMonitor(true);
 	}

@@ -23,6 +23,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.trivadis.loganalysis.core.IAnalyzer;
+import com.trivadis.loganalysis.core.ILoganalysis;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.Progress;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
@@ -39,13 +40,15 @@ import com.trivadis.loganalysis.ui.internal.Messages;
 public class OpenAnalysisHandler extends AbstractHandler {
 
 	private final IUiContext context;
+	private final ILoganalysis loganalysis;
 
 	public OpenAnalysisHandler() {
-		this(UiLoganalysis.getUiContext());
+		this(Loganalysis.getDefault(),UiLoganalysis.getDefault().getUiContext());
 	}
 
-	public OpenAnalysisHandler(final IUiContext context) {
+	public OpenAnalysisHandler(final ILoganalysis loganalysis, final IUiContext context) {
 		this.context = context;
+		this.loganalysis = loganalysis;
 	}
 
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
@@ -77,7 +80,7 @@ public class OpenAnalysisHandler extends AbstractHandler {
 			final IProfile profile) {
 		try {
 			final IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-			final IAnalyzer<IJvmRun> analyzer = Loganalysis.fileProcessor(logFileDescriptor);
+			final IAnalyzer<IJvmRun> analyzer = loganalysis.fileProcessor(logFileDescriptor);
 			if (analyzer != null) {
 				showAnalysis(logFileDescriptor, page, analyzer, profile);
 			} else {
@@ -98,7 +101,7 @@ public class OpenAnalysisHandler extends AbstractHandler {
 							Messages.OpenGcLoganalysis_progress_message));
 				}
 			});
-			page.openEditor(new EditorInput(jvm, profile != null ? profile : UiLoganalysis.getConfigurationForJvm(jvm)
+			page.openEditor(new EditorInput(jvm, profile != null ? profile : UiLoganalysis.getDefault().getExtensionFacade().getConfigurationForJvm(jvm)
 					.getDefaultProfile()), analyzer.getEditorId());
 		} catch (final Exception e) {
 			e.printStackTrace();

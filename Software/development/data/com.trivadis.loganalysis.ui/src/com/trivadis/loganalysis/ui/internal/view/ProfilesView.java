@@ -57,7 +57,7 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 	private final Help help;
 
 	public ProfilesView() {
-		this(UiLoganalysis.getUiContext(), Help.getDefault());
+		this(UiLoganalysis.getDefault().getUiContext(), Help.getDefault());
 	}
 
 	public ProfilesView(final IUiContext context, final Help help) {
@@ -137,7 +137,7 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 	@Override
 	public void init(final IViewSite site, final IMemento memento) throws PartInitException {
 		super.init(site, memento);
-		context.addConfigurations(UiLoganalysis.getConfigurations(memento));
+		context.addConfigurations(UiLoganalysis.getDefault().getExtensionFacade().getConfigurations(memento));
 		context.getConfigurations().addChangeListener(this); // data binding
 		for (final IConfiguration configuration : context.getConfigurations()) {
 			configuration.getProfiles().addChangeListener(this);
