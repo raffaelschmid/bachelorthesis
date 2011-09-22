@@ -1,238 +1,63 @@
-\subsection{Use Cases Entwickler}
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-  \caption{Use-Case: Software installieren}\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-01\\\hline
-   Name & Software installieren\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: mittel\\\hline
-   Kritikalität & Hoch\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann das Plugin\footnote{mit Plugin ist die Garbage Collection Analysesoftware gemeint} in seiner Entwicklungsumgebung via Eingabe einer Update-Seite installieren.\\\hline
-   Auslösendes Ereignis & Anwender möchte die Auswertung einer Garbage Collection Log Datei machen.\\\hline
-   Akteure & Anwender\footnote{Anwender kann sowohl Performance Engineer oder Java Entwickler sein}, Update-Server\\\hline
-   Vorbedingung & Richtige Entwicklungsumgebung ist bereits installiert. Anwender ist noch nicht im Besitz des Plugins.\\\hline
-   Nachbedingung & Anwender hat Plugin fertig installiert.\\\hline
-   Ergebnis & Entwicklungsumgebung ist bereit für Garbage Collection Auswertungen der JRockit Garbage Collection Log Dateien.\\\hline
-   Hauptszenario & 
-         \begin{enumerate}
-		\item Anwender Startet Entwicklungsumgebung
-		\item Anwender gibt Update-Seite an
-		\item Anwender selektiert zu installierendes Packet
-		\item Plugin wird installiert	
- 	\end{enumerate}
-	\\\hline
-   Alternativszenarien & Anwender installiert Plugin aus lokalem Dateisystem\\\hline
-   Ausnahmeszenarien & -\\\hline
-   Qualitäten & QA-01 (Installierbarkeit)\\\hline
-\end{longtable}
+\begin{landscape}
+\section{Funktionale Anforderungen}
+Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich die abschliessende Liste der funktionalen Anforderungen:
+\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{6cm}|p{1.6cm}|p{3cm}|p{0.9cm}|}
+    \caption{Funktionale Anforderungen}\\\hline
+   \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Use Case} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
+   FRQ-A01 & 1.0 & Installation & Software muss als Erweiterung in der Entwicklungsumgebung\footnote{Die Wahl der Entwicklungsumgebung respektive des Frameworks befindet sich im Abschnitt \titleref{selection_rcp_fw}.} installiert werden können.  & UC-A01 & Entwickler mit durchschnittlichen Kenntnissen benötigt dafür weniger Zeit als 5 Minuten. & hoch  \\\hline
 
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Software updaten}\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-02\\\hline
-   Name & Software updaten\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: mittel\\\hline
-   Kritikalität & Mittel\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann das Plugin updaten.\\\hline
-   Auslösendes Ereignis & Anwender hat das Plugin bereis zu einem früheren Zeitpunkt installiert. Sofern ein neues Update dieses Plugins vorhanden ist, möchte er dieses installieren.\\\hline
-   Akteure & Anwender, Update-Server\\\hline
-   Vorbedingung & Richtige Entwicklungsumgebung und Garbage Collection Log Analysis Plugin ist bereits in einer früheren Version installiert.\\\hline
-   Nachbedingung & Plugin ist auf dem neusten Stand.\\\hline
-   Ergebnis & Entwicklungsumgebung und Plugin sind auf dem neusten Stand für Garbage Collection Auswertungen.\\\hline
-   Hauptszenario & 
-	\begin{enumerate}
-		\item Anwender Startet Entwicklungsumgebung
-		\item Anwender sucht nach neuen Updates
-		\item Anwendung findet neue Updates
-		\item Anwender selektiert Packete die er updaten möchte
-		\item Plugin wird aktualisiert
-	\end{enumerate}
-	\\\hline
-   Alternativszenarien & Anwender updated Plugin aus lokalem Dateisystem\\\hline
-   Ausnahmeszenarien & -\\\hline
-   Qualitäten & QA-01 (Installierbarkeit)\\\hline
-\end{longtable}
+   FRQ-A02 & 1.0 & Updaten & Die Software kann mit geringem Aufwand aktualisiert werden. & UC-A02 & Entwickler mit durchschnittlichen Kenntnissen benötigt dafür weniger als Zeit als 2 Minuten. & mittel  \\\hline
 
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Garbage Collection Log Datei importieren}\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-03\\\hline
-   Name & Garbage Collection Log Datei importieren\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
-   Kritikalität & Hoch\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann eine sich auf seinem Rechner befindende Garbage Collection Log Datei importierten.\\\hline
-   Auslösendes Ereignis & Anwender möchte Auswertung starten.\\\hline
-   Akteure & Anwender, Log Datei Prozessor\\\hline
-   Vorbedingung & Log Datei befindet sich auf dem Rechner und ist in einem der unterstützten Formate. Garbage Collection Log Analysis Plugin ist vollständig installiert. Entwicklungsumgebung ist gestartet.\\\hline
-   Nachbedingung & \\\hline
-   Ergebnis & Die Log Datei befindet sich im Memory und steht für die Auswertung (Charts, Reports) dem Benutzer zur Verfügung.\\\hline
-   Hauptszenario & 
-	\begin{enumerate}
-		\item Anwender öffnet Import-Dialog
-		\item Anwender navigiert zur Datei
-		\item Anwender startet Import-Prozess
-	\end{enumerate}
-	\\\hline
-   Alternativszenarien & -\\\hline
-   Ausnahmeszenarien & -\\\hline
-   Qualitäten & -\\\hline
-\end{longtable}
+  FRQ-A03 & 1.0 & Garbage Collection Log Datei importieren & Garbage Collection Log Datein der JRockit Virtual Machine R28 können importiert werden und stehen zur Analyse bereit. & UC-A03 & Der Importprozess bei einer Datei mit 100000 Zeilen dauert weniger als 10 Sekunden. & hoch  \\\hline
 
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Garbage Collection Log Datei analysieren}\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-04\\\hline
-   Name & Garbage Collection Log Datei analysieren\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
-   Kritikalität & Hoch\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann die importierte Datei nun weiter analysieren.\\\hline
-   Auslösendes Ereignis & Die Applikation hat die Datei fertig importiert, der Benutzer öffnet eine Datei die bereits importiert wurde.\\\hline
-   Akteure & Anwender, Log Datei Analyzer, Report Engine\\\hline
-   Vorbedingung & Die Log Datei wurde ohne Fehler eingelesen und befindet sich nun im Arbeitsspeicher.\\\hline
-   Nachbedingung & -\\\hline
-   Ergebnis & Dem Benutzer wird ein Analsye-Screen angezeigt.\\\hline
-   Hauptszenario & 
-	\begin{enumerate}
-		\item Applikation hat die Log-Datei fertig importiert oder Benutzer öffnet Datei, die sich bereits im Arbeitsspeicher befindet.
-		\item Dem Benutzer wird ein Screen mit verschiedenen Tabs angezeigt. Auf jedem Tab wird dem Benutzer eine unterschiedliche Sicht auf die Daten gezeigt.
-	\end{enumerate}
-	\\\hline
-   Alternativszenarien & -\\\hline
-   Ausnahmeszenarien & -\\\hline
-   Qualitäten & -\\\hline
-   Erweiterungen & UC-A-04-a (Statistik Übersicht), UC-A-04-b (Heap Benutzung), UC-A-04-c (Dauer Garbage Collection), UC-A-04-d (Benutzerdefiniert Auswertung) \\\hline
-\end{longtable}
+  FRQ-A04 & 1.0 & Garbage Collection Log Datei analysieren & Analysiert wird auf Basis der importierten Daten. Die Software ermöglicht das Öffnen im Standard-Report (Standard-Profil) oder benutzerdefinierten (Benutzerdefiniertes Profil)& UC-A04 & Das Öffnen des Analysefensters für eine Datei mit 100000 Zeilen dauert nach dem Einleseprozess weniger als 5 Sekunden. & hoch  \\\hline
 
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Statistik Übersicht}\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-04-a\\\hline
-   Name & Statistik Übersicht\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
-   Kritikalität & Hoch\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Analyse-Screen wurde geöffnet, dem Benutzer zeigen sich unterschiedliche Tabs. Auf dem ersten befinden sich verschiedene statistische Auswertungen der Log Datei:
-   \begin{itemize}
-	\item Übersicht und Grösse der verschiedenen Bereiche auf dem Heap: Initiale Grösse, endgültige Grösse
-	\item Aktivitäten des Garbage Collectors: Anzahl Young Collections, Anzahl Old Collections
-	\item Anzahl Garbage Collector Events (Bsp: Change Garbage Collector Strategy, etc.)
-	\item Garbage Collection Zeiten (Total, Durchschnittliche, Zeit in Old Generation Garbage Collection, Prozentuale Zeit in Old Generation Garbage Collection)
-   \end{itemize}
+   FRQ-A04.1 & 1.0 & Übersicht Garbage Collection & Der erste Tab des Analysefensters zeigt die aggregierten Daten der Garbage Collection. & UC-A04.1 & - & hoch \\\hline
+
+   FRQ-A04.2 & 1.0 & Heap Benutzung & Der zweite Tab des Analysefensters zeigt den Speicherbedarf über die Zeit. & UC-A04.2 & - & hoch 
  \\\hline
-   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
-\end{longtable}
 
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Heap Benutzung}\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-04b\\\hline
-   Name & Heap Benutzung\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
-   Kritikalität & Hoch\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Die Heap Usage (Heap Benutzung) zeigt dem Benutzer anhand einer Grafik, zu welchem Zeitpunkt wieviel Speicher des Heaps verwendet wurde. Zusätzlich werden die Zeitpunkte inklusive entsprechendem Typ (Old- / Young-Collection) der Garbage Collection angezeigt.  \\\hline
-   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
-\end{longtable}
+   FRQ-A04.3 & 1.0 & Dauer Garbage Collection & Der dritte Tab des Analysefensters zeigt die Dauer der einzelnen Garbage Collections über die Zeit. & UC-A04.3 & - & mittel 
+ \\\hline
 
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Dauer Garbage Collection}\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-04c\\\hline
-   Name & Dauer Garbage Collection\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: mittel\newline Technologisches Risiko: mittel\\\hline
-   Kritikalität & Mittel\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Für jede Garbage Collection ist innerhalb der Log Datei einen Eintrag mit den Informationen, wie viel Speicher von toten Objekten befreit wurde und wie lange die Collection gedauert hat. In diesem Report geht es um die Darstellung dieser Daten.\\\hline
-   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
-\end{longtable}
+   FRQ-A05 & 1.0 & Benutzerdefinierte Auswertung (Profil) & Benutzer kann eigenes Analysefenster (Profil) mit unterschiedlichen Charts definieren. & UC-A05 & - & niedrig \\\hline
 
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Benutzerdefiniert Auswertung }\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-04d\\\hline
-   Name & Benutzerdefiniert Auswertung\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
-   Kritikalität & Niedrig\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer hat hier die Möglichkeit, von den verfügbaren Daten für X- und Y-Achse einen Messtyp auszuwählen und damit einen eigenen Chart zu definieren. \\\hline
-   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
-   Erweiterungen & UC-A-04d1 (Auswahl administrieren)\\\hline
-\end{longtable}
+   FRQ-A05.1 & 1.0 & Profil speichern & Definiertes Profil wird automatisch gespeichert und bleibt über die Dauer der Sitzung bestehen. & UC-A05.1 & - & niedrig \\\hline
 
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Benutzerdefinierte Auswertung speichern, löschen }\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-04d1\\\hline
-   Name & Benutzerdefinierte Auswertung in Profilen speichern, Profile löschen\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
-   Kritikalität & Niedrig\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Verschiedene vom Anwender definierte Charts können in einem Auswertungs-Profil gespeichert werden.\\\hline
-   Qualitäten & -\\\hline
-\end{longtable}
+  FRQ-A05.1 & 1.0 & Profil exportieren & Profil kann in Textdatei exportiert werden. & UC-A05.1 & - & niedrig \\\hline
 
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Auswertungsprofile exportieren, importieren }\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-A-04d2\\\hline
-   Name & Auswertungs-Profile exportieren, importieren\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
-   Kritikalität & Niedrig\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Die vom Anwender definierten Profile können als Datei exportiert, und von einem anderen Benutzer importiert werden.\\\hline
-   Qualitäten & -\\\hline
-\end{longtable}
+  FRQ-A05.1 & 1.0 & Profil importieren & Profil kann aus Textdatei importiert werden. & UC-A05.1 & - & niedrig \\\hline
 
-\subsection{Use Cases Entwickler}
-\begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Neuer Software-Release erstellen}\\\hline
-   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
-   Bezeichner & UC-E-01\\\hline
-   Name & Neuer Software-Release erstellen\\\hline
-   Autoren & Raffael Schmid\\\hline
-   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: gering\\\hline
-   Kritikalität & Mittel\\\hline
-   Quelle & Raffael Schmid\\\hline
-   Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Entwickler kann neue Releases des Plugins erstellen und diese via Update-Seite verfügbar machen.\\\hline
-   Auslösendes Ereignis & Entwickler hat einen neuen Bug gefixt oder ein Feature implementiert.\\\hline
-   Akteure & Entwickler\\\hline
-   Vorbedingung & Entwicklung wurde abgeschlossen, Tests sind durchgelaufen.\\\hline
-   Nachbedingung & -\\\hline
-   Ergebnis & Neues Update ist via Update-Seite verfügbar und kann vom Anwender darüber installiert werden.\\\hline
-   Hauptszenario & 
-	\begin{enumerate}
-		\item Entwickler entwickelt Feature oder macht Bug-Fix.
-		\item Entwickler startet den automatischen Build-Deploy der Software
-	\end{enumerate}
-	\\\hline
-   Alternativszenarien & -\\\hline
-   Ausnahmeszenarien & Im Fehlerfall wird der Entwickler benachrichtigt, das neue Softwarepaket wird nicht via Update-Seite bereitgestellt.\\\hline
-   Qualitäten & - \\\hline
-\end{longtable}
+  FRQ-A06 & 1.0 & Hilfesystem &  Dem Benutzer werden eine indexbasierte\footnote{Generelle Hilfe mit Informationen zur Garbage Collection,Vorgehensweise bei Performance Problemen, alternative Werkzeuge, etc.} und eine kontextsensitive\footnote{Hilfe zur aktuellen View oder Aktion des Benutzers} Hilfe zur Verfügung gestellt. & UC-A06 & - & niedrig \\\hline
 
+  FRQ-E01 & 1.0 & Neuer Software-Release erstellen & Der Benutzer kann die Software mit Patches oder zusätzlichen Features jederzeit neu deployen. Der Anwender erhält die neue Software via den Update-Mechanismus.& UC-E01 & - & niedrig \\\hline
+
+\end{longtable}
+\end{landscape}
+
+\begin{landscape}
+\section{Qualitätsanforderungen}
+\subsection{Software}
+\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{8cm}|p{3cm}|p{0.9cm}|}
+    \caption{Qualitätsanforderungen Software}\\\hline
+   \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
+   QRQ-S-01 & 1.0 & Erweiterbarkeit & Nebst der Analyse von Garbage Collection Logs der JRockit Virtual Machine sollen später auch andere Formate unterstützt sein. & Erweiterung um ein weiteres Log-Format soll den Aufwand von 5 PT\footnote{Personentage} nicht überschreiten. & mittel \\\hline
+   QRQ-S-02 & 1.0 & Testabdeckung & Um den langfristigen Erfolg dieser Software zu gewährleisten muss eine entsprechende Testabdeckung vorhanden sein - dies um insbesondere die Regression zu vermeiden. & Angestrebte Test-Coverage: 80\% & gering \\\hline
+  QRQ-S-03 & 1.0 & Internationali-sierung & Die Sprachelemente der Software (Labels, Titel, Texte) werden als Ressourcen definiert, was die spätere Erweiterung ermöglicht. & - & gering\\\hline
+
+\end{longtable}
+\subsection{Basisframework}\label{anforderungen_framework}
+\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{8cm}|p{3cm}|p{0.9cm}|}
+    \caption{Qualitätsanforderungen Basisframework}\\\hline
+   \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
+   QRQ-F-01 & 1.0 & Verbreitung & Die Software wird als Erweiterung für eine Entwicklungsumgebung bereitgestellt. Auch weil die Entwickler-Community auf diesen Plattformen am grössten ist, spielt die Verbreitung des verwendeten Frameworks eine grosse Rolle.   & - & hoch \\\hline
+
+   QRQ-F-02 & 1.0 & Plattform-unabhängig &  Die Software soll auf den gängigsten Betriebssystemen Windows und Apple OSX laufen. & - & mittel \\\hline
+
+   QRQ-F-03 & 1.0 & Lokalisation & Framework muss Unterstützung für Lokalisation bereitstellen. & - &gering \\\hline
+
+
+\end{longtable}
+\end{landscape}
 
 

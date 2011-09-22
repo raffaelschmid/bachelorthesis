@@ -1,0 +1,266 @@
+\subsection{Use Cases Entwickler}
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+  \caption{Use-Case: Software installieren}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A01\\\hline
+   Name & Software installieren\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: mittel\\\hline
+   Kritikalität & Hoch\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Benutzer kann das Plugin\footnote{mit Plugin ist die Garbage Collection Analysesoftware gemeint} in seiner Entwicklungsumgebung via Eingabe einer Update-Seite installieren.\\\hline
+   Auslösendes Ereignis & Anwender möchte die Auswertung einer Garbage Collection Log Datei machen.\\\hline
+   Akteure & Anwender\footnote{Anwender kann sowohl Performance Engineer oder Java Entwickler sein}, Update-Server\\\hline
+   Vorbedingung & Richtige Entwicklungsumgebung ist bereits installiert. Anwender ist noch nicht im Besitz des Plugins.\\\hline
+   Nachbedingung & Anwender hat Plugin fertig installiert.\\\hline
+   Ergebnis & Entwicklungsumgebung ist bereit für Garbage Collection Auswertungen der JRockit Garbage Collection Log Dateien.\\\hline
+   Hauptszenario & 
+         \begin{enumerate}
+		\item Anwender Startet Entwicklungsumgebung
+		\item Anwender gibt Update-Seite an
+		\item Anwender selektiert zu installierendes Packet
+		\item Plugin wird installiert	
+ 	\end{enumerate}
+	\\\hline
+   Alternativszenarien & Anwender installiert Plugin aus lokalem Dateisystem\\\hline
+   Ausnahmeszenarien & -\\\hline
+   Qualitäten & QA-01 (Installierbarkeit)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Software updaten}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A02\\\hline
+   Name & Software updaten\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: mittel\\\hline
+   Kritikalität & Mittel\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Benutzer kann das Plugin updaten.\\\hline
+   Auslösendes Ereignis & Anwender hat das Plugin bereis zu einem früheren Zeitpunkt installiert. Sofern ein neues Update dieses Plugins vorhanden ist, möchte er dieses installieren.\\\hline
+   Akteure & Anwender, Update-Server\\\hline
+   Vorbedingung & Richtige Entwicklungsumgebung und Garbage Collection Log Analysis Plugin ist bereits in einer früheren Version installiert.\\\hline
+   Nachbedingung & Plugin ist auf dem neusten Stand.\\\hline
+   Ergebnis & Entwicklungsumgebung und Plugin sind auf dem neusten Stand für Garbage Collection Auswertungen.\\\hline
+   Hauptszenario & 
+	\begin{enumerate}
+		\item Anwender Startet Entwicklungsumgebung
+		\item Anwender sucht nach neuen Updates
+		\item Anwendung findet neue Updates
+		\item Anwender selektiert Packete die er updaten möchte
+		\item Plugin wird aktualisiert
+	\end{enumerate}
+	\\\hline
+   Alternativszenarien & Anwender updated Plugin aus lokalem Dateisystem\\\hline
+   Ausnahmeszenarien & -\\\hline
+   Qualitäten & QA-01 (Installierbarkeit)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Garbage Collection Log Datei importieren}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A03\\\hline
+   Name & Garbage Collection Log Datei importieren\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
+   Kritikalität & Hoch\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Benutzer kann eine sich auf seinem Rechner befindende Garbage Collection Log Datei importierten.\\\hline
+   Auslösendes Ereignis & Anwender möchte Auswertung starten.\\\hline
+   Akteure & Anwender, Log Datei Prozessor\\\hline
+   Vorbedingung & Log Datei befindet sich auf dem Rechner und ist in einem der unterstützten Formate. Garbage Collection Log Analysis Plugin ist vollständig installiert. Entwicklungsumgebung ist gestartet.\\\hline
+   Nachbedingung & \\\hline
+   Ergebnis & Die Log Datei befindet sich im Memory und steht für die Auswertung (Charts, Reports) dem Benutzer zur Verfügung.\\\hline
+   Hauptszenario & 
+	\begin{enumerate}
+		\item Anwender öffnet Import-Dialog
+		\item Anwender navigiert zur Datei
+		\item Anwender startet Import-Prozess
+	\end{enumerate}
+	\\\hline
+   Alternativszenarien & -\\\hline
+   Ausnahmeszenarien & -\\\hline
+   Qualitäten & -\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Garbage Collection Log Datei analysieren}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A04\\\hline
+   Name & Garbage Collection Log Auswertung (Standard Profil)\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
+   Kritikalität & Hoch\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Für eine schnelle Übersicht steht ein Standard-Report zur Verfügung. Dieser soll eine kurze Übersicht über die Garbage Collection geben und beinhaltet zwei Charts (Heap Benutzung, Dauer Garbage Collection). \\\hline
+   Auslösendes Ereignis & Die Applikation hat die Datei fertig importiert, der Benutzer öffnet eine Datei die bereits importiert wurde.\\\hline
+   Akteure & Anwender, Log Datei Analyzer, Report Engine\\\hline
+   Vorbedingung & Die Log Datei wurde ohne Fehler eingelesen und befindet sich nun im Arbeitsspeicher.\\\hline
+   Nachbedingung & -\\\hline
+   Ergebnis & Dem Benutzer wird ein Analsye-Screen angezeigt.\\\hline
+   Hauptszenario & 
+	\begin{enumerate}
+		\item Applikation hat die Log-Datei fertig importiert oder Benutzer öffnet Datei, die sich bereits im Arbeitsspeicher befindet.
+		\item Dem Benutzer wird ein Screen mit verschiedenen Tabs angezeigt. Auf jedem Tab wird dem Benutzer eine unterschiedliche Sicht auf die Daten gezeigt.
+	\end{enumerate}
+	\\\hline
+   Alternativszenarien & -\\\hline
+   Ausnahmeszenarien & -\\\hline
+   Qualitäten & -\\\hline
+   Erweiterungen & UC-A04.1 (Statistik Übersicht), UC-A04.2 (Heap Benutzung), UC-A04.3 (Dauer Garbage Collection), UC-A04.4 (Benutzerdefiniert Auswertung) \\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Statistik Übersicht}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A04.1\\\hline
+   Name & Statistik Übersicht\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
+   Kritikalität & Hoch\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Analyse-Screen wurde geöffnet, dem Benutzer zeigen sich unterschiedliche Tabs. Auf dem ersten befinden sich verschiedene statistische Auswertungen der Log Datei:
+   \begin{itemize}
+	\item Übersicht und Grösse der verschiedenen Bereiche auf dem Heap: Initiale Grösse, endgültige Grösse
+	\item Aktivitäten des Garbage Collectors: Anzahl Young Collections, Anzahl Old Collections
+	\item Anzahl Garbage Collector Events (Bsp: Change Garbage Collector Strategy, etc.)
+	\item Garbage Collection Zeiten (Total, Durchschnittliche, Zeit in Old Generation Garbage Collection, Prozentuale Zeit in Old Generation Garbage Collection)
+   \end{itemize}
+ \\\hline
+   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Heap Benutzung}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A04.2\\\hline
+   Name & Heap Benutzung\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: hoch\\\hline
+   Kritikalität & Hoch\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Die Heap Usage (Heap Benutzung) zeigt dem Benutzer anhand einer Grafik, zu welchem Zeitpunkt wieviel Speicher des Heaps verwendet wurde. Zusätzlich werden die Zeitpunkte inklusive entsprechendem Typ (Old- / Young-Collection) der Garbage Collection angezeigt.  \\\hline
+   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Dauer Garbage Collection}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A04.3\\\hline
+   Name & Dauer Garbage Collection\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: mittel\newline Technologisches Risiko: mittel\\\hline
+   Kritikalität & Mittel\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Für jede Garbage Collection ist innerhalb der Log Datei einen Eintrag mit den Informationen, wie viel Speicher von toten Objekten befreit wurde und wie lange die Collection gedauert hat. In diesem Report geht es um die Darstellung dieser Daten.\\\hline
+   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Garbage Collection Log benutzerdefinierte Auswertung }\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A05\\\hline
+   Name & Benutzerdefiniert Auswertung (Profil)\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
+   Kritikalität & Niedrig\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Benutzer kann ein eigenes Analysefenster mit verschiedenen Charts anlegen. Die Charts bestehen wiederum aus verschiedenen Serien\footnote{Eine Serie definiert welche Daten auf der X- respektive Y-Achse angezeigt werden sollen.}.\\\hline
+   Qualitäten & QA-06 (Optimale Wartezeiten)\\\hline
+   Erweiterungen & UC-A04d1 (Auswahl administrieren)\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Profil speichern, löschen }\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A05.1\\\hline
+   Name & Profil speichern\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
+   Kritikalität & Niedrig\\\hline
+   Quelle & Adrian Hummel (Performance Engineer)\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Profile können gespeichert werden und bleiben über einzelne Sitzungen bestehen, ausser der Benutzer löscht es explizit.\\\hline
+   Qualitäten & -\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Profil exportieren }\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A05.2\\\hline
+   Name & Auswertungs-Profile exportieren\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
+   Kritikalität & Niedrig\\\hline
+   Quelle & Adrian Hummel (Performance Engineer)\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Die vom Anwender definierten Profile können in eine Datei exportiert werden.\\\hline
+   Qualitäten & -\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Profile importieren }\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A05.3\\\hline
+   Name & Auswertungs-Profile importieren\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
+   Kritikalität & Niedrig\\\hline
+   Quelle & Adrian Hummel (Performance Engineer)\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Exportierte Profile können via ein Kanal ausgetauscht und in der anderen Entwicklungsumgebung importiert werden.  \\\hline
+   Qualitäten & -\\\hline
+\end{longtable}
+
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Hilfesystem }\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-A06\\\hline
+   Name & Hilfesystem\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
+   Kritikalität & Niedrig\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Benutzer erfährt nützliche Informationen zur Garbage Collection im generellen und zur Software im speziellen sowohl über ein kontextsensitives als auch über ein indexbasiertes Hilfesystem.  \\\hline
+   Qualitäten & -\\\hline
+\end{longtable}
+
+\subsection{Use Cases Entwickler}
+\begin{longtable}{|p{4cm}|p{10.5cm}|}
+\caption{Use-Case: Neuer Software-Release erstellen}\\\hline
+   \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Bezeichner & UC-E01\\\hline
+   Name & Neuer Software-Release erstellen\\\hline
+   Autoren & Raffael Schmid\\\hline
+   Priorität & Wichtigkeit für Systemerfolg: hoch\newline Technologisches Risiko: gering\\\hline
+   Kritikalität & Mittel\\\hline
+   Quelle & Raffael Schmid\\\hline
+   Verantwortlicher & Raffael Schmid\\\hline
+   Kurzbeschreibung & Der Entwickler kann neue Releases des Plugins erstellen und diese via Update-Seite verfügbar machen.\\\hline
+   Auslösendes Ereignis & Entwickler hat einen neuen Bug gefixt oder ein Feature implementiert.\\\hline
+   Akteure & Entwickler\\\hline
+   Vorbedingung & Entwicklung wurde abgeschlossen, Tests sind durchgelaufen.\\\hline
+   Nachbedingung & -\\\hline
+   Ergebnis & Neues Update ist via Update-Seite verfügbar und kann vom Anwender darüber installiert werden.\\\hline
+   Hauptszenario & 
+	\begin{enumerate}
+		\item Entwickler entwickelt Feature oder macht Bug-Fix und checkt die Änderungen im Source-Code Repository ein.
+		\item Das Continuous Integration System registriert die Änderung und erstellt und deployt einen neuen Build.
+	\end{enumerate}
+	\\\hline
+   Alternativszenarien & -\\\hline
+   Ausnahmeszenarien & Im Fehlerfall wird der Entwickler benachrichtigt, das neue Softwarepaket wird nicht via Update-Seite bereitgestellt.\\\hline
+   Qualitäten & - \\\hline
+\end{longtable}
+
+
+

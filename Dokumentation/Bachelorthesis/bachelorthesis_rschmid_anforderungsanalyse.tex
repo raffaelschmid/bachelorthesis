@@ -17,7 +17,7 @@ Der folgende Abschnitt beschreibt die wesentlichen Teile innerhalb des Systems u
     	\includegraphics{images/systemumfang}
 \end{figure}
 \subsubsection{System}
-Das System besteht aus den Aspekten Datenmodell, Domäne, Log Parsing, Garbage Collection Analyse, Report, Charting, Hilfesystem\footnote{Dem Benutzer wird sowohl eine generelle wie auch eine kontextbezogene Hilfe angeboten.}, Benutzerführung.
+Das System besteht aus den Teilen Datenmodell, Domäne, Log Parsing, Garbage Collection Analyse, Report, Charting, Hilfesystem\footnote{Dem Benutzer wird sowohl eine generelle wie auch eine kontextbezogene Hilfe angeboten.}, Benutzerführung.
 
 \subsubsection{Systemkontext}
 Zum Systemkontext gehören folgende nicht veränderbare Komponenten:
@@ -36,10 +36,11 @@ Zum Systemkontext gehören folgende nicht veränderbare Komponenten:
 
 
 \subsection{Stakeholder}
- \begin{figure}[H]
+Für die Anforderungsanalyse sind nur die mit Asteriks gekennzeichneten Stakeholder-Rollen relevant. Die anderen Rollen können erst dann berücksichtigt werden, wenn die Software eine weitere Verbreitung wahrnehmen kann. Verschiedene Rollen können auch von einer Person wahrgenommen werden. 
+\begin{figure}[H]
         	\caption{Übersicht der Stakeholder}
   	\centering
-    	\includegraphics[width=15cm]{images/stakeholder_analyse}
+    	\includegraphics[width=13cm]{images/stakeholder_analyse}
 \end{figure}
 
 \subsection{Glossar}
@@ -47,33 +48,33 @@ Das Glossar befindet sich auf Seite \pageref{glossar}.
 \subsection{Referenzen}
 Die Referenzen innerhalb des Abschnitts \titleref{anforderungsanalyse} befinden sich im Abschnitt Literaturverzeichnis.
 \subsection{Übersicht}
-Im Abschnitt \titleref{allgemeine_uebersicht} gibt es eine Beschreibung zu Architektur, Systemfunktionalität in Form eines Use-Case Diagramms, Nutzer und Zielgruppen sowie der Annahmen. 
-
+Die Anforderungsanalyse ist folgendermassen aufgebaut: Beginnen tut sie mit der Allgemeinen Übersicht. Hier sind Architektur, Nutzer- und Zielgruppen, Randbedingungen und Annahmen dokumentiert. Danach sind die Use Cases der Software beschrieben. Aus diesen leiten sich dann die funktionalen Anforderungen und schliesslich die Qualitätsanforderungen ab.
 \section{Allgemeine Übersicht}\label{allgemeine_uebersicht}
 \subsection{Architekturbeschreibung}
-Die Software wird als Plugin programmiert. Der Entwickler ist im Besitz der Entwicklungsumgebung\footnote{entweder Eclipse oder Netbeans}, und kann von da durch Angabe der Update-Seite\footnote{Normalerweise werden die Software-Packete zusammen mit wenigen Meta-Informationen auf eine Update-Seite kopiert, um von da vom jeweiligen Update-Manager installiert zu werden.} das Plugin installieren. Ab diesem Zeitpunkt kann die Applikation auch offline verwendet werden. Für die Analyse der Garbage Collection Logs wird durch die Applikation keine Internet-Verbindung benötigt. Vorstellbare Protokolle für den Transfer der Log-Dateien - die auf dem auszuwertenden System generiert werden - sind beispielsweise FTP, SFTP, Mail, etc. Die Applikation soll für möglichst viele Betriebssysteme verfügbar sein (siehe Qualitätsanforderung Plattformunabhängigkeit).
+Die Software wird als Plugin programmiert. Der Entwickler kann sich die Software als Erweiterung in seiner Entwicklungsumgebung installieren. Sobald die Software installiert ist, wird für die Arbeit keine Verbindung ins Internet mehr benötigt. Die Applikation ist auf allen gängigen Betriebssystemen (Linux, Mac OSX, Windows) lauffähig.
+
+\subsection{Nutzer und Zielgruppen}
+\subsubsection{Performance Engineers}
+Normalerweise Software Entwickler die viel Erfahrung, Wissen, Fähigkeiten haben und über die entsprechenden Werkzeuge verfügen, um die Ursachen für Performance-Probleme zu finden. Dabei handelt es sich nicht nur um Wissen im Bereich der Softwareentwicklung, sondern auch im Bereich des Servers (Speicher Management, etc.), und des Betriebssystems (I/O\footnote{IO steht für Input/Output und betrifft Netzwerk wie auch Harddisk}, etc.). Durch ihr breites Wissen sind sie mit der Unterstützung von Charts, Statistiken und Reports oft sehr schnell in der Lage, Ursache eines Performance Engpasses zu finden.
+
+\subsubsection{Java Entwickler}
+Im Gegensatz zu Performance Engineers beschäftigen sich Java Entwickler vorallem mit der Entwicklung von Anwendungen und verfügen nicht direkt über Knowhow im Bereich der Performance Analyse. Als gut ausgebildete Ingenieure sind sie aber mit Hilfe von Werkzeugen und Dokumentation in der Lage, Performance Problemen innert nützlicher First auf den Grund zu gehen.
+
+\subsection{Randbedingungen}\label{randbedingungen}
+Das Log-Format der JRockit Virtual Machine hat sich im Bereich des Memory Managements von der Version R27 auf die Version R28 geändert. Die Kompatibilität mit Versionen älter als R28 wird vorerst nicht gegeben sein.
+\subsection{Annahmen}
+
+
+\section{Use Cases}\label{use_cases}
 \subsection{Systemfunktionalität}\label{systemfunktionalitaet}
  \begin{figure}[H]
   	\centering
         	\caption{Systemfunktionalität als Use-Case-Diagramm}
     	\includegraphics[width=15cm]{images/anforderungen_use-case}
 \end{figure}
-\subsection{Nutzer und Zielgruppen}
-\subsubsection{Performance Engineers}
-Normalerweise Software Entwickler die viel Erfahrung, Wissen, Fähigkeiten haben und über die entsprechenden Werkzeuge verfügen, um Performance-Problemen von Anwendungen auf den Grund zu gehen. Dabei handelt es sich nicht nur um Wissen im Bereich der Softwareentwicklung, sondern auch im Bereich des Servers (Speicher Management, etc.), und des Betriebssystems (I/O\footnote{IO steht für Input/Output und betrifft Netzwerk wie auch Harddisk}, etc.). Durch ihr breites Wissen sind sie mit der Unterstützung von Charts, Statistiken und Reports oft sehr schnell in der Lage, Ursache eines Performance Engpasses zu finden.
+Die ersten beiden Teile dieses Abschnitts definieren die Use Cases des Systems nach Rolle sortiert. Als Basis dient die Schablone zur Use-Case-Spezifikation in \cite[S. 78-79]{pohl2010basiswissen}.
+\input{bachelorthesis_rschmid_anforderungsanalyse_use_cases}
 
-\subsubsection{Java Entwickler}
-Im Gegensatz zu Performance Engineers beschäftigen sich Java Entwickler vorallem mit der Entwicklung von Anwendungen und verfügen nicht direkt über Knowhow im Bereich der Performance Analyse. Als gut ausgebildete Ingenieure sind sie aber mit Hilfe von Werkzeugen und Dokumentation in der Lage, Performance Problemen innert nützlicher First auf den Grund zu gehen.
-
-\subsection{Randbedingungen}\label{randbedingungen}
-Die Anforderungen beziehen sich auf das Log Format der JRockit Virtual Machine im Release R28. Release R27 wird voraussichtlich nicht unterstützt.
-\subsection{Annahmen}
-
-
-\section{Anforderungen}
-Die ersten beiden Teile dieses Abschnitts definieren die Funktionalen Anforderungen in Form von Use Cases, aufgeteilt nach Rolle. Als Basis dient die Schablone zur Use-Case-Spezifikation in \cite[S. 78-79]{pohl2010basiswissen}.
 \input{bachelorthesis_rschmid_anforderungsanalyse_requirements}
-
-\input{bachelorthesis_rschmid_anforderungsanalyse_qualitaetsanforderungen}
 
 
