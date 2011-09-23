@@ -55,7 +55,7 @@ Die Entscheidung der Garbage Collection Strategie hängt von den Anforderungen d
 
 \begin{landscape}
   \begin{longtable}{|p{2.1cm}|p{3cm}|p{5.5cm}|p{1cm}| p{1.3cm}|p{1cm}|p{1cm}|p{1.1cm}|}
-    \caption{Übersicht der Garbage Collection Algorithmen}\\\hline
+    \hline
   \textbf{Alias} & \textbf{Aktivierung}& \textbf{Beschreibung} & \textbf{Pause} &\textbf{Durchs.} & \textbf{Heap} & \textbf{Mark} & \textbf{Sweep} \\\hline
   singlecon, singleconcon && Garbage Collection findet konkurrierend statt. Der Heap besteht nur aus einer Generation.&\center{++}&\center{--}& single & konk. & konk\\\hline
 
@@ -67,16 +67,16 @@ Die Entscheidung der Garbage Collection Strategie hängt von den Anforderungen d
   genparcon &-Xgc:genparcon&&+&+&gen& parallel & konk. \\\hline
   singleconpar &-Xgc:singleconpar&&+&+&single&konk. & parallel \\\hline
   singleparcon& -Xgc:singleparcon&&+&+&single&parallel & konk. \\\hline
+\caption{Übersicht der Garbage Collection Algorithmen}
   \end{longtable}
 \end{landscape}
 
-  \begin{longtable}{|p{2.5cm}|p{3.1cm}|p{4.5cm}|p{4cm}|}
-    \caption{Übersicht der Garbage Collection Modi}\\\hline
+  \begin{longtable}{|p{2.5cm}|p{3.1cm}|p{4.5cm}|p{4cm}|}\hline
   \textbf{Alias} & \textbf{Aktivierung} & \textbf{Beschreibung} & Einstellungsmöglichkeiten\\\hline
   troughput & -Xgc:throughput & Der Garbage Collector wird auf maximalen Durchsatzder Applikation eingestellt. Er arbeitet so effektiv wie möglich und erhält entsprechend viele Java-Threads, was zu kurzen Pausen der Applikation führen kann. & \\\hline
   pausetime & -Xgc:pausetime & Der Garbage Collector wird auf möglichst kurze Pausen eingestellt. Das bedeutet, dass ein konkurrierender Algorithmus verwendet wird der insgesamt etwas mehr CPU Ressourcen benötigt. & -XpauseTarget=value (default 200msec)\\\hline
   deterministic & -Xgc:deterministic & Der Garbage Collector wird auf eine möglichst kurze und deterministische Pausenzeit eingestellt. &-XpauseTarget=value (default 30msec)\\\hline
-
+    \caption{Übersicht der Garbage Collection Modi}
 \end{longtable}
 
 \section{Garbage Collection Log Dateien}\label{jrockitgclog}
@@ -134,7 +134,7 @@ Die ersten paar Zeilen der Ausgaben des Memory Moduls im Log Level ``info'' ohne
 Die folgende Tabelle beschreibt die für die Auswertung der Garbage Collection relevanten Module alphabetisch sortiert. 
 
 \begin{longtable}{|p{4cm}|p{9cm}|p{2cm}|}
-    \caption{Beschreibung der verschiedenen relevanten Log Modulen}\\\hline
+  \hline
   \textbf{Modul} & \textbf{Beschreibung} & \textbf{Relevanz}\\\hline
   alloc & Informationen betreffend Speicher Allokation und ``Out-of-Memory'' & niedrig \\\hline
   compaction & zeigt abhängig vom Garbage Collection Algorithmus Informationen zur Kompaktierung& niedrig \\\hline
@@ -144,6 +144,7 @@ Die folgende Tabelle beschreibt die für die Auswertung der Garbage Collection r
   memory & zeigt Informationen zum Memory Management System wie Start-, Endzeitpunkt der Collection, Speicher bevor, nach Collection, Grösse des Heaps, etc.& \textbf{hoch} \\\hline
   memdbg & zeit Informationen die für das Debugging von Themen im Bereich des Arbeitsspeichers relevant sein können& \textbf{hoch} \\\hline
   systemgc & zeigt Garbage Collections die durch System.gc() gestartet wurden. & niedrig \\\hline
+    \caption{Beschreibung der verschiedenen relevanten Log Modulen}
 \end{longtable}
 
 Die folgenden Log Level können aktiviert werden: quiet, error, warn, info, debug, trace. Für mehr Informationen siehe \cite{oracleJRockitR28CLR}.

@@ -2,7 +2,7 @@
 \section{Funktionale Anforderungen}
 Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich die abschliessende Liste der funktionalen Anforderungen:
 \begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{5cm}|p{1.6cm}|p{4cm}|p{0.9cm}|}
-    \caption{Funktionale Anforderungen}\\\hline
+    \hline
    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Use Case} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
    FRQ-X01 & 1.0 & Offline Betriebsmodus & Der Anwender soll die Software auch im Offline-Modus \footnote{Auf einem Computer der sich nicht am Netz befindet.} benutzen können. & UC-X01 & -& gross  \\\hline
 
@@ -33,7 +33,7 @@ Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich 
   FRQ-A03.3 & 1.0 & Profil importieren & Profil kann aus Textdatei importiert werden. & UC-A03.3 & - & klein \\\hline
 
   FRQ-E01 & 1.0 & Neuer Software-Release erstellen & Der Benutzer kann die Software mit Patches oder zusätzlichen Features jederzeit neu deployen. Der Anwender erhält die neue Software via den Update-Mechanismus.& UC-E01 & - & klein \\\hline
-
+\caption{Funktionale Anforderungen}
 \end{longtable}
 \end{landscape}
 
@@ -41,7 +41,7 @@ Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich 
 \section{Qualitätsanforderungen}
 \subsection{Software}
 \begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{7cm}|p{4cm}|p{0.9cm}|}
-    \caption{Qualitätsanforderungen Software}\\\hline
+    \hline
    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
    QRQ-S-01 & 1.0 & Erweiterbarkeit & Nebst der Analyse von Garbage Collection Logs der JRockit Virtual Machine sollen später auch andere Formate unterstützt sein. & Erweiterung um ein weiteres Log-Format soll den Aufwand von 5 PT\footnote{Personentage} nicht überschreiten. & mittel \\\hline
    QRQ-S-02 & 1.0 & Testabdeckung & Um den langfristigen Erfolg dieser Software zu gewährleisten muss eine entsprechende Testabdeckung vorhanden sein - dies um insbesondere die Regression zu vermeiden. & Angestrebte Test-Coverage: 80\% & klein \\\hline
@@ -50,12 +50,10 @@ Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich 
    QRQ-F-04 & 1.0 & Performance (Antwortzeiten) & Auch grosse Datenmengen (Log Dateien) müssen schnell eingelesen werden. & Der Import einer Log-Datei von 100000 Zeilen dauert kürzer als 10 Sekunden. &mittel \\\hline
 
   QRQ -F-05 & 1.0 & Korrektheit (angezeigten Werte) & Die berechneten und angezeigten Werte sind exakt. & berechnete und angezeigte Werte haben eine Genauigkeit auf mindestens einem Zehntel (0.1). & gross\\\hline
-
-
+   \caption{Qualitätsanforderungen Software}
 \end{longtable}
 \subsection{Basisframework}\label{anforderungen_framework}
-\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{7cm}|p{4cm}|p{0.9cm}|}
-    \caption{Qualitätsanforderungen Basisframework}\\\hline
+\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{7cm}|p{4cm}|p{0.9cm}|}\hline
    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
    QRQ-F-01 & 1.0 & Verbreitung & Die Software wird als Erweiterung für eine Entwicklungsumgebung bereitgestellt. Auch weil die Entwickler-Community auf diesen Plattformen am grössten ist, spielt die Verbreitung des verwendeten Frameworks eine grosse Rolle.   & - & gross \\\hline
 
@@ -64,7 +62,7 @@ Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich 
    QRQ-F-03 & 1.0 & Lokalisation & Framework muss Unterstützung für Lokalisation bereitstellen. & Das Framework bietet Unterstützung für die Mehrsprachigkeit. &klein \\\hline
 
    QRQ-F-04 & 1.0 & Modularisierung & Das Framework muss Unterstützung für Modularisierung bieten, damit die Software in unterschiedliche Komponenten aufgeteilt werden kann (siehe Erweiterbarkeit QRQ-S-01). & Framework bietet Unterstützung für Modularisierung.&mittel \\\hline
-
+    \caption{Qualitätsanforderungen Basisframework}
 \end{longtable}
 \end{landscape}
 

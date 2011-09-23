@@ -1,6 +1,6 @@
 \subsection{Use Cases Entwickler}
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-  \caption{Use-Case: Offline Betriebsmodus}\\\hline
+  \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-X01\\\hline
    Name & Offline Betriebsmodus\\\hline
@@ -26,11 +26,12 @@
    Alternativszenarien & Anwender installiert Plugin aus lokalem Dateisystem\\\hline
    Ausnahmeszenarien & -\\\hline
    Qualitäten & -\\\hline
+\caption{Use-Case: Offline Betriebsmodus}
 \end{longtable}
 
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-  \caption{Use-Case: Software installieren}\\\hline
+  \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-X02\\\hline
    Name & Software installieren\\\hline
@@ -56,10 +57,11 @@
    Alternativszenarien & Anwender installiert Plugin aus lokalem Dateisystem\\\hline
    Ausnahmeszenarien & -\\\hline
    Qualitäten & -\\\hline
+\caption{Use-Case: Software installieren}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Software updaten}\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-X03\\\hline
    Name & Software updaten\\\hline
@@ -86,10 +88,11 @@
    Alternativszenarien & Anwender updated Plugin aus lokalem Dateisystem\\\hline
    Ausnahmeszenarien & -\\\hline
    Qualitäten & -\\\hline
+\caption{Use-Case: Software updaten}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Hilfesystem}\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-X04\\\hline
    Name & Hilfesystem\\\hline
@@ -112,10 +115,11 @@
    Alternativszenarien & -\\\hline
    Ausnahmeszenarien & -\\\hline
    Qualitäten & QRQ-S-03 (Internationalisierung)\\\hline
+\caption{Use-Case: Hilfesystem}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Garbage Collection Log Datei importieren}\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A01\\\hline
    Name & Garbage Collection Log Datei importieren\\\hline
@@ -140,10 +144,11 @@
    Alternativszenarien & -\\\hline
    Ausnahmeszenarien & -\\\hline
    Qualitäten & Performance (QRQ-F-04), Korrektheit (QRQ-F-05)\\\hline
+\caption{Use-Case: Garbage Collection Log Datei importieren}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Garbage Collection Log Datei analysieren}\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A02\\\hline
    Name & Garbage Collection Log Auswertung (Standard Profil)\\\hline
@@ -168,10 +173,11 @@
    Ausnahmeszenarien & -\\\hline
    Qualitäten & Korrektheit (QRQ-F-05)\\\hline
    Erweiterungen & UC-A02.1, UC-A02.2, UC-A02.3, UC-A02.4 \\\hline
+\caption{Use-Case: Garbage Collection Log Datei analysieren}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Anzeige Statistik Übersicht}\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A02.1\\\hline
    Name & Anzeige Statistik Übersicht\\\hline
@@ -189,10 +195,11 @@
    \end{itemize}
  \\\hline
    Qualitäten & Korrektheit (QRQ-F-05)\\\hline
+\caption{Use-Case: Anzeige Statistik Übersicht}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Anzeige Heap Benutzung}\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A02.2\\\hline
    Name & Anzeige Heap Benutzung\\\hline
@@ -203,10 +210,11 @@
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Die Heap Usage (Heap Benutzung) zeigt dem Benutzer anhand einer Grafik, zu welchem Zeitpunkt wieviel Speicher des Heaps verwendet wurde. Zusätzlich werden die Zeitpunkte inklusive entsprechendem Typ (Old- / Young-Collection) der Garbage Collection angezeigt.  \\\hline
    Qualitäten & Korrektheit (QRQ-F-05)\\\hline
+\caption{Use-Case: Anzeige Heap Benutzung}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Anzeige Dauer Garbage Collection}\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A02.3\\\hline
    Name & Anzeige Dauer Garbage Collection\\\hline
@@ -217,10 +225,11 @@
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Für jede Garbage Collection ist innerhalb der Log Datei einen Eintrag mit den Informationen, wie viel Speicher von toten Objekten befreit wurde und wie lange die Collection gedauert hat. In diesem Report geht es um die Darstellung dieser Daten.\\\hline
    Qualitäten & Korrektheit (QRQ-F-05)\\\hline
+\caption{Use-Case: Anzeige Dauer Garbage Collection}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Garbage Collection Log benutzerdefinierte Auswertung }\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A03\\\hline
    Name & Benutzerdefiniert Auswertung (Profil)\\\hline
@@ -232,10 +241,11 @@
    Kurzbeschreibung & Der Benutzer kann ein eigenes Analysefenster mit verschiedenen Charts anlegen. Die Charts bestehen wiederum aus verschiedenen Serien\footnote{Eine Serie definiert welche Daten auf der X- respektive Y-Achse angezeigt werden sollen.}.\\\hline
    Qualitäten & Korrektheit (QRQ-F-05)\\\hline
    Erweiterungen & UC-A03.1, UC-A03.2, UC-A03.3\\\hline
+\caption{Use-Case: Garbage Collection Log benutzerdefinierte Auswertung }
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Profil speichern, löschen }\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A03.1\\\hline
    Name & Profil speichern\\\hline
@@ -246,10 +256,11 @@
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Profile können gespeichert werden und bleiben über einzelne Sitzungen bestehen, ausser der Benutzer löscht es explizit.\\\hline
    Qualitäten & -\\\hline
+\caption{Use-Case: Profil speichern, löschen }
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Profil exportieren }\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A03.2\\\hline
    Name & Auswertungs-Profile exportieren\\\hline
@@ -260,10 +271,11 @@
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Die vom Anwender definierten Profile können in eine Datei exportiert werden.\\\hline
    Qualitäten & -\\\hline
+\caption{Use-Case: Profil exportieren }
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Profile importieren }\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-A03.3\\\hline
    Name & Auswertungs-Profile importieren\\\hline
@@ -274,11 +286,12 @@
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Exportierte Profile können via ein Kanal ausgetauscht und in der anderen Entwicklungsumgebung importiert werden. \\\hline
    Qualitäten & -\\\hline
+\caption{Use-Case: Profile importieren }
 \end{longtable}
 
 \subsection{Use Cases Entwickler}
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
-\caption{Use-Case: Neuer Software-Release erstellen}\\\hline
+\hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-E01\\\hline
    Name & Neuer Software-Release erstellen\\\hline
@@ -302,6 +315,7 @@
    Alternativszenarien & -\\\hline
    Ausnahmeszenarien & Im Fehlerfall wird der Entwickler benachrichtigt, das neue Softwarepaket wird nicht via Update-Seite bereitgestellt.\\\hline
    Qualitäten & - \\\hline
+\caption{Use-Case: Neuer Software-Release erstellen}
 \end{longtable}
 
 
