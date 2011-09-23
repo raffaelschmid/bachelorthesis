@@ -1,36 +1,38 @@
 \begin{landscape}
 \section{Funktionale Anforderungen}
 Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich die abschliessende Liste der funktionalen Anforderungen:
-\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{6cm}|p{1.6cm}|p{3cm}|p{0.9cm}|}
+\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{5cm}|p{1.6cm}|p{4cm}|p{0.9cm}|}
     \caption{Funktionale Anforderungen}\\\hline
    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Use Case} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
-   FRQ-A01 & 1.0 & Installation & Software muss als Erweiterung in der Entwicklungsumgebung\footnote{Die Wahl der Entwicklungsumgebung respektive des Frameworks befindet sich im Abschnitt \titleref{selection_rcp_fw}.} installiert werden können.  & UC-A01 & Entwickler mit durchschnittlichen Kenntnissen benötigt dafür weniger Zeit als 5 Minuten. & hoch  \\\hline
+   FRQ-X01 & 1.0 & Offline Betriebsmodus & Der Anwender soll die Software auch im Offline-Modus \footnote{Auf einem Computer der sich nicht am Netz befindet.} benutzen können. & UC-X01 & -& gross  \\\hline
 
-   FRQ-A02 & 1.0 & Updaten & Die Software kann mit geringem Aufwand aktualisiert werden. & UC-A02 & Entwickler mit durchschnittlichen Kenntnissen benötigt dafür weniger als Zeit als 2 Minuten. & mittel  \\\hline
+   FRQ-X02 & 1.0 & Installation als Erweiterung & Software muss als Erweiterung in der Entwicklungsumgebung\footnote{Die Wahl der Entwicklungsumgebung respektive des Frameworks befindet sich im Abschnitt \titleref{selection_rcp_fw}.} installiert werden können.  & UC-X02 & Entwickler mit durchschnittlichen Kenntnissen benötigen für die Installation in eine bestehende Entwicklungsumgebung dauert weniger als 5 Minuten. & gross  \\\hline
 
-  FRQ-A03 & 1.0 & Garbage Collection Log Datei importieren & Garbage Collection Log Datein der JRockit Virtual Machine R28 können importiert werden und stehen zur Analyse bereit. & UC-A03 & Der Importprozess bei einer Datei mit 100000 Zeilen dauert weniger als 10 Sekunden. & hoch  \\\hline
+   FRQ-X03 & 1.0 & Updaten & Die Software kann mit geringem Aufwand aktualisiert werden. & UC-X03 & Entwickler mit durchschnittlichen Kenntnissen für den Update weniger als 3 Minuten. & mittel  \\\hline
 
-  FRQ-A04 & 1.0 & Garbage Collection Log Datei analysieren & Analysiert wird auf Basis der importierten Daten. Die Software ermöglicht das Öffnen im Standard-Report (Standard-Profil) oder benutzerdefinierten (Benutzerdefiniertes Profil)& UC-A04 & Das Öffnen des Analysefensters für eine Datei mit 100000 Zeilen dauert nach dem Einleseprozess weniger als 5 Sekunden. & hoch  \\\hline
+  FRQ-X04 & 1.0 & Hilfesystem &  Dem Benutzer werden eine indexbasierte und eine kontextsensitive Hilfe zur Verfügung gestellt. & UC-X04 & Die Hilfe ist in Deutsch und Englisch verfügbar. & klein \\\hline
 
-   FRQ-A04.1 & 1.0 & Übersicht Garbage Collection & Der erste Tab des Analysefensters zeigt die aggregierten Daten der Garbage Collection. & UC-A04.1 & - & hoch \\\hline
+  FRQ-A01 & 1.0 & Garbage Collection Log Datei importieren & Garbage Collection Log Datein der JRockit Virtual Machine R28 können importiert werden und stehen zur Analyse bereit. & UC-A01 & Der Importprozess bei einer Datei mit 100000 Zeilen dauert weniger als 10 Sekunden. Die Genauigkeit der berechneten und angezeigten Werte ist mindestens ein Zehntel (0.1). & gross  \\\hline
 
-   FRQ-A04.2 & 1.0 & Heap Benutzung & Der zweite Tab des Analysefensters zeigt den Speicherbedarf über die Zeit. & UC-A04.2 & - & hoch 
+  FRQ-A02 & 1.0 & Garbage Collection Log Datei analysieren & Analysiert wird auf Basis der importierten Daten. Die Software ermöglicht das Öffnen im Standard-Report (Standard-Profil) oder benutzerdefinierten (Benutzerdefiniertes Profil)& UC-A02 & Das Öffnen des Analysefensters für eine Datei mit 100000 Zeilen dauert nach dem Einleseprozess weniger als 5 Sekunden. & gross  \\\hline
+
+   FRQ-A02.1 & 1.0 & Anzeige Übersicht Garbage Collection & Der erste Tab des Analysefensters zeigt die aggregierten Daten der Garbage Collection. & UC-A02.1 & Die Genauigkeit der berechneten und angezeigten Werte ist mindestens ein Zehntel (0.1). & gross \\\hline
+
+   FRQ-A02.2 & 1.0 & Anzeige Heap Benutzung & Der zweite Tab des Analysefensters zeigt den Speicherbedarf über die Zeit. & UC-A02.2 & Die Genauigkeit der berechneten und angezeigten Werte ist mindestens ein Zehntel (0.1). & gross 
  \\\hline
 
-   FRQ-A04.3 & 1.0 & Dauer Garbage Collection & Der dritte Tab des Analysefensters zeigt die Dauer der einzelnen Garbage Collections über die Zeit. & UC-A04.3 & - & mittel 
+   FRQ-A02.3 & 1.0 & Anzeige Dauer Garbage Collection & Der dritte Tab des Analysefensters zeigt die Dauer der einzelnen Garbage Collections über die Zeit. & UC-A02.3 & Die Genauigkeit der berechneten und angezeigten Werte ist mindestens ein Zehntel (0.1). & mittel 
  \\\hline
 
-   FRQ-A05 & 1.0 & Benutzerdefinierte Auswertung (Profil) & Benutzer kann eigenes Analysefenster (Profil) mit unterschiedlichen Charts definieren. & UC-A05 & - & niedrig \\\hline
+   FRQ-A03 & 1.0 & Benutzerdefinierte Auswertung (Profil) & Benutzer kann eigenes Analysefenster (Profil) mit unterschiedlichen Charts definieren. & UC-A03 & Die Genauigkeit der berechneten und angezeigten Werte ist mindestens ein Zehntel (0.1). & klein \\\hline
 
-   FRQ-A05.1 & 1.0 & Profil speichern & Definiertes Profil wird automatisch gespeichert und bleibt über die Dauer der Sitzung bestehen. & UC-A05.1 & - & niedrig \\\hline
+   FRQ-A03.1 & 1.0 & Profil speichern & Definiertes Profil wird automatisch gespeichert und bleibt über die Dauer der Sitzung bestehen. & UC-A03.1 & - & klein \\\hline
 
-  FRQ-A05.1 & 1.0 & Profil exportieren & Profil kann in Textdatei exportiert werden. & UC-A05.1 & - & niedrig \\\hline
+  FRQ-A03.2 & 1.0 & Profil exportieren & Profil kann in Textdatei exportiert werden. & UC-A03.2 & - & klein \\\hline
 
-  FRQ-A05.1 & 1.0 & Profil importieren & Profil kann aus Textdatei importiert werden. & UC-A05.1 & - & niedrig \\\hline
+  FRQ-A03.3 & 1.0 & Profil importieren & Profil kann aus Textdatei importiert werden. & UC-A03.3 & - & klein \\\hline
 
-  FRQ-A06 & 1.0 & Hilfesystem &  Dem Benutzer werden eine indexbasierte\footnote{Generelle Hilfe mit Informationen zur Garbage Collection,Vorgehensweise bei Performance Problemen, alternative Werkzeuge, etc.} und eine kontextsensitive\footnote{Hilfe zur aktuellen View oder Aktion des Benutzers} Hilfe zur Verfügung gestellt. & UC-A06 & - & niedrig \\\hline
-
-  FRQ-E01 & 1.0 & Neuer Software-Release erstellen & Der Benutzer kann die Software mit Patches oder zusätzlichen Features jederzeit neu deployen. Der Anwender erhält die neue Software via den Update-Mechanismus.& UC-E01 & - & niedrig \\\hline
+  FRQ-E01 & 1.0 & Neuer Software-Release erstellen & Der Benutzer kann die Software mit Patches oder zusätzlichen Features jederzeit neu deployen. Der Anwender erhält die neue Software via den Update-Mechanismus.& UC-E01 & - & klein \\\hline
 
 \end{longtable}
 \end{landscape}
@@ -38,24 +40,30 @@ Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich 
 \begin{landscape}
 \section{Qualitätsanforderungen}
 \subsection{Software}
-\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{8cm}|p{3cm}|p{0.9cm}|}
+\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{7cm}|p{4cm}|p{0.9cm}|}
     \caption{Qualitätsanforderungen Software}\\\hline
    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
    QRQ-S-01 & 1.0 & Erweiterbarkeit & Nebst der Analyse von Garbage Collection Logs der JRockit Virtual Machine sollen später auch andere Formate unterstützt sein. & Erweiterung um ein weiteres Log-Format soll den Aufwand von 5 PT\footnote{Personentage} nicht überschreiten. & mittel \\\hline
-   QRQ-S-02 & 1.0 & Testabdeckung & Um den langfristigen Erfolg dieser Software zu gewährleisten muss eine entsprechende Testabdeckung vorhanden sein - dies um insbesondere die Regression zu vermeiden. & Angestrebte Test-Coverage: 80\% & gering \\\hline
-  QRQ-S-03 & 1.0 & Internationali-sierung & Die Sprachelemente der Software (Labels, Titel, Texte) werden als Ressourcen definiert, was die spätere Erweiterung ermöglicht. & - & gering\\\hline
+   QRQ-S-02 & 1.0 & Testabdeckung & Um den langfristigen Erfolg dieser Software zu gewährleisten muss eine entsprechende Testabdeckung vorhanden sein - dies um insbesondere die Regression zu vermeiden. & Angestrebte Test-Coverage: 80\% & klein \\\hline
+  QRQ-S-03 & 1.0 & Internationali-sierung & Die Sprachelemente der Software (Labels, Titel, Texte) werden als Ressourcen definiert, was die spätere Erweiterung ermöglicht. & - & klein\\\hline
+
+   QRQ-F-04 & 1.0 & Performance (Antwortzeiten) & Auch grosse Datenmengen (Log Dateien) müssen schnell eingelesen werden. & Der Import einer Log-Datei von 100000 Zeilen dauert kürzer als 10 Sekunden. &mittel \\\hline
+
+  QRQ -F-05 & 1.0 & Korrektheit (angezeigten Werte) & Die berechneten und angezeigten Werte sind exakt. & berechnete und angezeigte Werte haben eine Genauigkeit auf mindestens einem Zehntel (0.1). & gross\\\hline
+
 
 \end{longtable}
 \subsection{Basisframework}\label{anforderungen_framework}
-\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{8cm}|p{3cm}|p{0.9cm}|}
+\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{7cm}|p{4cm}|p{0.9cm}|}
     \caption{Qualitätsanforderungen Basisframework}\\\hline
    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
-   QRQ-F-01 & 1.0 & Verbreitung & Die Software wird als Erweiterung für eine Entwicklungsumgebung bereitgestellt. Auch weil die Entwickler-Community auf diesen Plattformen am grössten ist, spielt die Verbreitung des verwendeten Frameworks eine grosse Rolle.   & - & hoch \\\hline
+   QRQ-F-01 & 1.0 & Verbreitung & Die Software wird als Erweiterung für eine Entwicklungsumgebung bereitgestellt. Auch weil die Entwickler-Community auf diesen Plattformen am grössten ist, spielt die Verbreitung des verwendeten Frameworks eine grosse Rolle.   & - & gross \\\hline
 
-   QRQ-F-02 & 1.0 & Plattform-unabhängig &  Die Software soll auf den gängigsten Betriebssystemen Windows und Apple OSX laufen. & - & mittel \\\hline
+   QRQ-F-02 & 1.0 & Plattform-unabhängig &  Die Software soll auf den gängigsten Betriebssystemen Windows und Apple OSX laufen. & Das Framework läuft auf den Plattformen Windows und Mac OSX. & gross \\\hline
 
-   QRQ-F-03 & 1.0 & Lokalisation & Framework muss Unterstützung für Lokalisation bereitstellen. & - &gering \\\hline
+   QRQ-F-03 & 1.0 & Lokalisation & Framework muss Unterstützung für Lokalisation bereitstellen. & Das Framework bietet Unterstützung für die Mehrsprachigkeit. &klein \\\hline
 
+   QRQ-F-04 & 1.0 & Modularisierung & Das Framework muss Unterstützung für Modularisierung bieten, damit die Software in unterschiedliche Komponenten aufgeteilt werden kann (siehe Erweiterbarkeit QRQ-S-01). & Framework bietet Unterstützung für Modularisierung.&mittel \\\hline
 
 \end{longtable}
 \end{landscape}
