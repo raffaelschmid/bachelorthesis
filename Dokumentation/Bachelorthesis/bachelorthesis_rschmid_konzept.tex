@@ -1,70 +1,10 @@
 \chapter{Konzept}
-\section{Allgemeines}
+\section{Allgemein}
 \subsection{Zweck}
 
 \subsection{Ausgangslage}
 Der Abschnitt hier basiert auf dem vorangehenden Entscheid bei der Auswahl des Rich Client Frameworks. Aus den im Abschnitt \titleref{rcp_entscheid} beschriebenen Gründen wird zur Implementation des Garbage Collection Log Analyzers die Eclipse Rich Client Plattform in der Version 3.x\footnote{die aktuelle Version ist 3.7 (stand: 31.8.2011)} genommen. Die in der Anforderungsanalyse allgemein definierten Anforderungen werden nun spezifisch auf diese Plattform konzipiert, für die einzelnen Thematiken werden nun auch die Begrifflichkeiten innerhalb Eclipse verwendet.
 
-
-\section{Umgebung}
-\subsection{Lizenzierung}
-Die Software wird lizenziert unter der Eclipse Public License\footnote{http://www.eclipse.org/legal/epl-v10.html} in der Version 1.0. Dies ist eine freie Software-Lizenz und gewährt das Recht zur freien Nutzung, Weiterverbreitung und Veränderung der Software. Die Benutzung einer Open-Source Lizenz hat insbesondere folgende Vorteile:
-\begin{itemize}
-	\item An der Entwicklung von Open-Source Software können sich eine beliebige Anzahl an Entwicklern beteiligen. Der Entwicklungsaufwand kann skaliert werden.
-	\item Jedermann kann Erweiterungen entwickeln oder Fehler beheben.
-\end{itemize}
-
-Bei der Wahl der Lizenz muss gleichzeitig in Betracht gezogen werden, dass die Lizenzen der verwendeten Bibliotheken ebenfalls eingehalten werden. Übersicht der verwendeten Bibliotheken:
-
-
-
-\begin{longtable}{|p{3cm}|p{7cm}|p{4cm}|}
-    \caption{Verwendete Bibliotheken und deren Lizenzen}\\\hline
-	\textbf{Bibliothek} & \textbf{Beschreibung}  & \textbf{Lizenz}\\\hline
-	Eclipse Framework & Framework zur Erstellung von Destkop-Anwendungen. & Eclipse Public License\\\hline 
-	JFreeChart & Wird für im Bereich des Reportings verwendet um Graphiken und Charts anzuzeigen. & Lesser General Public License\footnote{http://www.gnu.org/licenses/lgpl.html}\\\hline
-\end{longtable}
-
-\subsection{Build-Automation}
-Die Automatisierung des Software-Builds ist hinsichtlich der Integration in ein Continuous Integration System Voraussetzung. Es hat zusätzlich aber andere Vorteile:
-\begin{itemize}
-	\item Tasks wie das Kompilieren, die Packetierung und das Deployment der Software müssen nicht mehr manuell gemacht werden.
-	\item Zur Verhinderung von Regression und entsprechend zur Gewährleistung der Qualität können vor jedem Release automatisch die Tests durchgeführt werden.
-\end{itemize}
-
-
-Als Werkzeug zum automatisierten Build der Software wird Maven Tycho\footnote{Im Bereich der Eclipse Rich Client Entwicklung kann entweder PDE Build, ein auf Apache Ant basiertes Build-System für Eclipse RCP Applikationen\cite{vogelZapfPdeBuild} oder die Maven-Integration Tycho (http://tycho.sonatype.org) verwendet werden.} verwendet. Um Tycho führt mittlerweile kein Weg drum herum, es hat im Vergleich zum PDE Build einige Vorteile:
-\begin{itemize}
-	\item Maven Builds lassen sich ohne grossen Aufwand in Continuous Integration Systeme integrieren.
-	\item Maven hat eine gute Integration in alle gängigen Entwicklungsumgebungen\footnote{Projekt-Dateien müssen nicht mehr in die Versionskontrolle eingecheckt werden.} und ist sehr verbreitet
-\end{itemize}
-
-\subsection{Continous Integration}
-Als Continuous Integration Server wird Jenkins\footnote{http://jenkins-ci.org - Jenkins ist der ehemalige Hudson CI Server, welcher nach dem Kauf von Sun durch Oracle als Branch entstanden ist.} verwendet. Jenkins bringt nebst seiner Benutzerfreundlichkeit als Build Server einige zum Projekt nötigen Voraussetzungen mit:
-\begin{itemize}
-	\item Jenkins ist für alle denkbaren Betriebssysteme vorhanden.
-	\item Jenkins ist kompatibel mit allen gängigen Systemen zur Versionskontrolle: Git, Subversion, CVS, etc.
-	\item Maven-Projekte lassen sich ohne grossen Aufwand als Build-Projekte konfigurieren.
-\end{itemize}
-
-\subsection{Versionskontrolle}
-Zur Versionskontrolle kommen mehrere Werkzeuge in Frage. Git\footnote{http://git-scm.com} ist ein verteiltes Sourcecode Management System und ist konzeptionell und hinsichtlich Benutzerfreundlichkeit besser als Subversion und CVS\footnote{Git kann offline verwendet werden, das Verschieben von Verzeichnissen führt nicht zu Problemen, etc.}. Auf der Plattform Github\footnote{http://github.com} kann man öffentliche Projekte gratis ``hosten''.
-
-\subsection{Issue Tracker}
-Als Issue Tracker wird Jira verwendet. Es handelt sich dabei um eine kostenpflichtige aber relativ günstige Software für das Issue-Tracking.
-
-\subsection{Installation der Software}\label{installation}
-Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Rechner, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Eclipse\footnote{in der Basis ist es Equinox, die Implementation des OSGi Standards} ist in der Lage, Plugins zur Laufzeit zu installieren, starten, deinstallieren.
-
-Die Update-Seite für diese Software wird folgendermassen aufgebaut:
-\begin{itemize}
-	\item Garbage Collection Log Analysis (Kategorie)
-		\begin{itemize}
-			\item Core (Feature)
-			\item JRockit Extension (Feature)
-		\end{itemize}
-\end{itemize}
-Nachträglich kann somit auch für ein anderes Log-Format eine Extension geschrieben werden.
 
 \section{Übersicht}
 
@@ -109,20 +49,6 @@ Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 		\end{itemize}
 \end{itemize}
 
-\subsection{Internationalisierung (I18n)}
-Basierend auf dem Lokalisierungssystem der Java Virtual Machine kann man in Eclipse alle Spracheressourcen in Properties-Dateien auslagern (Eclipse bietet dafür sogar einen Wizard). Normalerweise liefert man die Default-Sprache innerhalb des Projektes für welches die Ressource-Bundles definiert wurden, erweiterte Sprachpackete werden dann als Fragmente ausgeliefert. Den Sprachwechsel der Eclipse Entwicklungsumgebung muss man allerdings in der Eclipse-Konfigurationsdatei eclipse.ini vollziehen - dieser benötigt auch immer einen Neustart der Entwicklungsumgebunt.
-
-\subsection{Hilfesystem}
-Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfeseiten und Dienste wie die Suche und Indizierung bereitstellt. Die Hilfeseiten werden in zwei unterschiedliche Arten unterteilt:
-\begin{itemize}
-\item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 
-\item \textbf{Kontextsensitive Hilfen:} Tipps die im Zusammenhang mit einer Aktion oder eines Fensters eines Benutzers stehen werden mit den Kontextsensitiven Hilfen implementiert. Bei diesen Hilfen besteht eine Verbindung zwischen Fenstern, Aktionen auf der einen Seite und den Hilfeseiten auf der Anderen.
-\end{itemize}
-
-\subsection{Testing}\label{testing}
-In Nicht-Plugin-Projekten legt man den Test-Code in einem zusätzlichen Quelltext-Ordner an (Beispielsweise src/main/java und src/main/test). Damit ist der Zugriff auf package-private\footnote{Felder und Methoden ohne Deklaration der Sichtbarkeit (private, protected, public) sind in Java implizit package-private - sie sind also für alle Subklassen und innerhalb des selben Ordners (Package) sichtbar. } Felder und Methoden ebenfalls möglicht, zusätzlich bleibt der Test-Code von der Implementation getrennt. Dieses vorgehen wird auch vom Build-Werkzeug Maven Tycho unterstützt. Wenn man das entsprechende Test-Plugin als Eclipse-Test-Plugin konfiguriert\footnote{Dies kann innerhalb der Maven-Konfigurationsdatei pom.xml mit dem Element packaging gemacht werden.}, können die Tests auch während dem Build automatisiert durchgeführt werden.
-
-Bei Eclipse-Plugin-Projekten erstellt man für den Test-Code ein separates Projekt. In das zu verteilende Softwarepacket (Feature) werden nur die Nicht-Test-Plugins getan. Der Zugriff vom Test-Projekt auf die Implementationen ist per se nicht möglich\footnote{Jedes Plugin muss definieren, welche Packages für die anderen Plugins sichtbar sind.}, zu diesem Zweck wird das Test-Projekt als Fragment definiert.
 \section{Basissoftware (Core)}
 \subsection{Ablauf Garbage Collection Analyse}
 Nach dem Import der sich auf einem lokalen Laufwerk befindenden Log Datei befindet sich diese im Fenster ``Log Files''. Beim Doppelklick auf diese Datei wird der Analyse-Vorgang gestartet. Mit der Voraussetzung, dass die JRockit Extension (Feature) installiert ist, passiert danach folgendes:
@@ -166,7 +92,7 @@ Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen 
     	\includegraphics[width=16cm]{images/jrockit_log_processing}
 \end{figure}
 
-\subsection{JRockit Garbage Collection}
+\subsection{Domänenmodell JRockit Garbage Collection}
 \begin{landscape}
  \begin{figure}[H]
   	\centering
@@ -220,7 +146,80 @@ Als vordefinierte (standard) Charts werden dem Benutzer zwei Charts angeboten:
 
 \subsubsection{Custom Charts}
 Der Benutzer kann aus den verfügbaren Daten frei die X- und Y-Achse definieren und entsprechend den Chart benennen. Die Selektion kann in einem eigenen Profil gespeichert werden und bleibt über die Session der Applikation erhalten.
+%--------------------------------------------
+\section{Lizenzierung}
+Die Software wird lizenziert unter der Eclipse Public License\footnote{http://www.eclipse.org/legal/epl-v10.html} in der Version 1.0. Dies ist eine freie Software-Lizenz und gewährt das Recht zur freien Nutzung, Weiterverbreitung und Veränderung der Software. Die Benutzung einer Open-Source Lizenz hat insbesondere folgende Vorteile:
+\begin{itemize}
+	\item An der Entwicklung von Open-Source Software können sich eine beliebige Anzahl an Entwicklern beteiligen. Der Entwicklungsaufwand kann skaliert werden.
+	\item Jedermann kann Erweiterungen entwickeln oder Fehler beheben.
+\end{itemize}
+
+Bei der Wahl der Lizenz muss gleichzeitig in Betracht gezogen werden, dass die Lizenzen der verwendeten Bibliotheken ebenfalls eingehalten werden. Übersicht der verwendeten Bibliotheken:
+
+\begin{longtable}{|p{3cm}|p{7cm}|p{4cm}|}
+    \caption{Verwendete Bibliotheken und deren Lizenzen}\\\hline
+	\textbf{Bibliothek} & \textbf{Beschreibung}  & \textbf{Lizenz}\\\hline
+	Eclipse Framework & Framework zur Erstellung von Destkop-Anwendungen. & Eclipse Public License\\\hline 
+	JFreeChart & Wird für im Bereich des Reportings verwendet um Graphiken und Charts anzuzeigen. & Lesser General Public License\footnote{http://www.gnu.org/licenses/lgpl.html}\\\hline
+\end{longtable}
 
 
+
+\section{Internationalisierung (I18n)}
+Basierend auf dem Lokalisierungssystem der Java Virtual Machine kann man in Eclipse alle Spracheressourcen in Properties-Dateien auslagern (Eclipse bietet dafür sogar einen Wizard). Normalerweise liefert man die Default-Sprache innerhalb des Projektes für welches die Ressource-Bundles definiert wurden, erweiterte Sprachpackete werden dann als Fragmente ausgeliefert. Den Sprachwechsel der Eclipse Entwicklungsumgebung muss man allerdings in der Eclipse-Konfigurationsdatei eclipse.ini vollziehen - dieser benötigt auch immer einen Neustart der Entwicklungsumgebunt.
+
+\section{Hilfesystem}
+Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfeseiten und Dienste wie die Suche und Indizierung bereitstellt. Die Hilfeseiten werden in zwei unterschiedliche Arten unterteilt:
+\begin{itemize}
+\item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 
+\item \textbf{Kontextsensitive Hilfen:} Tipps die im Zusammenhang mit einer Aktion oder eines Fensters eines Benutzers stehen werden mit den Kontextsensitiven Hilfen implementiert. Bei diesen Hilfen besteht eine Verbindung zwischen Fenstern, Aktionen auf der einen Seite und den Hilfeseiten auf der Anderen.
+\end{itemize}
+
+\section{Testing}\label{testing}
+In Nicht-Plugin-Projekten legt man den Test-Code in einem zusätzlichen Quelltext-Ordner an (Beispielsweise src/main/java und src/main/test). Damit ist der Zugriff auf package-private\footnote{Felder und Methoden ohne Deklaration der Sichtbarkeit (private, protected, public) sind in Java implizit package-private - sie sind also für alle Subklassen und innerhalb des selben Ordners (Package) sichtbar. } Felder und Methoden ebenfalls möglicht, zusätzlich bleibt der Test-Code von der Implementation getrennt. Dieses vorgehen wird auch vom Build-Werkzeug Maven Tycho unterstützt. Wenn man das entsprechende Test-Plugin als Eclipse-Test-Plugin konfiguriert\footnote{Dies kann innerhalb der Maven-Konfigurationsdatei pom.xml mit dem Element packaging gemacht werden.}, können die Tests auch während dem Build automatisiert durchgeführt werden.
+
+Bei Eclipse-Plugin-Projekten erstellt man für den Test-Code ein separates Projekt. In das zu verteilende Softwarepacket (Feature) werden nur die Nicht-Test-Plugins getan. Der Zugriff vom Test-Projekt auf die Implementationen ist per se nicht möglich\footnote{Jedes Plugin muss definieren, welche Packages für die anderen Plugins sichtbar sind.}, zu diesem Zweck wird das Test-Projekt als Fragment definiert.
+
+%--------------------------------------------
+\section{Infrastruktur}
+\subsection{Build-Automation}
+Die Automatisierung des Software-Builds ist hinsichtlich der Integration in ein Continuous Integration System Voraussetzung. Es hat zusätzlich aber andere Vorteile:
+\begin{itemize}
+	\item Tasks wie das Kompilieren, die Packetierung und das Deployment der Software müssen nicht mehr manuell gemacht werden.
+	\item Zur Verhinderung von Regression und entsprechend zur Gewährleistung der Qualität können vor jedem Release automatisch die Tests durchgeführt werden.
+\end{itemize}
+
+Als Werkzeug zum automatisierten Build der Software wird Maven Tycho\footnote{Im Bereich der Eclipse Rich Client Entwicklung kann entweder PDE Build, ein auf Apache Ant basiertes Build-System für Eclipse RCP Applikationen\cite{vogelZapfPdeBuild} oder die Maven-Integration Tycho (http://tycho.sonatype.org) verwendet werden.} verwendet. Um Tycho führt mittlerweile kein Weg drum herum, es hat im Vergleich zum PDE Build einige Vorteile:
+\begin{itemize}
+	\item Maven Builds lassen sich ohne grossen Aufwand in Continuous Integration Systeme integrieren.
+	\item Maven hat eine gute Integration in alle gängigen Entwicklungsumgebungen\footnote{Projekt-Dateien müssen nicht mehr in die Versionskontrolle eingecheckt werden.} und ist sehr verbreitet
+\end{itemize}
+
+\subsection{Continous Integration}
+Als Continuous Integration Server wird Jenkins\footnote{http://jenkins-ci.org - Jenkins ist der ehemalige Hudson CI Server, welcher nach dem Kauf von Sun durch Oracle als Branch entstanden ist.} verwendet. Jenkins bringt nebst seiner Benutzerfreundlichkeit als Build Server einige zum Projekt nötigen Voraussetzungen mit:
+\begin{itemize}
+	\item Jenkins ist für alle denkbaren Betriebssysteme vorhanden.
+	\item Jenkins ist kompatibel mit allen gängigen Systemen zur Versionskontrolle: Git, Subversion, CVS, etc.
+	\item Maven-Projekte lassen sich ohne grossen Aufwand als Build-Projekte konfigurieren.
+\end{itemize}
+
+\subsection{Versionskontrolle}
+Zur Versionskontrolle kommen mehrere Werkzeuge in Frage. Git\footnote{http://git-scm.com} ist ein verteiltes Sourcecode Management System und ist konzeptionell und hinsichtlich Benutzerfreundlichkeit besser als Subversion und CVS\footnote{Git kann offline verwendet werden, das Verschieben von Verzeichnissen führt nicht zu Problemen, etc.}. Auf der Plattform Github\footnote{http://github.com} kann man öffentliche Projekte gratis ``hosten''.
+
+\subsection{Issue Tracker}
+Als Issue Tracker wird Jira verwendet. Es handelt sich dabei um eine kostenpflichtige aber relativ günstige Software für das Issue-Tracking.
+
+\subsection{Installation der Software}\label{installation}
+Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Rechner, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Eclipse\footnote{in der Basis ist es Equinox, die Implementation des OSGi Standards} ist in der Lage, Plugins zur Laufzeit zu installieren, starten, deinstallieren.
+
+Die Update-Seite für diese Software wird folgendermassen aufgebaut:
+\begin{itemize}
+	\item Garbage Collection Log Analysis (Kategorie)
+		\begin{itemize}
+			\item Core (Feature)
+			\item JRockit Extension (Feature)
+		\end{itemize}
+\end{itemize}
+Nachträglich kann somit auch für ein anderes Log-Format eine Extension geschrieben werden.
 
 
