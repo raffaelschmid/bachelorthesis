@@ -17,24 +17,6 @@ Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikatio
 Wie bei Eclipse RCP handelt es sich bei Netbeans RCP ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Dem Entwickler wird ein API für typische Anforderungen in diesem Bereich zur Verfügung gestellt. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet.
 
 \subsection{Auswertung Rich Client Frameworks}
-Dieser Abschnitt illustriet die Bewertung und Gewichtung und wertet anschliessend die drei zur Auswahl stehenden Rich Client Plattformen tabellarisch aus. 
-\subsubsection{Bewertung}
-Für die Bewertung werden die Punktezahlen  folgendermassen vergeben:
-\begin{longtable}{|l|c|c|c|c|c|}\hline
- \textbf{Bewertung} & sehr schlecht & schlecht & mittel & gross & sehr gross\\\hline
- \textbf{Punktzahl} & 1 & 2 & 3 & 4 & 5\\\hline
- \caption{Schema Vergabe der Punkte}
-\end{longtable}
-
-\subsubsection{Gewichtung}
-Der Wert der Gewichtung wird folgendermassen in eine Zahl umgewandelt: 
-\begin{longtable}{|l|c|c|c|c|c|}\hline
- \textbf{Priorität} & sehr klein & klein & mittel & gross & sehr gross\\\hline
- \textbf{Gewicht} & 1 & 2 & 3 & 4 & 5\\\hline
- \caption{Schema Gewichtung der Prioritäten}
-\end{longtable}
-
-
 Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \titleref{anforderungen_framework} mit der jeweiligen Gewichtung. Die weiteren Spalten zeigen die erreichte Punktzahl zusammen mit dem aus Punktzahl und Gewicht errechnete Produkt.
 \begin{longtable}{|p{3cm}|c|c|c|c|c|}\hline
  \textbf{Anforderung} & \textbf{Nummer} &  \textbf{Gewicht.} & \textbf{Eclipse 3.x} & \textbf{Eclipse 4.x} &  \textbf{Netbeans 3.x}\\\hline
@@ -44,6 +26,22 @@ Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \titleref{anf
    \textbf{Unterstützung Modularisierung} & (QRQ-F-04) & 3 & 5 (15) & 5 (15) & 5 (15) \\\hline
    \textbf{Total} & - & - & \textbf{65} & 49 & 53\\\hline
     \caption{Auswertung Rich Client Frameworks}
+\end{longtable}
+
+\subsubsection{Bewertung}
+Die Bewertung der einzelnen Anforderungen wurde geschätzt und wird mittels folgender Tabelle in eine Zahl umgewandelt:
+\begin{longtable}{|l|c|c|c|c|c|}\hline
+ \textbf{Bewertung} & sehr schlecht & schlecht & mittel & gross & sehr gross\\\hline
+ \textbf{Punktzahl} & 1 & 2 & 3 & 4 & 5\\\hline
+ \caption{Schema Vergabe der Punkte}
+\end{longtable}
+
+\subsubsection{Gewichtung}
+Die Gewichtung wird aus der Priorität der einzelnen Anforderung sowie der nachfolgenden Tabelle in eine Zahl umgewandelt:
+\begin{longtable}{|l|c|c|c|c|c|}\hline
+ \textbf{Priorität} & sehr klein & klein & mittel & gross & sehr gross\\\hline
+ \textbf{Gewicht} & 1 & 2 & 3 & 4 & 5\\\hline
+ \caption{Schema Gewichtung der Prioritäten}
 \end{longtable}
 
 

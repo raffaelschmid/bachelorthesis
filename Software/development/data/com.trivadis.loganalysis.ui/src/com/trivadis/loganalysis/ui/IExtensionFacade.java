@@ -23,9 +23,9 @@ public interface IExtensionFacade {
 
 	List<IProfile> getProfilesFromFile(String fileName);
 
-	IConfiguration getConfigurationForJvm(IJvmRun jvm);
+	IConfiguration getConfigurationFor(IJvmRun jvm);
 
-	List<IConfiguration> getConfigurations(IMemento memento);
+	List<IConfiguration> getConfigurationsFor(IMemento memento);
 
 	List<IConfiguration> getConfigurations();
 

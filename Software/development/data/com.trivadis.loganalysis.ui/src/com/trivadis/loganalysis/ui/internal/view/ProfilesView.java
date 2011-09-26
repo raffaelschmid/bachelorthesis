@@ -52,7 +52,7 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 	private TreeViewer viewer;
 	private Action doubleClickAction;
 
-	private final IUiContext context;
+	private final IUiContext uiContext;
 
 	private final Help help;
 
@@ -61,7 +61,7 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 	}
 
 	public ProfilesView(final IUiContext context, final Help help) {
-		this.context = context;
+		this.uiContext = context;
 		this.help = help;
 	}
 
@@ -115,7 +115,7 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 
 	@Override
 	public void saveState(final IMemento memento) {
-		foreach(context.getConfigurations(), new ClosureI<IConfiguration>() {
+		foreach(uiContext.getConfigurations(), new ClosureI<IConfiguration>() {
 			public void call(final IConfiguration in) {
 				in.save(memento);
 			}
@@ -137,9 +137,10 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 	@Override
 	public void init(final IViewSite site, final IMemento memento) throws PartInitException {
 		super.init(site, memento);
-		context.addConfigurations(UiLoganalysis.getDefault().getExtensionFacade().getConfigurations(memento));
-		context.getConfigurations().addChangeListener(this); // data binding
-		for (final IConfiguration configuration : context.getConfigurations()) {
+		
+		uiContext.addConfigurations(uiContext.getExtensionFacade().getConfigurationsFor(memento));
+		uiContext.getConfigurations().addChangeListener(this); // data binding
+		for (final IConfiguration configuration : uiContext.getConfigurations()) {
 			configuration.getProfiles().addChangeListener(this);
 		}
 		getSite().getPage().addSelectionListener(this);
@@ -150,11 +151,11 @@ public class ProfilesView extends ViewPart implements ISelectionListener, IListC
 			final StructuredSelection ss = (StructuredSelection) selection;
 			if (ss.getFirstElement() instanceof IProfile) {
 				final IProfile profile = (IProfile) ss.getFirstElement();
-				context.setSelectedProfile(profile);
+				uiContext.setSelectedProfile(profile);
 			}
 			if(ss.getFirstElement() instanceof IConfiguration){
 				final IConfiguration configuration = (IConfiguration) ss.getFirstElement();
-				context.setSelectedConfiguration(configuration);
+				uiContext.setSelectedConfiguration(configuration);
 			}
 			
 		}

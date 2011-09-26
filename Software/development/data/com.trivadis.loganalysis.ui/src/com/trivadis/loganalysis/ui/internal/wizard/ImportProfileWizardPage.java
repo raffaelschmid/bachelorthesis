@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 import com.trivadis.loganalysis.core.common.Predicate;
+import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.UiLoganalysis;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.domain.profile.IStandardProfile;
@@ -50,11 +51,17 @@ public class ImportProfileWizardPage extends WizardPage implements ICheckStateLi
 	private final List<IProfile> profiles = new ArrayList<IProfile>();
 
 	private Text fileName;
+	private final IUiContext uiContext;
 
 	public ImportProfileWizardPage() {
+		this(UiLoganalysis.getDefault().getUiContext());
+	}
+
+	public ImportProfileWizardPage(final IUiContext uiContext) {
 		super("Import Garbage Collection Analysis Profile", "Garbage Collection Analysis Profile", Activator
 				.getDefault().getImageDescriptor("icons/gclog_import.gif")); //$NON-NLS-1$
 		setDescription("Import Garbage Collection Analysis Profiles from a file.");
+		this.uiContext = uiContext;
 	}
 
 	public void createControl(final Composite parent) {
@@ -126,6 +133,7 @@ public class ImportProfileWizardPage extends WizardPage implements ICheckStateLi
 		save.setText("Select File");
 		fileName.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL));
 		save.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(final SelectionEvent event) {
 				// User has selected to save a file
@@ -136,8 +144,7 @@ public class ImportProfileWizardPage extends WizardPage implements ICheckStateLi
 				final String fn = dlg.open();
 				if (fn != null) {
 					fileName.setText(fn);
-					listViewer.setInput(findAll(
-							UiLoganalysis.getDefault().getExtensionFacade().getProfilesFromFile(fn),
+					listViewer.setInput(findAll(uiContext.getExtensionFacade().getProfilesFromFile(fn),
 							new Predicate<IProfile>() {
 								public boolean matches(final IProfile item) {
 									return !(item instanceof IStandardProfile);

@@ -11,10 +11,21 @@
  */
 package com.trivadis.loganalysis.core.internal;
 
+import static com.trivadis.loganalysis.core.common.CollectionUtil.findFirst;
+
+import com.trivadis.loganalysis.core.ExtensionPoint;
+import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.IContentReader;
 import com.trivadis.loganalysis.core.IContext;
+import com.trivadis.loganalysis.core.common.ExtensionUtil;
+import com.trivadis.loganalysis.core.common.Predicate;
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IJvmRun;
 
 public class Context implements IContext {
+
+	private static final String ELEMENT_NAME = "analyzer";
+
 	private final IContentReader contentReader;
 
 	public Context() {
@@ -23,5 +34,15 @@ public class Context implements IContext {
 
 	public IContentReader getContentReader() {
 		return this.contentReader;
+	}
+
+	public IAnalyzer<IJvmRun> findAnalyzer(final IFileDescriptor fileDescriptor) {
+		return findFirst(
+				ExtensionUtil.<IAnalyzer<IJvmRun>> findExtensionInstances(ExtensionPoint.ANALYZER, ELEMENT_NAME),
+				new Predicate<IAnalyzer<IJvmRun>>() {
+					public boolean matches(final IAnalyzer<IJvmRun> item) {
+						return item.canHandleLogFile(fileDescriptor);
+					}
+				});
 	}
 }

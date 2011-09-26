@@ -29,7 +29,7 @@ import com.trivadis.loganalysis.jrockit.ui.internal.view.summary.JRockitAnalysis
 import com.trivadis.loganalysis.ui.AnalysisEditor;
 import com.trivadis.loganalysis.ui.AnalysisPage;
 import com.trivadis.loganalysis.ui.DiagramAnalysisPage;
-import com.trivadis.loganalysis.ui.EditorInput;
+import com.trivadis.loganalysis.ui.AnalysisEditorInput;
 import com.trivadis.loganalysis.ui.Help;
 import com.trivadis.loganalysis.ui.IProfileListener;
 import com.trivadis.loganalysis.ui.Ui;
@@ -101,9 +101,9 @@ public class JRockitAnalysisEditor extends FormEditor implements AnalysisEditor 
 
 	@Override
 	public void init(final IEditorSite site, final IEditorInput editorInput) throws PartInitException {
-		if (!(editorInput instanceof EditorInput))
+		if (!(editorInput instanceof AnalysisEditorInput))
 			throw new PartInitException("Invalid Input: Must be AnalysisEditorInput");
-		final EditorInput input = (EditorInput) editorInput;
+		final AnalysisEditorInput input = (AnalysisEditorInput) editorInput;
 		if (!(input.getLogFile() instanceof JRockitJvmRun))
 			throw new PartInitException("Invalid Log File Input");
 		this.jvm = (JRockitJvmRun) input.getLogFile();

@@ -15,6 +15,4 @@ public interface IUiLoganalysis {
 
 	public abstract IUiContext getUiContext();
 
-	public abstract IExtensionFacade getExtensionFacade();
-
 }

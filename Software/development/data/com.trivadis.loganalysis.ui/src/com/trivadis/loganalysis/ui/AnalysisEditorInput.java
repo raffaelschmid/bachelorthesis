@@ -19,12 +19,12 @@ import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 import com.trivadis.loganalysis.ui.internal.Activator;
 
-public class EditorInput implements IEditorInput {
+public class AnalysisEditorInput implements IEditorInput {
 
 	private final IJvmRun logFile;
 	private final IProfile profile;
 
-	public EditorInput(final IJvmRun logFile, final IProfile profile) {
+	public AnalysisEditorInput(final IJvmRun logFile, final IProfile profile) {
 		this.logFile = logFile;
 		this.profile = profile;
 	}

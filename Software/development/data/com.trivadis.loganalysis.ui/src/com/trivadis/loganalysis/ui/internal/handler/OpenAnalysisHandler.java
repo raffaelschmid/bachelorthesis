@@ -23,13 +23,13 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.trivadis.loganalysis.core.IAnalyzer;
-import com.trivadis.loganalysis.core.ILoganalysis;
+import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.Progress;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.core.domain.IJvmRun;
 import com.trivadis.loganalysis.core.exception.FileProcessingException;
-import com.trivadis.loganalysis.ui.EditorInput;
+import com.trivadis.loganalysis.ui.AnalysisEditorInput;
 import com.trivadis.loganalysis.ui.IUiContext;
 import com.trivadis.loganalysis.ui.ResultRunnableWithProgress;
 import com.trivadis.loganalysis.ui.Ui;
@@ -39,16 +39,16 @@ import com.trivadis.loganalysis.ui.internal.Messages;
 
 public class OpenAnalysisHandler extends AbstractHandler {
 
-	private final IUiContext context;
-	private final ILoganalysis loganalysis;
+	private final IUiContext uiContext;
+	private final IContext context;
 
 	public OpenAnalysisHandler() {
-		this(Loganalysis.getDefault(),UiLoganalysis.getDefault().getUiContext());
+		this(Loganalysis.getDefault().getContext(), UiLoganalysis.getDefault().getUiContext());
 	}
 
-	public OpenAnalysisHandler(final ILoganalysis loganalysis, final IUiContext context) {
+	public OpenAnalysisHandler(final IContext context, final IUiContext uiContext) {
 		this.context = context;
-		this.loganalysis = loganalysis;
+		this.uiContext = uiContext;
 	}
 
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
@@ -57,16 +57,15 @@ public class OpenAnalysisHandler extends AbstractHandler {
 		final ISelection selection = service.getSelection();
 		if (selection instanceof StructuredSelection) {
 			final StructuredSelection sselection = (StructuredSelection) selection;
-			final Object ofile = sselection.getFirstElement();
-			if (ofile instanceof IFileDescriptor) {
-				final IFileDescriptor logFileDescriptor = (IFileDescriptor) ofile;
-				openAnalysis(event, logFileDescriptor, context.getSelectedProfile());
-			} else if (ofile instanceof IProfile) {
-				if (context.getSelectedLogFile() != null) {
-					final IProfile profile = (IProfile) ofile;
-					openAnalysis(event, context.getSelectedLogFile(), profile);
-				}
-				else{
+			final Object oProfile = sselection.getFirstElement();
+			if (oProfile instanceof IFileDescriptor) {
+				final IFileDescriptor logFileDescriptor = (IFileDescriptor) oProfile;
+				openAnalysis(event, logFileDescriptor, uiContext.getSelectedProfile());
+			} else if (oProfile instanceof IProfile) {
+				if (uiContext.getSelectedLogFile() != null) {
+					final IProfile profile = (IProfile) oProfile;
+					openAnalysis(event, uiContext.getSelectedLogFile(), profile);
+				} else {
 					// TODO handle case where file is not selected and double
 					// click on profile occures
 				}
@@ -76,13 +75,12 @@ public class OpenAnalysisHandler extends AbstractHandler {
 		return null;
 	}
 
-	private void openAnalysis(final ExecutionEvent event, final IFileDescriptor logFileDescriptor,
-			final IProfile profile) {
+	private void openAnalysis(final ExecutionEvent event, final IFileDescriptor fileDescriptor, final IProfile profile) {
 		try {
 			final IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-			final IAnalyzer<IJvmRun> analyzer = loganalysis.fileProcessor(logFileDescriptor);
+			final IAnalyzer<IJvmRun> analyzer = context.findAnalyzer(fileDescriptor);
 			if (analyzer != null) {
-				showAnalysis(logFileDescriptor, page, analyzer, profile);
+				showAnalysis(fileDescriptor, page, analyzer, profile);
 			} else {
 				showNoAnalyzerFoundMessage(page);
 			}
@@ -91,18 +89,19 @@ public class OpenAnalysisHandler extends AbstractHandler {
 		}
 	}
 
-	private void showAnalysis(final IFileDescriptor logFileDescriptor, final IWorkbenchPage page,
+	private void showAnalysis(final IFileDescriptor fileDescriptor, final IWorkbenchPage page,
 			final IAnalyzer<IJvmRun> analyzer, final IProfile profile) {
 		try {
-			final IJvmRun jvm = Ui.getDefault().busyCursorWithResultWhile(new ResultRunnableWithProgress<IJvmRun>() {
+			final IJvmRun jvmRun = Ui.getDefault().busyCursorWithResultWhile(new ResultRunnableWithProgress<IJvmRun>() {
 				@Override
 				public IJvmRun result(final IProgressMonitor monitor) {
-					return analyzer.process(logFileDescriptor, new Progress(monitor,
+					return analyzer.process(fileDescriptor, new Progress(monitor,
 							Messages.OpenGcLoganalysis_progress_message));
 				}
 			});
-			page.openEditor(new EditorInput(jvm, profile != null ? profile : UiLoganalysis.getDefault().getExtensionFacade().getConfigurationForJvm(jvm)
-					.getDefaultProfile()), analyzer.getEditorId());
+			final AnalysisEditorInput editorInput = new AnalysisEditorInput(jvmRun, profile != null ? profile : uiContext
+					.getExtensionFacade().getConfigurationFor(jvmRun).getDefaultProfile());
+			page.openEditor(editorInput, analyzer.getEditorId());
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}

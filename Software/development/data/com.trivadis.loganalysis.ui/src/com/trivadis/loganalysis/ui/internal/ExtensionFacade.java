@@ -36,21 +36,19 @@ import com.trivadis.loganalysis.ui.domain.profile.IProfile;
 public class ExtensionFacade implements IExtensionFacade {
 
 	private static final String ELEMENT_NAME = "profileprovider";
-	
-	public List<IConfiguration> getConfigurations(final IMemento memento) {
-		final List<IProfileProvider> findExtensionInstances = findExtensionInstances(ExtensionPoint.PROVIDER,
-				ELEMENT_NAME);
-		return collect(findExtensionInstances, new ClosureIO<IProfileProvider, IConfiguration>() {
+
+	public List<IConfiguration> getConfigurationsFor(final IMemento memento) {
+		final List<IProfileProvider> profileProviders = findExtensionInstances(ExtensionPoint.PROVIDER, ELEMENT_NAME);
+		return collect(profileProviders, new ClosureIO<IProfileProvider, IConfiguration>() {
 			public IConfiguration call(final IProfileProvider in) {
 				return in.getConfiguration(memento);
 			}
 		});
 	}
 
-	public IConfiguration getConfigurationForJvm(final IJvmRun jvm) {
-		final List<IProfileProvider> findExtensionInstances = findExtensionInstances(ExtensionPoint.PROVIDER,
-				ELEMENT_NAME);
-		return findFirst(findExtensionInstances, new Predicate<IProfileProvider>() {
+	public IConfiguration getConfigurationFor(final IJvmRun jvm) {
+		final List<IProfileProvider> profileProviders = findExtensionInstances(ExtensionPoint.PROVIDER, ELEMENT_NAME);
+		return findFirst(profileProviders, new Predicate<IProfileProvider>() {
 			public boolean matches(final IProfileProvider profileProvider) {
 				return profileProvider.knowsJvm(jvm);
 			}
@@ -58,8 +56,8 @@ public class ExtensionFacade implements IExtensionFacade {
 	}
 
 	public List<IProfile> getProfilesFromFile(final String fileName) {
-		final List<IProfileProvider> extensions = findExtensionInstances(ExtensionPoint.PROVIDER, ELEMENT_NAME);
-		return flatten(collect(extensions, new ClosureIO<IProfileProvider, List<IProfile>>() {
+		final List<IProfileProvider> profileProviders = findExtensionInstances(ExtensionPoint.PROVIDER, ELEMENT_NAME);
+		return flatten(collect(profileProviders, new ClosureIO<IProfileProvider, List<IProfile>>() {
 			public List<IProfile> call(final IProfileProvider profileProvider) {
 				try {
 					return profileProvider.getConfiguration(
@@ -71,9 +69,9 @@ public class ExtensionFacade implements IExtensionFacade {
 			}
 		}));
 	}
-	
+
 	public List<IConfiguration> getConfigurations() {
-		return getConfigurations(null);
+		return getConfigurationsFor(null);
 	}
 
 }

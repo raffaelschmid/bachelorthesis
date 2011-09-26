@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.trivadis.loganalysis.core.IAnalyzer;
-import com.trivadis.loganalysis.core.IContentReader;
+import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.CollectionUtil;
 import com.trivadis.loganalysis.core.common.Predicate;
@@ -30,21 +30,21 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 	private final Pattern firstLinePattern = Pattern.compile(JRockitExtractor.prefix() + "<start>-<end>:\\s<type>\\s<before>KB-><after>KB\\s\\(<heap>KB\\), <time> ms, sum of pauses <pause> ms\\.");//"
 			//+ "\\]\\s.*");
 	public static final String ANALYZER_EDITOR_ID = "com.trivadis.loganalysis.jrockit.ui.AnalysisEditor";
-	private final IContentReader contentReader;
+	private final IContext context;
 	private final IModuleProcessor moduleProcessor;
 
 	public JRockitAnalyzer() {
-		this(Loganalysis.getDefault().contentReader(), new CompositeModuleProcessor(
+		this(Loganalysis.getDefault().getContext(), new CompositeModuleProcessor(
 				new MemoryLogModuleProcessor()));
 	}
 
-	public JRockitAnalyzer(final IContentReader contentReader, final IModuleProcessor moduleProcessor) {
-		this.contentReader = contentReader;
+	public JRockitAnalyzer(final IContext context, final IModuleProcessor moduleProcessor) {
+		this.context = context;
 		this.moduleProcessor = moduleProcessor;
 	}
 
 	public boolean canHandleLogFile(final IFileDescriptor descriptor) {
-		final List<String> logs = descriptor.getContent(contentReader);
+		final List<String> logs = descriptor.getContent(context.getContentReader());
 		
 		final String definitionLine = CollectionUtil.findFirst(logs, new Predicate<String>(){
 			public boolean matches(final String line) {
@@ -55,14 +55,15 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 	}
 
 	public JRockitJvmRun process(final IFileDescriptor descriptor, final IProgress progress) {
-		final List<String> content = descriptor.getContent(contentReader);
+		final List<String> content = descriptor.getContent(context.getContentReader());
 		final JRockitJvmRun logFile = new JRockitJvmRun(descriptor);
 		progress.beginTask(content.size());
 		for (int i = 0; i < content.size(); i++) {
 			if (shouldReportProgress(i)) {
 				progress.worked(i);
 			}
-			moduleProcessor.process(logFile, content.get(i));
+			String line = content.get(i);
+			moduleProcessor.process(logFile, line);
 		}
 		progress.done();
 		return logFile;

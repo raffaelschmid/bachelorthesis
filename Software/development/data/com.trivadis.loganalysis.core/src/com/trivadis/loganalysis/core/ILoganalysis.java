@@ -11,15 +11,6 @@
  */
 package com.trivadis.loganalysis.core;
 
-import com.trivadis.loganalysis.core.domain.IFileDescriptor;
-import com.trivadis.loganalysis.core.domain.IJvmRun;
-
 public interface ILoganalysis {
-
 	public abstract IContext getContext();
-
-	public abstract IContentReader contentReader();
-
-	public abstract IAnalyzer<IJvmRun> fileProcessor(final IFileDescriptor fileDescriptor);
-
 }

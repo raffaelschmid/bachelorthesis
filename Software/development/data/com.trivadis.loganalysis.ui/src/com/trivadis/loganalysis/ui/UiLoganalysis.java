@@ -31,8 +31,4 @@ public class UiLoganalysis implements IUiLoganalysis {
 	public IUiContext getUiContext() {
 		return context;
 	}
-
-	public IExtensionFacade getExtensionFacade() {
-		return context.getExtensionFacade();
-	}
 }

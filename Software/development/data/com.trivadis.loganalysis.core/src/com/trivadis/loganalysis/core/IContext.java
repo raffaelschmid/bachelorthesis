@@ -11,8 +11,13 @@
  */
 package com.trivadis.loganalysis.core;
 
+import com.trivadis.loganalysis.core.domain.IFileDescriptor;
+import com.trivadis.loganalysis.core.domain.IJvmRun;
+
 public interface IContext {
 
 	IContentReader getContentReader();
+
+	IAnalyzer<IJvmRun> findAnalyzer(IFileDescriptor fileDescriptor);
 
 }
