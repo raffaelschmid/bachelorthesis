@@ -5,6 +5,9 @@
 \subsection{Ausgangslage}
 Als Rich Client Framework wird Eclipse 3.x\footnote{die aktuelle Version ist 3.7 (stand: 31.8.2011)} genommen. Siehe Abschnitt \titleref{selection_rcp_fw}. In der Folge werden die für die Eclipse Plattform gebräuchlichen Begrifflichkeiten verwendet. 
 
+\section{Generelle Informationen}
+\subsection{Speicherung des Zustands einer View}\label{memento}
+Die Speicherung des Zustands einer View kann implementiert werden, indem die Methode \textit{saveState(memento:IMemento)} überschrieben wird. \textit{IMemento} ist eine Eclipse-Klasse und gleichzeitig die Abstraktion eines Mementos. Mementos dienen zur Serialisierung von Objekten und haben den Vorteil, dass sie nicht an eine Version der Klasse gebunden sind. Das Eclipse-Framework persistiert die Zustände von Views mittels eines XMLMemento entsprechend im XML-Format ab. Die Deserialisierung erreicht man mit dem Überschreiben der Methode \textit{init(site:IViewSite, memento:IMemento)}.
 
 \section{Architektur}
 \subsection{Problemstellung}\label{konzept_uebersicht}
@@ -98,11 +101,21 @@ Für die Installation der Software wird eine Eclipse Update-Seite erstellt. Die 
 Der Update eines Features auf der Update-Seite ist erkennbar durch eine Änderung der Major respektive Minor Version oder aber durch Änderung des an die Feature-Datei angehängten Zeitstempels\footnote{Mittels der Versionnummer x.x.qualifier erreicht man, dass der Zeitstempel ans Dateiende gehängt wird.}.
 
 \subsection{Datei importieren}
-
+Der Import einer Log-Datei findet über einen Eclipse-Import-Wizard statt. Der Ablauf zum Import einer oder mehrerer Dateien ist folgendermassen:
+\begin{enumerate}
+	\item Import-Wizard öffnen
+	\item Auswahl des Ordners
+	\item Selektion einer oder mehrerer Log-Dateien
+	\item Bestätigung der Eingaben
+	\item Anschliessend wird die Log-Datei als Instanz von IFileDescriptor in er Ansicht ``Log-Dateien'' angezeigt.
+\end{enumerate}
 
 \subsubsection{Importierte Dateien speichern}
+Der oben beschriebene Mechanismus wird verwendet, damit nach einem Neustart der Entwicklungsumgebung die importierten Log-Dateien nicht verloren gehen. 
 
 \subsection{Datei einlesen}
+
+
 \subsubsection{Domänenmodell}
  \begin{figure}[H]
   	\centering
@@ -123,7 +136,7 @@ Die Definition von benutzerdefinierten Charts kann innerhalb von Profilen gespei
 
 \subsubsection{Charts definieren}
 \subsubsection{Profil speichern}
-Die erstellten Profile mit den darin definierten Charts müssen über die Grenze der Session hinweg gespeichert werden. Ein dafür mögliches Design Pattern wurde durch die Gang of Four\footnote{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides} in \cite[S. 283]{gamma1995design} definiert. Mit dem Memento Pattern kann man den Zustand eines oder mehreren Objekten (Objektgraphen) erfassen und externalisieren. Im Eclipse-Umfeld wurde dieses Pattern durch \textit{IMemento} und \textit{XmlMemento} realisiert und kann für die Speicherung der View-Zustände verwendet werden. Für die Speicherung der Profile wird beginnend vom Root-Objekt (\textit{IExtension}), auf der Basis des Visitor-Patterns\cite[S. 331]{gamma1995design}, ein Memento-Objekt erstellt. Dieses wird anschliessend im Eclipse-Context (dieser überlebt Shutdown und Restart der Workbench) oder als XML auf dem Datei-System gespeichert. 
+Die erstellten Profile mit den darin definierten Charts müssen über die Grenze der Session hinweg gespeichert werden. Ein dafür mögliches Design Pattern wurde durch die Gang of Four\footnote{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides} in \cite[S. 283]{gamma1995design} definiert. Mit dem Prinzip des Mementos (siehe \titleref{memento}) wird garantiert, dass sie auch über die Zeit einer Session gespeichert bleiben. Für die Speicherung der Profile wird beginnend vom Root-Objekt (\textit{IExtension}), auf der Basis des Visitor-Patterns\cite[S. 331]{gamma1995design}, ein Memento-Objekt erstellt. Dieses wird anschliessend im Eclipse-Context (dieser überlebt Shutdown und Restart der Workbench) oder als XML auf dem Datei-System gespeichert. 
 
 \subsubsection{Profil exportieren}
 \subsubsection{Profil importieren}
