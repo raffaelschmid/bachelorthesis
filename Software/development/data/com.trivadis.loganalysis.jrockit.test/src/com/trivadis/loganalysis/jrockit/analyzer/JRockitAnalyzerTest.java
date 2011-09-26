@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 
 import com.trivadis.loganalysis.core.IAnalyzer;
+import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.core.common.progress.EmptyProgress;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
@@ -30,7 +31,7 @@ import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
 
 public class JRockitAnalyzerTest {
 	private final AtomicInteger count = new AtomicInteger();
-	private final IAnalyzer<JRockitJvmRun> analyzer = new JRockitAnalyzer(null, new IModuleProcessor() {
+	private final IAnalyzer<JRockitJvmRun> analyzer = new JRockitAnalyzer(Loganalysis.getDefault().getContext(), new IModuleProcessor() {
 		public ModuleResult process(final JRockitJvmRun logFile, final String line) {
 			count.incrementAndGet();
 			return ModuleResult.PROCEED;
