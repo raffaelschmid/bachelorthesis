@@ -219,6 +219,10 @@ Each party waives its rights to a jury trial in any resulting
 litigation.
    </license>
 
+   <requires>
+      <import feature="com.trivadis.loganalysis.feature" version="1.0.0.qualifier"/>
+   </requires>
+
    <plugin
          id="com.trivadis.loganalysis.jfreechart.libs"
          download-size="0"
