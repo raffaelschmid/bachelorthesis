@@ -102,7 +102,7 @@ Als Abstraktion für eine Log-Datei wird die Klasse IFileDescriptor verwendet. B
 Danach wird der Analyse-Editor mit dem entsprechenden Modellobjekt geöffnet. Der Editor ist ebenfalls sehr proprietär für jedes Log-Format und befindet sich in der jeweiligen Erweiterung (Beispiel JRockitAnalysisEditor). 
  \begin{figure}[H]
   	\centering
-    	\includegraphics[width=16.5cm]{images/core_sequence_analysis}
+    	\includegraphics[width=16cm]{images/core_sequence_analysis}
 	\caption{Sequenz-Diagramm Öffnen der Analyse}
 \end{figure}
 \section{Basissoftware}
@@ -188,8 +188,8 @@ Der Parse-Prozess wandelt die unstrukturierten Daten in ein strukturiertes Domä
 \begin{landscape}
  \begin{figure}[H]
   	\centering
-        	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
-    	\includegraphics[width=16.5cm]{images/jrockit_extension_domain}
+        	\includegraphics[width=16.5cm]{images/jrockit_extension_domain}
+	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
 \end{figure}
 \end{landscape}
 Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände in welchen die verschiedenen Messgrössen gemessen und gespeichert werden. Zustandsübergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung geworfen - zum Beispiel wenn die Nursery oder die Old Collection an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden. Je nach Algorithmus folgt die Sweep-Phase oder Kopaktierung auf eine Markierungs-Phase.
