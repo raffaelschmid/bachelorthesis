@@ -31,6 +31,7 @@ public class ExportProfileWizard extends Wizard implements IExportWizard {
 		this.context = UiLoganalysis.getDefault().getUiContext();
 		this.exporter = context.getProfileExporter();
 		this.page = new ExportProfileWizardPage(context);
+		setWindowTitle("Export Garbage Collection Analysis Profile");
 	}
 
 	public void init(final IWorkbench workbench, final IStructuredSelection selection) {

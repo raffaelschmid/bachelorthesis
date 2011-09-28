@@ -17,7 +17,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 import com.trivadis.loganalysis.ui.domain.profile.IConfiguration;
-import com.trivadis.loganalysis.ui.internal.Messages;
 
 public class NewProfileWizard extends Wizard implements INewWizard {
 
@@ -25,6 +24,8 @@ public class NewProfileWizard extends Wizard implements INewWizard {
 
 	public NewProfileWizard() {
 		this(new NewProfileWizardPage("asadf"));
+		setWindowTitle("Create Garbage Collection Analysis Profile"); 
+		setNeedsProgressMonitor(true);
 	}
 
 	public NewProfileWizard(final NewProfileWizardPage newProfileWizardPage) {
@@ -32,8 +33,7 @@ public class NewProfileWizard extends Wizard implements INewWizard {
 	}
 	
 	public void init(final IWorkbench workbench, final IStructuredSelection selection) {
-		setWindowTitle(Messages.ImportGCLogWizard_4); // NON-NLS-1
-		setNeedsProgressMonitor(true);
+		
 	}
 
 	@Override

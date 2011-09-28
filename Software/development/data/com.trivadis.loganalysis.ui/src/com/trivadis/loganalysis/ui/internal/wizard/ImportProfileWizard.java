@@ -39,6 +39,7 @@ public class ImportProfileWizard extends Wizard implements IExportWizard {
 	public ImportProfileWizard(final ImportProfileWizardPage page, final IUiContext context) {
 		this.page = page;
 		this.context = context;
+		setWindowTitle("Import Garbage Collection Analysis Profile");
 	}
 
 	public void init(final IWorkbench workbench, final IStructuredSelection selection) {

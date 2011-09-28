@@ -42,6 +42,8 @@ public class ImportGCLogWizard extends Wizard implements IImportWizard {
 	public ImportGCLogWizard(final ImportGCLogWizardPage page, final IUiContext context) {
 		this.page = page;
 		this.context = context;
+		setWindowTitle(Messages.ImportGCLogWizard_4); // NON-NLS-1
+		setNeedsProgressMonitor(true);
 	}
 
 	@Override
@@ -59,8 +61,7 @@ public class ImportGCLogWizard extends Wizard implements IImportWizard {
 	}
 
 	public void init(final IWorkbench workbench, final IStructuredSelection selection) {
-		setWindowTitle(Messages.ImportGCLogWizard_4); // NON-NLS-1
-		setNeedsProgressMonitor(true);
+		
 	}
 
 	@Override
