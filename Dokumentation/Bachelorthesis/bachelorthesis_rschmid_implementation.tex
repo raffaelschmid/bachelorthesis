@@ -1,7 +1,26 @@
 \chapter{Implementation}
+Obwohl die Implementation der Software im Rahmen der Bachelorthesis nur einen untergeordneten Stellenwert hat, konnte das erarbeitete Konzept in allen Punkten - zumindest im Sinne eines Proof of Concept - umgesetzt werden. Einige davon mussten auch bereits in der Konzeptphase auf am Prototypen überprüft werden.
 
+Der Proof of Concept beinhaltet folgende Punkte\footnote{Kann auch im Abschnitt \titleref{bedienungsanleitung} oder an der laufenden Software überprüft werden.}:
+\section{Funktionale Anforderungen}
+\subsection{Installation (FRQ-01) und Update (FRQ-02)}
+Installation und Update der beiden Features Core und JRockit Extension können über die Update-Seite gemacht werden. Beide Funktionalitäten sind Bestandteil des Eclipse-Frameworks und werden via ein Update-Site-Plugin und die beiden Feature-Plugins bereitgestellt.
 
+\subsection{Datei importieren (FRQ-03)}
+Die Dateien werden in eine eigens dafür registrierte View importiert. Das Speichern und Wiederherstellen des Zustands dieser View findet über das von Eclipse implementierte Memento-Pattern (siehe Abschnitt \titleref{memento}) statt. 
 
+\subsection{Datei einlesen (FRQ-04)}
+Die eingelesene Datei wird in Form des im Konzept beschriebenen Domänenmodells ins Memory geladen. 
 
+\subsection{Garbage Collection Log Datei parsen (FRQ-05)}
+Die Log-Ausgaben des Memory-Moduls (Debug-Level: info) werden mittels Regulären Ausdrücken geparst in strukturierter Form gespeichert. Strukturiert meint eine objektorientierte Form der Daten (siehe Abschnitt \titleref{jrockit_domain_model}).
 
+\subsection{Standardauswertung anzeigen (FRQ-06)}
+Für die importierten Dateien besteht die Möglichkeit, sie in der Standardauswertung darzustellen. Die Standardauswertung zeigt die im Konzept definierten Tabs (siehe Abschnitt \titleref{standardreport} auf Seite \pageref{standardreport}).
+
+\subsection{Profil erstellen (FRQ-07)}
+Profile können durch den Benutzer erstellt und an seine Bedürfnisse angepasst werden. Das Anpassen beinhaltet die Definition von eigenen Charts und deren Datenserien. Das Speichern, Exportieren und Importieren wird über das von Eclipse implementierte Memento-Pattern (siehe Abschnitt \titleref{memento}) gemacht.
+
+\subsection{Hilfesystem (FRQ-08)}
+Es wurde die Basis für die kontextsensitive und indexbasierte Hilfe gelegt. Einige wenige Seiten sind bereits vorhanden und warten darauf erweitert zu werden. Es wurde je eine Hilfe im Core-Feature und in der JRockit Extension angelegt. Die Verbindung der beiden Hilfesysteme wird mittels Content Extensions, einer Eclipse Funktionalität, gemacht. Sie ermöglicht das Einfügen von Inhalt an Ankern eines anderen Plugins.
 
