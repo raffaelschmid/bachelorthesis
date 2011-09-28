@@ -184,14 +184,15 @@ Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung i
 \section{JRockit Erweiterung}
 \subsection{Allgemein}
 \subsubsection{Domänenmodell JRockit Garbage Collection}
-Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände in welchen die verschiedenen Messgrössen gemessen und gespeichert werden. Zustandsübergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung geworfen - zum Beispiel wenn die Nursery oder die Old Collection an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden. Je nach Algorithmus folgt die Sweep-Phase oder Kopaktierung auf eine Markierungs-Phase.
+Der Parse-Prozess wandelt die unstrukturierten Daten in ein strukturiertes Domänenmodell um. Dieses wurde wie folgt erarbeitet:
 \begin{landscape}
  \begin{figure}[H]
   	\centering
         	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
-    	\includegraphics[width=18.5cm]{images/jrockit_extension_domain}
+    	\includegraphics[width=16.5cm]{images/jrockit_extension_domain}
 \end{figure}
 \end{landscape}
+Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände in welchen die verschiedenen Messgrössen gemessen und gespeichert werden. Zustandsübergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung geworfen - zum Beispiel wenn die Nursery oder die Old Collection an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden. Je nach Algorithmus folgt die Sweep-Phase oder Kopaktierung auf eine Markierungs-Phase.
 \subsection{Garbage Collection Log Datei parsen (FRQ-05)}
 Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Genauer genommen können die Ausgaben betreffend Garbage Collection und Memory Allokation per Kommandozeile eingeschaltet werden (siehe Abschnit \ref{logmodule} \titleref{logmodule}). Für die Garbage Collection Analyse sind nur ein Teil dieser Einträge interessant - es werden also niemals alle dieser Einträge von der Analyse-Software verstanden. Für die Analyse der Einträge ist der \textit{JRockitAnalyzer} zuständig.Die Einträge werden durch einen Prozessor, der nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut ist, prozessiert. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules und werden vom 
 \textit{MemoryModuleProzessor} geparst. Die gelesenen Daten werden interpretiert und innerhalb des Domänenmodells abgelegt. Das Chain-of-Responsibility Pattern ermöglicht es an dieser Stelle, neue Funktionalität in Form von neuen oder erweiterten Prozessoren zu definieren.
@@ -247,9 +248,22 @@ In Nicht-Plugin-Projekten legt man den Test-Code in einem zusätzlichen Quelltex
 Bei Eclipse-Plugin-Projekten erstellt man für den Test-Code ein separates Projekt. In das zu verteilende Softwarepacket (Feature) werden nur die Nicht-Test-Plugins getan. Der Zugriff vom Test-Projekt auf die Implementationen ist per se nicht möglich\footnote{Jedes Plugin muss definieren, welche Packages für die anderen Plugins sichtbar sind.}, zu diesem Zweck wird das Test-Projekt als Fragment definiert.
 
 \subsection{Internationalisierung (QRQ-S-03))}
-Basierend auf dem Lokalisierungssystem der Java Virtual Machine kann man in Eclipse alle Spracheressourcen in Properties-Dateien auslagern (Eclipse bietet dafür sogar einen Wizard). Normalerweise liefert man die Default-Sprache innerhalb des Projektes für welches die Ressource-Bundles definiert wurden, erweiterte Sprachpackete werden dann als Fragmente ausgeliefert. Den Sprachwechsel der Eclipse Entwicklungsumgebung muss man allerdings in der Eclipse-Konfigurationsdatei eclipse.ini vollziehen - dieser benötigt auch immer einen Neustart der Entwicklungsumgebunt.
+Die Analysesoftware kann in den Sprachen Deutsch und Englisch gestartet werden. Die gewählte Sprache wird von der Entwicklungsumgebung übernommen\footnote{Die Entwicklungsumgebung übernimmt die Sprache der Java Lauzeitumgebung: Voreinstellung oder Auswahl über Kommandozeile (-nl de). } und kann nicht via ein Menu geändert werden. 
+Basierend auf der \textit{Locale}-Klasse der Java Laufzeitumgebung können sprachabhängige Ressourcen geladen werden. Sprachabhängig sind folgende Bereiche:
+\begin{itemize}
+	\item \textbf{Texte, Labels im Code:} Eclipse stellt zur Externalisierung von Strings einen Wizard zur Verfügung. Die Texte werden in Properties-Dateien extrahiert und beim Starten der Applikation geladen.
+	\item \textbf{Texte, Labels in Deskriptoren:} Die sich in den Eclipse-Deskriptoren (plugin.xml und Manifest.MF) befindenden sprachabhängigen Texte wie Organisation, Plugin-Name und -Beschreibung werden ebenfalls in Properties-Dateien extrahiert. Der Ort und Name dieser Dateien ist per Konvention \textit{\textbackslash \$\{plugin\}\textbackslash OSGI-INF\textbackslash I10n\textbackslash bundle\_\$\{lang\}.properties}. Der Inhalt wird vom Eclipse-Framework geladen.
+	\item \textbf{Hilfesystem:} Eclipse startet zur Anzeige des auf HTML basierenden Hilfesystems einen Webserver. Die Hilfeseiten können ebenfalls in unterschiedlichen Sprachen definiert werden und werden auf der Basis der gewählten Locale angezeigt.
+\end{itemize} 
 
-\subsection{Performance (QRQ-S-04))}
+\subsection{Usability (QRQ-S-04))}
+Einige der Funktionalitäten der Analysesoftware haben lange dauernde Operationen wie das einlesen und parsen der Log Dateien zur Folge. Operationen dieser Art werden mittels des Eclipse \textit{IProgressService} gestartet. Dies hat für die Applikation und den Benutzer folgende Vorteile:
+\begin{itemize}
+	\item \textbf{Nebenläufigkeit:} Die Applikation startet die Arbeit in einem eigenen nicht-UI Thread\footnote{Einem Thread der nicht für das Zeichnen des Benutzerinterfaces verwendet wird.}, sodass es nicht zu Nebeneffekten wie einem eingefrorenen Bildschirm kommt. Der Benutzer kann die Fortschrittsanzeige minimieren und mit der Applikation weiter arbeiten.
+	\item \textbf{Fortschrittsanzeige: } Die Applikation teilt dem Benutzer über eine Anzeige mit, bei welcher Position sich der Prozess befindet und wie viel Arbeit prozentual bereits gemacht wurde.
+	\item \textbf{Unterbrechbarkeit: } Der Prozess erkundigt sich periodisch bei der Monitoring-Komponente ob er durch den Benutzer abgebrochen wurde. Sobald dies der Fall wäre, würde er die Arbeit beenden und das bereits Erledigte aufräumen.
+\end{itemize}
+
 
 \subsection{Korrektheit (QRQ-S-05))}
 

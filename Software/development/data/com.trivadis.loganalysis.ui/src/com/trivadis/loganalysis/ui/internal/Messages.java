@@ -17,9 +17,7 @@ public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "com.trivadis.loganalysis.ui.internal.messages"; //$NON-NLS-1$
 	public static String OpenGcLoganalysis_progress_message;
 	public static String DashboardEditor_Title;
-	public static String DashboardEditor_Section_Feeds;
 	public static String DashboardEditor_Section_HelpAndDocumentation;
-	public static String DashboardEditor_Section_Updates;
 	public static String DashboardEditor_Section_General;
 	public static String DashboardEditorPageOverview_5;
 	public static String DashboardEditorPageOverview_8;
