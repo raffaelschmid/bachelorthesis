@@ -16,7 +16,7 @@ import java.util.List;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-public abstract class OverviewAbstractTableModel {
+public abstract class AbstractOverviewTableModel {
 
 	protected void initialize(Table table) {
 		List<TableColumn> columns = getColumns(table);

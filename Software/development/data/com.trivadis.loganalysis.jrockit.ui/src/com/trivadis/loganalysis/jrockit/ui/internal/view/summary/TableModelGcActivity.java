@@ -35,7 +35,7 @@ import com.trivadis.loganalysis.jrockit.domain.gc.GarbageCollection;
 import com.trivadis.loganalysis.jrockit.domain.gc.OldCollection;
 import com.trivadis.loganalysis.jrockit.domain.gc.YoungCollection;
 
-public class TableModelGcActivity extends OverviewAbstractTableModel {
+public class TableModelGcActivity extends AbstractOverviewTableModel {
 	private final JRockitJvmRun jvm;
 
 	private final Predicate<List<GarbageCollection>> whereListIsNotEmpty = new Predicate<List<GarbageCollection>>() {

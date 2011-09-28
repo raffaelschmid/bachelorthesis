@@ -9,7 +9,9 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view;
+package com.trivadis.loganalysis.ui;
+
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.forms.IManagedForm;
@@ -19,9 +21,9 @@ import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 import com.trivadis.loganalysis.core.domain.IJvmRun;
-import com.trivadis.loganalysis.ui.DiagramAnalysisPage;
 import com.trivadis.loganalysis.ui.domain.profile.IChart;
 import com.trivadis.loganalysis.ui.domain.profile.IProfile;
+import com.trivadis.loganalysis.ui.domain.profile.IValueProvider;
 
 public class CustomDiagramAnalysisPage extends DiagramAnalysisPage {
 
@@ -45,9 +47,12 @@ public class CustomDiagramAnalysisPage extends DiagramAnalysisPage {
 		}
 	};
 
-	public CustomDiagramAnalysisPage(final FormEditor editor, final IJvmRun logFile,
-			final IProfile profile, final IChart chart) {
-		super(editor, logFile, profile, chart,new JRockitDatasetProvider());
+	private final List<IValueProvider> valueProviders;
+
+	public CustomDiagramAnalysisPage(final IDatasetProvider datasetProvider, final List<IValueProvider> valueProviders, final FormEditor editor,
+			final IJvmRun logFile, final IProfile profile, final IChart chart) {
+		super(editor, logFile, profile, chart, datasetProvider);
+		this.valueProviders = valueProviders;
 		this.chart = chart;
 	}
 
@@ -60,13 +65,14 @@ public class CustomDiagramAnalysisPage extends DiagramAnalysisPage {
 	}
 
 	protected void createCustomizationChart(final IManagedForm managedForm, final FormToolkit toolkit) {
-		new ChartCustomizationPanel(createGridSection(managedForm, "Chart Customization", "", 2,
-				Boolean.valueOf(chart.getMeta(SECTION_KEY_CHART,"true")), chartSectionExpansionListener), SWT.NONE, toolkit,
-				chart);
+		new ChartCustomizationPanel(valueProviders, createGridSection(managedForm, "Chart Customization", "", 2,
+				Boolean.valueOf(chart.getMeta(SECTION_KEY_CHART, "true")), chartSectionExpansionListener), SWT.NONE,
+				toolkit, chart);
 	}
 
 	protected void createCustomizationGeneral(final IManagedForm managedForm, final FormToolkit toolkit) {
 		new GeneralCustomizationPanel(createGridSection(managedForm, "General Customization", "", 2,
-				Boolean.valueOf(chart.getMeta(SECTION_KEY_GENERAL,"true")), generalSectionExpansionListener), SWT.NONE, chart);
+				Boolean.valueOf(chart.getMeta(SECTION_KEY_GENERAL, "true")), generalSectionExpansionListener),
+				SWT.NONE, chart);
 	}
 }

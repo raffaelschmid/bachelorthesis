@@ -107,14 +107,17 @@ Danach wird der Analyse-Editor mit dem entsprechenden Modellobjekt geöffnet. De
 \end{figure}
 \section{Basissoftware}
 \subsection{Installation (FRQ-01)}
-Für die Installation der Software wird eine Eclipse Update-Seite erstellt. Die Features und damit die Analysesoftware können unter Angabe dieser Seite installiert werden. Die Update-Seite wird wird folgende Softwarepackete beinhalten:
+\subsection{Installation der Software}\label{installation}
+Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Rechner, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Eclipse\footnote{in der Basis ist es Equinox, die Implementation des OSGi Standards} ist in der Lage, Plugins zur Laufzeit zu installieren, starten, deinstallieren.
+
+Die Update-Seite für diese Software wird folgendermassen aufgebaut:
 \begin{itemize}
 \item \textbf{Basissoftware:} Umfasst alle Plugins , die für die Basissoftware notwendig sind. Siehe Abschnitt \titleref{projektstruktur}.
 \item \textbf{JRockit Erweiterung: }Umfasst alle Plugins zur JRockit Erweiterung und hat zugleich die \textbf{Abhängigkeit auf das Basissoftware-Feature}.
 \end{itemize}
 
 \subsection{Update (FRQ-02)}
-Der Update eines Features auf der Update-Seite ist erkennbar durch eine Änderung der Major respektive Minor Version oder aber durch Änderung des an die Feature-Datei angehängten Zeitstempels\footnote{Mittels der Versionnummer x.x.qualifier erreicht man, dass der Zeitstempel ans Dateiende gehängt wird.}.
+Der Update eines Features auf der Update-Seite ist erkennbar durch eine Änderung der Major respektive Minor Version oder aber durch Änderung des an die Feature-Datei angehängten Zeitstempels\footnote{Mittels der Versionnummer x.x.qualifier erreicht man, dass der Zeitstempel ans Dateiende gehängt wird.}. Beim Starten der Software wird überprüft, ob ein sich auf dem Server befindendes Feature aktualisiert wurde. Der Benutzer kann diese im laufenden Betrieb der Applikation installieren. Danach ist allerdings ein Neustart der Applikation nötig. 
 
 \subsection{Datei importieren (FRQ-03)}
 Der Import einer Log-Datei findet über einen Eclipse-Import-Wizard statt. Der Ablauf zum Import einer oder mehrerer Dateien ist folgendermassen:
@@ -179,28 +182,25 @@ Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung i
 
 
 \section{JRockit Erweiterung}
+\subsection{Allgemein}
+\subsubsection{Domänenmodell JRockit Garbage Collection}
+Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände in welchen die verschiedenen Messgrössen gemessen und gespeichert werden. Zustandsübergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung geworfen - zum Beispiel wenn die Nursery oder die Old Collection an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden. Je nach Algorithmus folgt die Sweep-Phase oder Kopaktierung auf eine Markierungs-Phase.
+\begin{landscape}
+ \begin{figure}[H]
+  	\centering
+        	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
+    	\includegraphics[width=18.5cm]{images/jrockit_extension_domain}
+\end{figure}
+\end{landscape}
 \subsection{Garbage Collection Log Datei parsen (FRQ-05)}
 Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Genauer genommen können die Ausgaben betreffend Garbage Collection und Memory Allokation per Kommandozeile eingeschaltet werden (siehe Abschnit \ref{logmodule} \titleref{logmodule}). Für die Garbage Collection Analyse sind nur ein Teil dieser Einträge interessant - es werden also niemals alle dieser Einträge von der Analyse-Software verstanden. Für die Analyse der Einträge ist der \textit{JRockitAnalyzer} zuständig.Die Einträge werden durch einen Prozessor, der nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut ist, prozessiert. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules und werden vom 
 \textit{MemoryModuleProzessor} geparst. Die gelesenen Daten werden interpretiert und innerhalb des Domänenmodells abgelegt. Das Chain-of-Responsibility Pattern ermöglicht es an dieser Stelle, neue Funktionalität in Form von neuen oder erweiterten Prozessoren zu definieren.
 
  \begin{figure}[H]
   	\centering
-        	\caption{JRockit Analyseprozess}
     	\includegraphics[width=16cm]{images/jrockit_log_processing}
+        	\caption{JRockit Analyseprozess}
 \end{figure}
-
-\subsection{Domänenmodell JRockit Garbage Collection}
-\begin{landscape}
- \begin{figure}[H]
-  	\centering
-        	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
-    	\includegraphics[width=19.5cm]{images/jrockit_extension_domain}
-\end{figure}
-\end{landscape}
-
-Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Für all diese Bereiche sind unterschiedliche Zustände definiert. Obwohl sich die Zustände der einzelnen Bereiche kontinuierlich verändern, wird bei Beginn und Ende der Garbage Collection ein Schnappschuss produziert und es werden die verfügbaren Messgrössen aufgezeichnet. Zustandsübergänge werden in der Automatentheorie als Transitionen bezeichnet, werden hier im Domänenmodell aber als Garbage Collection Zyklen 
-registriert. Es kann sich dabei bei der JRockit Virtual Machine um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung ausgelöst - zum Beispiel wenn die Nursery oder die Old Collection voll ist, etc. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert. Je nach Algorithmus folgt die Sweep-Phase oder Kopaktierung auf eine Markierungs-Phase.
-
 
 \subsection{Standardauswertung anzeigen (FRQ-06)}
 \subsubsection{Anzeige Übersicht Garbage Collection (FRQ-06.1)}
@@ -249,7 +249,7 @@ Bei Eclipse-Plugin-Projekten erstellt man für den Test-Code ein separates Proje
 \subsection{Internationalisierung (QRQ-S-03))}
 Basierend auf dem Lokalisierungssystem der Java Virtual Machine kann man in Eclipse alle Spracheressourcen in Properties-Dateien auslagern (Eclipse bietet dafür sogar einen Wizard). Normalerweise liefert man die Default-Sprache innerhalb des Projektes für welches die Ressource-Bundles definiert wurden, erweiterte Sprachpackete werden dann als Fragmente ausgeliefert. Den Sprachwechsel der Eclipse Entwicklungsumgebung muss man allerdings in der Eclipse-Konfigurationsdatei eclipse.ini vollziehen - dieser benötigt auch immer einen Neustart der Entwicklungsumgebunt.
 
-\subsection{Perfornamnce (QRQ-S-04))}
+\subsection{Performance (QRQ-S-04))}
 
 \subsection{Korrektheit (QRQ-S-05))}
 
@@ -283,18 +283,5 @@ Zur Versionskontrolle kommen mehrere Werkzeuge in Frage. Git\footnote{http://git
 
 \subsection{Issue Tracker}
 Als Issue Tracker wird Jira verwendet. Es handelt sich dabei um eine kostenpflichtige aber relativ günstige Software für das Issue-Tracking.
-
-\subsection{Installation der Software}\label{installation}
-Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Rechner, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Eclipse\footnote{in der Basis ist es Equinox, die Implementation des OSGi Standards} ist in der Lage, Plugins zur Laufzeit zu installieren, starten, deinstallieren.
-
-Die Update-Seite für diese Software wird folgendermassen aufgebaut:
-\begin{itemize}
-	\item Garbage Collection Log Analysis (Kategorie)
-		\begin{itemize}
-			\item Core (Feature)
-			\item JRockit Extension (Feature)
-		\end{itemize}
-\end{itemize}
-Nachträglich kann somit auch für ein anderes Log-Format eine Extension geschrieben werden.
 
 

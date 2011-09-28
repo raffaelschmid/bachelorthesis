@@ -9,7 +9,7 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view;
+package com.trivadis.loganalysis.ui;
 
 import static com.trivadis.loganalysis.ui.common.CompositeBuilder.composite;
 import static org.eclipse.core.databinding.beans.BeanProperties.value;

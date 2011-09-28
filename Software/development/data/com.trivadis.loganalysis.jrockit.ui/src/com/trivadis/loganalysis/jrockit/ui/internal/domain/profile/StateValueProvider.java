@@ -11,10 +11,15 @@
  */
 package com.trivadis.loganalysis.jrockit.ui.internal.domain.profile;
 
+import static java.util.Arrays.asList;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.math.BigDecimal;
+import java.util.List;
 
+import com.trivadis.loganalysis.core.common.ClosureIO;
+import com.trivadis.loganalysis.core.common.CollectionUtil;
 import com.trivadis.loganalysis.jrockit.domain.State;
 import com.trivadis.loganalysis.jrockit.domain.gc.GarbageCollection;
 import com.trivadis.loganalysis.jrockit.domain.gc.Transition;
@@ -94,4 +99,10 @@ public enum StateValueProvider implements IValueProvider {
 		return label;
 	}
 
+	public static final List<IValueProvider> valueProviders = CollectionUtil.collect(asList(values()),
+			new ClosureIO<StateValueProvider, IValueProvider>() {
+				public IValueProvider call(final StateValueProvider in) {
+					return in;
+				}
+			});
 }

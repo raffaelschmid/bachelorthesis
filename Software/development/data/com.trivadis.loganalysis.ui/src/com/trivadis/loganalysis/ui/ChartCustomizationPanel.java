@@ -9,13 +9,15 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.jrockit.ui.internal.view;
+package com.trivadis.loganalysis.ui;
 
 import static com.trivadis.loganalysis.ui.common.CompositeBuilder.composite;
 import static com.trivadis.loganalysis.ui.common.binding.BindingUtil.bindCheckbox;
 
 import java.awt.Color;
-import java.util.Arrays;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
@@ -39,7 +41,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-import com.trivadis.loganalysis.jrockit.ui.internal.domain.profile.StateValueProvider;
 import com.trivadis.loganalysis.ui.common.FillLayoutBuilder;
 import com.trivadis.loganalysis.ui.common.GridDataBuilder;
 import com.trivadis.loganalysis.ui.domain.profile.Axis;
@@ -53,10 +54,12 @@ public class ChartCustomizationPanel extends Composite {
 	private static final int MAX_NUMBER_OF_SERIES = 4;
 	private final WritableList series;
 	private final Text txtLabel;
+	private final List<IValueProvider> valueProviders;
 
-	public ChartCustomizationPanel(final Composite section, final int style, final FormToolkit toolkit,
+	public ChartCustomizationPanel(final List<IValueProvider> valueProviders, final Composite section, final int style, final FormToolkit toolkit,
 			final IChart chart) {
 		super(section, style);
+		this.valueProviders = valueProviders;
 		this.setLayout(new GridLayout(2, false));
 		final Composite left = toolkit.createComposite(this, SWT.BORDER);
 		left.setLayout(new GridLayout(1, false));
@@ -64,6 +67,11 @@ public class ChartCustomizationPanel extends Composite {
 		new Label(left, SWT.BOLD).setText("Series:");
 		series = new WritableList(chart.getSeries(), Serie.class);
 		final TableViewer tableViewer = tableSeries(left, toolkit);
+		chart.addPropertyChangeListener(Chart.PROPERTY_SERIES, new PropertyChangeListener() {
+			public void propertyChange(final PropertyChangeEvent evt) {
+				tableViewer.refresh();
+			}
+		});
 
 		final Button chkShowOldCollections = new Button(left, SWT.CHECK);
 		chkShowOldCollections.setSelection(false);
@@ -119,8 +127,8 @@ public class ChartCustomizationPanel extends Composite {
 		button(chart, right, "Add Serie", new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
-				final StateValueProvider xValue = (StateValueProvider) getValue(cboXAxis);
-				final StateValueProvider yValue = (StateValueProvider) getValue(cboYAxis);
+				final IValueProvider xValue = getValue(cboXAxis);
+				final IValueProvider yValue = getValue(cboYAxis);
 				if (areAxisSelected(xValue, yValue) && isLabelNotEmpty() && hasSpace()) {
 					final Serie serie = new Serie(txtLabel.getText(), new Axis(AxisType.X, "", new Color(255, 0, 0),
 							xValue), new Axis(AxisType.Y, "", new Color(255, 255, 0), yValue));
@@ -138,7 +146,7 @@ public class ChartCustomizationPanel extends Composite {
 				return txtLabel.getText() != null && !txtLabel.getText().equals("");
 			}
 
-			protected boolean areAxisSelected(final StateValueProvider xValue, final StateValueProvider yValue) {
+			protected boolean areAxisSelected(final IValueProvider xValue, final IValueProvider yValue) {
 				return xValue != null && yValue != null;
 			}
 
@@ -179,7 +187,7 @@ public class ChartCustomizationPanel extends Composite {
 				return retVal;
 			}
 		});
-		cboXAxis.setInput(new WritableList(Arrays.asList(StateValueProvider.values()), StateValueProvider.class));
+		cboXAxis.setInput(new WritableList(valueProviders, IValueProvider.class));
 		return cboXAxis;
 	}
 

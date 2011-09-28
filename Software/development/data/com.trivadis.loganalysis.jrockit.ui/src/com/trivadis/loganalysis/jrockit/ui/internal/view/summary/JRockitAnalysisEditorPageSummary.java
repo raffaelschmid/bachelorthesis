@@ -29,7 +29,8 @@ public class JRockitAnalysisEditorPageSummary extends AnalysisPage {
 
 	public static final String ID = JRockitAnalysisEditorPageSummary.class.getName();
 
-	public JRockitAnalysisEditorPageSummary(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile, final IProfile profile) {
+	public JRockitAnalysisEditorPageSummary(final JRockitAnalysisEditor editor, final JRockitJvmRun logFile,
+			final IProfile profile) {
 		super(editor, ID, Messages.JRockitAnalysisEditorPageSummary_0, profile, null);
 		this.logFile = logFile;
 	}
@@ -37,40 +38,24 @@ public class JRockitAnalysisEditorPageSummary extends AnalysisPage {
 	@Override
 	protected void sections(final IManagedForm managedForm) {
 		final FormToolkit toolkit = managedForm.getToolkit();
-		heapCapacitySection(managedForm, toolkit);
-		gcActivitySummary(managedForm, toolkit);
-		overallStatistics(managedForm, toolkit);
+		new TableModelGcActivity(logFile, tableSection(managedForm, toolkit,
+				Messages.JRockitAnalysisEditorPageSummary_3, Messages.JRockitAnalysisEditorPageSummary_4));
+
+		new TableModelHeapCapacity(logFile, tableSection(managedForm, toolkit,
+				Messages.JRockitAnalysisEditorPageSummary_1, Messages.JRockitAnalysisEditorPageSummary_2));
+
+		new TableModelOverallStatistics(logFile, tableSection(managedForm, toolkit,
+				Messages.JRockitAnalysisEditorPageSummary_5, Messages.JRockitAnalysisEditorPageSummary_6));
 	}
 
-	private void heapCapacitySection(final IManagedForm managedForm, final FormToolkit toolkit) {
-		final Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_1,
-				Messages.JRockitAnalysisEditorPageSummary_2, 1, true);
+	private Table tableSection(final IManagedForm managedForm, final FormToolkit toolkit, final String title,
+			final String description) {
+		final Composite section = createGridSection(managedForm, title, description, 1, true);
 		final Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
 		managedForm.getToolkit().paintBordersFor(table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		new TableModelHeapCapacity(logFile, table);
-	}
-
-	private void gcActivitySummary(final IManagedForm managedForm, final FormToolkit toolkit) {
-		final Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_3,
-				Messages.JRockitAnalysisEditorPageSummary_4, 1, true);
-		final Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
-		managedForm.getToolkit().paintBordersFor(table);
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		new TableModelGcActivity(logFile, table);
-	}
-
-	private void overallStatistics(final IManagedForm managedForm, final FormToolkit toolkit) {
-		final Composite section = createGridSection(managedForm, Messages.JRockitAnalysisEditorPageSummary_5,
-				Messages.JRockitAnalysisEditorPageSummary_6, 1, true);
-
-		final Table table = managedForm.getToolkit().createTable(section, SWT.NONE);
-		managedForm.getToolkit().paintBordersFor(table);
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
-		new TableModelOverallStatistics(logFile, table);
+		return table;
 	}
 
 }

@@ -62,7 +62,7 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 			if (shouldReportProgress(i)) {
 				progress.worked(i);
 			}
-			String line = content.get(i);
+			final String line = content.get(i);
 			moduleProcessor.process(logFile, line);
 		}
 		progress.done();
