@@ -9,13 +9,13 @@ Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich 
 
    FRQ-02 & 1.0 & Updaten & Die Software kann mit geringem Aufwand aktualisiert werden. & UC-02 & Entwickler mit durchschnittlichen Kenntnissen für den Update weniger als 3 Minuten. & mittel  \\\hline
 
-  FRQ-03 & 1.0 & Garbage Collection Log Datei importieren & Log Dateien können importiert werden und werden anschliessend in einem Fenster dargestellt. & UC-03 & - & gross  \\\hline
+  FRQ-03 & 1.0 & Garbage Collection Logdatei importieren & Logdateien können importiert werden und werden anschliessend in einem Fenster dargestellt. & UC-03 & - & gross  \\\hline
 
- FRQ-03.1 & 1.0 & Importierte Dateien speichern & Informationen über importierte Log-Dateien werden gespeichert und bleiben über die Zeit der Benutzersession bestehen.& UC-03.1 & - & gross  \\\hline
+ FRQ-03.1 & 1.0 & Importierte Dateien speichern & Informationen über importierte Logdateien werden gespeichert und bleiben über die Zeit der Benutzersession bestehen.& UC-03.1 & - & gross  \\\hline
 
-  FRQ-04 & 1.0 & Garbage Collection Log Datei einlesen & Geöffnete Garbage Collection Log Datein werden ins Memory gelesen. & UC-04 & Der Einleseprozess bei einer Datei mit 100000 Zeilen dauert weniger als 2 Sekunden. & gross  \\\hline
+  FRQ-04 & 1.0 & Garbage Collection Logdatei einlesen & Geöffnete Garbage Collection Logdateien werden ins Memory gelesen. & UC-04 & Der Einleseprozess bei einer Datei mit 100000 Zeilen dauert weniger als 2 Sekunden. & gross  \\\hline
 
-  FRQ-05 & 1.0 & Garbage Collection Log Datei parsen & Die eingelesenen JRockit Garbage Collection Log Datei wird geparst. Aus den Daten wird ein Domänenmodell aufgebaut.& UC-05 & Das Parsen einer Log Datei mit 100000 Zeilen dauert nicht länger als 8 Sekunden. & gross  \\\hline
+  FRQ-05 & 1.0 & Garbage Collection Logdatei parsen & Die eingelesenen JRockit Garbage Collection Logdatei wird geparst. Aus den Daten wird ein Domänenmodell aufgebaut.& UC-05 & Das Parsen einer Logdatei mit 100000 Zeilen dauert nicht länger als 8 Sekunden. & gross  \\\hline
 
    FRQ-06 & 1.0 & Standardauswert-ung anzeigen & Der Benutzer kann eine vordefinierte Anzeige öffnen. & UC-06 & - & gross \\\hline
 
@@ -48,28 +48,28 @@ Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich 
 \begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{7cm}|p{4cm}|p{0.9cm}|}
     \hline
    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
-   QRQ-S-01 & 1.0 & Erweiterbarkeit & Nebst der Analyse von Garbage Collection Logs der JRockit Virtual Machine sollen später auch andere Formate unterstützt sein. & Erweiterung um ein weiteres Log-Format soll den Aufwand von 5 PT\footnote{Personentage} nicht überschreiten. & mittel \\\hline
+   QRQ-S-01 & 1.0 & Erweiterbarkeit & Nebst der Analyse von Garbage Collection Logs der JRockit Virtual Machine sollen später auch andere Formate unterstützt sein. & Erweiterung um ein weiteres Logformat soll den Aufwand von 5 PT\footnote{Personentage} nicht überschreiten. & mittel \\\hline
    QRQ-S-02 & 1.0 & Testabdeckung & Um den langfristigen Erfolg dieser Software zu gewährleisten muss eine entsprechende Testabdeckung vorhanden sein - dies um insbesondere die Regression zu vermeiden. & Angestrebte Test-Coverage: 80\% & klein \\\hline
   QRQ-S-03 & 1.0 & Internationali-sierung & Die Sprachelemente der Software (Labels, Titel, Texte) werden als Ressourcen definiert, was die spätere Erweiterung ermöglicht. & - & klein\\\hline
 
    QRQ-S-04 & 1.0 & Usability & Schnelles Einlesen von grossen Dateien, Benutzerfeedback über ein Progressbar (Monitor).  & Der Import einer Log-Datei von 100000 Zeilen dauert kürzer als 10 Sekunden. Dem Benutzer wird ein Monitor bereitgestellt.&mittel \\\hline
 
-  QRQ -F-05 & 1.0 & Korrektheit (angezeigten Werte) & Die berechneten und angezeigten Werte sind exakt. & berechnete und angezeigte Werte haben eine Genauigkeit auf mindestens einem Zehntel (0.1). & gross\\\hline
+  QRQ-S-05 & 1.0 & Korrektheit (angezeigte Werte) & Die berechneten und angezeigten Werte sind exakt. & berechnete und angezeigte Werte haben eine Genauigkeit von mindestens einem Zehntel (0.1). & gross\\\hline
 \end{longtable}
 \subsection{Basisframework}\label{anforderungen_framework}
 \begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{7cm}|p{4cm}|p{0.9cm}|}\hline
    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
-   QRQ-F-01 & 1.0 & Verbreitung & Die Software wird als Erweiterung für eine Entwicklungsumgebung bereitgestellt. Auch weil die Entwickler-Community auf diesen Plattformen am grössten ist, spielt die Verbreitung des verwendeten Frameworks eine grosse Rolle.   & - & gross \\\hline
+   QRQ-F-01 & 1.0 & Verbreitung & Die Software wird als Erweiterung für eine Entwicklungsumgebung bereitgestellt. Die Verbreitung der Software spielt eine grosse Rolle.   & - & gross \\\hline
 
-   QRQ-F-02 & 1.0 & Plattform-unabhängig &  Die Software soll auf den gängigsten Betriebssystemen Windows und Apple OSX laufen. & Das Framework läuft auf den Plattformen Windows und Mac OSX. & gross \\\hline
+   QRQ-F-02 & 1.0 & Plattform-unabhängig & Software soll auf den gängigsten Betriebssystemen Windows und Apple OSX laufen. &  Framework läuft auf den Plattformen Windows und Mac OSX. & gross \\\hline
 
-   QRQ-F-03 & 1.0 & Lokalisation & Framework muss Unterstützung für Lokalisation bereitstellen. & Das Framework bietet Unterstützung für die Mehrsprachigkeit. &klein \\\hline
+   QRQ-F-03 & 1.0 & Lokalisation & Framework muss Unterstützung für Lokalisation bereitstellen. & Framework bietet Unterstützung für die Mehrsprachigkeit. &klein \\\hline
 
-   QRQ-F-04 & 1.0 & Modularisierung & Das Framework muss Unterstützung für Modularisierung bieten, damit die Software in unterschiedliche Komponenten aufgeteilt werden kann (siehe Erweiterbarkeit QRQ-S-01). & Framework bietet Unterstützung für Modularisierung.&mittel \\\hline
+   QRQ-F-04 & 1.0 & Modularisierung & Framework muss Unterstützung für Modularisierung bieten, damit die Software in unterschiedliche Komponenten aufgeteilt werden kann (siehe Erweiterbarkeit QRQ-S-01). & Framework bietet Unterstützung für Modularisierung.&mittel \\\hline
 
    FRQ-F-05 & 1.0 & Offline Betriebsmodus & Der Anwender soll die Software auch im Offline-Modus\footnote{Auf einem Computer der sich nicht am Netz befindet.} benutzen können. & Eigenständige Software, keine Web Applikation & gross  \\\hline
 
-   FRQ-F-06 & 1.0 & Installation als Erweiterung& Die Software wird als Erweiterung in einer Entwicklungsumgebung installiert. & - & gross  \\\hline
+   FRQ-F-06 & 1.0 & Installation als Erweiterung& Software wird als Erweiterung in einer Entwicklungsumgebung installiert. & - & gross  \\\hline
 
     \caption{Qualitätsanforderungen Basisframework}
 \end{longtable}

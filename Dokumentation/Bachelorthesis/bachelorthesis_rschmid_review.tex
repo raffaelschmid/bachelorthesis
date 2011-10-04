@@ -1,19 +1,19 @@
 \chapter{Review und Ausblick}\label{review}
 \section{Was leistet das Tool?}
-Die Auswertung der Garbage Collection während einer Performance Analyse wird gemacht wenn man weiss, dass die CPU-Last gross ist, aber nicht durch das System respektive den Kernel verursacht wird. Sprich, der Dominating Consumer ist die Java Virtual Machine (siehe Abschnitt \titleref{dominating_consumer} auf Seite \pageref{dominating_consumer}).
-
-In der Folge nun einige Punkte wie die Software für Analysezwecke verwendet werden kann.
+Während einer Performanceanalyse kommt es zur Auswertung der Garbage Collection, wenn die CPU-Last hoch ist, aber nicht durch den Kernel (Systemprozess) verursacht wird. Der Dominating Consumer ist dann die Java Virtual Machine (siehe Abschnitt \titleref{dominating_consumer} auf Seite \pageref{dominating_consumer}). Die folgenden Abschnitte zeigen wann und wie die Analysesoftware verwendet werden kann.
 
 \subsection{Offline-Analyse}
-Zur Auswertung einer laufenden Virtuellen Machine wird bevorzugt JRockit Mission Control verwendet. Darin kann die Garbage Collection einer laufenden JRockit analysiert werden. \textit{Mit der Bedingung, dass es keine Firewall-Einschränkungen für die Verbindung auf den Server gibt.} \textbf{Die Analysesoftware macht dann Sinn, wenn man eine Log-Datei über einen Zeitraum erstellt hat und dann Analysen auf Basis dieser Log-Datei durchführen kann.}
+Zur Auswertung einer laufenden Virtuellen Machine, kann auch die Software JRockit Mission Control von Oracle verwendet werden. Oft ist allerdings der Zugriff via Mission Control auf den Server nicht möglich - es gibt Firewall-Regeln oder man befindet sich ausserhalb des Netzwerkes. In diesem Fall müssen zur Analyse die erstellten Garbage Collection Logdateien verwendet werden. \textbf{Mit der Analysesoftware kann diese Aufgabe vereinfacht werden indem sie die gesammelten Daten visualisiert.}
 
-\subsection{Inhalt der Log-Datei}
-Aktuell werden die Log-Einträge des \textbf{Memory-Moduls  (Log-Level: INFO) der JRockit Virtual Machine R28} ausgewertet. Das sind die wichtigsten Ausgaben die im Zusammenhang mit der Garbage Collection geschrieben werden - aber nicht alle. Um eine Auswertung einer Log-Datei zu machen, muss das Logging für das Memory-Modul über das Argument -Xverbose:memory aktiviert werden.
+\subsection{Log Module}
+Aktuell werden die Log-Einträge des \textbf{Memory-Moduls  (Log-Level: INFO)} ausgewertet. Das sind die wichtigsten Ausgaben die im Zusammenhang mit der Garbage Collection geschrieben werden - aber nicht alle. Um eine Auswertung einer Logdatei zu machen, muss das Logging für das Memory-Modul über das Argument -Xverbose:memory aktiviert werden.
 
-\section{Erweiterungen (Möglichkeiten)}
+\subsection{JRockit Version}
+Version R28 ist die neuste Version der JRockit. Die Analysesoftware wurde auf das Format dieser Virutellen Machine ausgerichtet. Die Analyse von Logdateien älterer Versionen ist momentan noch nicht möglich.
+
+\section{Ausblick}
 \subsection{Analyseumfangs JRockit R28}\label{analyseumfang_jr28}
-Aktuell werden nur die Log-Einträge des Memory-Moduls (Log-Level: INFO) berücksichtigt. Wie der nachfolgende Auszug einer Log-Datei zeigt, gäbe aus den Debug-Informationen spannende Dinge die momentan nicht ausgewertet werden:
-
+Aktuell werden nur die Log-Einträge des Memory-Moduls (Log-Level: INFO) berücksichtigt. Wie der nachfolgende Auszug einer Logdatei zeigt, würden in den Debug-Einträgen spannende und teilweise wichtige Informationen stehen:
 \begin{itemize}
 	\item \textbf{Gründe, warum eine Garbage Collection gestartet wurde:  }Die erste Zeile zeigt, dass es hängige Anfragen für die Allokation von Speicher gibt.
 	\item \textbf{Dauer der einzelnen Garbage Collection Phasen (Initial Marking, Precleaning, Final Marking): } Nicht alle dieser Phasen laufen beispielsweise konkurrierend ab. Im Sinne von möglichst kurzen Pausenzeiten ist es deshalb interessant, wie lange die Final Marking Phase dauert. 
@@ -31,10 +31,10 @@ Aktuell werden nur die Log-Einträge des Memory-Moduls (Log-Level: INFO) berück
 \end{lstlisting}
 
 \subsection{Analyseumfangs JRockit R27}\label{analyseumfang_jr27}
-Wie bereits erwähnt können die Logs der Version R27 noch nicht ausgewertet werden, obwohl diese Version noch an einigen Orten verwendet wird. Ziel wäre die möglichst rasche Kompatibilität zur Version R27.
+Wie bereits erwähnt, können die Logs der Version R27 noch nicht ausgewertet werden, obwohl diese Version noch an einigen Orten im Einsatz ist. Ziel wäre die möglichst rasche Kompatibilität zur Version R27.
 
 \subsection{G1 Algorithmus}
-Ab Version 1.6.0\_14 des Java Runtime Environments ist eine Vorversion des G1 Garbage Collectors\footnote{G1 ist auch unter dem Namen Garbage First Garbage Collector bekannt.} verfügbar. Die Funktionsweise dieses Algorithmus unterscheidet sich stark von den bisherigen Versionen des Mark \& Seep Algorithmus, auch die Log-Dateien werden markante Unterschiede aufweisen. Für die Auswertung solcher Dateien gibt es aktuell noch kein Werkzeug, die Implementation dieses Formats wäre aus diesem Grund noch sehr interessant.
+Ab Version 1.6.0\_14 des Java Runtime Environments ist eine Vorversion des G1 Garbage Collectors\footnote{G1 ist auch unter dem Namen Garbage First Garbage Collector bekannt.} verfügbar. Die Funktionsweise dieses Algorithmus unterscheidet sich stark von den bisherigen Versionen des Mark \& Sweep Algorithmus, auch die Logdateien weisen Unterschiede auf. Für die Auswertung solcher Dateien gibt es aktuell noch kein Werkzeug, die Implementation dieses Formats wäre deshalb spannend.
 
 
 

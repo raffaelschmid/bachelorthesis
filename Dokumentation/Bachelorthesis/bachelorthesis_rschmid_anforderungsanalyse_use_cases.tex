@@ -11,7 +11,7 @@
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann die Software in seiner Entwicklungsumgebung installieren.\\\hline
    Akteure & Anwender, Entwicklungsumgebung\\\hline
-   Auslösendes Ereignis & Anwender möchte eine Garbage Collection Log Datei analysieren.\\\hline
+   Auslösendes Ereignis & Anwender möchte eine Garbage Collection Logdatei analysieren.\\\hline
    Vorbedingung & Richtige Entwicklungsumgebung ist bereits ohne Analysesoftware installiert.\\\hline
    Nachbedingung & Es sind keine Fehler aufgetreten.\\\hline
    Ergebnis & Entwicklungsumgebung ist bereit für Garbage Collection Auswertungen.\\\hline
@@ -63,21 +63,21 @@
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-03\\\hline
-   Name & Garbage Collection Log Datei importieren\\\hline
+   Name & Garbage Collection Logdatei importieren\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gering\\\hline
    Kritikalität & gross\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer importiert die sich auf dem Dateisystem befindende Log-Datei.\\\hline
-   Akteure & Anwender, Log Datei Importer\\\hline
+   Kurzbeschreibung & Der Benutzer importiert die sich auf dem Dateisystem befindende Logdatei.\\\hline
+   Akteure & Anwender, Logdatei Importer\\\hline
    Auslösendes Ereignis & Anwender startet Garbage Collection Log Analyse\\\hline
-   Vorbedingung & Log Datei befindet sich auf dem Rechner und ist in einem der unterstützten Formate. Die Software ist vollständig installiert und gestartet.\\\hline
+   Vorbedingung & Logdatei befindet sich auf dem Rechner und ist in einem der unterstützten Formate. Die Software ist vollständig installiert und gestartet.\\\hline
    Nachbedingung & Es sind keine Fehler aufgetreten. \\\hline
-   Ergebnis & Die Log-Datei ist in der Ansicht ``Log-Dateien'' ersichtlich und kann von da im Analysefenster geöffnet werden.\\\hline
+   Ergebnis & Die Logdatei ist in der Ansicht Logdateien ersichtlich und kann von da im Analysefenster geöffnet werden.\\\hline
    Hauptszenario & 
 	\begin{enumerate}
-		\item Anwender öffnet Import-Dialog
+		\item Anwender öffnet Import-Wizard
 		\item Anwender navigiert zum Ordner
 		\item Anwender selektiert Datei(en) und importiert diese
 	\end{enumerate}
@@ -86,7 +86,7 @@
    Ausnahmeszenarien & -\\\hline
    Qualitäten & -\\\hline
    Erweiterungen & UC-03.1\\\hline
-\caption{Use-Case: Garbage Collection Log Datei importieren}
+\caption{Use-Case: Garbage Collection Logdatei importieren}
 \end{longtable}
 
 
@@ -94,23 +94,23 @@
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-03.1\\\hline
-   Name & Zustand Ansicht Log-Dateien speichern\\\hline
+   Name & Zustand Ansicht Logdateien speichern\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gering\\\hline
    Kritikalität & gering\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & In der Ansicht ``Log-Dateien'' befinden sich die importierten Log-Dateien, der Zustand dieser Ansicht (welche Log-Dateien importiert wurden) wird gespeichert und bleibt über die Zeit einer Benutzersession bestehen.\\\hline
+   Kurzbeschreibung & In der Ansicht Logdateien befinden sich die importierten Logdateien, der Zustand dieser Ansicht wird gespeichert und bleibt über die Zeit einer Benutzersession bestehen.\\\hline
    Akteure & Entwicklungsumgebung\\\hline
    Auslösendes Ereignis & Entwickler schliesst Entwicklungsumgebung\\\hline
-   Vorbedingung & Eine oder mehrere Log-Dateien wurden importiert.\\\hline
-   Nachbedingung & Importierte Log-Dateien sind gespeichert. \\\hline
-   Ergebnis & Bei einem Neustart der Entwicklungsumgebung bleiben die zuvor installierten Dateien erhalten.\\\hline
+   Vorbedingung & Eine oder mehrere Logdateien wurden importiert.\\\hline
+   Nachbedingung & Importierte Logdateien sind gespeichert. \\\hline
+   Ergebnis & Bei einem Neustart der Entwicklungsumgebung bleiben die zuvor importierten Dateien erhalten.\\\hline
    Hauptszenario & Die Information, welche Dateien importiert wurde, wird gespeichert. Beim Neustart der Software wird sie genommen um die Liste der Importierten Dateien zu initialisieren.\\\hline
    Alternativszenarien & -\\\hline
    Ausnahmeszenarien & -\\\hline
    Qualitäten & -\\\hline
-\caption{Use-Case: Zustand Ansicht Log-Dateien speichern.}
+\caption{Use-Case: Zustand Ansicht Logdateien speichern.}
 \end{longtable}
 
 
@@ -118,47 +118,47 @@
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-04\\\hline
-   Name & Garbage Collection Log Datei einlesen\\\hline
+   Name & Garbage Collection Logdatei einlesen\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann eine sich auf seinem Rechner befindende Garbage Collection Log Datei einlesen. Die Daten befinden sich anschliessend noch im unstrukturierten Zustand, erst der Parseprozess für das jeweilige Log-Format bringt es in eine strukturierte Form.\\\hline
-   Akteure & Anwender, Log Datei Importer\\\hline
+   Kurzbeschreibung & Der Benutzer kann eine sich auf seinem Rechner befindende Garbage Collection Logdatei einlesen. Die Daten befinden sich anschliessend noch im unstrukturierten Zustand, erst der Parseprozess bringt es in eine strukturierte Form (Domänenmodell).\\\hline
+   Akteure & Anwender, Logdatei Importer\\\hline
    Auslösendes Ereignis & Anwender startet Auswertung\\\hline
-   Vorbedingung & Log Datei wurde bereits importiert.\\\hline
+   Vorbedingung & Logdatei wurde bereits importiert.\\\hline
    Nachbedingung & Es sind keine Fehler aufgetreten.\\\hline
-   Ergebnis & Die Log Datei befindet sich im Memory und steht für das Parsen durch die spezifische Erweiterung (JRockit) zur Verfügung.\\\hline
-   Hauptszenario & Anwender öffnet Log Datei im Analysefenster. Die Log Datei wird eingelesen und befindet sich für die weitere Verarbeitung durch den Parser im Arbeitsspeicher.\\\hline
+   Ergebnis & Die Logdatei befindet sich im Memory und steht für das Parsen durch die spezifische Erweiterung (JRockit) zur Verfügung.\\\hline
+   Hauptszenario & Anwender öffnet Logdatei im Analysefenster. Die Logdatei wird eingelesen und befindet sich für die weitere Verarbeitung durch den Parser im Arbeitsspeicher.\\\hline
    Alternativszenarien & -\\\hline
    Ausnahmeszenarien & -\\\hline
    Qualitäten & Usability (QRQ-S-04)\\\hline
-\caption{Use-Case: Garbage Collection Log Datei einlesen}
+\caption{Use-Case: Garbage Collection Logdatei einlesen}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
    Bezeichner & UC-05\\\hline
-   Name & Garbage Collection Log Datei parsen\\\hline
+   Name & Garbage Collection Logdatei parsen\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Die sich im Arbeitsspeicher befindenden unstrukturierten Daten werden durch den Parse-Vorgang in eine strukturierte Form gebracht (Domänenmodell). \\\hline
+   Kurzbeschreibung & Die sich im Arbeitsspeicher befindenden unstrukturierten Daten werden durch den Parseprozess in eine strukturierte Form gebracht (Domänenmodell). \\\hline
    Akteure & JRockit Garbage Collection Log Parser\\\hline
    Auslösendes Ereignis & Datei wurde fertig eingelesen.\\\hline
    Vorbedingung & Datei befindet sich im Arbeitsspeicher.\\\hline
    Nachbedingung & Kein Fehler ist aufgetreten.\\\hline
-   Ergebnis & Domänenmodell ist fertig abgefüllt. \\\hline
-   Hauptszenario & Jede einzelne Zeile in der Log-Datei wird analysiert und wenn nötig werden die wichtigen Daten extrahiert. Die Daten werden in das für diese Log Datei angelegte Domänenmodell geschrieben.
+   Ergebnis & Domänenmodell ist fertig bereit für Abfragen darauf. \\\hline
+   Hauptszenario & Jede einzelne Zeile in der Logdatei wird analysiert, die nötigen Daten werden extrahiert. Die Daten werden in ein Domänenmodell geschrieben.
 	\\\hline
    Alternativszenarien & -\\\hline
    Ausnahmeszenarien & -\\\hline
-   Qualitäten & Usability (QRQ-S-04), Korrektheit (QRQ-F-05)\\\hline
-\caption{Use-Case: Garbage Collection Log Datei importieren}
+   Qualitäten & Usability (QRQ-S-04), Korrektheit (QRQ-S-05)\\\hline
+\caption{Use-Case: Garbage Collection Logdatei importieren}
 \end{longtable}
 
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
@@ -171,21 +171,21 @@
    Kritikalität & gross\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Für eine schnelle Übersicht steht eine Standard-Auswertung zur Verfügung. Dieser soll eine kurze Übersicht über die Garbage Collection geben und beinhaltet zwei Charts (Heap Benutzung, Dauer Garbage Collection). \\\hline
-   Akteure & Anwender, Log Datei Analyzer, Report Engine\\\hline
+   Kurzbeschreibung & Für eine schnelle Übersicht steht eine Standard-Auswertung zur Verfügung. Diese soll eine kurze Übersicht über die Garbage Collection geben und beinhaltet zwei Charts (Heap Benutzung, Dauer Garbage Collection). \\\hline
+   Akteure & Anwender, Logdatei Analyzer, Report Engine\\\hline
    Auslösendes Ereignis & Die Applikation hat die Datei fertig eingelesen und geparst.\\\hline
-   Vorbedingung & Die Log Datei wurde ohne Fehler eingelesen und befindet sich im strukturierten Format im Arbeitsspeicher.\\\hline
+   Vorbedingung & Die Logdatei wurde ohne Fehler eingelesen und befindet sich im strukturierten Format im Arbeitsspeicher.\\\hline
    Nachbedingung & -\\\hline
-   Ergebnis & Dem Benutzer wird ein Analsye-Screen angezeigt.\\\hline
+   Ergebnis & Dem Benutzer wird ein Analyse-Screen angezeigt.\\\hline
    Hauptszenario & 
 	\begin{enumerate}
-		\item Applikation hat die Log-Datei fertig importiert.
+		\item Applikation hat die Logdatei fertig importiert.
 		\item Dem Benutzer wird ein Screen mit verschiedenen Tabs angezeigt. Auf jedem Tab wird dem Benutzer eine unterschiedliche Sicht auf die Daten gezeigt.
 	\end{enumerate}
 	\\\hline
    Alternativszenarien & Benutzerdefinierte Auswertung\\\hline
    Ausnahmeszenarien & -\\\hline
-   Qualitäten & Korrektheit (QRQ-F-05)\\\hline
+   Qualitäten & Korrektheit (QRQ-S-05)\\\hline
    Erweiterungen & UC-06.1, UC-06.2, UC-06.3, UC-06.4 \\\hline
 \caption{Use-Case: Standardausertung anzeigen}
 \end{longtable}
@@ -200,15 +200,15 @@
    Kritikalität & gross\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Analyse-Screen wurde geöffnet, dem Benutzer zeigen sich unterschiedliche Tabs. Auf dem ersten befinden sich verschiedene statistische Auswertungen der Log Datei:
+   Kurzbeschreibung & Der Analyse-Screen wurde geöffnet, dem Benutzer zeigen sich unterschiedliche Tabs. Auf dem ersten befinden sich verschiedene statistische Auswertungen der Logdatei:
    \begin{itemize}
 	\item Übersicht und Grösse der verschiedenen Bereiche auf dem Heap: Initiale Grösse, endgültige Grösse
 	\item Aktivitäten des Garbage Collectors: Anzahl Young Collections, Anzahl Old Collections
-	\item Anzahl Garbage Collector Events (Bsp: Change Garbage Collector Strategy, etc.)
+	\item Anzahl Garbage Collector Events (Bsp: Wechsel der Garbage Collection Strategie, etc.)
 	\item Garbage Collection Zeiten (Total, Durchschnittliche, Zeit in Old Generation Garbage Collection, Prozentuale Zeit in Old Generation Garbage Collection)
    \end{itemize}
  \\\hline
-   Qualitäten & Korrektheit (QRQ-F-05)\\\hline
+   Qualitäten & Korrektheit (QRQ-S-05)\\\hline
 \caption{Use-Case: Anzeige Statistik Übersicht}
 \end{longtable}
 
@@ -223,7 +223,7 @@
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Die Heap Usage (Heap Benutzung) zeigt dem Benutzer anhand einer Grafik, zu welchem Zeitpunkt wieviel Speicher des Heaps verwendet wurde. Zusätzlich werden die Zeitpunkte inklusive entsprechendem Typ (Old- / Young-Collection) der Garbage Collection angezeigt.  \\\hline
-   Qualitäten & Korrektheit (QRQ-F-05)\\\hline
+   Qualitäten & Korrektheit (QRQ-S-05)\\\hline
 \caption{Use-Case: Anzeige Heap Benutzung}
 \end{longtable}
 
@@ -237,8 +237,8 @@
    Kritikalität & Mittel\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Für jede Garbage Collection ist innerhalb der Log Datei einen Eintrag mit den Informationen, wie viel Speicher von toten Objekten befreit wurde und wie lange die Collection gedauert hat. In diesem Report geht es um die Darstellung dieser Daten.\\\hline
-   Qualitäten & Korrektheit (QRQ-F-05)\\\hline
+   Kurzbeschreibung & Für jede Garbage Collection ist innerhalb der Logdatei einen Eintrag mit den Informationen, wie viel Speicher von toten Objekten befreit wurde und wie lange die Collection gedauert hat. In diesem Report geht es um die Darstellung dieser Daten.\\\hline
+   Qualitäten & Korrektheit (QRQ-S-05)\\\hline
 \caption{Use-Case: Anzeige Dauer Garbage Collection}
 \end{longtable}
 
@@ -252,16 +252,16 @@
    Kritikalität & Niedrig\\\hline
    Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann ein eigenes Profil erstellen. Das Profil dient dazu, um darauf eigene Charts hinzuzufügen. siehe UC-07.1.\\\hline
-   Akteure & Anwender, Log Datei Analyzer, Report Engine\\\hline
+   Kurzbeschreibung & Der Benutzer kann ein eigenes Profil erstellen. Dem Profil können eigene, benutzerdefinierte Charts hinzugefügt werden (siehe UC-07.1).\\\hline
+   Akteure & Anwender, Logdatei Analyzer, Report Engine\\\hline
    Auslösendes Ereignis & Die Applikation hat die Datei fertig eingelesen und geparst.\\\hline
-   Vorbedingung & Die Log Datei wurde ohne Fehler eingelesen und befindet sich im strukturierten Format im Arbeitsspeicher.\\\hline
+   Vorbedingung & Die Logdatei wurde ohne Fehler eingelesen und befindet sich im strukturierten Format im Arbeitsspeicher.\\\hline
    Nachbedingung & -\\\hline
-   Ergebnis & Dem Benutzer wird ein Analsye-Screen angezeigt.\\\hline
-   Hauptszenario & Unabhängig vom Zyklus der Garbage Collection Analyse kann der Benutzer ein eigenes Profil erstellen. Ein Profil besteht initial aus einem Übersichtsfenster der Garbage Collection und kann um eine vielzahl an Charts erweitert werden.\\\hline
+   Ergebnis & Dem Benutzer wird ein benutzerdefiniertes Analysefenster angezeigt.\\\hline
+   Hauptszenario & Unabhängig vom Zyklus der Garbage Collection Analyse, kann der Benutzer ein eigenes Profil erstellen. Ein Profil besteht initial aus einem Übersichtsfenster der Garbage Collection und kann um eigene, benutzerdefinierte Charts erweitert werden.\\\hline
    Alternativszenarien & -\\\hline
    Ausnahmeszenarien & -\\\hline
-   Qualitäten & Korrektheit (QRQ-F-05)\\\hline
+   Qualitäten & Korrektheit (QRQ-S-05)\\\hline
    Erweiterungen & UC-07.1, UC-07.2, UC-07.3\\\hline
 
 \caption{Use-Case: Profil (benutzerdefinierte Auswertung) erstellen }
@@ -277,7 +277,7 @@
    Kritikalität & Niedrig\\\hline
    Quelle & Adrian Hummel (Performance Engineer)\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer erstellt auf dem Profil ein neues Chart und die sich darauf befindenden Serien\footnote{Eine Serie definiert welche Daten auf der X- respektive Y-Achse angezeigt werden sollen.}.\\\hline
+   Kurzbeschreibung & Der Benutzer erstellt auf dem Profil ein neues Chart und definiert darauf unterschiedliche Serien\footnote{Eine Serie definiert welche Daten auf der X- respektive Y-Achse angezeigt werden sollen.}.\\\hline
    Qualitäten & -\\\hline
 \caption{Use-Case: Chart definieren }
 \end{longtable}
@@ -322,7 +322,7 @@
    Kritikalität & Niedrig\\\hline
    Quelle & Adrian Hummel (Performance Engineer)\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Exportierte Profile können via ein Kanal ausgetauscht und in der anderen Entwicklungsumgebung importiert werden. \\\hline
+   Kurzbeschreibung & Exportierte Profile können ausgetauscht und von einem anderen Benutzer in die Entwicklungsumgebung importiert werden. \\\hline
    Qualitäten & -\\\hline
 \caption{Use-Case: Auswertungsprofil importieren }
 \end{longtable}
@@ -340,7 +340,7 @@
    Kurzbeschreibung & Dem Benutzer steht eine eine indexbasierte\footnote{Generelle Hilfe mit Informationen zur Garbage Collection,Vorgehensweise bei Performance Problemen, alternative Werkzeuge, etc.} und eine kontextsensitive\footnote{Hilfe zur aktuellen View oder Aktion des Benutzers} Hilfe zur Verfügung. \\\hline
    Akteure & Anwender\\\hline
    Auslösendes Ereignis & Anwender hat Plugin installiert, weiss nicht wie eine Analyse gestartet werden kann.\\\hline
-   Vorbedingung & Richtige Entwicklungsumgebung und Garbage Collection Log Analysis Plugin ist bereits in einer früheren Version installiert.\\\hline
+   Vorbedingung & Entwicklungsumgebung und Software sind installiert.\\\hline
    Nachbedingung & -\\\hline
    Ergebnis & Anwender kennt Software\\\hline
    Hauptszenario &	\begin{itemize}

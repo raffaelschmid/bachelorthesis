@@ -1,16 +1,16 @@
 \chapter{Analyse der Aufgabenstellung}\label{analyse_aufgabenstellung}
 \section{Übersicht}
-Wie in der Aufgabenstellung definiert, ist das Ziel dieser Arbeit die Konzeption und Implementation einer Analysesoftware für die Garbage Collection Log Dateien der JRockit Virtual Machine. Grundlegendes Ziel einer solchen Software ist es, die anfallende grosse Menge an Daten übersichtlich darzustellen und verschiedene Sichten auf diese Daten zu ermöglichen. Um die Anforderungen an diese Software zu ermitteln, ist ein die Studie der Grundlagen der Garbage Collection und im spezifischen die der JRockit Virtual Machine notwendig. Anschliessend wird eine Stärken-/Schwächen-Analyse der bestehenden Richt-Client Frameworks gemacht, aufgrund welcher nach der Aufnahme der Anforderungen der Entscheid für das zu verwendende Framework getroffen werden kann. Im Anschluss an diese Tätigkeiten folgt die Konzeption und Implementation der Software. Die genauere Untersuchung der einzelnen Teilaufgaben wird in den folgenden Abschnitten gemacht:
+Das Ziel dieser Arbeit ist die Konzeption und Implementation einer Software für die Analyse von Garbage Collection Logdateien der JRockit Virtual Machine. Deren grundlegendes Ziel ist es, die grosse Datenmenge schnell und übersichtlich darzustellen. Um die Anforderungen an diese Software zu ermitteln, braucht es im Bereich der Performanceanalyse, der Grundlage der Garbage Collection und über die JRockit VM einige zu erarbeitende Grundlagen. Anschliessend wird eine Stärken-/Schwächen-Analyse der bestehenden Richt Client Frameworks gemacht, aufgrund welcher nach der Aufnahme der Anforderungen der Entscheid für das zu verwendende Framework getroffen werden kann. Im Anschluss an diese Tätigkeiten folgt die Konzeption und Implementation der Software. Die genaueren Beschreibung der einzelnen Teilaufgaben befindet sich in den folgenden Abschnitten.
 
-\subsection{Erarbeitung der Grundlagen Bereich der Garbage Collection}
+\subsection{Erarbeitung der Grundlagen}
 Die Erarbeitung der Grundlagen dient als Basis in zwei Bereichen:
 \begin{itemize}
-	\item \textbf{Anforderungsanalyse:} Aus Sicht des Analysten respektive dem Benutzer dieser Software ist es essentiell, dass er die richtigen Daten der Garbage Collection, die richtige Sicht auf diese Daten und die richtigen Filter-Funktionen vorfindet. Voraussetzung für diese Anforderungen sind die Kenntnisse der verschiedenen Garbage Collection Algorithmen im Generellen und spezifisch die der JRockit Virtual Machine. 
-	\item \textbf{Konzept: } Die Konzeption des Domänen-Modells und des Einlese-Prozesses der Log Dateien bedingt eine genaue Kenntnis der verschiedenen Strategien und Formaten der Ausgaben.
+	\item \textbf{Anforderungsanalyse:} Aus Sicht des Analysten respektive dem Benutzer dieser Software ist es essentiell, dass er die richtigen Daten der Garbage Collection, die richtige Sicht auf diese Daten und die richtigen Filter-Funktionen vorfindet. Voraussetzung für diese Anforderungen sind die Kenntnisse der verschiedenen Garbage Collection Algorithmen insbesondere die der JRockit VM. 
+	\item \textbf{Konzept: } Die Konzeption des Domänen-Modells und des Parseprozesses der Logdateien bedingt eine genaue Kenntnis der verschiedenen Strategien und Ausgabeformate.
 \end{itemize}
 
-\subsection{Stärken- / Schwächen-Analyse der bestehenden Rich Client Frameworks}
-Aus unterschiedlichen Gründen ist es sinnvoll, die Applikation als einen Rich Client zu implementieren. Als Basis kommen entweder die Netbeans- oder die Eclipse-Plattform in Frage. Die Stärken- und Schwächen-Analyse soll den Entscheid für die eine dieser Plattform begründen.
+\subsection{Stärken-Schwächen-Analyse verschiedener Rich Client Frameworks}
+Aufgrund einiger Anforderungen (siehe \titleref{anforderungsanalyse}) muss die Applikation als Rich Client implementiert werden. Als Basis kommen die Frameworks Netbeans und Eclipse in Frage. Die Stärken-Schwächen-Analyse soll den Entscheid für die eine dieser Plattformen herleiten.
 
 \subsection{Durchführung einer Anforderungsanalyse für den Software-Prototypen}
 Die Anforderungen werden zusammen mit einem Performance-Analysten ermittelt und nach \cite[4.3.2 Angepasste Standardinhalte]{pohl2010basiswissen} dokumentiert. Laut dem IEEE\footnote{Institute of Electrical and Electronic Engineers} und \cite[4.5 Qualitätskriterien für das Anforderungsdokument]{pohl2010basiswissen} müssen Anforderungen folgende Kriterien erfüllen:
@@ -22,7 +22,7 @@ Die Anforderungen werden zusammen mit einem Performance-Analysten ermittelt und 
 	\item Verfolgbarkeit
 \end{itemize}
 \subsection{Auswahl der zu verwendenden Frameworks}
-Basierend auf der Stärken-/Schwächen-Analyse wird ein Entscheid für das jeweilige Framework gewählt. Nebst der Auswahl der Rich Client Plattform muss auch ein Entscheid hinsichtlich Charting-Bibliothek gefällt werden.
+Basierend auf der Stärken-Schwächen-Analyse wird ein Entscheid für das jeweilige Framework gewählt. Nebst der Auswahl der Rich Client Plattform muss auch ein Entscheid hinsichtlich Charting-Bibliothek gefällt werden.
 
 \subsection{Konzeption und Implementation}
 Basierend auf den Anforderungen wird das Konzept erstellt und anschliessend die Software implementiert. 

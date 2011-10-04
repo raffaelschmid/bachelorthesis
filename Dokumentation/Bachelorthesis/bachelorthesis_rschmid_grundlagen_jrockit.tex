@@ -18,13 +18,13 @@ Die Verwendung von Thread-lokalem Speicher hat hinsichtlich den folgenden Punkte
 	\item Thread-lokaler Speicher kann prefetched werden, was die Geschwindigkeit des Algorithmus als Ganzes erhöht.
 \end{itemize}
 
-Bei der Verwendung der Concurrent Algorithmen - bei welcher die Garbage Collection neben der Anwendung statt findet - werden logischerweise auch nebenbei von der Applikation neue Objekte erzeugt. Diese neuen Objekte werden in einem sogenannten Live-Set getrackt.
+Bei der Verwendung der Concurrent Algorithmen wird parallel dazu auch Speicher für neue Objekte alloziert. Diese neuen Objekte werden in einem sogenannten Live-Set getrackt, damit sie in der Sweep Phase - obwohl nicht markiert - nicht gelöscht werden.
 
 \subsection{Intergenerationale Referenzen}
-Die Idee der Generational Garbage Collection ist, dass zumindest während einer Young Collection nur ein Teilbereich des Heaps aufgeräumt wird. Während der Mark-Phase einer Young Collection werden also Referenzen in die Old Collection nicht verfolgt. Problematisch bei diesem Vorgehen ist, dass es eventuell Referenzen aus der Old Generation in die Young Generation gibt, aufgrund welcher man die Objekte im Young Space nicht löschen darft. Dieses Szenario kann auf zwei unterschiedliche Wege passieren:
+Die Idee der Generational Garbage Collection ist, dass während einer Young Collection nur ein Teilbereich des Heaps aufgeräumt wird. Referenzen in die Old Collection werden dabei nicht verfolgt. Den Referenzen von der Old in die Young Collection muss trotzdem nachgegangen werden, sie können auf unterschiedliche Weise entstehen:
 \begin{itemize}
-	\item \textbf{Ein Objekt wird durch eine Promotion von der Young Generation in die Old Generation verschoben.} Diesen Vorgang merkt sich der Garbage Collector in einem \textbf{Remembered Set}. 
-	\item \textbf{Es findet eine Zuweisung der Referenz durch die Applikation statt.} Diese Problematik wird durch Write Barriers und der Aufteilung des Heaps in sogenannte Cards\footnote{Eine Card ist typischerweise ein ungefähr 512 Byte grosser Bereich auf dem Heap.} Bei der Änderung einer Variablen respektive einer Referenz die dann vom Tenured Space auf den Young Space zeigen soll, wird auf der Card in welchem diese Änderung statt findet das ``Dirty Bit'' gesetzt. Objekte innerhalb von dirty Cards werden nach der Markierungsphase nochmals überprüft.
+	\item \textbf{Ein Objekt wird durch eine Promotion von der Young Generation in die Old Generation verschoben:} Die Dabei entstehenden intergenerationellen Referenzen werden im sogenannten \textbf{Remembered Set} nachgeführt. 
+	\item \textbf{Es findet eine Zuweisung der Referenz durch die Applikation statt:} Diese Problematik wird durch Write Barriers und der Aufteilung des Heaps in sogenannte Cards\footnote{Eine Card ist typischerweise ein ungefähr 512 Byte grosser Bereich auf dem Heap.} gemacht. Bei der Änderung einer Referenz (die dann von der Old in die Young Collection zeigt) wird auf der entsprechenden Card das ``Dirty Bit'' gesetzt. Objekte innerhalb von dirty Cards werden nach der Markierungsphase nochmals überprüft.
 \end{itemize}
 
 \subsubsection{Concurrent Mark \& Sweep}
@@ -36,51 +36,50 @@ Beim Concurrent Mark \& Sweep handelt es sich eigentlich um einen Mostly Concurr
 	\item \textbf{Final Marking (Nicht konkurrierend):} Änderungen im Heap während der Precleaning Phase werden nachgeführt, markiert.
 \end{itemize}
 
-Die Sweep Phase findet ebenfalls konkurrierend zur Applikation statt. Im Gegensatz zur HotSpot VM findet es in zwei separaten Schritten statt. Als erstes wird die erste Hälfte des Heaps von toten Objekten befreit. Während dieser Phase können Threads Speicher in der zwieten Hälfte des Heaps allozieren. Nach einer kurzen Synchronisationspause findet das Sweeping auf dem zweiten Teil des Heaps statt, wieder gefolgt von einer Synchronisationspause.
+Die Sweep Phase findet ebenfalls konkurrierend zur Applikation statt. Im Gegensatz zur HotSpot VM ist sie aber in zwei Schritte aufgeteilt. Als erstes wird die erste Hälfte des Heaps von toten Objekten befreit. Während dieser Phase können Threads Speicher in der zweiten Hälfte des Heaps allozieren. Nach einer kurzen Synchronisationspause findet das Sweeping auf dem zweiten Teil des Heaps statt.
 
 \subsubsection{Parallel Mark \& Sweep}
-Beim parallelen Mark \& Sweep findet die Garbage Collection parallel mit allen verfügbaren Prozessoren statt. Dazu werden aber alle Threads der Applikation während dieser Zeit gestoppt.
+Beim parallelen Mark \& Sweep findet die Garbage Collection parallel mit allen verfügbaren Prozessoren statt. Dazu werden aber alle Threads der Applikation gestoppt.
 
 \subsubsection{Kompaktierung}
-Aufgrund der im Speicher stattfindenden Fragmentierung wird bei jeder Old Collection eine Kompaktierung des Speichers durchgeführt. Zu Beginn der Sweep-Phase oder während werden dazu Objekte auf dem Heap umher kopiert, so dass danach wieder grössere Speicherbereiche zur Allokation frei stehen.
+Aufgrund der im Speicher stattfindenden Fragmentierung wird bei jeder Old Collection eine Kompaktierung des Speichers durchgeführt. Während der Sweep Phase werden die Objekte auf dem Heap umherkopiert, so dass danach wieder grössere Speicherbereiche am Stück existieren.
 
 
 \section{Übersicht der Garbage Collection Algorithmen auf der JRockit Virtual Machine}
-Die Entscheidung der Garbage Collection Strategie hängt von den Anforderungen der Applikation ab. Auf der JRockit VM gibt es drei verschiedene Modi:
+\subsection{Garbage Collection Modi}
+Die Auswahl der Garbage Collection Strategie muss auf der Basis der Anforderungen an die Applikation gemacht werden. Auf der JRockit VM gibt es drei verschiedene Modi:
 \begin{itemize}
-	\item \textbf{Durchsatz (throughput):} Optimiert die Garbage Collection hinsichtlich möglichst grossem Durchsatz. Hier handelt es sich um Applikationen wie Batch-Systeme, etc. Um auf der Virtual Machine dieses Ziel zu erreichen, werden Parallele Algorithmen verwendet. Parallele Algorithmen laufen nicht-konkurrierend mit dem System in mehreren parallelen Threads. Das führt zwar zu kurzen Pausenzeiten für die Applikation, allerdings steht in der restlichen Zeit sehr viel Prozessor-Zeit zur Verfügung.
-	\item \textbf{Pausenzeit (pause time):} Die Optimierung der Pausenzeit führt dazu, dass der Benutzer der Virtual Maschine keine langen Pausenzeiten bemerkt. Das ist insbesondere für Client-Server Applikationen notwendig. Wenn die JRockit Laufzeitumgebung auf möglichst kurze Pausenzeiten eingestellt ist, wird ein konkurrierender Garbage Collection Algorithmus verwendet, bei welchem es nur sehr wenige Stop-the-World Phasen gibt.
+	\item \textbf{Durchsatz (throughput):} Optimiert die Garbage Collection hinsichtlich möglichst grossem Durchsatz. Um dieses Ziel zu erreichen, werden parallele Algorithmen verwendet. Sie laufen nicht-konkurrierend mit der Applikation und führen zu kurzen Pausenzeiten (Stop-the-World Pausen). In der restlichen Zeit stehen der Applikation allerdings sehr viel Ressourcen zur Verfügung.
+	\item \textbf{Pausenzeit (pause time):} Die Optimierung der Pausenzeiten hat zur Folge, dass die Applikation durch möglichst wenig Stop-the-World Pausen angehalten wird. Das ist insbesondere für Client-Server Applikationen wichtig. Das Ziel wird mit der Verwendung eines Concurrent Garbage Collection Algorithmus erreicht.
 	\item \textbf{Determinismus (deterministic):} Optimiert den Garbage Collector auf sehr kurze und deterministische Garbage Collection Pausen.  
 \end{itemize}
-
-\begin{landscape}
-  \begin{longtable}{|p{2.1cm}|p{3cm}|p{5.5cm}|p{1cm}| p{1.3cm}|p{1cm}|p{1cm}|p{1.1cm}|}
-    \hline
-  \textbf{Alias} & \textbf{Aktivierung}& \textbf{Beschreibung} & \textbf{Pause} &\textbf{Durchs.} & \textbf{Heap} & \textbf{Mark} & \textbf{Sweep} \\\hline
-  singlecon, singleconcon && Garbage Collection findet konkurrierend statt. Der Heap besteht nur aus einer Generation.&\center{++}&\center{--}& single & konk. & konk\\\hline
-
-  gencon,\newline genconcon& -Xgc:gencon\newline-Xgc:genconcon &Neue Objekte kommen in die Nursery. Ist diese voll, werden die Lebenden in die Old Generation verschoben. Die Old Collection findet konkurrierend statt.&\center{++}& \center{--} & gen & konk. & konk.\\\hline	
- 
-  singlepar, \newline singleparpar& & Wenn der Heap voll ist, wird bei gestoppter Applikation eine Garbage Collection des gesamten Heaps gemacht. & -- & ++ & single & parallel & parallel \\\hline
-  genpar, \newline genparpar& -Xgc:genpar & Objekte werden in der Nursery angelegt. Ist diese voll, wird bei gestoppter Applikation parallel eine Young Collection durchgeführt. Bei vollem Heap gibs eine volle Garbage Collection. & -- & ++ & gen& parallel & parallel \\\hline
-  genconpar &-Xgc:genconpar&&+&+&gen& konk. & parallel \\\hline
-  genparcon &-Xgc:genparcon&&+&+&gen& parallel & konk. \\\hline
-  singleconpar &-Xgc:singleconpar&&+&+&single&konk. & parallel \\\hline
-  singleparcon& -Xgc:singleparcon&&+&+&single&parallel & konk. \\\hline
-\caption{Übersicht der Garbage Collection Algorithmen}
-  \end{longtable}
-\end{landscape}
-
   \begin{longtable}{|p{2.5cm}|p{3.1cm}|p{4.5cm}|p{4cm}|}\hline
   \textbf{Alias} & \textbf{Aktivierung} & \textbf{Beschreibung} & Einstellungsmöglichkeiten\\\hline
-  troughput & -Xgc:throughput & Der Garbage Collector wird auf maximalen Durchsatzder Applikation eingestellt. Er arbeitet so effektiv wie möglich und erhält entsprechend viele Java-Threads, was zu kurzen Pausen der Applikation führen kann. & \\\hline
-  pausetime & -Xgc:pausetime & Der Garbage Collector wird auf möglichst kurze Pausen eingestellt. Das bedeutet, dass ein konkurrierender Algorithmus verwendet wird der insgesamt etwas mehr CPU Ressourcen benötigt. & -XpauseTarget=value (default 200msec)\\\hline
+  troughput & -Xgc:throughput & Der Garbage Collector wird auf maximalen Durchsatz der Applikation eingestellt. Er arbeitet so effektiv wie möglich und erhält entsprechend viele Java-Threads, was zu kurzen Pausen der Applikation führen kann. & \\\hline
+  pausetime & -Xgc:pausetime & Der Garbage Collector wird auf möglichst kurze Pausen eingestellt. Das bedeutet, dass ein konkurrierender Algorithmus verwendet wird, der insgesamt etwas mehr CPU Ressourcen benötigt. & -XpauseTarget=value (default 200msec)\\\hline
   deterministic & -Xgc:deterministic & Der Garbage Collector wird auf eine möglichst kurze und deterministische Pausenzeit eingestellt. &-XpauseTarget=value (default 30msec)\\\hline
     \caption{Übersicht der Garbage Collection Modi}
 \end{longtable}
 
-\section{Garbage Collection Log Dateien}\label{jrockitgclog}
-Die Auswertung der Garbage Collection findet auf Basis der Garbage Collection Log Dateien statt. Das Format dieser Log Dateien hängt mitunter auch von den aktivierten Log-Modulen der JRockit Virtual Machine ab. Der Aufbau der Log Dateien und die in der Analyse verwendeten Daten werden in diesem Abschnitt genauer beleuchtet.
+\subsection{Garbage Collection Algorithmen}
+  \begin{longtable}{|p{2cm}|p{2.8cm}|l|c|c|c|c|c|}
+    \hline
+  \textbf{Alias} & \textbf{Aktivierung}& \textbf{Generation} & \textbf{Pause} &\textbf{Durchs.} & \textbf{Heap} & \textbf{Mark} & \textbf{Sweep} \\\hline
+  singlecon, singleconcon & -Xgc:singlecon\newline-Xgc:singleconcon& - &++&--& single & konk. & konk\\\hline
+
+  gencon,\newline genconcon& -Xgc:gencon\newline-Xgc:genconcon &Old, Young&++&-- & gen & konk. & konk.\\\hline	
+ 
+  singlepar, \newline singleparpar& -Xgc:singlepar\newline-Xgc:singleparpar & - & -- & ++ & single & parallel & parallel \\\hline
+  genpar, \newline genparpar& -Xgc:genpar\newline-Xgc:genparpar & Old, Young & -- & ++ & gen& parallel & parallel \\\hline
+  genconpar &-Xgc:genconpar&Old, Young&+&+&gen& konk. & parallel \\\hline
+  genparcon &-Xgc:genparcon&Old, Young&+&+&gen& parallel & konk. \\\hline
+  singleconpar &-Xgc:singleconpar&-&+&+&single&konk. & parallel \\\hline
+  singleparcon& -Xgc:singleparcon&-&+&+&single&parallel & konk. \\\hline
+\caption{Übersicht der Garbage Collection Algorithmen}
+  \end{longtable}
+
+\section{Garbage Collection Logdateien}\label{jrockitgclog}
+Die Auswertung der Garbage Collection findet auf Basis von Logdateien statt. Das Format dieser Logdateien hängt mitunter auch von den aktivierten Log-Modulen der JRockit Virtual Machine ab. Der Aufbau der Logdateien und die in der Analyse verwendeten Daten werden in diesem Abschnitt genauer beleuchtet.
 
 \subsection{Aktivierung Log Ausgaben}
 Defaultmässig macht die JRockit keine Angaben darüber, wie sie die Garbage Collection durchführt. Um an diese Informationen zu gelangen, muss das entsprechende Log-Module beim Start der Applikation aktiviert werden. Die Ausgaben werden dann auf die Standard Ausgabe geschrieben - können aber optional mit dem Argument -Xverboselog:logdatei.log in eine Datei umgeleitet werden. Das Format für die Kommandozeile sieht folgendermassen aus:
@@ -94,19 +93,21 @@ Um das Memory Log Modul (gibt Informationen über die Garbage Collection aus) zu
 -Xverbose:memory
 \end{lstlisting}
 
-Die Umleitung der Ausgaben in eine separate Log-Datei kann mit dem Flag -Xverboselog:<Datei-Namen> eingestellt werden:
+Die Umleitung der Ausgaben in eine separate Logdatei kann mit dem Flag -Xverboselog:\$\{dateiname\} eingestellt werden:
 \begin{lstlisting}[caption=Garbage Collection Log (Info) - Umleitung in gc.log]
 -Xverbose:memory -Xverboselog:gc.log 
 \end{lstlisting}
 
 
-Zusätzlich können mit der Angabe des Log-Levels die Ausgaben verfeinert werden:
-\begin{lstlisting}[caption=Garbage Collection Log (Debug) - Umleitung in gc.log]
+Zusätzlich kann pro Log-Modul der Log-Level eingestellt werden:
+\begin{lstlisting}[caption=Einstellung des Log-Levels]
 -Xverbose:memory=debug -Xverboselog:gc.log 
 \end{lstlisting}
+Die folgenden Log Level können aktiviert werden: quiet, error, warn, info, debug, trace. Für mehr Informationen siehe \cite{oracleJRockitR28CLR}.
+
 
 \begin{landscape}
-Die ersten paar Zeilen der Ausgaben des Memory Moduls im Log Level ``info'' ohne explizite Angabe der Garbage Collection Strategie \footnote{JRockit Virtual Machine verwendet damit die Default-Einstellung: Optimierung auf maximalen Durchsatz} sehen folgendermassen aus:
+Die ersten Zeilen einer Log-Datei mit eingeschaltetem Memory Modul sehen folgendermassen aus:
 \begin{lstlisting}[caption=Garbage Collection Log]
 [INFO ][memory ] GC mode: Garbage collection optimized for throughput, strategy: Generational Parallel Mark & Sweep.
 [INFO ][memory ] Heap size: 65536KB, maximal heap size: 1048576KB, nursery size: 32768KB.
@@ -131,7 +132,7 @@ Die ersten paar Zeilen der Ausgaben des Memory Moduls im Log Level ``info'' ohne
 
 \subsection{Log Module}\label{logmodule}
 
-Die folgende Tabelle beschreibt die für die Auswertung der Garbage Collection relevanten Module alphabetisch sortiert. 
+Die folgende Tabelle beschreibt die für die Auswertung der Garbage Collection relevanten Module (alphabetisch sortiert). 
 
 \begin{longtable}{|p{4cm}|p{9cm}|p{2cm}|}
   \hline
@@ -139,12 +140,10 @@ Die folgende Tabelle beschreibt die für die Auswertung der Garbage Collection r
   alloc & Informationen betreffend Speicher Allokation und ``Out-of-Memory'' & niedrig \\\hline
   compaction & zeigt abhängig vom Garbage Collection Algorithmus Informationen zur Kompaktierung& niedrig \\\hline
   gcheuristic & zeigt Informationen und Entscheidungen zur Garbage Collection Heuristik & mittel \\\hline
-  gcpause & zeigt aktuell welche Pausen durch die Garbage Collection entstanden sind und wie lange sie gedauert haben. & mittel \\\hline
+  gcpause & zeigt wann welche Pausen zwecks Garbage Collection gemacht wurden, wie lange sie gedauert haben. & mittel \\\hline
   gcreport & zeigt verschiedene Auswertungen (Anzahl Collections, Anzahl promotete Objekte, maximal promotete Objekte per Zyklus, totale Zeit, Durchschnittszeit, Maximale Zeit) der Garbage Collection zum aktuellen Lauf& niedrig \\\hline
-  memory & zeigt Informationen zum Memory Management System wie Start-, Endzeitpunkt der Collection, Speicher bevor, nach Collection, Grösse des Heaps, etc.& \textbf{hoch} \\\hline
-  memdbg & zeit Informationen die für das Debugging von Themen im Bereich des Arbeitsspeichers relevant sein können& \textbf{hoch} \\\hline
+  memory & zeigt Informationen zum Memory Management System wie Start-, Endzeitpunkt der Collection, Speicher bevor, nach Collection, Grösse des Heaps, etc.& \textbf{sehr hoch} \\\hline
+  memdbg & zeigt debug Informationen zu Speicher belange& \textbf{hoch} \\\hline
   systemgc & zeigt Garbage Collections die durch System.gc() gestartet wurden. & niedrig \\\hline
     \caption{Beschreibung der verschiedenen relevanten Log Modulen}
 \end{longtable}
-
-Die folgenden Log Level können aktiviert werden: quiet, error, warn, info, debug, trace. Für mehr Informationen siehe \cite{oracleJRockitR28CLR}.

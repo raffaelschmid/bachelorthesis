@@ -1,62 +1,66 @@
 \chapter{Grundlagen Garbage Collection}\label{grundlagen_gc}
-Schon seit den ersten Programmiersprachen ist das Aufräumen von verwendeten Ressourcen / Speicher ein wichtiges Thema. Im Unterschied zu den ersten Sprachen, bei denen das Memory Management in der Verantwortung des Entwicklers war (explizit), findet allerdings das Recycling von Memory bei Sprachen der dritter Generation automatisch statt und macht Operatoren wie ``free'' unwichtig. Bei Formen dieser automatischen Speicherverwaltung spricht man von Garbage Collection\footnote{vom englischen Wort ``garbage collector'' für Müll-, Abfallsammler}. In den meisten neueren Laufzeitumgebungen spricht man zusätzlich von adaptivem Memory Management was bedeutet, dass Feedback der Laufzeitumgebung zur Anpassung der Garbage Collection Strategie verwendet wird.
-Probleme die nur beim expliziten Memory Management auftreten sind  Dangling References/Pointers\footnote{Man spricht von Dangling Pointers oder Dangling References, wenn ein Pointer auf ein Objekt im Memory freigegeben wurde, obwohl es noch gebraucht wird.} und Space Leaks\footnote{Man spricht von Space Leaks, wenn Memory alloziert und nicht mehr freigegeben wurde, obwohl es nicht mehr gebraucht wird.\cite{sunMemoryManagementWP}}. Trotzdem sind Memory Leaks auch bei automatischer Speicherverwaltung noch möglich, nämlich dann wenn Memory noch referenziert wird, auch wenn es schon nicht mehr gebraucht wird.
-Der folgende Abschnitt beschreibt die Grundlagen der Java Garbage Collection und geht im zweiten Teil auf die spezifischen Eigenheiten der JRockit Virtual Machine ein.
+Schon seit den ersten Programmiersprachen ist das Aufräumen von verwendeten Ressourcen und Speicher ein wichtiges Thema. Im Unterschied zu den ersten Sprachen, bei denen das Memory Management in der Verantwortung des Entwicklers war (explizit), findet allerdings das Recycling von Memory bei Sprachen der dritter Generation automatisch statt und macht Operatoren wie ``free'' unwichtig. Bei Formen dieser automatischen Speicherverwaltung spricht man von Garbage Collection\footnote{vom englischen Wort ``garbage collector'' für Müll-, Abfallsammler}. In den meisten neueren Laufzeitumgebungen gibt es zusätzlich das Prinzip  des adaptiven Memory Managements, hier werden Feedbacks und Heuristiken dazu verwendet, um die Strategie der Garbage Collection anzupassen.
+Probleme die nur beim expliziten Memory Management auftreten sind  Dangling References\footnote{Man spricht von Dangling Pointers oder Dangling References, wenn ein Pointer auf ein Objekt im Memory freigegeben wurde, obwohl es noch gebraucht wird.} (Dangling Pointers) und Space Leaks\footnote{Man spricht von Space Leaks, wenn Memory alloziert und nicht mehr freigegeben wurde, obwohl es nicht mehr gebraucht wird.\cite{sunMemoryManagementWP}}. Trotzdem sind Memory Leaks auch bei automatischer Speicherverwaltung noch möglich, nämlich dann wenn Memory noch referenziert ist, auch wenn es nicht mehr gebraucht wird.
+Der folgende Abschnitt beschreibt die Grundlagen der Java Garbage Collection. Das nächste Kapitel zeigt dann die Details dazu spezifisch für die JRockit Virtual Machine.
 
 \section{Funktionsweise}
-Alle Techniken der Garbage Collection zielen darauf ab, die ``lebenden'' von den ``toten'' Objekten im Speicher zu unterscheiden. Sprich, es müssen die Objekte gefunden werden, welche innerhalb der Software oder des Systems nicht mehr referenziert werden. Die aktuellen Strategien lassen sich laut\cite[S. 77]{lagergren2010oracle} in zwei unterschiedliche Familien aufteilen: ``Reference Counting'' und ``Tracing techniques''.
+Alle Techniken der Garbage Collection zielen darauf ab, die ``lebenden'' von den ``toten'' Objekten zu unterscheiden. Es werden also primär die Objekte gesucht, die nicht mehr referenziert sind. Laut \cite[S. 77]{lagergren2010oracle} gibt es grundsätzlich zwei unterschiedliche Strategien: Referenz-Zählung (Reference Counting) und Tracing-Techniken (Tracing Techniques).
 
-\subsection{Reference counting\cite[S. 77]{lagergren2010oracle}}
-Beim Reference counting behält die Laufzeitumgebung jederzeit den Überblick, wie viele Referenzen auf jedes Objekt zeigen. Sobald die Anzahl dieser Referenzen auf 0 gesunken ist, wird das Objekt für die Garbage Collection freigegeben. Trotzdem der Algorithmus relativ effizient ist, wird er aufgrund der folgenden Nachteile nicht mehr verwendet:
+\subsection{Reference counting}
+Beim Reference counting\cite[S. 77]{lagergren2010oracle} behält die Laufzeitumgebung jederzeit den Überblick, wie viele Referenzen auf jedes Objekt zeigen. Sobald die Anzahl dieser Referenzen auf 0 gesunken ist, wird das Objekt für die Garbage Collection freigegeben. Trotzdem der Algorithmus relativ effizient ist, wird er aufgrund der folgenden Nachteile nicht mehr verwendet:
 \begin{itemize}
 	\item Sofern zwei Objekte einander referenzieren (zyklische Referenz), wird die Anzahl Referenzen nie 0.
-	\item Es ist relativ aufwendig, die Anzahl Referenzen immer auf dem aktuellsten Stand zu halten, insbesondere in nebenläufigen Systemen.
+	\item Es ist relativ aufwendig, die Anzahl Referenzen immer auf dem aktuellsten Stand zu halten, insbesondere in nebenläufigen (concurrent) Systemen.
 \end{itemize}
-\subsection{Tracing techniques\cite[S. 77]{lagergren2010oracle}}
-Bei den Tracing Techniken werden von vor jeder Garbage Collection die Objekte gesucht, auf welche aktuell noch eine Referenz zeigt. Die anderen werden zur Garbage Collection freigegeben. Diese Art von Garbage Collection Algorithmen verwenden ein Set von Objekten, bestehend aus den Stacks und Registern der aktuellen Threads und globalen Daten wie ``static final'' variablen, als Startpunkt für die zu markierenden Objektgraphen. 
+\subsection{Tracing techniques}
+Bei den Tracing-Techniken\cite[S. 77]{lagergren2010oracle} werden vor jeder Garbage Collection die Objekte gesucht, auf welche aktuell noch eine Referenz zeigt. Die anderen werden zur Garbage Collection freigegeben. Diese Art von Garbage Collection Algorithmen verwenden ein Set (Root Set), bestehend aus von globalen Variablen und den Stack aller Threads referenzierten Objekten, als Startpunkt für die Traversierung aller Objekte.
 
-\section{Ziele der Garbage Collection\cite[S. 4]{sunMemoryManagementWP}}
-Garbage Collectors unterliegen grundsätzlich folgenden zwei Bedingungen:
+\section{Ziele der Garbage Collection}
+Für Garbage Collectors gibt es folgende Bedingungen\cite[S. 4]{sunMemoryManagementWP}:
 \begin{itemize}
 	\item \textbf{Sicherheit:} Garbage Collectors dürfen nur Speicher/Objekte freigeben, der effektiv nicht mehr gebraucht wird,
 	\item \textbf{Umfassend:} Garbage Collectors müssen Speicher/Objekte die nicht mehr gebraucht werden nach wenigen Garbage Collection Zyklen freigegeben haben.
 \end{itemize}
 
-Wünschenswert für Garbage Collection Algorithmen sind folgende Punkte:
+Wünschenswert sind zudem folgende Punkte\cite[S. 4]{sunMemoryManagementWP}:
 \begin{itemize}
-	\item \textbf{Effizienz:} Die Anwendung soll vom laufenden Garbage Collector möglichst wenig mitkriegen: keine langen Pausen\footnote{man spricht von Stop-the-World wenn zwecks Garbage Collection die Anwendung gestoppt wird und ihr damit keine Ressourcen zur Verfügung stehen}, möglichst wenig verwendete Ressourcen\footnote{Ressourcen der CPU sollen der Anwendung zur Verfügung gestellt werden und nicht für Garbage Collection verwendet werden.}
-	\item \textbf{Fragmentierung:} Zwecks schneller Allokation von Speicher sollte der Speicher möglichst wenig 
+	\item \textbf{Effizienz:} Die Anwendung soll vom laufenden Garbage Collector möglichst nicht beeinträchtigt sein: 
+		\begin{itemize}
+			\item keine langen Pausen\footnote{man spricht von Stop-the-World wenn zwecks Garbage Collection die Anwendung gestoppt wird und ihr damit keine Ressourcen zur Verfügung stehen}
+			\item einen durch den Garbage Collector möglichst geringen Ressourcenverbrauch
+		\end{itemize}
+	\item \textbf{Wenig Fragmentierung:} Bei starker Fragmentierung ist die Allokation von Speicher nicht mehr effizient möglich. Wenn der zu allozierende Speicher für ein Objekt grösser ist als die grösste Speicherlücke, kommt es zu einem Out-of-Memory-Error, obwohl insgesamt noch genügend Speicher vorhanden ist. 
 \end{itemize}
 
-\section{Eingliederung von Garbage Collection Algorithmen\cite[S. 5]{sunMemoryManagementWP}}
-Bei der Selektion von Garbage Collection Algorithmen gibt es verschiedene entscheidende Kriterien:
+\section{Eingliederung von Garbage Collection Algorithmen}
+Bei der Selektion von Garbage Collection Algorithmen gibt es entscheidende Kriterien\cite[S. 5]{sunMemoryManagementWP}:
 \subsection{Serielle versus Parallele Collection}
-Eine Multi-Core Maschine ist eine mit mindestens 2 Prozessorkernen. Sofern ein paralleler Algorithmus verwendet wird, besteht auf diesen auch die Möglichkeit, auch die Garbage Collection zu parallelisieren. Meistens bringt dies zwar einen kleinen Overhead mit sich, wirkt sich aber trotzdem in einer Verkürzung der Garbage Collection Zeit aus.
+Auf einem Multi-Core System kann die Garbage Collection parallelisiert werden. Dies bringt zwar einen Overhead, wirkt sich aber in der Regel trotzdem in verkürzten Garbage Collection Pausen aus.
 
 \subsection{Konkurrierend versus Stop-the-World}
-Wenn aufgrund der Garbage Collection der Heap der Laufzeitumgebung blockiert (freeze) werden muss, führt das implizit zum Stopp (Stop-the-World) der Anwendung.
+Wenn aufgrund der Garbage Collection der Heap der Laufzeitumgebung blockiert (freeze) werden muss, führt das implizit zum Stopp (Stop-the-World) der Anwendung. Diese Pausen sind beispielsweise für Webapplikationen sehr unerwünscht, können aber für Backendprozesse durchaus toleriert werden.
 
 
 \subsection{Kompaktierend, Kopierend}
-Fragmentierung ist ein eigentlich nicht wünschenswertes Resultat der Garbage Collection. Sie tritt dann auf, wen Algorithmen verwendet werden die den Heap im Anschluss an die Speicherfreigabe weder kompaktieren noch die lebenden Objekte in einen anderen Bereich aneinanderliegend kopieren.
+Fragmentierung tritt grundsätzlich beim befreien von Speicher auf und ist ein unerwünschter Nebeneffekt, da sie zur Verlangsamung der Speicherallokation führt. Sie kann durch das Kompaktieren der überlebenden Objekte oder das Kopieren in einen anderen Bereich minimiert werden.
 
-\section{Grundlegende Algorithmen}
-Der Prozess der Garbage Collection beginnt bei allen Algorithmen mit der Marking-Phase. Für jedes Objekt des Root Sets\footnote{Objekte im Heap die aus den Call-Stacks der aktuellen Threads referenziert werden, globale (``static final'' definierte) Variablen mit Referenzen auf den Heap)} werden rekursiv die transitiv abhängigen Objekte auf dem Heap bestimmt. Das hat zum Ziel, dass man aufgrund des Resultats die nicht mehr referenzierten (löschbaren) Objekte herausfinden kann.
+\section{Grundlage der Algorithmen}
+Der Prozess der Garbage Collection beginnt bei allen Algorithmen mit der Marking-Phase. Für jedes Objekt des Root Sets\footnote{Objekte im Heap die aus den Call-Stacks der aktuellen Threads referenziert werden, globale (``static final'' definierte) Variablen mit Referenzen auf den Heap)} werden rekursiv die transitiv abhängigen Objekte auf dem Heap bestimmt. Alle nicht im Resultat enthaltenen Objekte sind tot und können bereinigt werden.
 
-\subsection{Mark \& Sweep Algorithmus\cite{langerkreft201005}}
-Beim Mark \& Sweep Algorithmus wird nach der oben beschriebenen Mark-Phase der Speicher der nicht mehr referenzierten Objekte freigegeben. In den meisten Implementationen bedeutet dies das einfügen dieses Objekts in eine sogenannte Free-List.
+\subsection{Mark \& Sweep Algorithmus}
+Beim Mark \& Sweep Algorithmus\cite{langerkreft201005} wird nach der oben beschriebenen Mark-Phase der Speicher der nicht mehr referenzierten Objekte freigegeben. In den meisten Implementationen bedeutet dies das einfügen dieses Objekts in eine sogenannte Free-List.
 
 \subsubsection{Nachteil dieses Algorithmus}
-Der zwar simple Mark \& Seep Algorithmus hat den Nachteil, dass eine Freigabe dieser Speicherlöcher zu einer Fragmentierung des Speichers führt. Ein fragmentierter Speicher ist deshalb nicht wünschenswert, weil es für den Allokator immer schwieriger wird, die Speicherlöcher zu füllen. In einem solchen Fall kann es bis zu einer OutOfMemoryException führen, wenn zwar insgesamt genügend Memory frei ist, allerdings nicht genügend am Stück.
+Der Speicher wird aufgrund der vielen Freigaben stark fragmentiert.
 
 \subsection{Mark \& Copy Algorithmus\cite{langerkreft201005}}
-Ein alternativer Algorithmus bei dem der Heap nach der Garbage Collection nicht fragmentiert ist, ist der Mark \& Copy Algorithmus. Bei diesem wird der Heap in einen ``from space'' und einen ``to space'' unterteilt. Objekte die noch immer am Leben sind, werden im Anschluss an die Markierung vom ``from space'' in den ``to space'' kopiert. Die Allokation von Speicher ist im Anschluss mit grosser Effizienz möglich, weil der Heap nach der Garbage Collection nicht fragmentiert ist.
+Mark \& Copy ist ein Algorithmus, bei dem der Resultierende Heap nach der Collection nicht fragmentiert ist. Der Heap wird in einen ``from space'' und einen ``to space'' unterteilt. Objekte die noch immer am Leben sind, werden im Anschluss an die Markierung vom ``from space'' in den ``to space'' kopiert.
 
 \subsection{Mark \& Compact Algorithmus\cite{langerkreft201007}}
-In gewissen Situationen respektive für die unterschiedliche Lebensdauer der Objekte (siehe \titleref{generational gc}) macht es Sinn, unterschiedliche Algorithmen einzusetzen: Mark \& Compact ist ein Algorithmus, bei welchem nach der Markierungs-Phase und der Elimination der ``toten'' Objekte eine Kompaktierung des Speichers stattfindet. Das hat ebenfalls den Vorteil, dass im Gegensatz zu Mark \& Copy nicht der doppelte Speicher benötigt wird, ist allerdings relativ Ressourcen-intensiv.
+Für die Old Collection kann es Sinn machen, einen Mark \& Compact Algorithmus zu verwenden (siehe \titleref{generational gc}). Nach der Markierungs-Phase und der Bereinigung der ``toten'' Objekte wird der Speicher kompaktiert. Der Algorithmus hat zwar einen erhöhten Ressourcenbedarf, es wird aber im Gegensatz zum Mark \& Copy kein Speicher verschwendet. 
 
 \subsection{Tri-Coloring Mark and Sweep}\label{tri-coloring mark and sweep}
-Eine Variante des Mark \& Sweep Algorithmus die sich besser parallelisieren lässt ist der Tri-Coloring Mark \& Sweep Algorithmus. \cite[S. 79]{lagergren2010oracle}. Im Gegensatz zur normalen Version des Mark \& Sweep Algorithmus wird anstelle eines Mark-Flags ein ternärer Wert genommen der den Wert ``weiss'', ``grau'' und ``schwarz'' annehmen kann. Der Status der Objekte wird in drei Sets nachgeführt. Das Ziel des Algorithmus ist es, alle weissen Objekte zu finden. Schwarze Objekte sind die, die garantiert keine weisse Objekte referenzieren und die Grauen sind die, bei denen noch nicht bekannt ist, was sie referenzieren. Der Algorithmus funktioniert folgendermassen:
+Eine Variation des Mark \& Sweep Algorithmus ist der Tri-Coloring Mark \& Sweep Algorithmus. Er lässt sich besser parallelisieren\cite[S. 79]{lagergren2010oracle}. Im Gegensatz zur normalen Version des Mark \& Sweep Algorithmus wird anstelle eines Mark-Flags ein ternärer Wert genommen der den Wert ``weiss'', ``grau'' und ``schwarz'' annehmen kann. Der Status der Objekte wird in drei Sets nachgeführt. Das Ziel des Algorithmus ist es, alle weissen Objekte zu finden. Schwarze Objekte sind die, die garantiert keine weisse Objekte referenzieren und die Grauen sind die, bei denen noch nicht bekannt ist, was sie referenzieren. Der Algorithmus funktioniert folgendermassen:
 
 \begin{enumerate}
 	\item Als erstes haben alle Objekte das Flag weiss.
@@ -65,24 +69,24 @@ Eine Variante des Mark \& Sweep Algorithmus die sich besser parallelisieren läs
 	\item Sobald alle Nachfolger des Objekts grau markiert sind, wird das aktuelle Objekt auf den Status schwarz geändert.
 \end{enumerate}
 
-Das Prinzip des Tri-Coloring Mark \&Sweep Algorithmus ist folgende Invariante:
+Der Vorteil des Tri-Coloring Mark \& Sweep basiert auf folgender Invariante:
 \textbf{Kein schwarzes Objekt zeigt jemals direkt auf ein Weisses.}
 Sobald es keine grauen Objekte mehr gibt - sprich das Set der grauen Objekte leer ist, können die weissen Objekte gelöscht werden.
 
 \section{Generational Garbage Collection}\label{generational gc}
-In der Regel gibt es innerhalb einer Anwendung unterschiedliche Altersgruppen von Objekten und wir können die Objekte in Short Living, Medium Living und Long Living Objekte kategorisieren. Es gibt viele Objekte die nicht lange leben, zum Beispiel Objekte welche die Lebensdauer einer Methode haben, und wenige Objekte die lange Leben, wie zum Beispiel Daten in einem Applikations-Level Cache. Aus diesem Grund ist es oft Sinnvoll, die Garbage Collection an die entsprechende Lebensdauer der Objekte anzupassen. 
+Innerhalb einer Anwendung kann man die Objekte in Short Living, Medium Living und Long Living Objekte\footnote{Objekte mit kurzer, mittel und langer Lebensdauer.} kategorisieren. Es gibt viele Objekte die nicht lange leben (Objekte mit der Lebensdauer einer Methode) und wenig Objekte mit langer Lebensdauer, wie Teile eines Caches. Aus diesem Grund ist es sinnvoll, die Garbage Collection Strategie der Lebensdauer der Objekte anzupassen. Der Speicher je nach Virtual Machine in unterschiedliche Bereiche aufgeteilt.
 
-Je nach Implementation wird der Heap in unterschiedliche Speicherbereiche aufgeteilt. Bei der Oracle HotSpot Virtual Machine sieht dies folgendermassen aus\cite{langerkreft201003}:
+Die HotSpot Virtual Machine tut dies folgendermassen\cite{langerkreft201003}:
 
 \begin{itemize}
-	\item \textbf{Young Collection:} Die Young Collection ist nochmals unterteilt in Eden Space (Bereich für neue Objekte) und zwei Survivor Spaces ("from-space" als aktiver Bereich, "to-space" als der Bereich in den die Objekte nach einer Collection kopiert werden)
-	\item \textbf{Old Collection:} In der Old Collection befinden sich die Objekte, die eine gewisse Anzahl an Young-Generation Collections (Minor Collections) überlebt haben und dann in den Bereich der alten Objekte befördert (Promotion) wurden.
+	\item \textbf{Young Collection:} Die Young Collection ist nochmals unterteilt in Eden Space (Bereich für neue Objekte) und zwei Survivor Spaces (from-space als aktiver Bereich, to-space als der Bereich in den die Objekte während der Collection kopiert werden).
+	\item \textbf{Old Collection:} In der Old Collection befinden sich die Objekte, die eine gewisse Anzahl an Young-Generation Collections (Minor Collections) überlebt haben und dann durch eine Promotion hierhin verschoben wurden.
 	\item  \textbf{PermGen:} Der PermGen Bereich ist keine Generation, sondern ein Non-Heap-Bereich, und wird von der VM für eigene Zwecke verwendet. Dieser Bereich ist eine Eigenheit der Oracle HotSpot Virtual Machine. Hier werden beispielsweise Class-Objekte inklusive Bytecode für alle geladenen Klassen und JIT-Informationen\footnote{Die Just-in-Time (Kompilierung) führt zu einer Veränderung respektive Optimierung des Bytecodes.}. gespeichert.
 \end{itemize}
 
-Die JRockti Virtual Machine unterteilt die Bereiche folgendermassen:
+Und bei der JRockit Virtual Machine ist es so:
 \begin{itemize}
-	\item \textbf{Nursery\footnote{Nursery bedeutet im übertragenen Sinn Kindergarten}:} Die Nursery entspricht der Young Collection der HotSpot Virtual Machine und ist der Bereich der jungen Objekte. Bei JRockit ist es möglich, eine zusätzliche Keep-Area innerhalb der Nursery zu haben. Diese Keep-Area ist der Platz der Objekte mittlerer Lebensdauer. Ein Objekt wird also zuerst von der Nursery in die Keep-Area promoted - was den Vorteil hat, dass es wenn nicht mehr referenziert immer noch einer Young Collection unterliegt - erst dann gelangt es nach einer nochmaligen Young-Garbage-Collection in die Old Collection.
+	\item \textbf{Nursery\footnote{Nursery bedeutet im übertragenen Sinn Kindergarten}:} Die Nursery entspricht der Young Collection bei der HotSpot Virtual Machine und ist der Bereich der jungen Objekte. Bei JRockit ist es möglich, eine zusätzliche Keep-Area innerhalb der Nursery zu haben. Diese Keep-Area ist der Platz der Objekte mittlerer Lebensdauer. Ein Objekt wird also zuerst von der Nursery in die Keep-Area promoted - was den Vorteil hat, dass sie, wenn nicht mehr referenziert, immer noch einer Young Collection unterliegen - erst dann gelangen sie nach einer nochmaligen Young Collection in die Old Collection.
 	\item \textbf{Old Generation: } Die Old Generation beinhaltet wie bei der HotSpot Virtual Machine die Objekte mit langer Lebensdauer.
 \end{itemize}
 Für weitere Details zu den JRockit Garbage Collection Eigenheiten siehe Kapitel \titleref{jrockit garbage collection}.

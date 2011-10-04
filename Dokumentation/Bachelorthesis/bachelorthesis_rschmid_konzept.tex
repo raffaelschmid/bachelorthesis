@@ -1,7 +1,5 @@
 \chapter{Konzept}\label{konzept}
 \section{Allgemein}
-\subsection{Zweck}
-
 \subsection{Ausgangslage}
 Als Rich Client Framework wird Eclipse 3.x\footnote{die aktuelle Version ist 3.7 (stand: 31.8.2011)} genommen. Siehe Abschnitt \titleref{selection_rcp_fw}. In der Folge werden die für die Eclipse Plattform gebräuchlichen Begrifflichkeiten verwendet. 
 
@@ -21,21 +19,17 @@ Bei der Wahl der Lizenz muss gleichzeitig in Betracht gezogen werden, dass die L
 	JFreeChart & Wird für im Bereich des Reportings verwendet um Graphiken und Charts anzuzeigen. & Lesser General Public License\footnote{http://www.gnu.org/licenses/lgpl.html}\\\hline
 \end{longtable}
 
-\section{Eclipse Rich Client Framework}
-\subsection{Speicherung des Zustands einer View}\label{memento}
-Die Speicherung des Zustands einer View kann implementiert werden, indem die Methode \textit{saveState(memento:IMemento)} überschrieben wird. \textit{IMemento} ist eine Eclipse-Klasse und gleichzeitig die Abstraktion eines Mementos. Memento ist ein Design Pattern und wurde durch die Gang of Four\footnote{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides} in \cite[S. 283]{gamma1995design} zum ersten Mal definiert. Mementos dienen zur Serialisierung von Objekten und haben den Vorteil, dass auch Klassen aus einem Memento einer anderen Version deserialisiert werden können. Das Eclipse-Framework persistiert die Zustände von Views mittels eines XMLMemento entsprechend im XML-Format ab. Die Deserialisierung erreicht man mit dem Überschreiben der Methode \textit{init(site:IViewSite, memento:IMemento)}.
-
 \section{Architektur}
 \subsection{Problemstellung}\label{konzept_uebersicht}
-Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analyse-Software auch hinsichtlich anderer Log-Formate erweiterbar sein. Die Applikation wird also nicht zwingendermassen mit der Erweiterung für JRockit Log Dateien verwendet. Es könnte zu einem späteren Zeitpunkt sein, dass man damit Garbage Collection Logs der HotSpot Virtual Machine auswertet. Dies hat hinsichtlich Architektur einige Konsequenzen:
+Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analyse-Software auch hinsichtlich anderer Logformate erweiterbar sein. Die Applikation wird also nicht zwingendermassen mit der Erweiterung für JRockit Logdateien verwendet. Es könnte zu einem späteren Zeitpunkt sein, dass man damit Garbage Collection Logs der HotSpot Virtual Machine auswertet. Dies hat hinsichtlich Architektur einige Konsequenzen:
 \begin{itemize}
 	\item Die Applikation soll in zwei Komponenten aufgeteilt werden:
 		\begin{itemize}
 			\item Basissoftware
 			\item Erweiterung JRockit
 		\end{itemize}
-		Die Basissoftware kann unabhängig von den Erweiterungen installiert werden, für die Auswertung einer Log-Datei ist allerdings die entsprechende Erweiterung zu installieren. Eine Erweiterung kann ohne Basissoftware nicht gebraucht werden.
-	\item Die Architektur der Applikation muss es zulassen, dass zu einem späteren Zeitpunkt andere Log-Formate als zusätzliche Erweiterungen hinzugefügt werden.
+		Die Basissoftware kann unabhängig von den Erweiterungen installiert werden, für die Auswertung einer Logdatei ist allerdings die entsprechende Erweiterung zu installieren. Eine Erweiterung kann ohne Basissoftware nicht gebraucht werden.
+	\item Die Architektur der Applikation muss es zulassen, dass zu einem späteren Zeitpunkt auch Garbage Collection Logs von anderen Virtuellen Machinen analysiert werden können.
 	\item Die Basissoftware stellt Extension-Points\footnote{Ein Extension-Point ist ein Mechanismus der von Eclipse zur Verfügung gestellt wird, damit eine Komponente (Plugin) sich bei einer anderen registrieren kann.} bereit, über welche sich die Erweiterungen  registrieren.
 \end{itemize}
 
@@ -44,7 +38,6 @@ Die im Abschnitt \titleref{konzept_uebersicht} beschriebenen Konsequenzen führe
 \begin{itemize}
 	\item Basissoftware (Core Feature)
 		\begin{itemize}
-			\item Update der Software
 			\item Garbage Collection Log importieren
 			\item Garbage Collection Log einlesen
 			\item Profil erstellen, speichern, exportieren, importieren
@@ -54,60 +47,65 @@ Die im Abschnitt \titleref{konzept_uebersicht} beschriebenen Konsequenzen führe
 		\begin{itemize}
 			\item Garbage Collection Log parsen
 			\item Standardauswertung: Heap, Dauer Garbage Collection
-			\item Benutzerdefinierte Auswertung (Administration der Charts)
 		\end{itemize}
 \end{itemize}
 
 \subsection{Projektstruktur}\label{projektstruktur}
-Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zwei getrennten Features. Das Core-Feature ist die Basis und verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, Profil-Verwaltung, etc.). Die JRockit Extension ist eine für die Garbage Collection Logs der JRockit geschriebene Erweiterung. Sie ist für das Parsing der Log-Dateien, die Aufbereitung der Daten und die Anzeige der Charts zuständig. Beinhaltet aber keine Core-Funktionalität.
+Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zwei getrennten Features. Das Core-Feature ist die Basis und verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, Profil-Verwaltung, etc.). Die JRockit Extension ist eine für die Garbage Collection Logs der JRockit geschriebene Erweiterung. Sie ist für das Parsing der Logdateien, die Aufbereitung und Bereitstellung der Daten zuständig. Beinhaltet aber keine Basisfunktionalität.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=14cm]{images/architektur_komponenten_uebersicht}
         	\caption{Architektur: Komponentendiagramm}
 \end{figure}
 
-Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einem von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für den Presentation Layer verwendet} unabhängigen Teil (``loganalysis.core''). Öffnet der Benutzer eine Garbage Collection Log Datei, wird diese durch das Core Feature eingelesen und an alle verfügbaren Extensions weitergeleitet. Die erste Extension welche den Inhalt der Datei versteht, öffnet seine dafür vorgesehenen Reports und Charts. Jede Extension hat ein basierend auf dem Log-Format eigenes Domänen-Modell.
+Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einem von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für die Präsentationsschicht verwendet.} unabhängigen Teil (``loganalysis.core''). Öffnet der Benutzer eine Garbage Collection Logdatei, wird diese durch das Core Feature eingelesen und an alle verfügbaren Extensions weitergeleitet. Die erste Extension welche den Inhalt der Datei versteht, öffnet seine dafür vorgesehenen Reports und Charts. Jede Extension hat ein basierend auf der Logdatei eigenes Domänen-Modell.
 
 \subsubsection{Weitere Projekte}
 Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 \begin{itemize}
-	\item Test-Projekte\footnote{Der Test-Code befindet sich in eigenen Projekten. Siehe Abschnit \ref{testing} \titleref{testing}}.
+	\item Test-Projekte\footnote{Der Test-Code befindet sich in eigenen Projekten (siehe Abschnit \ref{testing}).}
 		\begin{itemize}
 			\item core.test
 			\item core.ui.test
 			\item jrockit.test
 			\item jrockit.ui.test
 		\end{itemize}
-	\item  Features\footnote{Feature-Projekte definieren im Eclipse-Umfeld ein in sich lauffähiges Software-Packet. Via einen Xml-Deskriptor werden die abhängigen Plugin-Projekte definiert und in das Feature gepackt.}
+	\item  Features\footnote{Features sind in sich lauffähige Softwarekomponenten mit definiertem Umfang.}
 		\begin{itemize}
 			\item loganalysis.feature
 			\item loganalysis.jrockit.feature
 		\end{itemize}
-	\item  Thirdparty Bibliotheken\footnote{Thirdparty Bibliotheken werden ebenfalls in ein Plugin gepackt, da innerhalb der Eclipse-Runntime nur Plugins installiert werden können. Die ``Plugin-Hülle'' definiert die exportierten und importierten Packete und die Abhängigkeiten.}
+	\item  Thirdparty Bibliotheken\footnote{Thirdparty Bibliotheken werden bei Eclipse-Anwendungen als Plugins gepackt.}
 		\begin{itemize}
 			\item  loganalysis.jfreechart.libs (JFreeChart Library)
 		\end{itemize}
-	\item  Targetplattform\footnote{Die Targetplattform ist eine Konfiguration welche definiert, gegen welche Plattform die Anwendung entwickelt wird.}
+	\item  Targetplattform\footnote{Definiert gegen welche Plattform die Anwendung entwickelt wird.}
 		\begin{itemize}
 			\item  loganalysis.targetplatform (beinhaltet die Target-Plattform)
 		\end{itemize}
-	\item  Update-Seite\footnote{Die Konfiguration innerhalb eines Projekts zur Erstellung einer Update-Seite definiert die auf der Seite publizierten Features.}
+	\item  Update-Seite\footnote{Definiert bereitgestellte Features}
 		\begin{itemize}
 			\item loganalysis.updatesite (definiert und generiert die Update-Seite)
 		\end{itemize}
 \end{itemize}
 
 \subsection{Ablauf Garbage Collection Analyse}
-Als Abstraktion für eine Log-Datei wird die Klasse IFileDescriptor verwendet. Beim öffnen einer Analyse wird via den Context die Extension gesucht\footnote{Extensions registrieren sich via das plugins.xml an einem Extension-Point. }, welche den Inhalt\footnote{Der Inhalt der Datei wird lazy via die Methode getContent und einem ContentReader geladen.} der Datei versteht. Sobald die entsprechende Extension gefunden wurde, wird der Inhalt geparst und das Domänenmodell instanziert.
-Danach wird der Analyse-Editor mit dem entsprechenden Modellobjekt geöffnet. Der Editor ist ebenfalls sehr proprietär für jedes Log-Format und befindet sich in der jeweiligen Erweiterung (Beispiel JRockitAnalysisEditor). 
+Beim öffnen einer Analyse wird die zuständige Extension gesucht\footnote{Extensions registrieren sich via das plugins.xml an einem Extension-Point. }, welche den Inhalt\footnote{Der Inhalt der Datei wird lazy via die Methode getContent und einem ContentReader geladen.} der Logdatei versteht. Die Erweiterung ist für das Parsen und Aufbereiten der Daten und die Anzeige in einem Analysefenster zuständig. 
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=16cm]{images/core_sequence_analysis}
 	\caption{Sequenz-Diagramm Öffnen der Analyse}
 \end{figure}
+Der Ablauf der Garbage Collection Analyse ist folgendermassen:
+\begin{enumerate}
+	\item Via Context wird die Erweiterung\footnote{Erweiterungen registrieren sich als Extensions an Extension-Points. Diese Konfiguration befindet sich im plugin.xml.} gesucht.
+	\item Analyzer der Erweiterung parst inhalt und gibt ihn als Objekt zurück.
+	\item Editor wird geöffnet, das Objekt wird als Input übergeben.
+\end{enumerate}
+
 \section{Basissoftware}
 \subsection{Installation (FRQ-01)}\label{installation}
-Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Rechner, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Eclipse\footnote{in der Basis ist es Equinox, die Implementation des OSGi Standards} ist in der Lage, Plugins zur Laufzeit zu installieren, starten, deinstallieren.
+Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Server, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Eclipse\footnote{in der Basis ist es Equinox, die Implementation des OSGi Standards} ist in der Lage, Plugins zur Laufzeit zu installieren, starten, deinstallieren.
 
 Die Update-Seite für diese Software wird folgendermassen aufgebaut:
 \begin{itemize}
@@ -119,39 +117,39 @@ Die Update-Seite für diese Software wird folgendermassen aufgebaut:
 Der Update eines Features auf der Update-Seite ist erkennbar durch eine Änderung der Major respektive Minor Version oder aber durch Änderung des an die Feature-Datei angehängten Zeitstempels\footnote{Mittels der Versionnummer x.x.qualifier erreicht man, dass der Zeitstempel ans Dateiende gehängt wird.}. Beim Starten der Software wird überprüft, ob ein sich auf dem Server befindendes Feature aktualisiert wurde. Der Benutzer kann diese im laufenden Betrieb der Applikation installieren. Danach ist allerdings ein Neustart der Applikation nötig. 
 
 \subsection{Datei importieren (FRQ-03)}
-Der Import einer Log-Datei findet über einen Eclipse-Import-Wizard statt. Der Ablauf zum Import einer oder mehrerer Dateien ist folgendermassen:
+Der Import einer Logdatei findet über einen Import-Wizard statt. Der Ablauf zum Import einer oder mehrerer Dateien ist folgendermassen:
 \begin{enumerate}
 	\item Import-Wizard öffnen
 	\item Auswahl des Ordners
-	\item Selektion einer oder mehrerer Log-Dateien
+	\item Selektion einer oder mehrerer Logdateien
 	\item Bestätigung der Eingaben
-	\item Anschliessend wird die Log-Datei als Instanz von IFileDescriptor in er Ansicht Log-Dateien angezeigt.
+	\item Anschliessend wird die Logdatei als Instanz von IFileDescriptor in der Ansicht Logdateien angezeigt.
 \end{enumerate}
 
-\subsubsection{Importierte Dateien speichern}
-Der oben beschriebene Mechanismus wird verwendet, damit nach einem Neustart der Entwicklungsumgebung die importierten Log-Dateien nicht verloren gehen. 
+\subsubsection{Importierte Dateien speichern (FRQ-03.1)}
+Der im Abschnitt \ref{memento} beschriebene Mechanismus wird verwendet, damit nach einem Neustart der Entwicklungsumgebung die importierten Logdateien nicht verloren gehen. 
 
 \subsection{Datei einlesen (FRQ-04)}
-Nach dem Import einer Datei befindet sich zumindest ein Objekt vom Typ \textit{FileDescriptor} in der Log-Dateien Ansicht. Durch das Öffnen einer dieser Dateien wird der Inhalt der Datei zur weiteren Verarbeitung in eine Liste geladen. Die Daten sind allerdings noch immer unstrukturiert und werden erst beim Parsen in eine strukturierte Form gebracht.
+Durch den Import einer Garbage Collection Datei erscheinen diese im Logdateien-Fenster. Das öffnen einer dieser Dateien lädt den Inhalt in den Arbeitsspeicher. Die Daten sind noch unstrukturiert und werden innerhalb des im nächsten Abschnitt definierten Domänenmodells gespeichert.
 
 \subsubsection{Domänenmodell}
-\textit{IFileDescriptor} wird für die Abstraktion der Garbage Collection Log Datei verwendet. Darin enthalten sind Metadaten wie Dateiname und Pfad sowie - wenn bereits geladen - der Inhalt der Datei. Die Abstraktion einer Garbage Collection Log Datei heisst \textit{AbstractJvmRun} und wird erst von der jeweiligen Erweiterung realisiert.
+\textit{IFileDescriptor} wird für die Abstraktion der Garbage Collection Logdatei verwendet. Darin enthalten sind Metadaten wie Dateiname und Pfad sowie - wenn bereits geladen - der Inhalt der Datei. Die Abstraktion einer Garbage Collection Logdatei heisst \textit{AbstractJvmRun} und wird erst von der jeweiligen Erweiterung realisiert.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=16cm]{images/core_domain}
-        	\caption{Domänenmodell: Top-Down Ansicht}
+        	\caption{Domänenmodell: Eingelesene Datei}
 \end{figure}
 
 
 \subsection{Profil erstellen (FRQ-07)}
-Die Ansicht Profile zeigt die vom Benutzer erstellten Profile, initial mit dem Standard Profil. Die Beschreibung des Analysefensters wird durch Profile gemacht und es gibt zwei verschiedene Arten von Profilen: 
+Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial befindet sich darin allerdings nur das Standard-Profil.}. Die Beschreibung eines Analysefensters (Name, Beschreibung, Charts mit Serien, etc.) wird anhand von Profilen definiert. Es gibt folgende zwei Arten:
 \begin{itemize}
-	\item \textbf{Unveränderlich Profil:} Aktuell gibt es nur das Standard-Profil welches unveränderlich ist. Dieses Analysefenster kann der Benutzer nicht beinflussen, es dient dem Zweck einer ersten kurzen Übersicht über den Inhalt der Daten.
-	\item \textbf{Veränderlich Profil:} Ein veränderliches Profil wird zur Speicherung des vom Benutzer erstellten Analysefensters verwendet. Alle Änderungen die der Benutzer am Analysefenster macht (Chart hinzufügen, Chart konfigurieren), werden via ein Data-Binding (siehe Abschnitt \titleref{databinding}) an das Profil propagiert. Durch das Speichern des Profils hat der Benutzer die Möglichkeit, die selbe Analyse auch zu einem späteren Zeitpunkt nochmals oder aber an einer anderen Log-Datei auszuführen.
+	\item \textbf{Unveränderlich Profil:} Das Standard-Profil ist aktuell das einzige unveränderliche Profil.
+	\item \textbf{Veränderlich Profil:} Ein veränderliches Profil wird zur Speicherung des vom Benutzer definierten Analysefensters verwendet. Alle Änderungen die der Benutzer am Analysefenster macht (Chart hinzufügen, Chart konfigurieren), werden via ein Data-Binding an das Profil propagiert. Durch das Speichern des Profils hat der Benutzer die Möglichkeit, die selbe Analyse auch zu einem späteren Zeitpunkt an der gleichen oder einer anderen Logdatei durchzuführen.
 \end{itemize}
 
 \subsubsection{Domänenmodell}
-\textit{IConfiguration} die zur Gruppierung der Profile. Pro Extension wird eine Konfiguration mit einer unbestimmten Anzahl an Profilen gespeichert. Innerhalb eines Profils können unterschiedliche Diagramme (\textit{IChart}) angelegt werden, welche wiederum durch Achsen (\textit{IAxis}) und deren Daten. Die Abfrage der Daten findet über sogenannte \textit{IValueProvider} statt. Diese definieren den Weg, wie die Daten für eine Achse aus dem Domänen-Modell gelesen werden.
+\textit{IConfiguration} dient zur Gruppierung von profilen. Pro Extension wird eine Konfiguration mit verschiedenen Profilen abgelegt. Innerhalb eines Profils können unterschiedliche Diagramme (\textit{IChart}) angelegt werden, welche wiederum durch Achsen (\textit{IAxis}) und deren Datenquellen \textit{IValueProvider} definiert sind. \textit{IValueProvider} definieren den Weg, wie die Daten aus dem Domänenmodell gelesen werden.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=11cm]{images/core_domain_profiles}
@@ -159,23 +157,23 @@ Die Ansicht Profile zeigt die vom Benutzer erstellten Profile, initial mit dem S
 \end{figure}
 
 \subsubsection{Charts definieren (FRQ-07.1)}
-Bei der Benutzung eines veränderlichen Profils hat der Benutzer die Möglichkeit, dem Analysefenster weitere Charts respektive Diagramme hinzuzufügen oder aber bereits existierende Diagramme zu manipulieren (weitere Serien hinzufügen, Serien entfernen, etc.). Die Manipulationen des Benutzers finden auf den Chart-Objekten statt und werden durch das Data-Binding und dessen registrierte Listener an das Diagramm propagiert, so dass dieses bei jeder Änderung aktualisiert wird. Die Administrationsoberfläche für einen Chart umfasst initial zwei Abschnitte:
+Bei der Benutzung eines veränderlichen Profils hat der Benutzer die Möglichkeit, dem Analysefenster weitere Charts respektive Diagramme hinzuzufügen oder aber bereits existierende Diagramme zu manipulieren (weitere Serien hinzufügen, Serien entfernen, etc.). Die Manipulationen des Benutzers finden auf den Chart-Objekten statt und werden durch das Data-Binding propagiert. Die Administrationsoberfläche für einen Chart umfasst initial zwei Abschnitte:
 \begin{itemize}
 	\item Serie erstellen, definieren und hinzufügen
 	 \item Serie löschen
 \end{itemize}
 
 \subsubsection{Profil speichern (FRQ-07.2)}
-Mittels des Memento-(siehe Abschnitt \titleref{memento}) und Visitor-Patterns\cite[S. 331]{gamma1995design} wird das Profil in ein Memento serialisiert. Dieses Memento wird von der Eclipse-Umgebung beim Beenden einer Sitzung auf die Harddisk serialisiert und beim Starten wieder deserialisiert in die Objekte.
+Mittels des Memento-(siehe Abschnitt \ref{memento}) und Visitor-Patterns\cite[S. 331]{gamma1995design} werden die Profile gespeichert.
 
 \subsubsection{Profil exportieren, importieren (FRQ-07.3/4)}
-Die Analysesoftware stellt zum Sichern und Verteilen von Profilen einen Import- / Export-Mechanismus zur Verfügung. Beide sind über die Import- / Export-Wizards zugänglich oder können via rechter Mouseklick inder Ansicht Profile geöffnet werden. Der Profile-Export und -Import basiert wie das Speichern auf dem im Abschnitt \titleref{memento} beschriebenen Memento-Pattern. Zur Serialisierung in eine Datei wird das XMLMemento verwendet. 
+Die Analysesoftware stellt zum Sichern und Verteilen von Profilen einen Import-Export-Mechanismus bereit. Beide sind in den Eclipse Standard-Wizards ersichtlich oder können via rechter Mouseklick (Ansicht Profile) gestartet werden. Der Profile-Export und -Import basiert wie das Speichern auf dem im Abschnitt \ref{memento} beschriebenen Memento-Mechanismus. Zur Serialisierung in eine Datei wird das XMLMemento verwendet. 
 
 \subsubsection{Hilfesystem (FRQ-08)}
-Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfeseiten und Dienste wie die Suche und Indizierung bereitstellt. Die Hilfeseiten werden in zwei unterschiedliche Arten unterteilt:
+Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfedienste wie Suche und Indexierung bereitstellt. Hilfeseiten sind auf unterschiedliche Weise verfügbar:
 \begin{itemize}
 \item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 
-\item \textbf{Kontextsensitive Hilfen:} Tipps die im Zusammenhang mit einer Aktion oder eines Fensters eines Benutzers stehen werden mit den Kontextsensitiven Hilfen implementiert. Bei diesen Hilfen besteht eine Verbindung zwischen Fenstern, Aktionen auf der einen Seite und den Hilfeseiten auf der Anderen.
+\item \textbf{Kontextsensitive Hilfen:} Tipps die im Zusammenhang mit einer Aktion oder eines Fensters stehen, werden mit den Kontextsensitiven Hilfen implementiert.
 \end{itemize}
 
 
@@ -183,7 +181,7 @@ Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung i
 \section{JRockit Erweiterung}
 \subsection{Allgemein}
 \subsubsection{Domänenmodell JRockit Garbage Collection}\label{jrockit_domain_model}
-Der Parse-Prozess wandelt die unstrukturierten Daten in ein strukturiertes Domänenmodell um. Dieses wurde wie folgt erarbeitet:
+Der Parseprozess wandelt die unstrukturierten Daten in ein strukturiertes Domänenmodell um. Dieses wurde wie folgt erarbeitet:
 \begin{landscape}
  \begin{figure}[H]
   	\centering
@@ -191,9 +189,9 @@ Der Parse-Prozess wandelt die unstrukturierten Daten in ein strukturiertes Domä
 	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
 \end{figure}
 \end{landscape}
-Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände in welchen die verschiedenen Messgrössen gemessen und gespeichert werden. Zustandsübergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung geworfen - zum Beispiel wenn die Nursery oder die Old Collection an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden. Je nach Algorithmus folgt die Sweep-Phase oder Kopaktierung auf eine Markierungs-Phase.
-\subsection{Garbage Collection Log Datei parsen (FRQ-05)}
-Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Genauer genommen können die Ausgaben betreffend Garbage Collection und Memory Allokation per Kommandozeile eingeschaltet werden (siehe Abschnit \ref{logmodule} \titleref{logmodule}). Für die Garbage Collection Analyse sind nur ein Teil dieser Einträge interessant - es werden also niemals alle dieser Einträge von der Analyse-Software verstanden. Für die Analyse der Einträge ist der \textit{JRockitAnalyzer} zuständig.Die Einträge werden durch einen Prozessor, der nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut ist, prozessiert. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules und werden vom 
+Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände in welchen die verschiedenen Messgrössen gemessen und gespeichert werden. Zustandsübergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung geworfen - zum Beispiel wenn die Nursery oder die Old Collection an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden.
+\subsection{Garbage Collection Logdatei parsen (FRQ-05)}
+Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Sie können selektiv per Kommandozeile eingeschaltet werden (siehe Abschnit \ref{logmodule}). Für die Garbage Collection Analyse sind nur ein Teil dieser Einträge interessant - es werden nicht alle dieser Einträge von der Analyse-Software verarbeitet. Für die Analyse der Einträge ist der \textit{JRockitAnalyzer} zuständig. Die Einträge werden durch einen Prozessor, der nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut ist, prozessiert. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules und werden vom 
 \textit{MemoryModuleProzessor} geparst. Die gelesenen Daten werden interpretiert und innerhalb des Domänenmodells abgelegt. Das Chain-of-Responsibility Pattern ermöglicht es an dieser Stelle, neue Funktionalität in Form von neuen oder erweiterten Prozessoren zu definieren.
 
  \begin{figure}[H]
@@ -204,7 +202,7 @@ Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen 
 
 \subsection{Standardauswertung anzeigen (FRQ-06)}
 \subsubsection{Anzeige Übersicht Garbage Collection (FRQ-06.1)}\label{standardreport}
-Der initiale Tab der Analyseseite zeigt verschiedene zusammenfassende Daten des Garbage Collection Logs. Diese werden folgendermassen tabellarisch dargestellt:
+Der initiale Tab der Analyseseite zeit eine Zusammenfassung der geöffneten Garbage Collection. Sie wird in verschiedenen Tabellen dargestellt:
 \begin{itemize}
 	\item Heap Kapazität
 	\begin{itemize}
@@ -233,18 +231,20 @@ Der initiale Tab der Analyseseite zeigt verschiedene zusammenfassende Daten des 
 \end{itemize}
 
 \subsubsection{Chart Anzeige Heap Benutzung (FRQ-06.2)}
-Die Heap-Analyse zeichnet den Verlauf des benutzten Speichers im Heap über die Zeit auf. Die einzelnen Garbage Collection Zyklen inklusive der Farbe als Kennzeichnung Young, Old Collection werden als Punkte im Chart markiert.
+Die Heap-Analyse zeigt den Verlauf des benutzten Speichers im Heap über die Zeit auf. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
 
 \subsubsection{Chart Anzeige Dauer Garbage Collection (FRQ-06.3)}
-Die Dauer der einzelnen Garbage Collection Zyklen wird gegenüber der verstrichenen Laufzeit dargestellt. Die einzelnen Garbage Collection Zyklen inklusive der Farbe als Kennzeichnung Young, Old Collection werden werden als Punkte im Chart markiert.
+Die Dauer der einzelnen Garbage Collection Zyklen wird über die Zeit aufgezeigt. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
 
 
 %--------------------------------------------
-\section{Nichtfunktionale Anforderungen}
+\section{Qualitätsanforderungen}
 \subsection{Testabdeckung (QRQ-S-02)}\label{testing}
-In Nicht-Plugin-Projekten legt man den Test-Code in einem zusätzlichen Quelltext-Ordner an (Beispielsweise src/main/java und src/main/test). Damit ist der Zugriff auf package-private\footnote{Felder und Methoden ohne Deklaration der Sichtbarkeit (private, protected, public) sind in Java implizit package-private - sie sind also für alle Subklassen und innerhalb des selben Ordners (Package) sichtbar. } Felder und Methoden ebenfalls möglicht, zusätzlich bleibt der Test-Code von der Implementation getrennt. Dieses vorgehen wird auch vom Build-Werkzeug Maven Tycho unterstützt. Wenn man das entsprechende Test-Plugin als Eclipse-Test-Plugin konfiguriert\footnote{Dies kann innerhalb der Maven-Konfigurationsdatei pom.xml mit dem Element packaging gemacht werden.}, können die Tests auch während dem Build automatisiert durchgeführt werden.
+Bei Plugin-Projekten wird der Test-Code normalerweise in eigenen Fragment-Projekten abgelegt. Diese Test-Projekte werden allerdings nicht mit dem Feature ausgeliefert, sondern nur während dem Testen verwendet. Der Zugriff auf den Code der Implementation wird gewährleistet, indem aus dem Test-Projekt ein Fragment\footnote{Fragmente haben vollen Zugriff auf ihre Host-Bundles.} gemacht wird.
 
-Bei Eclipse-Plugin-Projekten erstellt man für den Test-Code ein separates Projekt. In das zu verteilende Softwarepacket (Feature) werden nur die Nicht-Test-Plugins getan. Der Zugriff vom Test-Projekt auf die Implementationen ist per se nicht möglich\footnote{Jedes Plugin muss definieren, welche Packages für die anderen Plugins sichtbar sind.}, zu diesem Zweck wird das Test-Projekt als Fragment definiert.
+\section{Eclipse Rich Client Framework}
+\subsection{Speicherung des Zustands einer View}\label{memento}
+Die Speicherung des Zustands einer View wird von Eclipse unterstützt, indem die Methode \textit{saveState(memento:IMemento)} von \textit{ViewPart} implementiert wird. \textit{IMemento} ist eine Eclipse-Klasse und gleichzeitig die Abstraktion eines Mementos. Memento ist ein Design Pattern und wurde durch die Gang of Four\footnote{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides} in \cite[S. 283]{gamma1995design} zum ersten Mal definiert. Mementos dienen zur Serialisierung von Objekten und haben den Vorteil, dass auch Klassen aus einem Memento einer anderen Version deserialisiert werden können. Das Eclipse-Framework persistiert die Zustände von Views mittels eines XMLMemento entsprechend im XML-Format ab. Die Deserialisierung erreicht man mit dem Überschreiben der Methode \textit{init(site:IViewSite, memento:IMemento)}.
 
 \subsection{Internationalisierung (QRQ-S-03))}
 Die Analysesoftware kann in den Sprachen Deutsch und Englisch gestartet werden. Die gewählte Sprache wird von der Entwicklungsumgebung übernommen\footnote{Die Entwicklungsumgebung übernimmt die Sprache der Java Lauzeitumgebung: Voreinstellung oder Auswahl über Kommandozeile (-nl de). } und kann nicht via ein Menu geändert werden. 
@@ -256,9 +256,9 @@ Basierend auf der \textit{Locale}-Klasse der Java Laufzeitumgebung können sprac
 \end{itemize} 
 
 \subsection{Usability (QRQ-S-04))}
-Einige der Funktionalitäten der Analysesoftware haben lange dauernde Operationen wie das einlesen und parsen der Log Dateien zur Folge. Operationen dieser Art werden mittels des Eclipse \textit{IProgressService} gestartet. Dies hat für die Applikation und den Benutzer folgende Vorteile:
+Einige der Funktionalitäten der Analysesoftware wie Beispielsweise das Einlesen und Parsen der Logdateien dauern lange. Der Benutzer benötigt eine Statusinformation. Operationen dieser Art werden mittels des Eclipse \textit{IProgressService} gestartet. Dies hat für die Applikation und den Benutzer folgende Vorteile:
 \begin{itemize}
-	\item \textbf{Nebenläufigkeit:} Die Applikation startet die Arbeit in einem eigenen nicht-UI Thread\footnote{Einem Thread der nicht für das Zeichnen des Benutzerinterfaces verwendet wird.}, sodass es nicht zu Nebeneffekten wie einem eingefrorenen Bildschirm kommt. Der Benutzer kann die Fortschrittsanzeige minimieren und mit der Applikation weiter arbeiten.
+	\item \textbf{Nebenläufigkeit:} Die Applikation startet die Arbeit in einem eigenen nicht-UI Thread\footnote{Einem Thread der nicht für das Zeichnen des Benutzerinterfaces verwendet wird.}, sodass es nicht zu Nebeneffekten wie einem eingefrorenen Bildschirm kommt. Der Benutzer kann die Fortschrittsanzeige minimieren und mit der Applikation weiterarbeiten.
 	\item \textbf{Fortschrittsanzeige: } Die Applikation teilt dem Benutzer über eine Anzeige mit, bei welcher Position sich der Prozess befindet und wie viel Arbeit prozentual bereits gemacht wurde.
 	\item \textbf{Unterbrechbarkeit: } Der Prozess erkundigt sich periodisch bei der Monitoring-Komponente ob er durch den Benutzer abgebrochen wurde. Sobald dies der Fall wäre, würde er die Arbeit beenden und das bereits Erledigte aufräumen.
 \end{itemize}
@@ -270,29 +270,35 @@ Einige der Funktionalitäten der Analysesoftware haben lange dauernde Operatione
 
 %--------------------------------------------
 \section{Infrastruktur}
-\subsection{Build-Automation}
-Die Automatisierung des Software-Builds ist hinsichtlich der Integration in ein Continuous Integration System Voraussetzung. Es hat zusätzlich aber andere Vorteile:
-\begin{itemize}
-	\item Tasks wie das Kompilieren, die Packetierung und das Deployment der Software müssen nicht mehr manuell gemacht werden.
-	\item Zur Verhinderung von Regression und entsprechend zur Gewährleistung der Qualität können vor jedem Release automatisch die Tests durchgeführt werden.
-\end{itemize}
+\subsection{Build-Automatisierung}
+Die Automatisierung des Software-Builds ist hinsichtlich der Integration in ein Continuous Integration System wichtig. Zusätzlich entfallen so zeitaufwändige Tasks wie die Paketierung und das Deployment der Applikation.
+Als Werkzeug zum automatisierten Build der Software wird Maven Tycho\footnote{Im Bereich der Eclipse Rich Client Entwicklung kann entweder PDE Build, ein auf Apache Ant basiertes Build-System für Eclipse RCP Applikationen\cite{vogelZapfPdeBuild} oder die Maven-Integration Tycho (http://tycho.sonatype.org) verwendet werden.} verwendet.
 
-Als Werkzeug zum automatisierten Build der Software wird Maven Tycho\footnote{Im Bereich der Eclipse Rich Client Entwicklung kann entweder PDE Build, ein auf Apache Ant basiertes Build-System für Eclipse RCP Applikationen\cite{vogelZapfPdeBuild} oder die Maven-Integration Tycho (http://tycho.sonatype.org) verwendet werden.} verwendet. Um Tycho führt mittlerweile kein Weg drum herum, es hat im Vergleich zum PDE Build einige Vorteile:
+Tycho ist relativ neu und bringt im Vergleich mit dem PDE Build einige Vorteile mit sich:
 \begin{itemize}
-	\item Maven Builds lassen sich ohne grossen Aufwand in Continuous Integration Systeme integrieren.
-	\item Maven hat eine gute Integration in alle gängigen Entwicklungsumgebungen\footnote{Projekt-Dateien müssen nicht mehr in die Versionskontrolle eingecheckt werden.} und ist sehr verbreitet
-\end{itemize}
-
-\subsection{Continous Integration}
-Als Continuous Integration Server wird Jenkins\footnote{http://jenkins-ci.org - Jenkins ist der ehemalige Hudson CI Server, welcher nach dem Kauf von Sun durch Oracle als Branch entstanden ist.} verwendet. Jenkins bringt nebst seiner Benutzerfreundlichkeit als Build Server einige zum Projekt nötigen Voraussetzungen mit:
-\begin{itemize}
-	\item Jenkins ist für alle denkbaren Betriebssysteme vorhanden.
-	\item Jenkins ist kompatibel mit allen gängigen Systemen zur Versionskontrolle: Git, Subversion, CVS, etc.
-	\item Maven-Projekte lassen sich ohne grossen Aufwand als Build-Projekte konfigurieren.
+	\item Maven folgt dem Prinzip ``Convention over Configuration''\footnote{Das Prinzip ``Convention over Configuration'' hat zur Folge, dass im Wesentlichen nur von den Standardeinstellungen abweichende Werte konfiguriert werden müssen.} - die Konfiguration des Builds wird dadurch wesentlich einfacher.
+	\item Maven ist de facto Standard bei den Build-Werkzeugen.
 \end{itemize}
 
 \subsection{Versionskontrolle}
-Zur Versionskontrolle kommen mehrere Werkzeuge in Frage. Git\footnote{http://git-scm.com} ist ein verteiltes Sourcecode Management System und ist konzeptionell und hinsichtlich Benutzerfreundlichkeit besser als Subversion und CVS\footnote{Git kann offline verwendet werden, das Verschieben von Verzeichnissen führt nicht zu Problemen, etc.}. Auf der Plattform Github\footnote{http://github.com} kann man öffentliche Projekte gratis ``hosten''.
+Zur Versionsverwaltungssysteme kommen mehrere Werkzeuge in Frage. Git\footnote{http://git-scm.com} ist ein verteiltes Sourcecode Management System und ist konzeptionell und hinsichtlich Benutzerfreundlichkeit besser als Subversion und CVS\footnote{Git kann offline verwendet werden, das Verschieben von Verzeichnissen führt nicht zu Problemen, etc.}. Auf der Plattform Github\footnote{http://github.com} kann man öffentliche Projekte gratis ``hosten''.
+
+
+\subsection{Continous Integration}
+Continuous Integration Systeme dienen zur Steigerung der Softwarequalität. Sie machen dies in der Regel, indem sie alle Tests und den Gesamtbuild der Software periodisch - üblich ist jede Stunde - durchführen. Für die Analysesoftware gibt es bei der Evaluation einige Grundvoraussetzungen:
+\begin{itemize}
+	\item \textbf{Buildwerkzeug Maven:} Das System muss Maven als Build- und Automatisierungswerkzeug unterstützen.
+	\item \textbf{Git Versionskontrolle:} Der Quelltext der Applikation muss via Git vom Sourcecode Repository ausgecheckt werden können.
+	\item \textbf{Freie Lizenz:} Die Software muss mindestens frei verfügbar sein oder open-source.
+\end{itemize}
+In den letzten Jahren hat sich Hudson\footnote{Vor kurzem haben sich einige Entwickler von Hudson aufgrund von Streitigkeiten mit Oracle dazu entschieden, die Software weiter unter dem Namen Jenkins zu entwickeln.} in vielen Projekten durchgesetzt. Hudson ist eine open-source Continuous Integration Software die gegenüber anderen Systemen einige Vorteile mit sich bringt:
+\begin{itemize}
+\item Hudson ist open-source.
+\item Hudson ist sehr einfach zu installieren und administrieren.
+\item Hudson basiert auf einem Plugin-System und ist aufgrund dessen erweiterbar. Es gibt Plugins für die Integration von Maven-Projekten und den Zugriff auf Git Repositories.
+\end{itemize}
+
+
 
 \subsection{Issue Tracker}
 Als Issue Tracker wird Jira verwendet. Es handelt sich dabei um eine kostenpflichtige aber relativ günstige Software für das Issue-Tracking.

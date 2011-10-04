@@ -30,7 +30,7 @@ Auf dem Dashboard befinden sich verschiedene Sektionen mit unterschiedlichen Fun
 	\item Sektion General 
 		\begin{itemize}
 			\item Wechsel in die Garbage Collection Perspektive
-			\item Import einer Garbage Collection Log Datei
+			\item Import einer Garbage Collection Logdatei
 		\end{itemize}
 	\item Sektion Profile
 		\begin{itemize}
@@ -43,23 +43,23 @@ Auf dem Dashboard befinden sich verschiedene Sektionen mit unterschiedlichen Fun
 		\end{itemize}
 \end{itemize}
 
-\section{Import einer Garbage Collection Log Datei}
-Der Import-Dialog kann auf verschiedene Arten geöffnet werden:
+\section{Import einer Garbage Collection Logdatei}
+Der Import-Wizard kann auf verschiedene Arten geöffnet werden:
 \begin{itemize}
-	\item Über die View Log Dateien mit Rechsklick / Import Garbage Collection Log File.
+	\item Über die View Logdateien mit Rechsklick / Import Garbage Collection Log File.
 	\item Über File / Import / Import Garbage Collection File (Kategorie: Garbage Collection)
 	\item Im Dashboard über Import Garbage Collection Log File
 \end{itemize}
 
-Über den Browse Button muss der Ordner angegeben werden, der die Log-Dateien beinhaltet, anschliessend kann die Log-Datei im darunterliegenden Fenster selektiert werden. Mit Klick auf Finish wird die Datei importiert.
+Über den Browse Button muss der Ordner angegeben werden, der die Logdateien beinhaltet, anschliessend kann die Logdatei im darunterliegenden Fenster selektiert werden. Mit Klick auf Finish wird die Datei importiert.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_importlog}
-        	\caption{Import Wizard}
+        	\caption{Profil importieren}
 \end{figure}
 
 \section{Profile}
-Zur Verwaltung der verschiedenen Analyseprofile gibt es die View Profiles. In ihr können Profile erstellt, exportiert und importiert werden. Wenn eine Log-Datei mit einem bestimmten Analyseprofil geöffnet werden soll, muss das entsprechende Profil darüber aktiviert / selektiert werden.
+Zur Verwaltung der verschiedenen Analyseprofile gibt es die View Profiles. In ihr können Profile erstellt, exportiert und importiert werden. Wenn eine Logdatei mit einem bestimmten Analyseprofil geöffnet werden soll, muss das entsprechende Profil darüber aktiviert / selektiert werden.
 
 \subsection{Profil erstellen}
 Mit Rechtsklick auf die Profiles View / Create Profile oder File / New / Other... / Analysis Profile (Kategorie Garbage Collection) kann der Dialog zum erstellen eines neuen Profils geöffnet werden. 
@@ -68,7 +68,7 @@ Mit Rechtsklick auf die Profiles View / Create Profile oder File / New / Other..
     	\includegraphics[width=10cm]{images/tutorial_newprofile}
         	\caption{Profil erstellen}
 \end{figure}
-Mit der Bedingung, dass ein Log-Format selektiert wurde (im Beispiel JRockit R28) und ein Namen vergeben wurde, wird ein neues Profil in der Profiles View erstellt.
+Sofern die unterliegende Erweiterung selektiert und ein Name vergeben wurde, wird mittels Klick auf Finish das Profil angelegt.
 
 \subsection{Profil exportieren}
 Mit Rechtsklick auf die Profiles View / Export Profile können die Profile in eine Lap\footnote{Lap steht für Log Analysis Profile}-Datei exportiert werden.
@@ -89,7 +89,7 @@ Mit Rechtsklick auf die Profiles View / Import Profile können die Profile aus e
 
 \section{Garbage Collection Analyse}
 \subsection{Standardauswertung}
-Sofern in der Profiles Ansicht kein Profil oder das Standard Profil selektiert ist, wird mit Doppelklick auf die importierte Log Datei in der Log Files Ansicht die Standardauswertung geöffnet. Die Standardauswertung besteht aus drei unterschiedlichen Tabs. Der erste Tab zeigt eine Zusammenfassung der Garbage Collection, der zweite Tab den Verlauf des benötigten Speichers auf dem Heap, und der dritte Tab die Dauer der einzelnen Garbage Collection Zyklen. 
+Sofern in der Profiles Ansicht kein Profil oder das Standard Profil selektiert ist, wird mit Doppelklick auf die importierte Logdatei in der Log Files Ansicht die Standardauswertung geöffnet. Die Standardauswertung besteht aus drei unterschiedlichen Tabs. Der erste Tab zeigt eine Zusammenfassung der Garbage Collection, der zweite Tab den Verlauf des benötigten Speichers auf dem Heap, und der dritte Tab die Dauer der einzelnen Garbage Collection Zyklen. 
 
 \subsubsection{Zusammenfassung}
  \begin{figure}[H]

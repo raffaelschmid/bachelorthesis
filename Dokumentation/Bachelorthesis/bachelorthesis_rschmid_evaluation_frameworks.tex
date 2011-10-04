@@ -1,23 +1,22 @@
 \chapter{Auswahl Frameworks und Komponenten}\label{selection_rcp_fw}
 \section{Rich Client Frameworks}
-Grundsätzlich käme für die Entwicklung der Analyse-Software auch die Java GUI-Bibliothek Swing in Frage. Viele Anforderungen die im Zusammenhang mit Desktop-Applikationen entstehen (Deployment, Installation, Update, Modularisierung, Internationalisierung, etc.), müssen dann allerdings von neuem entwickelt werden. Es macht deshalb Sinn bei der Evaluation der Bibliothek nur Rich Client Frameworks zu berücksichtigen. Von denen kommen aufgrund der funktionalen Anforderung FRQ-F-05 (Offline Betriebsmodus) und FRQ-F-06 (Installation als Erweiterung) Eclipse RCP und Netbeans RCP in Frage. Während Eclipse RCP insbesondere als Entwicklungsumgebung ein weit verbreitetes Framework ist und die Entwicklung aktuell in zwei verschiedenen Versionen (3.x / 4.x) vorangetrieben wird, findet man Netbeans und deren Rich Client Plattform eher seltener. In der folge werden die einzelnen Frameworks kurz beschrieben und dann anhand der Anforderungen verglichen.
+Grundsätzlich käme für die Entwicklung der Analyse-Software auch die Java GUI-Bibliothek Swing in Frage. Viele Anforderungen die im Zusammenhang mit Desktop-Applikationen entstehen (Deployment, Installation, Update, Modularisierung, Internationalisierung, etc.), müssen dann allerdings neu entwickelt werden. Bei der Evaluation der Bibliothek werden darum nur Rich Client Frameworks berücksichtigt. Von denen kommen aufgrund der funktionalen Anforderung FRQ-F-05 (Offline Betriebsmodus) und FRQ-F-06 (Installation als Erweiterung) Eclipse RCP und Netbeans RCP in Frage. Während Eclipse RCP insbesondere als Entwicklungsumgebung ein weit verbreitetes Framework ist und die Entwicklung aktuell in zwei verschiedenen Versionen (3.x / 4.x) vorangetrieben wird, findet man Netbeans und deren Rich Client Plattform eher seltener. In der folge werden die einzelnen Frameworks kurz beschrieben und dann anhand der Anforderungen verglichen.
 
 
 \subsection{Übersicht}
 \subsubsection{Eclipse RCP}
 Bis zur Version 2.1 war Eclipse bekannt als eine Open Source Entwicklungsumgebung für Programmierer. Der Vorgänger hiess Visual Age vor Java und wurde von IBM entwickelt. 
 
-Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Nun handelt es sich um einen relativ kleinen Kern der Applikation, der die eigentliche Funktionalität der Applikation als Plugins lädt. Diese Funktionalität basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen sind in SWT implementiert. Eclipse ist für 14 verschiedene Systeme und Architekturen bereitgestellt und gilt somit als plattformunabhängig \cite{wiki:eclipse}. 
+Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Nun handelt es sich um einen relativ kleinen Kern, der die eigentlichen Funktionalitäten der Applikation als Plugins lädt. Der beschriebene Mechanismus basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen werden in SWT implementiert. Eclipse ist für 14 verschiedene Systeme und Architekturen bereitgestellt und gilt somit als plattformunabhängig\cite{wiki:eclipse}. 
 
-Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins für die Entwicklungsumgebung entwickeln verwendet werden. Bei eigenen Desktop-Anwendungen spricht man auch von Eclipse-RCP Anwendungen.
-
+Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins für die Entwicklungsumgebung  verwendet werden.
 
 
 \subsubsection{Netbeans RCP}
-Wie bei Eclipse RCP handelt es sich bei Netbeans RCP ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Dem Entwickler wird ein API für typische Anforderungen in diesem Bereich zur Verfügung gestellt. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet.
+Bei Netbeans RCP handelt es sich ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet.
 
 \subsection{Auswertung Rich Client Frameworks}
-Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \titleref{anforderungen_framework} mit der jeweiligen Gewichtung. Die weiteren Spalten zeigen die erreichte Punktzahl zusammen mit dem aus Punktzahl und Gewicht errechnete Produkt.
+Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \ref{anforderungen_framework} mit entsprechender Nummer. Die dritte Spalte enthält das aus der Priorität abgeleitete Gewicht (siehe Abschnitt Gewichtung weiter unten). Die weiteren Spalten zeigen die erreichte Punktzahl zusammen mit dem aus Punktzahl und Gewicht errechnete Produkt.
 \begin{longtable}{|p{3cm}|c|c|c|c|c|}\hline
  \textbf{Anforderung} & \textbf{Nummer} &  \textbf{Gewicht.} & \textbf{Eclipse 3.x} & \textbf{Eclipse 4.x} &  \textbf{Netbeans 3.x}\\\hline
    \textbf{Verbreitung} & (QRQ-F-01) & 4 & 5 (20) & 1 (4) & 2 (8)\\\hline
@@ -29,16 +28,14 @@ Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \titleref{anf
 \end{longtable}
 
 \subsubsection{Bewertung}
-Die Bewertung der einzelnen Anforderungen wurde geschätzt und wird mittels folgender Tabelle in eine Zahl umgewandelt:
-\begin{longtable}{|l|c|c|c|c|c|}\hline
+Die Bewertung wurde geschätzt und mittels folgender Tabelle umgewandelt:\begin{longtable}{|l|c|c|c|c|c|}\hline
  \textbf{Bewertung} & sehr schlecht & schlecht & mittel & gross & sehr gross\\\hline
  \textbf{Punktzahl} & 1 & 2 & 3 & 4 & 5\\\hline
  \caption{Schema Vergabe der Punkte}
 \end{longtable}
 
 \subsubsection{Gewichtung}
-Die Gewichtung wird aus der Priorität der einzelnen Anforderung sowie der nachfolgenden Tabelle in eine Zahl umgewandelt:
-\begin{longtable}{|l|c|c|c|c|c|}\hline
+Mittels folgender Tabelle wird die Gewichtung aus der Priorität der Anforderung berechnet:\begin{longtable}{|l|c|c|c|c|c|}\hline
  \textbf{Priorität} & sehr klein & klein & mittel & gross & sehr gross\\\hline
  \textbf{Gewicht} & 1 & 2 & 3 & 4 & 5\\\hline
  \caption{Schema Gewichtung der Prioritäten}
@@ -46,5 +43,5 @@ Die Gewichtung wird aus der Priorität der einzelnen Anforderung sowie der nachf
 
 
 \subsection{Entscheid}\label{rcp_entscheid}
-Ausschlaggebend für die Wahl der Rich Client Plattform ist die Verbreitung. Trotzdem dass die Technologie und die Architektur der drei Frameworks teilweise grosse Unterschiede aufweisen, unterscheiden sie sich im Funktionsumfang nur unwesentlich. 
+\textbf{Ausschlaggebend für die Wahl der Rich Client Plattform ist die Verbreitung.} Trotz der Unterschiede in Architektur und den verwendeten Technologien unterscheiden sich die Frameworks im Funktionsumfang nur unwesentlich.
 
