@@ -1,24 +1,38 @@
 \chapter*{Glossar}\label{glossar}
 \addcontentsline{toc}{chapter}{Glossar}
-  \begin{longtable}{|p{5cm}|p{6cm}|p{3cm}|}
+  \begin{longtable}{|p{4.5cm}|p{6cm}|p{4.1cm}|}
 \hline
   \textbf{Wort} & \textbf{Beschreibung} & \textbf{Herkunft}\\\hline
-  Continuous Integration  &&\\\hline
+  Continuous Integration  & Kontinuierliches Kompilieren, Bilden und Testen einer Applikation. Hilft einem oder mehreren Entwicklern eine bessere Softwarequalität zu erreichen.&-\\\hline
   Bundle (Eclipse) & siehe Plugin & siehe Plugin\\\hline
   Category (Eclipse) & Auf einer Eclipse Update-Seite werden Features zur Verfügung gestellt. Diese können logisch noch einmal in Kategorien unterteilt werden. & Eclipse\\\hline
   Feature (Eclipse) & Als Feature verpackt man im Eclipse-Umfeld eine logische Einheit an Funktionalität. & Eclipse\\\hline
   Fragment & Manchmal macht es im Eclipse-Umfeld Sinn, gewisse Teile der Applikation optional zu definieren. In diesem Fall verwendet man Fragmente. Sie erlauben die Erweiterung eines bestehenden Bundles (Host-Bundle) und haben Zugriff auf alle auch nicht exportierten Packete. Test-Projekte werden oft auch als Fragmente definiert, da ihnen der volle Zugriff auf das Host-Bundle gewährleistet wird. & Eclipse\\\hline
-  Data Binding & & \\\hline
-  Garbage Collection & & \\\hline
-  Garbage Collection Algorithmus, Strategie & & \\\hline
-  Old Collection & & \\\hline
-  Parseprozess & & \\\hline
+  Data Binding & Data Binding ist ein Mechanismus in Client Applikationen, um die hinterlegten Werte eines Bedienelementes mit dem hinterlegten View-Model zu verbinden.  & - \\\hline
+  Garbage Collection & Der Begriff Garbage Collection Bezeichnet das Aufräumen von nicht mehr benutzten Objekten im Speicher.& Speichermanagement \\\hline
+  Garbage Collection Algorithmus & Das Aufräumen von Speicher wird je nach Technologie mittels unterschiedlicher Algorithmen gemacht.  & Speichermanagement \\\hline
+ Graphical User Interface (GUI)& Im Unterschied zu einer textbasierten Benutzeroberfläche ist ein GUI grafisch. Die Bedienung findet nebst der Tastatur mit der Maus statt. & -\\\hline
+  Old Collection & Der Begriff hat zwei Bedeutungen und wird je nach Kontext unterschiedlich verwendet:
+	\begin{itemize}
+	\item Der Bereich im Heap in welchem sich die alten Objekte befinden (siehe Old Generation).
+	\item Das Aufräumen von alten Objekten.
+	\end{itemize}
+	 & Speichermanagement\\\hline
+  Old Generation & Bei einigen Garbage Collection Algorithmen wird der Heap in Generationen unterteilt. Der Bereich mit den jungen Objekten wird Old Generation genannt.  & Speichermanagement \\\hline
+  Parseprozess & Bezeichnet die Interpretation und Aufbereitung von unstrukturierten Daten in eine strukturierte Form (Domänenmodell, Liste, Key-Value Datenstruktur, etc.). & Compilerbau \\\hline
   Plugin (Eclipse) & Ein Plugin ist eine technische Trennung von gewissen logischen Softwareteilen. Dabei definiert man die Schnittstelle zu anderen Plugins mittels einer Manifest.mf respektive einer plugin.xml Datei. Diese definiert die Abhängigkeiten (Import, Required Bundles inklusive den jeweiligen Versionen), die Exportierten Klassen und die Extension Points  & Eclipse\\\hline
+Rich Client Plattform & Der Begriff Rich Client Plattform wird in diesem Dokument als Synonym für Desktop- respektive Client-Applikation verwendet. & Vor gut 10 Jahren verlagerte sich die Logik vom Client auf den Server. Jede Interaktion mit dem System fand über eine Verbindung zum Server statt, der Client stellte die Inhalte nur dar. Die Anwendungen waren wenig benutzerfreundlich. Es gab deshalb eine Gegenbewegung zu den Rich Client Applikationen, dabei wird mindestens ein Teil der Logik wieder in den Client verlagert.\\\hline
   Update Site & Eine Update Site ist eine per Eclipse-Konvention aufgebaute Webseite die via das Http-Protokoll zugänglich ist und Software-Features enthält.& Eclipse\\\hline
-  Virtual Machine (JRockit, HotSpot) & & \\\hline
-  Wizard && \\\hline
-  Young Collection & & \\\hline
-
+  Virtual Machine (JRockit, HotSpot) & Laufzeitumgebung die beispielsweise eine Java Applikation ausführt. & Softwareentwicklung  \\\hline
+  Wizard & Dialog innerhalb einer Anwendung, der den Benutzer durch einen Prozess führt. & -\\\hline
+  Young Collection & Der Begriff hat zwei Bedeutungen und wird je nach Kontext unterschiedlich verwendet:
+	\begin{itemize}
+	\item Der Bereich im Heap in welchem sich die jungen Objekte befinden (siehe Young Generation).
+	\item Das Aufräumen von jungen Objekten.
+	\end{itemize}
+	 & Speichermanagement\\\hline
+  Young Generation &  Bei einigen Garbage Collection Algorithmen wird der Heap in Generationen unterteilt. Der Bereich mit den jungen Objekten wird Young Generation genannt.  & Speichermanagement \\\hline
+User Interface &  Als User Interface (Benutzeroberfläche) werden alle Schnittstellen zwischen Mensch und Maschine bezeichnet. Diese können textbasiert oder grafisch sein (GUI). &  \\\hline
       \caption{Glossar}\\
   \end{longtable}
 

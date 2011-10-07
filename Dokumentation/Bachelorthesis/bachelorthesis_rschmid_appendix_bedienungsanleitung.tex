@@ -1,16 +1,16 @@
 \chapter{Bedienungsanleitung}\label{bedienungsanleitung}
 \section{Installation der Software}
-Eclipse Installationsdialog öffnen: Menu Help / Install New Software
+Eclipse Installationsdialog mit Menu \textit{Hilfe / Neue Software installieren} öffnen.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_install01}
         	\caption{Installation Garbage Collection Log Analyse}
 \end{figure}
-Unter Angabe der Software Update-Seite beide Features auswählen und mit zweimaligem Klick auf Next und Bestätigen der Lizenzbestimmungen installieren. Anschliessend muss die Entwicklungsumgebung neu gestartet werden.
+Durch Angabe der Update-Seite können beide Features ausgewählt werden. Nach zweimaligem Klick auf \textit{Weiter} und anschliessender Bestätigung der Lizenzbestimmungen wird die Software installiert. Danach soll die Entwicklungsumgebung neu gestartet werden.
 
 
 \section{Update}
-Sobald ein Update der Software via Update-Seite verfügbar ist, kann via Help / Check for Updates das Update-Fenster geöffnet werden. Die neuen updates können hier heruntergeladen und installiert werden.
+Wenn ein Update der Software verfügbar ist, kann via \textit{Hilfe / Nach Updates suchen} das Update-Fenster geöffnet werden. Die  Softwarepakete werden anschliessend heruntergeladen und aktualisiert.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_update01}
@@ -18,26 +18,26 @@ Sobald ein Update der Software via Update-Seite verfügbar ist, kann via Help / 
 \end{figure}
 
 \section{Dashboard}
-Sobald die Software installiert ist, kann über die Toolbar und über den Knop GC Log Analysis Dashboard das Dashboard geöffnet werden. 
+Nach der Installation kann über den Knopf \textit{GC Log Analyse Dashboard} in der Toolbar das Dashboard geöffnet werden. 
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=16cm]{images/tutorial_dashboard}
         	\caption{Dashboard}
 \end{figure}
 
-Auf dem Dashboard befinden sich verschiedene Sektionen mit unterschiedlichen Funktionen:
+Auf dem Dashboard befinden sich verschiedene Abschnitte mit unterschiedlichen Funktionen:
 \begin{itemize}
-	\item Sektion General 
+	\item Generell 
 		\begin{itemize}
 			\item Wechsel in die Garbage Collection Perspektive
 			\item Import einer Garbage Collection Logdatei
 		\end{itemize}
-	\item Sektion Profile
+	\item Profile
 		\begin{itemize}
 			\item Import eines Analyseprofils
 			\item Export eines Analyseprofils
 		\end{itemize}
-	\item Sektion Help and Documentation
+	\item Hilfe und Dokumentation
 		\begin{itemize}
 			\item Beinhaltet Links auf verschiedene Inhalte der Hilfe
 		\end{itemize}
@@ -46,12 +46,12 @@ Auf dem Dashboard befinden sich verschiedene Sektionen mit unterschiedlichen Fun
 \section{Import einer Garbage Collection Logdatei}
 Der Import-Wizard kann auf verschiedene Arten geöffnet werden:
 \begin{itemize}
-	\item Über die View Logdateien mit Rechsklick / Import Garbage Collection Log File.
-	\item Über File / Import / Import Garbage Collection File (Kategorie: Garbage Collection)
-	\item Im Dashboard über Import Garbage Collection Log File
+	\item Über Rechtsklick auf die View \textit{Logdateien} / \textit{Import Garbage Collection Logdatei}.
+	\item Über \textit{File / Import / Import Garbage Collection Logdatei} (Kategorie: Garbage Collection)
+	\item Im Dashboard über \textit{Import Garbage Collection Logdatei}
 \end{itemize}
 
-Über den Browse Button muss der Ordner angegeben werden, der die Logdateien beinhaltet, anschliessend kann die Logdatei im darunterliegenden Fenster selektiert werden. Mit Klick auf Finish wird die Datei importiert.
+Über den \textit{Browse} Button muss der Ordner angegeben werden, welcher die Logdateien beinhaltet. Anschliessend kann die Logdatei im darunterliegenden Fenster selektiert werden. Mit Klick auf \textit{Finish} wird die Datei importiert.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_importlog}
@@ -59,19 +59,19 @@ Der Import-Wizard kann auf verschiedene Arten geöffnet werden:
 \end{figure}
 
 \section{Profile}
-Zur Verwaltung der verschiedenen Analyseprofile gibt es die View Profiles. In ihr können Profile erstellt, exportiert und importiert werden. Wenn eine Logdatei mit einem bestimmten Analyseprofil geöffnet werden soll, muss das entsprechende Profil darüber aktiviert / selektiert werden.
+Zur Verwaltung der verschiedenen Analyseprofile gibt es die View \textit{Profile}. In ihr können Profile erstellt, exportiert und importiert werden. Wenn eine Logdatei mit einem bestimmten Analyseprofil geöffnet werden soll, muss das entsprechende Profil in der Ansicht \textit{Profile} selektiert sein.
 
 \subsection{Profil erstellen}
-Mit Rechtsklick auf die Profiles View / Create Profile oder File / New / Other... / Analysis Profile (Kategorie Garbage Collection) kann der Dialog zum erstellen eines neuen Profils geöffnet werden. 
+Mit Rechtsklick auf die View \textit{Profile / Profil erstellen} oder \textit{Datei / Neu / Andere... / Analysis Profile} (Kategorie Garbage Collection) kann der Dialog zum Erstellen eines neuen Profils geöffnet werden. 
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_newprofile}
         	\caption{Profil erstellen}
 \end{figure}
-Sofern die unterliegende Erweiterung selektiert und ein Name vergeben wurde, wird mittels Klick auf Finish das Profil angelegt.
+Sofern die Erweiterung für die das Profil erstellt wird selektiert und ein Name vergeben ist, wird mittels Klick auf \textit{Finish} das Profil angelegt.
 
 \subsection{Profil exportieren}
-Mit Rechtsklick auf die Profiles View / Export Profile können die Profile in eine Lap\footnote{Lap steht für Log Analysis Profile}-Datei exportiert werden.
+Mit Rechtsklick auf die Ansicht \textit{Profile} und Auswahl von \textit{Profil exportieren}, können die Profile in eine Lap\footnote{Lap steht für Log Analysis Profile}-Datei exportiert werden.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_exportprofile}
@@ -80,7 +80,7 @@ Mit Rechtsklick auf die Profiles View / Export Profile können die Profile in ei
 
 \subsection{Profil importieren}
 
-Mit Rechtsklick auf die Profiles View / Import Profile können die Profile aus einer Lap-Datei importiert werden.
+Mit Rechtsklick auf die Ansicht \textit{Profile / Profil Importieren} können die Profile aus einer Lap-Datei importiert werden.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_importprofile}
@@ -89,7 +89,7 @@ Mit Rechtsklick auf die Profiles View / Import Profile können die Profile aus e
 
 \section{Garbage Collection Analyse}
 \subsection{Standardauswertung}
-Sofern in der Profiles Ansicht kein Profil oder das Standard Profil selektiert ist, wird mit Doppelklick auf die importierte Logdatei in der Log Files Ansicht die Standardauswertung geöffnet. Die Standardauswertung besteht aus drei unterschiedlichen Tabs. Der erste Tab zeigt eine Zusammenfassung der Garbage Collection, der zweite Tab den Verlauf des benötigten Speichers auf dem Heap, und der dritte Tab die Dauer der einzelnen Garbage Collection Zyklen. 
+Sofern in der Ansicht \textit{Profile} kein Profil selektiert ist, wird mit Doppelklick auf eine importierte Logdatei in der Ansicht \textit{Logdateien} die Standardauswertung geöffnet. Die Standardauswertung besteht aus drei unterschiedlichen Tabs. Der erste Tab zeigt eine Zusammenfassung der Garbage Collection, der zweite Tab den Verlauf des benötigten Speichers auf dem Heap über die Zeit, und der dritte Tab die Dauer der einzelnen Garbage Collection Zyklen über die Zeit. 
 
 \subsubsection{Zusammenfassung}
  \begin{figure}[H]
@@ -115,11 +115,11 @@ Sofern in der Profiles Ansicht kein Profil oder das Standard Profil selektiert i
 
 
 \subsection{Benutzerdefinierte Auswertung (Profile)}
-Die benutzerdefinierte Auswertung wird geöffnet, indem man vor dem öffnen einer Datei ein zuvor erstelltes Profil selektiert. 
+Die benutzerdefinierte Auswertung wird geöffnet, indem man vor dem Öffnen einer Datei in der Ansicht \textit{Profile} ein Profil selektiert. 
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=15cm]{images/tutorial_custom_report}
         	\caption{Standardauswertung: Zusammenfassung}
 \end{figure}
-Im Abschnitt General Customization können die Namen des Tabas und des Charts definiert werden. Im Abschnitt Chart Customization können neue Serien auf das Chart hinzugefügt werden. Dabei können pro Serie die Werte für die X-, Y-Achse angegeben werden, der Name der Serie definiert und angegeben werden, ob die Punkte der Serie mit einer Linie verbunden werden sollen. Die Ende der Garbage Collection können als vertikale Linien in rot (Old Collections) oder blau (Young Collections) angezeigt werden.
+Im Abschnitt \textit{Generelle Anpassungen} können die Namen von Tab  und Diagramm definiert werden. Im Abschnitt \textit{Anpassung Diagramm} können neue Serien auf das Diagramm hinzugefügt werden. Dabei können pro Serie die Werte für X- und Y-Achse und ein paar Eigenschaften angegeben werden. Das jeweilige Ende einer Garbage Collection kann als vertikale Linien in rot (Old Collections) oder blau (Young Collections) angezeigt werden.
 
