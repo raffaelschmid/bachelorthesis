@@ -20,23 +20,24 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
-import com.trivadis.loganalysis.core.IAnalyzer;
+import com.trivadis.loganalysis.core.IParser;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.core.common.progress.EmptyProgress;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.IModuleProcessor;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.IProcessor;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitR28Regex;
 
 public class JRockitAnalyzerTest {
 	private final AtomicInteger count = new AtomicInteger();
-	private final IAnalyzer<JRockitJvmRun> analyzer = new JRockitAnalyzer(Loganalysis.getDefault().getContext(), new IModuleProcessor() {
+	private final IParser<JRockitJvmRun> analyzer = new JRockitAnalyzer(Loganalysis.getDefault().getContext(), new IProcessor() {
 		public ModuleResult process(final JRockitJvmRun logFile, final String line) {
 			count.incrementAndGet();
 			return ModuleResult.PROCEED;
 		}
-	});
+	},new JRockitR28Regex());
 
 	private final IFileDescriptor jrockitLogR28 = new DummyDescriptor(JROCKIT_R28);
 	private final IFileDescriptor jrockitLogR27 = new DummyDescriptor(JROCKIT_R27);

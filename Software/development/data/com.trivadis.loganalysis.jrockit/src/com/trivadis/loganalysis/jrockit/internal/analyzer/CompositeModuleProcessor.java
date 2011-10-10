@@ -18,18 +18,18 @@ import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.core.common.Assert;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 
-public class CompositeModuleProcessor implements IModuleProcessor {
+public class CompositeModuleProcessor implements IProcessor {
 
-	private final List<IModuleProcessor> chain;
-
-	public CompositeModuleProcessor(IModuleProcessor... members) {
+	private final List<IProcessor> chain;
+	
+	public CompositeModuleProcessor(final IProcessor... members) {
 		chain = Arrays.asList(members);
 		Assert.assertTrue(members.length>0);
 	}
 
-	public ModuleResult process(JRockitJvmRun jvmRun, String line) {
+	public ModuleResult process(final JRockitJvmRun jvmRun, final String line) {
 		ModuleResult retVal = ModuleResult.RETURN;
-		for (IModuleProcessor handler : chain) {
+		for (final IProcessor handler : chain) {
 			retVal = handler.process(jvmRun, line);
 			if (retVal == ModuleResult.RETURN) {
 				break;

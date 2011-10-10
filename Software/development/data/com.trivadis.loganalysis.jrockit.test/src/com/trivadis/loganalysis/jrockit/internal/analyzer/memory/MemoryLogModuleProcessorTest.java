@@ -22,7 +22,7 @@ import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.domain.State;
 
 public class MemoryLogModuleProcessorTest {
-	private MemoryLogModuleProcessor instance = new MemoryLogModuleProcessor();
+	private MemoryModuleProcessor instance = new MemoryModuleProcessor();
 	private JRockitJvmRun jvm = new JRockitJvmRun(new DummyDescriptor());
 
 	private final String heapInfoLine = "[INFO ][memory ] Heap size: 65536KB, maximal heap size: 1048576KB, nursery size: 20480KB.";

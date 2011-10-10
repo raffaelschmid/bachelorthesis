@@ -11,13 +11,11 @@
  */
 package com.trivadis.loganalysis.core;
 
+import com.trivadis.loganalysis.core.common.progress.IProgress;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
-import com.trivadis.loganalysis.core.domain.IJvmRun;
 
-public interface IContext {
-
-	IContentReader getContentReader();
-
-	IParser<IJvmRun> findAnalyzer(IFileDescriptor fileDescriptor);
-
+public interface IParser<T> {
+	boolean canHandleLogFile(IFileDescriptor descriptor);
+	T process(IFileDescriptor descriptor, IProgress progress);
+	String getEditorId();
 }

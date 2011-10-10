@@ -22,7 +22,7 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.trivadis.loganalysis.core.IAnalyzer;
+import com.trivadis.loganalysis.core.IParser;
 import com.trivadis.loganalysis.core.IContext;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.progress.Progress;
@@ -78,7 +78,7 @@ public class OpenAnalysisHandler extends AbstractHandler {
 	private void openAnalysis(final ExecutionEvent event, final IFileDescriptor fileDescriptor, final IProfile profile) {
 		try {
 			final IWorkbenchPage page = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage();
-			final IAnalyzer<IJvmRun> analyzer = context.findAnalyzer(fileDescriptor);
+			final IParser<IJvmRun> analyzer = context.findAnalyzer(fileDescriptor);
 			if (analyzer != null) {
 				showAnalysis(fileDescriptor, page, analyzer, profile);
 			} else {
@@ -90,7 +90,7 @@ public class OpenAnalysisHandler extends AbstractHandler {
 	}
 
 	private void showAnalysis(final IFileDescriptor fileDescriptor, final IWorkbenchPage page,
-			final IAnalyzer<IJvmRun> analyzer, final IProfile profile) {
+			final IParser<IJvmRun> analyzer, final IProfile profile) {
 		try {
 			final IJvmRun jvmRun = Ui.getDefault().busyCursorWithResultWhile(new ResultRunnableWithProgress<IJvmRun>() {
 				@Override

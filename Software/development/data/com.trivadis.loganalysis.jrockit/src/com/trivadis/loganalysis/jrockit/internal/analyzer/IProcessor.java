@@ -9,15 +9,11 @@
  * Contributors:
  *   Raffael Schmid - initial API and implementation
  */
-package com.trivadis.loganalysis.core;
+package com.trivadis.loganalysis.jrockit.internal.analyzer;
 
-import com.trivadis.loganalysis.core.domain.IFileDescriptor;
-import com.trivadis.loganalysis.core.domain.IJvmRun;
+import com.trivadis.loganalysis.core.ModuleResult;
+import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 
-public interface IContext {
-
-	IContentReader getContentReader();
-
-	IParser<IJvmRun> findAnalyzer(IFileDescriptor fileDescriptor);
-
+public interface IProcessor {
+	ModuleResult process(JRockitJvmRun jvmRun, String line);
 }
