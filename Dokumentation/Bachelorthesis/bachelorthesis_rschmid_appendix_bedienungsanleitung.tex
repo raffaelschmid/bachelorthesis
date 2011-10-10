@@ -6,11 +6,11 @@ Eclipse Installationsdialog mit Menu \textit{Hilfe / Neue Software installieren}
     	\includegraphics[width=10cm]{images/tutorial_install01}
         	\caption{Installation Garbage Collection Log Analyse}
 \end{figure}
-Durch Angabe der Update-Seite können beide Features ausgewählt werden. Nach zweimaligem Klick auf \textit{Weiter} und anschliessender Bestätigung der Lizenzbestimmungen wird die Software installiert. Danach soll die Entwicklungsumgebung neu gestartet werden.
+Durch Angabe der Update-Seite können danach beide Features ausgewählt werden. Nach zweimaligem Klick auf \textit{Weiter} und anschliessender Bestätigung der Lizenzbestimmungen wird die Software installiert. Danach muss die Entwicklungsumgebung neu gestartet werden.
 
 
 \section{Update}
-Wenn ein Update der Software verfügbar ist, kann via \textit{Hilfe / Nach Updates suchen} das Update-Fenster geöffnet werden. Die  Softwarepakete werden anschliessend heruntergeladen und aktualisiert.
+Wenn ein Update der Software verfügbar ist, kann via \textit{Hilfe / Nach Updates suchen} das Update-Fenster geöffnet werden. Die  Softwarepakete werden wenn gewünscht heruntergeladen und aktualisiert.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_update01}
@@ -59,16 +59,16 @@ Der Import-Wizard kann auf verschiedene Arten geöffnet werden:
 \end{figure}
 
 \section{Profile}
-Zur Verwaltung der verschiedenen Analyseprofile gibt es die View \textit{Profile}. In ihr können Profile erstellt, exportiert und importiert werden. Wenn eine Logdatei mit einem bestimmten Analyseprofil geöffnet werden soll, muss das entsprechende Profil in der Ansicht \textit{Profile} selektiert sein.
+Zur Verwaltung der verschiedenen Analyseprofile gibt es die View \textit{Profile}. In ihr können Profile erstellt, exportiert und importiert werden. Wenn eine Logdatei mit einem bestimmten Analyseprofil geöffnet werden soll, muss das entsprechende Profil darin selektiert sein.
 
 \subsection{Profil erstellen}
-Mit Rechtsklick auf die View \textit{Profile / Profil erstellen} oder \textit{Datei / Neu / Andere... / Analysis Profile} (Kategorie Garbage Collection) kann der Dialog zum Erstellen eines neuen Profils geöffnet werden. 
+Mit Rechtsklick auf die Ansicht \textit{Profile / Profil erstellen} oder \textit{Datei / Neu / Andere... / Analyse Profil} (Kategorie Garbage Collection) kann der Dialog zum Erstellen eines neuen Profils geöffnet werden. 
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_newprofile}
         	\caption{Profil erstellen}
 \end{figure}
-Sofern die Erweiterung für die das Profil erstellt wird selektiert und ein Name vergeben ist, wird mittels Klick auf \textit{Finish} das Profil angelegt.
+Sofern die Erweiterung, für die das Profil erstellt wird, selektiert und ein Name vergeben ist, wird mittels Klick auf \textit{Fertigstellen} das Profil angelegt.
 
 \subsection{Profil exportieren}
 Mit Rechtsklick auf die Ansicht \textit{Profile} und Auswahl von \textit{Profil exportieren}, können die Profile in eine Lap\footnote{Lap steht für Log Analysis Profile}-Datei exportiert werden.
@@ -89,7 +89,7 @@ Mit Rechtsklick auf die Ansicht \textit{Profile / Profil Importieren} können di
 
 \section{Garbage Collection Analyse}
 \subsection{Standardauswertung}
-Sofern in der Ansicht \textit{Profile} kein Profil selektiert ist, wird mit Doppelklick auf eine importierte Logdatei in der Ansicht \textit{Logdateien} die Standardauswertung geöffnet. Die Standardauswertung besteht aus drei unterschiedlichen Tabs. Der erste Tab zeigt eine Zusammenfassung der Garbage Collection, der zweite Tab den Verlauf des benötigten Speichers auf dem Heap über die Zeit, und der dritte Tab die Dauer der einzelnen Garbage Collection Zyklen über die Zeit. 
+Sofern in der Ansicht \textit{Profile} kein Profil selektiert ist, wird mit Doppelklick auf eine importierte Logdatei die Standardauswertung geöffnet. Die Standardauswertung besteht aus drei unterschiedlichen Tabs. Der erste Tab zeigt eine Zusammenfassung der Garbage Collection, der zweite Tab den Verlauf des benötigten Speichers auf dem Heap über die Zeit, und der dritte Tab die Dauer der einzelnen Garbage Collection Zyklen über die Zeit. 
 
 \subsubsection{Zusammenfassung}
  \begin{figure}[H]
@@ -121,5 +121,5 @@ Die benutzerdefinierte Auswertung wird geöffnet, indem man vor dem Öffnen eine
     	\includegraphics[width=15cm]{images/tutorial_custom_report}
         	\caption{Standardauswertung: Zusammenfassung}
 \end{figure}
-Im Abschnitt \textit{Generelle Anpassungen} können die Namen von Tab  und Diagramm definiert werden. Im Abschnitt \textit{Anpassung Diagramm} können neue Serien auf das Diagramm hinzugefügt werden. Dabei können pro Serie die Werte für X- und Y-Achse und ein paar Eigenschaften angegeben werden. Das jeweilige Ende einer Garbage Collection kann als vertikale Linien in rot (Old Collections) oder blau (Young Collections) angezeigt werden.
+Im Abschnitt \textit{Generelle Anpassungen} können die Namen von Tab  und Diagramm definiert werden. Im Abschnitt \textit{Anpassung Diagramm} können neue Serien auf das Diagramm hinzugefügt werden. Dabei können pro Serie die Werte für X-, Y-Achse und ein paar Eigenschaften angegeben werden. Das jeweilige Ende einer Garbage Collection kann als vertikale Linien in rot (Old Collections) oder blau (Young Collections) angezeigt werden.
 
