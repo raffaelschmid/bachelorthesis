@@ -14,6 +14,6 @@ package com.trivadis.loganalysis.jrockit.internal.analyzer;
 import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 
-public interface IProcessor {
+public interface ILogParser {
 	ModuleResult process(JRockitJvmRun jvmRun, String line);
 }

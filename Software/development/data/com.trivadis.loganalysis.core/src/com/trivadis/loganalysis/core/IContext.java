@@ -18,6 +18,6 @@ public interface IContext {
 
 	IContentReader getContentReader();
 
-	IParser<IJvmRun> findAnalyzer(IFileDescriptor fileDescriptor);
+	IAnalyzer<IJvmRun> findAnalyzer(IFileDescriptor fileDescriptor);
 
 }

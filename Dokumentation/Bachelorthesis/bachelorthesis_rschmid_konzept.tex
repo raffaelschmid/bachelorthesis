@@ -10,15 +10,6 @@ Die Software wird lizenziert unter der Eclipse Public License\footnote{http://ww
 	\item Jedermann kann Erweiterungen entwickeln oder Fehler beheben.
 \end{itemize}
 
-Bei der Wahl der Lizenz muss gleichzeitig in Betracht gezogen werden, dass die Lizenzen der verwendeten Bibliotheken ebenfalls eingehalten werden. Übersicht der verwendeten Bibliotheken:
-
-\begin{longtable}{|p{3cm}|p{7cm}|p{4cm}|}
-    \caption{Verwendete Bibliotheken und deren Lizenzen}\\\hline
-	\textbf{Bibliothek} & \textbf{Beschreibung}  & \textbf{Lizenz}\\\hline
-	Eclipse Framework & Framework zur Erstellung von Destkop-Anwendungen. & Eclipse Public License\\\hline 
-	JFreeChart & Wird für im Bereich des Reportings verwendet um Graphiken und Charts anzuzeigen. & Lesser General Public License\footnote{http://www.gnu.org/licenses/lgpl.html}\\\hline
-\end{longtable}
-
 \section{Architektur}
 \subsection{Problemstellung}\label{konzept_uebersicht}
 Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analyse-Software auch hinsichtlich anderer Logformate erweiterbar sein. Die Applikation wird also nicht zwingendermassen mit der Erweiterung für JRockit Logdateien verwendet. Es könnte zu einem späteren Zeitpunkt sein, dass man damit Garbage Collection Logs der HotSpot Virtual Machine auswertet. Dies hat hinsichtlich Architektur einige Konsequenzen:
@@ -190,17 +181,34 @@ Der Parseprozess wandelt die unstrukturierten Daten in ein strukturiertes Domän
 \end{figure}
 \end{landscape}
 Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände in welchen die verschiedenen Messgrössen gemessen und gespeichert werden. Zustandsübergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung geworfen - zum Beispiel wenn die Nursery oder die Old Collection an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden.
+
 \subsection{Garbage Collection Logdatei parsen (FRQ-05)}
-Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Diese Ausgaben können selektiv per Kommandozeile aktiviert werden (siehe Abschnit \ref{logmodule}). Für die Garbage Collection Analyse sind nicht alle Einträge interessant, es werden nur die Wichtigsten Einträge für die Garbage Collection Analyse verarbeitet. Der Analyzer für die entsprechende Logdatei ist nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut. Es können verschiedene Prozessoren in die Kette eingehängt werden. Jeder Prozessor filtert die für ihn wichtigen Informationen aus dem Logeintrag und speichert sie im Domänenmodell. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules und werden vom 
-\textit{MemoryModuleProzessor} geparst. Die gelesenen Daten werden interpretiert und innerhalb des Domänenmodells abgelegt. 
+Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Diese Ausgaben können selektiv per Kommandozeile aktiviert werden (siehe Abschnit \ref{logmodule}). Für die Garbage Collection Analyse sind nicht alle Einträge interessant, es werden nur die wichtigsten verwendet. Die einzelnen Parser der für die Garbage Collection Logdatei werden auf der Basis von Regular Expressions selber implementiert. Auf die Verwendung eines Parser-Generators wird aus folgenden Gründen verzichtet:
+\begin{itemize}
+	\item Lightweight: Um Parser-Generatoren zu verwenden, wird in der Regel auch zur Laufzeit eine Bibliothek benötigt. Diese muss mit der Software ausgeliefert werden. Die Implementation von Regulären Ausdrücken beispielsweise ist der Java Laufzeitumgebung sowieso verfügbar.
+	\item Proprietär: Parser-Generatoren sind proprietär und die Verwendung dessen bedingt gute Kenntnisse. In der Regel beschreibt man das Format in einer Grammatik.
+\end{itemize}
+
+\subsubsection{Parser}
+Der Parser für die Logdateien der JRockit Virtual Machine ist nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut. Pro Logeintrag (respektive pro Typ) kann ein Parser in die Parser-Kette geschaltet werde. Jeder Parser extrahiert die für ihn wichtigen Informationen und aktualisiert damit das Domänenmodell. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules und werden vom \textit{MemoryModuleParser} verarbeitet. In zukünftigen Versionen ist die Verarbeitung von Logeinträgen von anderen Log-Modulen denkbar - Einträge des Nursery-, Allocation-Modules, etc. Ablauf und Aufbau des Parsers sind in den folgenden beiden Grafiken ersichtlich:
 
  \begin{figure}[H]
   	\centering
+    	\includegraphics[width=16cm]{images/acitivity_parse_prozess}
+        	\caption{Sequenzdiagramm Parsen Logdatei}
+\end{figure}
+ \begin{figure}[H]
+  	\centering
     	\includegraphics[width=16cm]{images/jrockit_log_processing}
-        	\caption{JRockit Analyseprozess}
+        	\caption{Klassendiagramm Parsen Logdatei}
 \end{figure}
 
-Initial beinhaltet die Analysesoftware nur den \textit{MemoryModuleProcessor} - den Prozessor zur Analyse der Log-Einträge des Memory Moduls. 
+\subsubsection{MemoryModuleParser}
+Das Parsen innerhalb des \textit{MemoryModuleParser} wird in zwei Schritte aufgeteilt:
+\begin{itemize}
+\item \textbf{Lexer: }Der einzelne Logeintrag wird durch den Lexer (Tokenizer) in eine Map aus Tokens umgewandelt. Schlüssel für die einzelnen Tokens ist der \textit{TokenType}. Der Lexer wird mittels Regular Expressions implementiert. Die Werte werden mittels Gruppierungs-Funktion\footnote{Mittels Gruppen innerhalb von Regulären Ausdrücken lassen sich einzelne Werte aus einem String extrahieren.} extrahiert. 
+\item \textbf{Syntactic Analyzer: }Der syntaktische Analyser verarbeitet die vom Lexer extrahierten Tokens. Er führt zum einen eine semantische Validierung durch und speichert die Werte in strukturierter Form (Domänenmodell).
+\end{itemize}
 
 \subsection{Standardauswertung anzeigen (FRQ-06)}
 \subsubsection{Anzeige Übersicht Garbage Collection (FRQ-06.1)}\label{standardreport}

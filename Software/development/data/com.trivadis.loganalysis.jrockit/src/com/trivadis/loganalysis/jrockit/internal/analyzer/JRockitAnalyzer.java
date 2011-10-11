@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import com.trivadis.loganalysis.core.IContext;
-import com.trivadis.loganalysis.core.IParser;
+import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.common.CollectionUtil;
 import com.trivadis.loganalysis.core.common.Predicate;
@@ -23,21 +23,21 @@ import com.trivadis.loganalysis.core.common.progress.IProgress;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitR28Regex;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.MemoryModuleProcessor;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.MemoryModuleLogParser;
 
-public class JRockitAnalyzer implements IParser<JRockitJvmRun> {
+public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 
 	private final Pattern firstLinePattern;
 	public static final String ANALYZER_EDITOR_ID = "com.trivadis.loganalysis.jrockit.ui.AnalysisEditor";
 	private final IContext context;
-	private final IProcessor moduleProcessor;
+	private final ILogParser moduleProcessor;
 
 	public JRockitAnalyzer() {
-		this(Loganalysis.getDefault().getContext(), new CompositeModuleProcessor(new MemoryModuleProcessor()),
+		this(Loganalysis.getDefault().getContext(), new CompositeLogParser(new MemoryModuleLogParser()),
 				new JRockitR28Regex());
 	}
 
-	public JRockitAnalyzer(final IContext context, final IProcessor moduleProcessor, final JRockitR28Regex extractor) {
+	public JRockitAnalyzer(final IContext context, final ILogParser moduleProcessor, final JRockitR28Regex extractor) {
 		this.context = context;
 		this.moduleProcessor = moduleProcessor;
 		firstLinePattern = Pattern.compile(extractor.getGeneralInfo());

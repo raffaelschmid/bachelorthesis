@@ -20,19 +20,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
-import com.trivadis.loganalysis.core.IParser;
+import com.trivadis.loganalysis.core.IAnalyzer;
 import com.trivadis.loganalysis.core.Loganalysis;
 import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.core.common.progress.EmptyProgress;
 import com.trivadis.loganalysis.core.domain.IFileDescriptor;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.IProcessor;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.ILogParser;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitAnalyzer;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.JRockitR28Regex;
 
 public class JRockitAnalyzerTest {
 	private final AtomicInteger count = new AtomicInteger();
-	private final IParser<JRockitJvmRun> analyzer = new JRockitAnalyzer(Loganalysis.getDefault().getContext(), new IProcessor() {
+	private final IAnalyzer<JRockitJvmRun> analyzer = new JRockitAnalyzer(Loganalysis.getDefault().getContext(), new ILogParser() {
 		public ModuleResult process(final JRockitJvmRun logFile, final String line) {
 			count.incrementAndGet();
 			return ModuleResult.PROCEED;

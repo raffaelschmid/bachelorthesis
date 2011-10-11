@@ -16,12 +16,12 @@ import java.util.Map;
 import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.file.Token;
-import com.trivadis.loganalysis.jrockit.internal.analyzer.IProcessor;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.ILogParser;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.ISyntacticAnalyzer;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitLexer;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.TokenType;
 
-public class MemoryModuleProcessor implements IProcessor {
+public class MemoryModuleLogParser implements ILogParser {
 
 	private final JRockitLexer memoryLexer = new JRockitLexer(new MemoryUsageLine());
 	private final JRockitLexer infoLexer = new JRockitLexer(new HeapInfoLine());
