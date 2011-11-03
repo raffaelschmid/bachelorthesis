@@ -2,7 +2,7 @@
 \section{Einleitung}
 Die Evaluation der Komponenten wird auf der Basis der Anforderungen gemacht. Die jeweiligen Punktezahlen werden anhand folgender Schemas ausgerechnet.
 \subsubsection{Bewertung}
-Die Bewertung wird geschätzt und mittels folgender Tabelle in eine Punktzahl umgewandelt:
+Die Bewertung wird aus dem Erfahrungswert und folgender Tabelle in eine Punktzahl umgewandelt:
 \begin{longtable}{|l|c|c|c|c|c|}\hline
  \textbf{Bewertung} & sehr schlecht & schlecht & mittel & gross & sehr gross\\\hline
  \textbf{Punktzahl} & 1 & 2 & 3 & 4 & 5\\\hline
@@ -10,18 +10,20 @@ Die Bewertung wird geschätzt und mittels folgender Tabelle in eine Punktzahl um
 \end{longtable}
 
 \subsubsection{Gewichtung}
-Mittels folgender Tabelle wird die Gewichtung aus der Priorität der Anforderung berechnet:\begin{longtable}{|l|c|c|c|c|c|}\hline
+Die Priorität berechnet sich aus der Priorität der Anforderung und folgender Tabelle:\begin{longtable}{|l|c|c|c|c|c|}\hline
  \textbf{Priorität} & sehr klein & klein & mittel & gross & sehr gross\\\hline
  \textbf{Gewicht} & 1 & 2 & 3 & 4 & 5\\\hline
- \caption{Schema Gewichtung der Prioritäten}
+ \caption{Schema Umwandlung Priorität in Gewicht}
 \end{longtable}
-
-Die Punktezahl ergibt sich jeweils aus der Bewertung multipliziert mit dem Gewicht.
-
-
-
+\subsubsection{Berechnung der Punkte}
+Die Punktezahl ergibt sich jeweils aus dem Produkt von Bewertung und Gewicht:
+\begin{center}
+\begin{tabular}{|c|}\hline
+Punktezahl = Bewertung x Gewicht \\\hline
+\end{tabular}
+\end{center}
 \section{Rich Client Framework}
-Grundsätzlich käme für die Entwicklung der Analyse-Software auch die Java GUI-Bibliothek Swing in Frage. Viele Anforderungen die im Zusammenhang mit Desktop-Applikationen entstehen (Deployment, Installation, Update, Modularisierung, Internationalisierung, etc.), müssen dann allerdings neu entwickelt werden. Bei der Evaluation der Bibliothek werden darum nur Rich Client Frameworks berücksichtigt. Von denen kommen aufgrund der funktionalen Anforderung FRQ-F-05 (Offline Betriebsmodus) und FRQ-F-06 (Installation als Erweiterung) Eclipse RCP und Netbeans RCP in Frage. Während Eclipse RCP insbesondere als Entwicklungsumgebung ein weit verbreitetes Framework ist und die Entwicklung aktuell in zwei verschiedenen Versionen (3.x / 4.x) vorangetrieben wird, findet man Netbeans und deren Rich Client Plattform eher seltener. In der folge werden die einzelnen Frameworks kurz beschrieben und dann anhand der Anforderungen verglichen.
+Grundsätzlich käme für die Entwicklung der Analyse-Software auch die Java GUI-Bibliothek Swing in Frage. Viele Anforderungen die im Zusammenhang mit Desktop-Applikationen entstehen (Deployment, Installation, Update, Modularisierung, Internationalisierung, etc.), müssen dann allerdings neu entwickelt werden. Bei der Evaluation der Bibliothek werden darum nur Rich Client Frameworks berücksichtigt. Von denen kommen aufgrund der funktionalen Anforderung FRQ-F-05 (Offline Betriebsmodus) und FRQ-F-06 (Installation als Erweiterung) Eclipse RCP und Netbeans RCP in Frage. Während Eclipse RCP insbesondere als Entwicklungsumgebung ein weit verbreitetes Framework ist und die Entwicklung aktuell in zwei verschiedenen Versionen (3.x / 4.x) vorangetrieben wird, findet man Netbeans und deren Rich Client Plattform eher selten. In der Folge werden die drei Frameworks kurz beschrieben und dann anhand der Anforderungen verglichen.
 
 
 \subsection{Übersicht}
@@ -34,17 +36,17 @@ Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikatio
 
 
 \subsubsection{Netbeans RCP}
-Bei Netbeans RCP handelt es sich ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet.
+Bei Netbeans RCP handelt es sich ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet. Man findet Netbeans als Rich Client Framework eher selten.
 
 \subsection{Auswertung Rich Client Frameworks}
-Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \ref{anforderungen_framework} mit entsprechender Nummer. Die dritte Spalte enthält das aus der Priorität abgeleitete Gewicht (siehe Abschnitt Gewichtung weiter unten). Die weiteren Spalten zeigen die erreichte Punktzahl zusammen mit dem aus Punktzahl und Gewicht errechnete Produkt.
+Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \ref{anforderungen_framework}. Die dritte Spalte enthält das aus der Priorität abgeleitete Gewicht (siehe Abschnitt Gewichtung). Die weiteren Spalten zeigen pro Produkt die Bewertung zusammen mit dem Total der Punkte.
 \begin{longtable}{|p{3cm}|c|c|c|c|c|}\hline
  \textbf{Anforderung} & \textbf{Nummer} &  \textbf{Gewicht.} & \textbf{Eclipse 3.x} & \textbf{Eclipse 4.x} &  \textbf{Netbeans 3.x}\\\hline
-   \textbf{Verbreitung} & (QRQ-F-01) & 4 & 5 (20) & 1 (4) & 2 (8)\\\hline
-   \textbf{Unterstützung Plattformunab-hängigkeit} & (QRQ-F-02) & 4 & 5 (20) & 5 (20) & 5 (20)\\\hline
-   \textbf{Unterstützung Lokalisation Support} & (QRQ-F-03) & 2 & 5 (10) & 5 (10) & 5 (10) \\\hline
-   \textbf{Unterstützung Modularisierung} & (QRQ-F-04) & 3 & 5 (15) & 5 (15) & 5 (15) \\\hline
-   \textbf{Total} & - & - & \textbf{65} & 49 & 53\\\hline
+   Verbreitung & (QRQ-F-01) & 4 & 5 (20) & 1 (4) & 2 (8)\\\hline
+   Unterstützung Plattformunab-hängigkeit & (QRQ-F-02) & 4 & 5 (20) & 5 (20) & 5 (20)\\\hline
+   Unterstützung Lokalisation Support & (QRQ-F-03) & 2 & 5 (10) & 5 (10) & 5 (10) \\\hline
+   Unterstützung Modularisierung & (QRQ-F-04) & 3 & 5 (15) & 5 (15) & 5 (15) \\\hline
+   \textbf{Total} & & & \textbf{65} & \textbf{49} & \textbf{53}\\\hline
     \caption{Auswertung Rich Client Frameworks}
 \end{longtable}
 
@@ -53,21 +55,26 @@ Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \ref{anforder
 
 
 \section{Charting Bibliothek}
-Für die Darstellung der Diagramme, Charts wird Bibliothek verwendet. Im Bereich von SWT und Eclipse kommt entweder BIRT oder JFreeChart in Frage. Beide dürfen aus Sicht der Lizenz für diese Art von Projekten weiterverwendet werden.
-
+Für die grafische Darstellung der Daten (Charts) wird eine Bibliothek verwendet. Sehr oft wird dafür Eclipse BIRT oder JFreeChart eingesetzt.
 \subsection{Übersicht}
 \subsubsection{BIRT}
-BIRT steht für Business Intelligence and Reporting Tools und ist ein Open-Source-Projekt und stellt Business-Intelligence- und Reporting-Funktionalität für Rich Clients zur Verfügung. BIRT ist wie Eclipse ein Top-Level-Softwareprojekt der Eclipse Foundation. Es besteht aus zwei Teilen, einer Komponente um Berichte zu erstellen, die andere zur generierung der Diagramme und Auswertungen. Aufgrund der umfassenden Funktionalität der Grösse (über 100 Megabyte) ist BIRT für kleinere Projekte eher ungeeignet.
+BIRT steht für Business Intelligence and Reporting Tools und stellt Business-Intelligence- und Reporting-Funktionalität für Rich Clients zur Verfügung. BIRT ist Lizenziert unter der Eclipse Public License und ist daher open-source. BIRT ist wie Eclipse ein Top-Level-Softwareprojekt der Eclipse Foundation. Die Software besteht aus zwei Teilen:
+\begin{itemize}
+\item \textbf{Report Designer: }Mit dem Report Designer können Benutzer oder Administratoren ihre Reports erstellen und anpassen. 
+\item \textbf{Charting Engine: }Die Charting Engine generiert aus den Daten und den definierten Reports, Diagrammen die Charts.
+\end{itemize} 
+
+Der Umfang der Software ist mit über 100 Megabyte für kleinere Projekte eher ungeeignet.
 
 \subsubsection{JFreeChart}
 JFreeChart ist ein Open-Source-Framework mit welchem eine Vielzahl verschiedener Diagramme erzeugt werden können. JFreeChart unterstützt die Ausgabe der Diagramme in Grafiken, Swing- und RCP-Applikationen und ist mit einer Grösse von rund einem Megabyte auch für kleinere Softwareprojekte geeignet.
 
 \subsection{Auswertung Charting-Bibliothek}
-\begin{longtable}{|p{3cm}|c|c|c|c|}\hline
+\begin{longtable}{|p{4cm}|c|c|c|c|}\hline
  \textbf{Anforderung} & \textbf{Nummer} &  \textbf{Gewicht.} & \textbf{BIRT} & \textbf{JFreeChart}\\\hline
-   \textbf{Grösse Softwarepacket} & (QRQ-S-06) & 4 & 1 (4) & 5 (20) \\\hline
-   \textbf{Verbreitung} & (QRQ-F-01) & 4 & 4 (16) & 5 (20) \\\hline
-   \textbf{Total} & - & - & 20  & \textbf{40} \\\hline
+   Grösse Softwarepacket & (QRQ-S-06) & 4 & 1 (4) & 5 (20) \\\hline
+   Verbreitung & (QRQ-F-01) & 4 & 4 (16) & 5 (20) \\\hline
+   \textbf{Total} & && \textbf{20}  & \textbf{40} \\\hline
     \caption{Auswertung Charting-Bibliothek}
 \end{longtable}
 
