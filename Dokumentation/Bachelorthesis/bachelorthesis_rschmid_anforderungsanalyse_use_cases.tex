@@ -1,13 +1,22 @@
-\subsection{Basissoftware}
+\section{Use Cases}\label{use_cases}
+Aus den Anforderungen ergeben sich die in diesem Abschnitt definierten Use-Cases. Zur Übersicht dient das folgende UML Use Case Diagramm, die Details sind nachfolgend in tabellarischer Form nach \cite[S. 78-79]{pohl2010basiswissen} definiert.
+\subsection{Übersicht}\label{systemfunktionalitaet}
+ \begin{figure}[H]
+  	\centering
+    	\includegraphics[width=14cm]{images/anforderungen_use-case}
+        	\caption{Systemfunktionalität als Use-Case-Diagramm}
+\end{figure}
+\subsection{Beschreibung}
+Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die Nummer referenziert ist.
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
   \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-01\\\hline
    Bezeichner & UC-01\\\hline
    Name & Software installieren\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & gross\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann die Software in seiner Entwicklungsumgebung installieren.\\\hline
    Akteure & Anwender, Entwicklungsumgebung\\\hline
@@ -32,12 +41,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-02\\\hline
    Bezeichner & UC-02\\\hline
    Name & Software updaten\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & Mittel\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann die Software updaten.\\\hline
    Akteure & Anwender, Update-Server\\\hline   
@@ -62,12 +71,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-03\\\hline
    Bezeichner & UC-03\\\hline
    Name & Garbage Collection Logdatei importieren\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gering\\\hline
    Kritikalität & gross\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer importiert die sich auf dem Dateisystem befindende Logdatei.\\\hline
    Akteure & Anwender, Logdatei Importer\\\hline
@@ -93,12 +102,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-03\\\hline
    Bezeichner & UC-03.1\\\hline
    Name & Zustand Ansicht Logdateien speichern\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gering\\\hline
    Kritikalität & gering\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & In der Ansicht Logdateien befinden sich die importierten Logdateien, der Zustand dieser Ansicht wird gespeichert und bleibt über die Zeit einer Benutzersession bestehen.\\\hline
    Akteure & Entwicklungsumgebung\\\hline
@@ -117,12 +126,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-04\\\hline
    Bezeichner & UC-04\\\hline
    Name & Garbage Collection Logdatei einlesen\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann eine sich auf seinem Rechner befindende Garbage Collection Logdatei einlesen. Die Daten befinden sich anschliessend noch im unstrukturierten Zustand, erst der Parseprozess bringt es in eine strukturierte Form (Domänenmodell).\\\hline
    Akteure & Anwender, Logdatei Importer\\\hline
@@ -140,12 +149,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-05\\\hline
    Bezeichner & UC-05\\\hline
    Name & Garbage Collection Logdatei parsen\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Die sich im Arbeitsspeicher befindenden unstrukturierten Daten werden durch den Parseprozess in eine strukturierte Form gebracht (Domänenmodell). \\\hline
    Akteure & JRockit Garbage Collection Log Parser\\\hline
@@ -164,12 +173,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-06\\\hline
    Bezeichner & UC-06\\\hline
    Name & Standardauswertung anzeigen\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Für eine schnelle Übersicht steht eine Standard-Auswertung zur Verfügung. Diese soll eine kurze Übersicht über die Garbage Collection geben und beinhaltet zwei Charts (Heap Benutzung, Dauer Garbage Collection). \\\hline
    Akteure & Anwender, Logdatei Analyzer, Report Engine\\\hline
@@ -193,12 +202,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-06\\\hline
    Bezeichner & UC-06.1\\\hline
    Name & Anzeige Statistik Übersicht\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Analyse-Screen wurde geöffnet, dem Benutzer zeigen sich unterschiedliche Tabs. Auf dem ersten befinden sich verschiedene statistische Auswertungen der Logdatei:
    \begin{itemize}
@@ -215,12 +224,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-06\\\hline
    Bezeichner & UC-06.2\\\hline
    Name & Anzeige Heap Benutzung\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Die Heap Usage (Heap Benutzung) zeigt dem Benutzer anhand einer Grafik, zu welchem Zeitpunkt wieviel Speicher des Heaps verwendet wurde. Zusätzlich werden die Zeitpunkte inklusive entsprechendem Typ (Old- / Young-Collection) der Garbage Collection angezeigt.  \\\hline
    Qualitäten & Korrektheit (QRQ-S-05)\\\hline
@@ -230,12 +239,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-06\\\hline
    Bezeichner & UC-06.3\\\hline
    Name & Anzeige Dauer Garbage Collection\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: mittel\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & Mittel\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Für jede Garbage Collection ist innerhalb der Logdatei einen Eintrag mit den Informationen, wie viel Speicher von toten Objekten befreit wurde und wie lange die Collection gedauert hat. In diesem Report geht es um die Darstellung dieser Daten.\\\hline
    Qualitäten & Korrektheit (QRQ-S-05)\\\hline
@@ -245,12 +254,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-07\\\hline
    Bezeichner & UC-07\\\hline
    Name &Profil (benutzerdefinierte Auswertung) erstellen\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
    Kritikalität & Niedrig\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann ein eigenes Profil erstellen. Dem Profil können eigene, benutzerdefinierte Charts hinzugefügt werden (siehe UC-07.1).\\\hline
    Akteure & Anwender, Logdatei Analyzer, Report Engine\\\hline
@@ -270,12 +279,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-07\\\hline
    Bezeichner & UC-07.1\\\hline
    Name & Chart definieren\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
    Kritikalität & Niedrig\\\hline
-   Quelle & Adrian Hummel (Performance Engineer)\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer erstellt auf dem Profil ein neues Chart und definiert darauf unterschiedliche Serien\footnote{Eine Serie definiert welche Daten auf der X- respektive Y-Achse angezeigt werden sollen.}.\\\hline
    Qualitäten & -\\\hline
@@ -285,12 +294,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-07\\\hline
    Bezeichner & UC-07.2\\\hline
    Name & Auswertungsprofil speichern\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
    Kritikalität & Niedrig\\\hline
-   Quelle & Adrian Hummel (Performance Engineer)\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Profile können gespeichert werden und bleiben über einzelne Sitzungen bestehen, ausser der Benutzer löscht es explizit.\\\hline
    Qualitäten & -\\\hline
@@ -300,12 +309,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-07\\\hline
    Bezeichner & UC-07.3\\\hline
    Name & Auswertungsprofil exportieren\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
    Kritikalität & Niedrig\\\hline
-   Quelle & Adrian Hummel (Performance Engineer)\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Die vom Anwender definierten Profile können in eine Datei exportiert werden.\\\hline
    Qualitäten & -\\\hline
@@ -315,12 +324,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-07\\\hline
    Bezeichner & UC-07.4\\\hline
    Name & Auswertungsprofil importieren\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
    Kritikalität & Niedrig\\\hline
-   Quelle & Adrian Hummel (Performance Engineer)\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Exportierte Profile können ausgetauscht und von einem anderen Benutzer in die Entwicklungsumgebung importiert werden. \\\hline
    Qualitäten & -\\\hline
@@ -330,12 +339,12 @@
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
 \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
+   Anforderung & FRQ-08\\\hline
    Bezeichner & UC-8\\\hline
    Name & Hilfesystem\\\hline
    Autoren & Raffael Schmid\\\hline
    Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & Mittel\\\hline
-   Quelle & Raffael Schmid\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Dem Benutzer steht eine eine indexbasierte\footnote{Generelle Hilfe mit Informationen zur Garbage Collection,Vorgehensweise bei Performance Problemen, alternative Werkzeuge, etc.} und eine kontextsensitive\footnote{Hilfe zur aktuellen View oder Aktion des Benutzers} Hilfe zur Verfügung. \\\hline
    Akteure & Anwender\\\hline

@@ -1,43 +1,25 @@
 \begin{landscape}
-\section{Funktionale Anforderungen}
-Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich die abschliessende Liste der funktionalen Anforderungen:
-\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{5cm}|p{1.6cm}|p{4cm}|p{0.9cm}|}
+\section{Funktionale Anforderungen}\label{func_req}
+Die folgende abschliessende Liste der Funktionalen Anforderungen an die Analysesoftware (stand \today) wurde hinsichtlich Korrektheit, Machbarkeit, Notwendigkeit geprüft und entsprechend Priorisiert:
+\begin{longtable}{|p{1.6cm}|p{0.7cm}|p{2.5cm}|p{4.5cm}|p{2.6cm}|p{4cm}|p{0.9cm}|}
     \hline
-   \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Use Case} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
+   \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Quelle} & \textbf{Abnahmekriterium} &\textbf{Prio.}\\\hline
 
-   FRQ-01 & 1.0 & Installation & Software muss als Erweiterung in der Entwicklungsumgebung\footnote{Die Wahl der Entwicklungsumgebung respektive des Frameworks befindet sich im Abschnitt \titleref{selection_rcp_fw}.} installiert werden können.  & UC-01 & Entwickler mit durchschnittlichen Kenntnissen benötigen für die Installation in eine bestehende Entwicklungsumgebung dauert weniger als 5 Minuten. & gross  \\\hline
+   FRQ-01 & 1.0 & Installation & Software muss als Erweiterung in der Entwicklungsumgebung\footnote{Die Wahl der Entwicklungsumgebung respektive des Frameworks befindet sich im Abschnitt \titleref{selection_rcp_fw}.} installiert werden können.  & Raffael Schmid (Project Owner) & Entwickler mit durchschnittlichen Kenntnissen benötigen für die Installation in eine bestehende Entwicklungsumgebung dauert weniger als 5 Minuten. & gross  \\\hline
 
-   FRQ-02 & 1.0 & Updaten & Die Software kann mit geringem Aufwand aktualisiert werden. & UC-02 & Entwickler mit durchschnittlichen Kenntnissen für den Update weniger als 3 Minuten. & mittel  \\\hline
+   FRQ-02 & 1.0 & Updaten & Die Software kann mit geringem Aufwand aktualisiert werden. & Raffael Schmid (Project Owner) & Entwickler mit durchschnittlichen Kenntnissen für den Update weniger als 3 Minuten. & mittel  \\\hline
 
-  FRQ-03 & 1.0 & Garbage Collection Logdatei importieren & Logdateien können importiert werden und werden anschliessend in einem Fenster dargestellt. & UC-03 & - & gross  \\\hline
+  FRQ-03 & 1.0 & Garbage Collection Logdatei importieren & Logdateien können importiert werden und werden anschliessend in einem Fenster dargestellt. Importierte Logdateien sind persistent und sind auch nach einem Neustart der Analysesoftware verfügbar. & Raffael Schmid (Project Owner) & - & gross  \\\hline
 
- FRQ-03.1 & 1.0 & Importierte Dateien speichern & Informationen über importierte Logdateien werden gespeichert und bleiben über die Zeit der Benutzersession bestehen.& UC-03.1 & - & gross  \\\hline
+  FRQ-04 & 1.0 & Garbage Collection Logdatei einlesen & Geöffnete Garbage Collection Logdateien werden ins Memory gelesen. & Raffael Schmid (Project Owner) & Der Einleseprozess bei einer Datei mit 100000 Zeilen dauert weniger als 2 Sekunden. & gross  \\\hline
 
-  FRQ-04 & 1.0 & Garbage Collection Logdatei einlesen & Geöffnete Garbage Collection Logdateien werden ins Memory gelesen. & UC-04 & Der Einleseprozess bei einer Datei mit 100000 Zeilen dauert weniger als 2 Sekunden. & gross  \\\hline
+  FRQ-05 & 1.0 & Garbage Collection Logdatei parsen & Die eingelesenen JRockit Garbage Collection Logdatei wird geparst. Aus den Daten wird ein Domänenmodell aufgebaut.& Raffael Schmid (Project Owner)  & Das Parsen einer Logdatei mit 100000 Zeilen dauert nicht länger als 8 Sekunden. & gross  \\\hline
 
-  FRQ-05 & 1.0 & Garbage Collection Logdatei parsen & Die eingelesenen JRockit Garbage Collection Logdatei wird geparst. Aus den Daten wird ein Domänenmodell aufgebaut.& UC-05 & Das Parsen einer Logdatei mit 100000 Zeilen dauert nicht länger als 8 Sekunden. & gross  \\\hline
+   FRQ-06 & 1.0 & Standardauswert-ung anzeigen & Der Benutzer kann eine vordefinierte Anzeige öffnen. & Raffael Schmid (Project Owner) & - & gross \\\hline
 
-   FRQ-06 & 1.0 & Standardauswert-ung anzeigen & Der Benutzer kann eine vordefinierte Anzeige öffnen. & UC-06 & - & gross \\\hline
+   FRQ-07 & 1.0 & Profil (Benutzerdefinierte Auswertung) erstellen & Benutzer kann Profil erstellen und darauf entsprechende Charts konfigurieren. Das Profil kann gespeichert sowie exportiert und importiert werden.& Adrian Hummel (Performance Analyst) & - & klein \\\hline
 
-   FRQ-06.1 & 1.0 & Anzeige Übersicht Garbage Collection & Der erste Tab des Analysefensters zeigt die aggregierten Daten der Garbage Collection. & UC-06.1 & Die Genauigkeit der berechneten und angezeigten Werte ist mindestens ein Zehntel (0.1). & gross \\\hline
-
-   FRQ-06.2 & 1.0 & Anzeige Heap Benutzung & Der zweite Tab des Analysefensters zeigt den Speicherbedarf über die Zeit. & UC-06.2 & Die Genauigkeit der berechneten und angezeigten Werte ist mindestens ein Zehntel (0.1). & gross 
- \\\hline
-
-   FRQ-06.3 & 1.0 & Anzeige Dauer Garbage Collection & Der dritte Tab des Analysefensters zeigt die Dauer der einzelnen Garbage Collections über die Zeit. & UC-06.3 & Die Genauigkeit der berechneten und angezeigten Werte ist mindestens ein Zehntel (0.1). & mittel 
- \\\hline
-
-   FRQ-07 & 1.0 & Profil (Benutzerdefinierte Auswertung) erstellen & Benutzer kann Profil erstellen, um anschliessend darin benutzerdefinierte Charts zu erstellen.& UC-B07 & - & klein \\\hline
-
-   FRQ-07.1 & 1.0 & Chart definieren für Profil & Für ein erstelltes Profil kann der Benutzer aus den Log-Daten ein eigenes Chart definieren. & UC-B07.1 & - & klein \\\hline
-
-   FRQ-07.2 & 1.0 & Profil speichern & Definiertes Profil wird automatisch gespeichert und bleibt über die Dauer der Sitzung bestehen. & UC-07.2 & - & klein \\\hline
-
-  FRQ-07.3 & 1.0 & Profil exportieren & Profil kann in Textdatei exportiert werden. & UC-07.3 & - & klein \\\hline
-
-  FRQ-07.4 & 1.0 & Profil importieren & Profil kann aus Textdatei importiert werden. & UC-07.4 & - & klein \\\hline
-
-  FRQ-08 & 1.0 & Hilfesystem &  Dem Benutzer werden eine indexbasierte und eine kontextsensitive Hilfe zur Verfügung gestellt. & UC-08 & Die Hilfe ist in Deutsch und Englisch verfügbar. & klein \\\hline
+  FRQ-08 & 1.0 & Hilfesystem &  Dem Benutzer werden eine indexbasierte und eine kontextsensitive Hilfe zur Verfügung gestellt. & Raffael Schmid (Project Owner) & Die Hilfe ist in Deutsch und Englisch verfügbar. & klein \\\hline
 \caption{Funktionale Anforderungen}
 \end{longtable}
 \end{landscape}
@@ -45,37 +27,34 @@ Aus den im Abschnitt \titleref{use_cases} definierten Anforderungen ergibt sich 
 \begin{landscape}
 \section{Qualitätsanforderungen}
 \subsection{Software}
-\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{7cm}|p{4cm}|p{0.9cm}|}
+\begin{longtable}{|p{1.6cm}|p{0.7cm}|p{2.5cm}|p{4.5cm}|p{2.6cm}|p{4cm}|p{0.9cm}|}
     \hline
-   \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
-   QRQ-S-01 & 1.0 & Erweiterbarkeit & Nebst der Analyse von Garbage Collection Logs der JRockit Virtual Machine sollen später auch andere Formate unterstützt sein. & Erweiterung um ein weiteres Logformat soll den Aufwand von 5 PT\footnote{Personentage} nicht überschreiten. & mittel \\\hline
-   QRQ-S-02 & 1.0 & Testabdeckung & Zur Qualitätskontrolle muss es eine angemessene Testabdeckung geben. & Angestrebte Test-Coverage: 80\% & klein \\\hline
-  QRQ-S-03 & 1.0 & Internationali-sierung & Die Sprachelemente der Software (Labels, Titel, Texte) werden als Ressourcen definiert, was die spätere Erweiterung ermöglicht. & - & klein\\\hline
+    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Quelle} & \textbf{Abnahmekriterium} & \textbf{Prio.}\\\hline
+   QRQ-S-01 & 1.0 & Erweiterbarkeit & Nebst der Analyse von Garbage Collection Logs der JRockit Virtual Machine sollen später auch andere Formate unterstützt sein. & Raffael Schmid (Project Owner) & Erweiterung um ein weiteres Logformat soll den Aufwand von 5 PT\footnote{Personentage} nicht überschreiten. & mittel \\\hline
+   QRQ-S-02 & 1.0 & Testabdeckung & Zur Qualitätskontrolle muss es eine angemessene Testabdeckung geben. & Raffael Schmid (Project Owner) & Angestrebte Test-Coverage: 80\% & klein \\\hline
+  QRQ-S-03 & 1.0 & Internationali-sierung & Die Sprachelemente der Software (Labels, Titel, Texte) werden als Ressourcen definiert, was die spätere Erweiterung ermöglicht. & Raffael Schmid (Project Owner) & - & klein\\\hline
 
-   QRQ-S-04 & 1.0 & Usability & Schnelles Einlesen von grossen Dateien, Benutzerfeedback über ein Progressbar (Monitor).  & Der Import einer Log-Datei von 100000 Zeilen dauert kürzer als 10 Sekunden. Dem Benutzer wird ein Monitor bereitgestellt.&mittel \\\hline
+   QRQ-S-04 & 1.0 & Usability & Schnelles Einlesen von grossen Dateien, Benutzerfeedback über ein Progressbar (Monitor). & Raffael Schmid (Project Owner) & Der Import einer Log-Datei von 100000 Zeilen dauert kürzer als 10 Sekunden. Dem Benutzer wird ein Monitor bereitgestellt.&mittel \\\hline
 
-  QRQ-S-05 & 1.0 & Korrektheit (angezeigte Werte) & Die berechneten und angezeigten Werte sind exakt. & berechnete und angezeigte Werte haben eine Genauigkeit von mindestens einem Zehntel (0.1). & gross\\\hline
+  QRQ-S-05 & 1.0 & Korrektheit (angezeigte Werte) & Die berechneten und angezeigten Werte sind exakt. & Raffael Schmid (Project Owner) & berechnete und angezeigte Werte haben eine Genauigkeit von mindestens einem Zehntel (0.1). & gross\\\hline
   
-QRQ-S-06 & 1.0 & Grösse Softwarepacket & Die grösse der gesamten Software soll 10 Megabyte nicht überschreiten. & mittel\\\hline
+QRQ-S-06 & 1.0 & Grösse Softwarepacket & & Raffael Schmid (Project Owner) & Die grösse der gesamten Software soll 10 Megabyte nicht überschreiten. & mittel\\\hline
 
 \end{longtable}
 \subsection{Basisframework}\label{anforderungen_framework}
-\begin{longtable}{|p{1.8cm}|p{0.7cm}|p{2.5cm}|p{7cm}|p{4cm}|p{0.9cm}|}\hline
-   \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Abnahmekriter.} &\textbf{Prio.}\\\hline
-   QRQ-F-01 & 1.0 & Verbreitung & Die Software wird als Erweiterung für eine Entwicklungsumgebung bereitgestellt. Die Verbreitung der Software spielt eine grosse Rolle.   & - & gross \\\hline
+\begin{longtable}{|p{1.6cm}|p{0.7cm}|p{2.5cm}|p{4.5cm}|p{2.6cm}|p{4cm}|p{0.9cm}|}
+    \hline\textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Quelle} & \textbf{Abnahmekriter.} & \textbf{Prio.}\\\hline
+   QRQ-F-01 & 1.0 & Verbreitung & Die Software wird als Erweiterung für eine Entwicklungsumgebung bereitgestellt. Die Verbreitung der Software spielt eine grosse Rolle. & Raffael Schmid (Project Owner) & - & gross \\\hline
 
-   QRQ-F-02 & 1.0 & Plattform-unabhängig & Software soll auf den gängigsten Betriebssystemen Windows und Apple OSX laufen. &  Framework läuft auf den Plattformen Windows und Mac OSX. & gross \\\hline
+   QRQ-F-02 & 1.0 & Plattform-unabhängig & Software soll auf den gängigsten Betriebssystemen Windows und Apple OSX laufen. & Raffael Schmid (Project Owner) &  Framework läuft auf den Plattformen Windows und Mac OSX. & gross \\\hline
 
-   QRQ-F-03 & 1.0 & Lokalisation & Framework muss Unterstützung für Lokalisation bereitstellen. & Framework bietet Unterstützung für die Mehrsprachigkeit. &klein \\\hline
+   QRQ-F-03 & 1.0 & Lokalisation & Framework muss Unterstützung für Lokalisation bereitstellen.& Raffael Schmid (Project Owner) & Framework bietet Unterstützung für die Mehrsprachigkeit. &klein \\\hline
 
-   QRQ-F-04 & 1.0 & Modularisierung & Framework muss Unterstützung für Modularisierung bieten, damit die Software in unterschiedliche Komponenten aufgeteilt werden kann (siehe Erweiterbarkeit QRQ-S-01). & Framework bietet Unterstützung für Modularisierung.&mittel \\\hline
+   QRQ-F-04 & 1.0 & Modularisierung & Framework muss Unterstützung für Modularisierung bieten, damit die Software in unterschiedliche Komponenten aufgeteilt werden kann (siehe Erweiterbarkeit QRQ-S-01). & Raffael Schmid (Project Owner) & Framework bietet Unterstützung für Modularisierung.&mittel \\\hline
 
-   FRQ-F-05 & 1.0 & Offline Betriebsmodus & Der Anwender soll die Software auch im Offline-Modus\footnote{Auf einem Computer der sich nicht am Netz befindet.} benutzen können. & Eigenständige Software, keine Web Applikation & gross  \\\hline
+   FRQ-F-05 & 1.0 & Offline Betriebsmodus & Der Anwender soll die Software auch im Offline-Modus\footnote{Auf einem Computer der sich nicht am Netz befindet.} benutzen können. & Raffael Schmid (Project Owner) & Eigenständige Software, keine Web Applikation & gross  \\\hline
 
-   FRQ-F-06 & 1.0 & Installation als Erweiterung& Software wird als Erweiterung in einer Entwicklungsumgebung installiert. & - & gross  \\\hline
-
+   FRQ-F-06 & 1.0 & Installation als Erweiterung& Software wird als Erweiterung in einer Entwicklungsumgebung installiert. & Raffael Schmid (Project Owner) & - & gross  \\\hline
     \caption{Qualitätsanforderungen Basisframework}
 \end{longtable}
 \end{landscape}
-
-

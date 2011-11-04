@@ -95,7 +95,7 @@ Der Ablauf der Garbage Collection Analyse ist folgendermassen:
 \end{enumerate}
 
 \section{Basissoftware}
-\subsection{Installation (FRQ-01)}\label{installation}
+\subsection{Installation (UC-01)}\label{installation}
 Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Server, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Eclipse\footnote{in der Basis ist es Equinox, die Implementation des OSGi Standards} ist in der Lage, Plugins zur Laufzeit zu installieren, starten, deinstallieren.
 
 Die Update-Seite für diese Software wird folgendermassen aufgebaut:
@@ -104,10 +104,10 @@ Die Update-Seite für diese Software wird folgendermassen aufgebaut:
 \item \textbf{JRockit Erweiterung: }Umfasst alle Plugins zur JRockit Erweiterung und hat zugleich die \textbf{Abhängigkeit auf das Basissoftware-Feature}.
 \end{itemize}
 
-\subsection{Update (FRQ-02)}
+\subsection{Update (UC-02)}
 Der Update eines Features auf der Update-Seite ist erkennbar durch eine Änderung der Major respektive Minor Version oder aber durch Änderung des an die Feature-Datei angehängten Zeitstempels\footnote{Mittels der Versionnummer x.x.qualifier erreicht man, dass der Zeitstempel ans Dateiende gehängt wird.}. Beim Starten der Software wird überprüft, ob ein sich auf dem Server befindendes Feature aktualisiert wurde. Der Benutzer kann diese im laufenden Betrieb der Applikation installieren. Danach ist allerdings ein Neustart der Applikation nötig. 
 
-\subsection{Datei importieren (FRQ-03)}
+\subsection{Datei importieren (UC-03)}
 Der Import einer Logdatei findet über einen Import-Wizard statt. Der Ablauf zum Import einer oder mehrerer Dateien ist folgendermassen:
 \begin{enumerate}
 	\item Import-Wizard öffnen
@@ -117,10 +117,10 @@ Der Import einer Logdatei findet über einen Import-Wizard statt. Der Ablauf zum
 	\item Anschliessend wird die Logdatei als Instanz von IFileDescriptor in der Ansicht Logdateien angezeigt.
 \end{enumerate}
 
-\subsubsection{Importierte Dateien speichern (FRQ-03.1)}
+\subsubsection{Importierte Dateien speichern (UC-03.1)}
 Der im Abschnitt \ref{memento} beschriebene Mechanismus wird verwendet, damit nach einem Neustart der Entwicklungsumgebung die importierten Logdateien nicht verloren gehen. 
 
-\subsection{Datei einlesen (FRQ-04)}
+\subsection{Datei einlesen (UC-04)}
 Durch den Import einer Garbage Collection Datei erscheinen diese im Logdateien-Fenster. Das öffnen einer dieser Dateien lädt den Inhalt in den Arbeitsspeicher. Die Daten sind noch unstrukturiert und werden innerhalb des im nächsten Abschnitt definierten Domänenmodells gespeichert.
 
 \subsubsection{Domänenmodell}
@@ -132,7 +132,7 @@ Durch den Import einer Garbage Collection Datei erscheinen diese im Logdateien-F
 \end{figure}
 
 
-\subsection{Profil erstellen (FRQ-07)}
+\subsection{Profil erstellen (UC-07)}
 Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial befindet sich darin allerdings nur das Standard-Profil.}. Die Beschreibung eines Analysefensters (Name, Beschreibung, Charts mit Serien, etc.) wird anhand von Profilen definiert. Es gibt folgende zwei Arten:
 \begin{itemize}
 	\item \textbf{Unveränderlich Profil:} Das Standard-Profil ist aktuell das einzige unveränderliche Profil.
@@ -147,20 +147,20 @@ Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial b
         	\caption{Domänenmodell: Profile}
 \end{figure}
 
-\subsubsection{Charts definieren (FRQ-07.1)}
+\subsubsection{Charts definieren (UC-07.1)}
 Bei der Benutzung eines veränderlichen Profils hat der Benutzer die Möglichkeit, dem Analysefenster weitere Charts respektive Diagramme hinzuzufügen oder aber bereits existierende Diagramme zu manipulieren (weitere Serien hinzufügen, Serien entfernen, etc.). Die Manipulationen des Benutzers finden auf den Chart-Objekten statt und werden durch das Data-Binding propagiert. Die Administrationsoberfläche für einen Chart umfasst initial zwei Abschnitte:
 \begin{itemize}
 	\item Serie erstellen, definieren und hinzufügen
 	 \item Serie löschen
 \end{itemize}
 
-\subsubsection{Profil speichern (FRQ-07.2)}
+\subsubsection{Profil speichern (UC-07.2)}
 Mittels des Memento-(siehe Abschnitt \ref{memento}) und Visitor-Patterns\cite[S. 331]{gamma1995design} werden die Profile gespeichert.
 
-\subsubsection{Profil exportieren, importieren (FRQ-07.3/4)}
+\subsubsection{Profil exportieren, importieren (UC-07.3/4)}
 Die Analysesoftware stellt zum Sichern und Verteilen von Profilen einen Import-Export-Mechanismus bereit. Beide sind in den Eclipse Standard-Wizards ersichtlich oder können via rechter Mouseklick (Ansicht Profile) gestartet werden. Der Profile-Export und -Import basiert wie das Speichern auf dem im Abschnitt \ref{memento} beschriebenen Memento-Mechanismus. Zur Serialisierung in eine Datei wird das XMLMemento verwendet. 
 
-\subsubsection{Hilfesystem (FRQ-08)}
+\subsubsection{Hilfesystem (UC-08)}
 Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfedienste wie Suche und Indexierung bereitstellt. Hilfeseiten sind auf unterschiedliche Weise verfügbar:
 \begin{itemize}
 \item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 
