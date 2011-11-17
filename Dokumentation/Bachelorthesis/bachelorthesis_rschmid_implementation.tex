@@ -1,27 +1,25 @@
 \chapter{Implementation}\label{implementation}
-
-
 Im Proof of Concept wurden die Anforderungen folgendermassen umgesetzt.\footnote{Kann auch im Abschnitt \titleref{bedienungsanleitung} oder an der laufenden Software überprüft werden.}:
 \section{Funktionale Anforderungen}
-Die funktionalen Anforderungen konnten alle umgesetzt werden. Dieser Abschnitt beschreibt die Punkte im Detail:
+Die funktionalen Anforderungen konnten alle umgesetzt werden. Dieser Abschnitt beschreibt etwas detaillierter, was wie umgesetzt werden konnte.
 
 \subsection{Installation (FRQ-01) und Update (FRQ-02)}
 Installation und Update der beiden Features Core und JRockit Extension können über die Update-Seite gemacht werden. Beide Funktionalitäten sind Bestandteil des Eclipse-Frameworks und werden via ein Update-Site-Plugin und die beiden Feature-Plugins bereitgestellt.
 
 \subsection{Datei importieren (FRQ-03)}
-Die Dateien werden in eine eigens dafür registrierte View importiert. Das Speichern und Wiederherstellen des Zustands dieser View findet über das von Eclipse implementierte Memento-Pattern (siehe Abschnitt \titleref{memento}) statt. 
+Die Dateien werden in eine eigens dafür registrierte View importiert. Das Speichern und Wiederherstellen des Zustands dieser View findet über das von Eclipse implementierte Memento-Pattern (siehe Anhang \ref{memento}) statt. 
 
 \subsection{Datei einlesen (FRQ-04)}
 Die eingelesene Datei wird in Form des im Konzept beschriebenen Domänenmodells ins Memory geladen. 
 
 \subsection{Garbage Collection Logdatei parsen (FRQ-05)}
-Die Log-Ausgaben des Memory-Moduls (Debug-Level: info) werden mittels Regulären Ausdrücken geparst und in strukturierter Form gespeichert. Strukturiert meint eine objektorientierte Form der Daten (siehe Abschnitt \titleref{jrockit_domain_model}).
+Die Log-Ausgaben des Memory-Moduls (Debug-Level: info) werden mittels Regulären Ausdrücken geparst und in strukturierter Form gespeichert. Strukturiert meint eine objektorientierte Form der Daten (siehe Abschnitt \ref{jrockit_domain_model}).
 
 \subsection{Standardauswertung anzeigen (FRQ-06)}
 Für die importierten Dateien besteht die Möglichkeit, sie in der Standardauswertung darzustellen. Die Standardauswertung zeigt die im Konzept definierten Ansichten, Tabs (siehe Abschnitt \titleref{standardreport} auf Seite \pageref{standardreport}).
 
 \subsection{Profil erstellen (FRQ-07)}
-Profile können durch den Benutzer erstellt und an seine Bedürfnisse angepasst werden. Das Anpassen beinhaltet die Definition von eigenen Charts und deren Datenserien. Das Speichern, Exportieren und Importieren wird über das von Eclipse implementierte Memento-Pattern (siehe Abschnitt \titleref{memento}) gemacht.
+Profile können durch den Benutzer erstellt und an seine Bedürfnisse angepasst werden. Das Anpassen beinhaltet die Definition von eigenen Charts und deren Datenserien. Das Speichern, Exportieren und Importieren wird über das von Eclipse implementierte Memento-Pattern (siehe Anhang \ref{memento}) gemacht.
 
 \subsection{Hilfesystem (FRQ-08)}
 Das Hilfesystem wurde sowohl für die contextsensitive wie auch die indexbasierte Hilfe angelegt. Aktuell sind alle existierenden Hilfeseiten in den Sprachen Deutsch und Englisch vorhanden, diese können aber ohne Entwicklungsaufwand auch um weitere Sprachen ergänzt werden. 

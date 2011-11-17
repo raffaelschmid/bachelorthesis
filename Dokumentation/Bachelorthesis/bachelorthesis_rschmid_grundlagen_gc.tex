@@ -48,15 +48,12 @@ Fragmentierung tritt grundsätzlich beim befreien von Speicher auf und ist ein u
 Der Prozess der Garbage Collection beginnt bei allen Algorithmen mit der Marking-Phase. Für jedes Objekt des Root Sets\footnote{Objekte im Heap die aus den Call-Stacks der aktuellen Threads referenziert werden, globale (``static final'' definierte) Variablen mit Referenzen auf den Heap)} werden rekursiv die transitiv abhängigen Objekte auf dem Heap bestimmt. Alle nicht im Resultat enthaltenen Objekte sind tot und können bereinigt werden.
 
 \subsection{Mark \& Sweep Algorithmus}
-Beim Mark \& Sweep Algorithmus\cite{langerkreft201005} wird nach der oben beschriebenen Mark-Phase der Speicher der nicht mehr referenzierten Objekte freigegeben. In den meisten Implementationen bedeutet dies das einfügen dieses Objekts in eine sogenannte Free-List.
+Beim Mark \& Sweep Algorithmus wird nach der oben beschriebenen Mark-Phase der Speicher der nicht mehr referenzierten Objekte freigegeben. In den meisten Implementationen bedeutet dies das einfügen dieses Objekts in eine sogenannte Free-List. Der grosse Nachteil dieses Algorithmus ist, dass der Speicher nach vielen Garbage Collections stark fragmentiert ist. Aus diesem Grund gibt es unterschiedliche Erweiterungen diese Algorithmus.
 
-\subsubsection{Nachteil dieses Algorithmus}
-Der Speicher wird aufgrund der vielen Freigaben stark fragmentiert.
-
-\subsection{Mark \& Copy Algorithmus\cite{langerkreft201005}}
+\subsection{Mark \& Copy Algorithmus}
 Mark \& Copy ist ein Algorithmus, bei dem der Resultierende Heap nach der Collection nicht fragmentiert ist. Der Heap wird in einen ``from space'' und einen ``to space'' unterteilt. Objekte die noch immer am Leben sind, werden im Anschluss an die Markierung vom ``from space'' in den ``to space'' kopiert.
 
-\subsection{Mark \& Compact Algorithmus\cite{langerkreft201007}}
+\subsection{Mark \& Compact Algorithmus}
 Für die Old Collection kann es Sinn machen, einen Mark \& Compact Algorithmus zu verwenden (siehe \titleref{generational gc}). Nach der Markierungs-Phase und der Bereinigung der ``toten'' Objekte wird der Speicher kompaktiert. Der Algorithmus hat zwar einen erhöhten Ressourcenbedarf, es wird aber im Gegensatz zum Mark \& Copy kein Speicher verschwendet. 
 
 \subsection{Tri-Coloring Mark and Sweep}\label{tri-coloring mark and sweep}

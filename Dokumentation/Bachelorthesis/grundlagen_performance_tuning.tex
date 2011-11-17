@@ -7,8 +7,8 @@ Die Performance respektive Leistungsfähigkeit einer Applikation stellt einer de
 Die Performanceanalyse ist ein iterativer Prozess und sollte so lange dauern, bis die Anforderungen erfüllt und der Kunde zufrieden ist. Sie besteht aus folgenden vier Schritten\cite{hummelBeer201109}:
 \begin{enumerate}
 	\item Identifikation der neuralgischen Punkte des Systems
-	\item \textbf{Suche nach dem Dominating Consumer\footnote{Kirk Pepperdine bezeichnet die Aktivität, welche dominiert wie die CPU gebraucht wird, als Dominating Consumer . }}
-	\item \textbf{Sammeln von Detaildaten}
+	\item \textbf{Suche nach dem Dominating Consumer\footnote{Kirk Pepperdine bezeichnet die Aktivität, welche dominiert wie die CPU gebraucht wird, als Dominating Consumer . } (Abschnitt \ref{dominating_consumer})}
+	\item \textbf{Sammeln von Detaildaten (Abschnitt \ref{garbage_collection_tuning})}
 	\item Lösen des Problems
 \end{enumerate}
 
@@ -55,7 +55,7 @@ Sofern die relative Systemlast klein und die CPU-Auslastung gross ist, muss der 
 \item \textbf{Garbage Collection: }Wann und wie oft werden Garbage Collections durchgeführt, wie lange haben sie gedauert, wieviel Speicher haben sie befreit.
 \end{itemize}
 
-\section{Garbage Collection Tuning}
+\section{Garbage Collection Tuning}\label{garbage_collection_tuning}
 Mit der Analyse des Dominating Consumers entscheidet sich auch, in welchem Bereich anschliessend weitere Detaildaten gesammelt werden. Auch beim Garbage Collection Tuning gilt grundsätzlich: "never change a running system". Man ändert also nur etwas, wenn es Probleme bei der Garbage Collection respektive die Anforderungen daran nicht erfüllt sind. Mit dem Tuning will man in der Regel drei unterschiedliche Ziele erreichen\cite{langerkreftJavaCore}: 
 \begin{itemize}
 \item Verbesserung des Durchsatzes (siehe Abschnitt \ref{gc_tuning_durchsatz})

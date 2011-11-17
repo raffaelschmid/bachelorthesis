@@ -1,0 +1,34 @@
+\chapter{Konzept (Infrastruktur)}\label{konzept_3}
+\section{Versionskontrolle}
+Zur Versionsverwaltungssysteme kommen mehrere Werkzeuge in Frage. Git\footnote{http://git-scm.com} ist ein verteiltes Sourcecode Management System und ist konzeptionell und hinsichtlich Benutzerfreundlichkeit besser als Subversion und CVS\footnote{Git kann offline verwendet werden, das Verschieben von Verzeichnissen führt nicht zu Problemen, etc.}. Auf der Plattform Github\footnote{http://github.com} kann man öffentliche Projekte gratis ``hosten''.
+
+\section{Build-Automatisierung}
+Die Automatisierung des Software-Builds ist hinsichtlich der Integration in ein Continuous Integration System wichtig. Zusätzlich entfallen so zeitaufwändige Tasks wie die Paketierung und das Deployment der Applikation.
+Als Werkzeug zum automatisierten Build der Software wird Maven Tycho\footnote{Im Bereich der Eclipse Rich Client Entwicklung kann entweder PDE Build, ein auf Apache Ant basiertes Build-System für Eclipse RCP Applikationen\cite{vogelZapfPdeBuild} oder die Maven-Integration Tycho (http://tycho.sonatype.org) verwendet werden.} verwendet.
+
+Tycho ist relativ neu und bringt im Vergleich mit dem PDE Build einige Vorteile mit sich:
+\begin{itemize}
+	\item Maven folgt dem Prinzip ``Convention over Configuration''\footnote{Das Prinzip ``Convention over Configuration'' hat zur Folge, dass im Wesentlichen nur von den Standardeinstellungen abweichende Werte konfiguriert werden müssen.} - die Konfiguration des Builds wird dadurch wesentlich einfacher.
+	\item Maven ist de facto Standard bei den Build-Werkzeugen.
+\end{itemize}
+
+\section{Continous Integration}
+Continuous Integration Systeme dienen zur Steigerung der Softwarequalität. Sie machen dies in der Regel, indem sie alle Tests und den Gesamtbuild der Software periodisch - üblich ist jede Stunde - durchführen. Für die Analysesoftware gibt es bei der Evaluation einige Grundvoraussetzungen:
+\begin{itemize}
+	\item \textbf{Buildwerkzeug Maven:} Das System muss Maven als Build- und Automatisierungswerkzeug unterstützen.
+	\item \textbf{Git Versionskontrolle:} Der Quelltext der Applikation muss via Git vom Sourcecode Repository ausgecheckt werden können.
+	\item \textbf{Freie Lizenz:} Die Software muss mindestens frei verfügbar sein oder open-source.
+\end{itemize}
+In den letzten Jahren hat sich Hudson\footnote{Vor kurzem haben sich einige Entwickler von Hudson aufgrund von Streitigkeiten mit Oracle dazu entschieden, die Software weiter unter dem Namen Jenkins zu entwickeln.} in vielen Projekten durchgesetzt. Hudson ist eine open-source Continuous Integration Software die gegenüber anderen Systemen einige Vorteile mit sich bringt:
+\begin{itemize}
+\item Hudson ist open-source.
+\item Hudson ist sehr einfach zu installieren und administrieren.
+\item Hudson basiert auf einem Plugin-System und ist aufgrund dessen erweiterbar. Es gibt Plugins für die Integration von Maven-Projekten und den Zugriff auf Git Repositories.
+\end{itemize}
+
+
+
+\section{Issue Tracker}
+Als Issue Tracker wird Jira verwendet. Es handelt sich dabei um eine kostenpflichtige aber relativ günstige Software für das Issue-Tracking.
+
+

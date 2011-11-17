@@ -1,3 +1,7 @@
+\chapter{Eclipse Rich Client Framework}
+\section{Zustand View speichern}\label{memento}
+Die Speicherung des Zustands einer View wird von Eclipse unterstützt, indem die Methode \textit{saveState(memento:IMemento)} von \textit{ViewPart} implementiert wird. \textit{IMemento} ist eine Eclipse-Klasse und gleichzeitig die Abstraktion eines Mementos. Memento ist ein Design Pattern und wurde durch die Gang of Four\footnote{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides} in \cite[S. 283]{gamma1995design} zum ersten Mal definiert. Mementos dienen zur Serialisierung von Objekten und haben den Vorteil, dass auch Klassen aus einem Memento einer anderen Version deserialisiert werden können. Das Eclipse-Framework persistiert die Zustände von Views mittels eines XMLMemento entsprechend im XML-Format ab. Die Deserialisierung erreicht man mit dem Überschreiben der Methode \textit{init(site:IViewSite, memento:IMemento)}.
+
 \chapter{Bedienungsanleitung}\label{bedienungsanleitung}
 \section{Installation der Software}
 Eclipse Installationsdialog mit Menu \textit{Hilfe / Neue Software installieren} öffnen.
