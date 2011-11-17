@@ -94,8 +94,7 @@ Der Ablauf der Garbage Collection Analyse ist folgendermassen:
 	\item Editor wird geöffnet, das Objekt wird als Input übergeben.
 \end{enumerate}
 
-\section{Basissoftware}
-\subsection{Installation (UC-01)}\label{installation}
+\section{Installation (UC-01)}\label{installation}
 Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Server, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Eclipse\footnote{in der Basis ist es Equinox, die Implementation des OSGi Standards} ist in der Lage, Plugins zur Laufzeit zu installieren, starten, deinstallieren.
 
 Die Update-Seite für diese Software wird folgendermassen aufgebaut:
@@ -104,10 +103,10 @@ Die Update-Seite für diese Software wird folgendermassen aufgebaut:
 \item \textbf{JRockit Erweiterung: }Umfasst alle Plugins zur JRockit Erweiterung und hat zugleich die \textbf{Abhängigkeit auf das Basissoftware-Feature}.
 \end{itemize}
 
-\subsection{Update (UC-02)}
+\section{Update (UC-02)}
 Der Update eines Features auf der Update-Seite ist erkennbar durch eine Änderung der Major respektive Minor Version oder aber durch Änderung des an die Feature-Datei angehängten Zeitstempels\footnote{Mittels der Versionnummer x.x.qualifier erreicht man, dass der Zeitstempel ans Dateiende gehängt wird.}. Beim Starten der Software wird überprüft, ob ein sich auf dem Server befindendes Feature aktualisiert wurde. Der Benutzer kann diese im laufenden Betrieb der Applikation installieren. Danach ist allerdings ein Neustart der Applikation nötig. 
 
-\subsection{Datei importieren (UC-03)}
+\section{Datei importieren (UC-03)}
 Der Import einer Logdatei findet über einen Import-Wizard statt. Der Ablauf zum Import einer oder mehrerer Dateien ist folgendermassen:
 \begin{enumerate}
 	\item Import-Wizard öffnen
@@ -117,13 +116,13 @@ Der Import einer Logdatei findet über einen Import-Wizard statt. Der Ablauf zum
 	\item Anschliessend wird die Logdatei als Instanz von IFileDescriptor in der Ansicht Logdateien angezeigt.
 \end{enumerate}
 
-\subsubsection{Importierte Dateien speichern (UC-03.1)}
+\section{Importierte Dateien speichern (UC-03.1)}
 Der im Abschnitt \ref{memento} beschriebene Mechanismus wird verwendet, damit nach einem Neustart der Entwicklungsumgebung die importierten Logdateien nicht verloren gehen. 
 
-\subsection{Datei einlesen (UC-04)}
+\section{Datei einlesen (UC-04)}
 Durch den Import einer Garbage Collection Datei erscheinen diese im Logdateien-Fenster. Das öffnen einer dieser Dateien lädt den Inhalt in den Arbeitsspeicher. Die Daten sind noch unstrukturiert und werden innerhalb des im nächsten Abschnitt definierten Domänenmodells gespeichert.
 
-\subsubsection{Domänenmodell}
+\subsection{Domänenmodell}
 \textit{IFileDescriptor} wird für die Abstraktion der Garbage Collection Logdatei verwendet. Darin enthalten sind Metadaten wie Dateiname und Pfad sowie - wenn bereits geladen - der Inhalt der Datei. Die Abstraktion einer Garbage Collection Logdatei heisst \textit{AbstractJvmRun} und wird erst von der jeweiligen Erweiterung realisiert.
  \begin{figure}[H]
   	\centering
@@ -132,14 +131,14 @@ Durch den Import einer Garbage Collection Datei erscheinen diese im Logdateien-F
 \end{figure}
 
 
-\subsection{Profil erstellen (UC-07)}
+\section{Profil erstellen (UC-07)}
 Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial befindet sich darin allerdings nur das Standard-Profil.}. Die Beschreibung eines Analysefensters (Name, Beschreibung, Charts mit Serien, etc.) wird anhand von Profilen definiert. Es gibt folgende zwei Arten:
 \begin{itemize}
 	\item \textbf{Unveränderlich Profil:} Das Standard-Profil ist aktuell das einzige unveränderliche Profil.
 	\item \textbf{Veränderlich Profil:} Ein veränderliches Profil wird zur Speicherung des vom Benutzer definierten Analysefensters verwendet. Alle Änderungen die der Benutzer am Analysefenster macht (Chart hinzufügen, Chart konfigurieren), werden via ein Data-Binding an das Profil propagiert. Durch das Speichern des Profils hat der Benutzer die Möglichkeit, die selbe Analyse auch zu einem späteren Zeitpunkt an der gleichen oder einer anderen Logdatei durchzuführen.
 \end{itemize}
 
-\subsubsection{Domänenmodell}
+\subsection{Domänenmodell}
 \textit{IConfiguration} dient zur Gruppierung von profilen. Pro Extension wird eine Konfiguration mit verschiedenen Profilen abgelegt. Innerhalb eines Profils können unterschiedliche Diagramme (\textit{IChart}) angelegt werden, welche wiederum durch Achsen (\textit{IAxis}) und deren Datenquellen \textit{IValueProvider} definiert sind. \textit{IValueProvider} definieren den Weg, wie die Daten aus dem Domänenmodell gelesen werden.
  \begin{figure}[H]
   	\centering
@@ -147,49 +146,34 @@ Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial b
         	\caption{Domänenmodell: Profile}
 \end{figure}
 
-\subsubsection{Charts definieren (UC-07.1)}
+\subsection{Charts definieren (UC-07.1)}
 Bei der Benutzung eines veränderlichen Profils hat der Benutzer die Möglichkeit, dem Analysefenster weitere Charts respektive Diagramme hinzuzufügen oder aber bereits existierende Diagramme zu manipulieren (weitere Serien hinzufügen, Serien entfernen, etc.). Die Manipulationen des Benutzers finden auf den Chart-Objekten statt und werden durch das Data-Binding propagiert. Die Administrationsoberfläche für einen Chart umfasst initial zwei Abschnitte:
 \begin{itemize}
 	\item Serie erstellen, definieren und hinzufügen
 	 \item Serie löschen
 \end{itemize}
 
-\subsubsection{Profil speichern (UC-07.2)}
+\subsection{Profil speichern (UC-07.2)}
 Mittels des Memento-(siehe Abschnitt \ref{memento}) und Visitor-Patterns\cite[S. 331]{gamma1995design} werden die Profile gespeichert.
 
-\subsubsection{Profil exportieren, importieren (UC-07.3/4)}
+\subsection{Profil exportieren, importieren (UC-07.3/4)}
 Die Analysesoftware stellt zum Sichern und Verteilen von Profilen einen Import-Export-Mechanismus bereit. Beide sind in den Eclipse Standard-Wizards ersichtlich oder können via rechter Mouseklick (Ansicht Profile) gestartet werden. Der Profile-Export und -Import basiert wie das Speichern auf dem im Abschnitt \ref{memento} beschriebenen Memento-Mechanismus. Zur Serialisierung in eine Datei wird das XMLMemento verwendet. 
 
-\subsubsection{Hilfesystem (UC-08)}
+\subsection{Hilfesystem (UC-08)}
 Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfedienste wie Suche und Indexierung bereitstellt. Hilfeseiten sind auf unterschiedliche Weise verfügbar:
 \begin{itemize}
 \item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 
 \item \textbf{Kontextsensitive Hilfen:} Tipps die im Zusammenhang mit einer Aktion oder eines Fensters stehen, werden mit den Kontextsensitiven Hilfen implementiert.
 \end{itemize}
 
-
-
-\section{JRockit Erweiterung}
-\subsection{Allgemein}
-\subsubsection{Domänenmodell JRockit Garbage Collection}\label{jrockit_domain_model}
-Der Parseprozess wandelt die unstrukturierten Daten in ein strukturiertes Domänenmodell um. Dieses wurde wie folgt erarbeitet:
-\begin{landscape}
- \begin{figure}[H]
-  	\centering
-        	\includegraphics[width=16.5cm]{images/jrockit_extension_domain}
-	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
-\end{figure}
-\end{landscape}
-Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände in welchen die verschiedenen Messgrössen gemessen und gespeichert werden. Zustandsübergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung geworfen - zum Beispiel wenn die Nursery oder die Old Collection an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden.
-
-\subsection{Garbage Collection Logdatei parsen (FRQ-05)}
+\section{Garbage Collection Logdatei parsen (FRQ-05)}
 Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Diese Ausgaben können selektiv per Kommandozeile aktiviert werden (siehe Abschnit \ref{logmodule}). Für die Garbage Collection Analyse sind nicht alle Einträge interessant, es werden nur die wichtigsten verwendet. Die einzelnen Parser der für die Garbage Collection Logdatei werden auf der Basis von Regular Expressions selber implementiert. Auf die Verwendung eines Parser-Generators wird aus folgenden Gründen verzichtet:
 \begin{itemize}
 	\item Lightweight: Um Parser-Generatoren zu verwenden, wird in der Regel auch zur Laufzeit eine Bibliothek benötigt. Diese muss mit der Software ausgeliefert werden. Die Implementation von Regulären Ausdrücken beispielsweise ist der Java Laufzeitumgebung sowieso verfügbar.
 	\item Proprietär: Parser-Generatoren sind proprietär und die Verwendung dessen bedingt gute Kenntnisse. In der Regel beschreibt man das Format in einer Grammatik.
 \end{itemize}
 
-\subsubsection{Parser}
+\subsection{Parser}
 Der Parser für die Logdateien der JRockit Virtual Machine ist nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut. Pro Logeintrag (respektive pro Typ) kann ein Parser in die Parser-Kette geschaltet werde. Jeder Parser extrahiert die für ihn wichtigen Informationen und aktualisiert damit das Domänenmodell. Die wichtigsten Einträge des Garbage Collection Logs sind die des Memory Modules und werden vom \textit{MemoryModuleParser} verarbeitet. In zukünftigen Versionen ist die Verarbeitung von Logeinträgen von anderen Log-Modulen denkbar - Einträge des Nursery-, Allocation-Modules, etc. Ablauf und Aufbau des Parsers sind in den folgenden beiden Grafiken ersichtlich:
 
  \begin{figure}[H]
@@ -203,47 +187,96 @@ Der Parser für die Logdateien der JRockit Virtual Machine ist nach dem Chain-of
         	\caption{Klassendiagramm Parsen Logdatei}
 \end{figure}
 
-\subsubsection{MemoryModuleParser}
+\subsection{MemoryModuleParser}
 Das Parsen innerhalb des \textit{MemoryModuleParser} wird in zwei Schritte aufgeteilt:
 \begin{itemize}
 \item \textbf{Lexer: }Der einzelne Logeintrag wird durch den Lexer (Tokenizer) in eine Map aus Tokens umgewandelt. Schlüssel für die einzelnen Tokens ist der \textit{TokenType}. Der Lexer wird mittels Regular Expressions implementiert. Die Werte werden mittels Gruppierungs-Funktion\footnote{Mittels Gruppen innerhalb von Regulären Ausdrücken lassen sich einzelne Werte aus einem String extrahieren.} extrahiert. 
 \item \textbf{Syntactic Analyzer: }Der syntaktische Analyser verarbeitet die vom Lexer extrahierten Tokens. Er führt zum einen eine semantische Validierung durch und speichert die Werte in strukturierter Form (Domänenmodell).
 \end{itemize}
 
-\subsection{Standardauswertung anzeigen (FRQ-06)}
-\subsubsection{Anzeige Übersicht Garbage Collection (FRQ-06.1)}\label{standardreport}
-Der initiale Tab der Analyseseite zeit eine Zusammenfassung der geöffneten Garbage Collection. Sie wird in verschiedenen Tabellen dargestellt:
+\subsection{Auswertung Logdatei}
+Bereits in Abschnitt \ref{logexample} ist ein Teil einer Garbage Collection Logdatei aufgelistet. Dieser Abschnitt zeigt die für die Garbage Collection Analyse wichtigsten Informationen, ohne dabei aber auf die Ausgaben des Debug-Log-Levels\footnote{Der Log-Level kann für jeden einzelnen Logger eingstellt werden.} einzugehen.
+
+\subsubsection{Garbage Collection Algorithmus}
+\begin{lstlisting}[numbers=none,  framexleftmargin=0mm, caption=Logdatei: Ausgabe initialer Garbage Collection Algorithmus]
+[INFO ][memory ] GC mode: Garbage collection optimized for throughput, strategy: Generational Parallel Mark & Sweep.
+\end{lstlisting}
+Die eigentlich wichtigste Information respektive Entscheidung zum Garbage Collection Tuning ist die Wahl der Strategie. Sie wird im Header der Logdatei angezeigt und ist entspricht entweder der Standardeinstellung oder wird konfiguriert. Ausgewertet aus dem Eintrag werden zwei Dinge: für was die Garbage Collection optimiert ist (Durchsatz oder Pausenzeiten) und die Strategie (Generational Parallel Mark \& Sweep, Parallel Mark \& Sweep, Genertional Concurrent Mark \& Sweep, Concurrent Mark \& Sweep)
+	
+\subsubsection{Initiale und maximale Heap-Kapazität, Grösse Old- und Young-Space}
+\begin{lstlisting}[numbers=none,  framexleftmargin=0mm, caption=Logdatei: Initiale und maximale Heap-Kapazität und Grösse des Old- und Young-Spaces]
+[INFO ][memory ] Heap size: 65536KB, maximal heap size: 1048576KB, nursery size: 32768KB.
+\end{lstlisting}
+Ebenfalls im Header der Logdatei befindet sich die Angabe über die initiale und maximale Heap-Kapazität und die grösser des Young-Spaces (Nursery). Die grösse des Old-Spaces (Tenured Space) errechnet sich aus der Differenz zwischen Young-Space und maximaler Kapazität.
+
+\subsubsection{Young-Collection Information}
+\begin{lstlisting}[numbers=none,  framexleftmargin=0mm, caption=Logdatei: Information Young-Collection]
+[INFO ][memory ] [YC#660] 2.172-2.172: YC 200108KB->200147KB (233624KB), 0.001 s, sum of pauses 0.536 ms, longest pause 0.536 ms.
+\end{lstlisting}
+Der Abschluss einer Young-Collection wird mit dem oben aufgelisteten Log-Eintrag dokumentiert. Er beschreibt Start- und Endzeitpunkt sowie die Grösse des Heaps vor und nach der Garbage Collection. Des weiteren ist die Dauer, die Summe aller einzelnen Pausen und die längste Pause aufgelistet. 
+
+\subsubsection{Old-Collection Information}
+\begin{lstlisting}[numbers=none,  framexleftmargin=0mm, caption=Logdatei: Information Old-Collection]
+[INFO ][memory ] [OC#3] 2.544-2.733: OC 233624KB->187955KB (280628KB), 0.189 s, sum of pauses 187.019 ms, longest pause 187.019 ms.
+\end{lstlisting}
+Die Ausgabe einer Old-Collection unterscheidet sich, ausgenommen vom Typ (OC),  nicht von der einer Young-Collection.
+
+\subsubsection{Wechsel der Garbage Collection Strategie}
+\begin{lstlisting}[numbers=none,  framexleftmargin=0mm, caption=Logdatei: Wechsel Garbage Collection Strategie]
+[INFO ][memory ] [OC#6] Changing GC strategy from: singleconpar to: singleconcon, reason: Return to basic strategy.
+\end{lstlisting}
+Aus unterschiedlichen Gründen kann es zu einem Wechsel der Garbage Collection Strategie kommen. Dieser wird, zusammen mit dem Grund für den Wechsel, in der Logdatei dokumentiert und kann ausgewertet werden.
+
+
+\subsection{Domänenmodell JRockit Garbage Collection}\label{jrockit_domain_model}
+Der Parseprozess wandelt die unstrukturierten Daten in ein strukturiertes Domänenmodell um. Dieses wurde wie folgt erarbeitet:
+\begin{landscape}
+ \begin{figure}[H]
+  	\centering
+        	\includegraphics[width=16.5cm]{images/jrockit_extension_domain}
+	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
+\end{figure}
+\end{landscape}
+Die Daten der Log-Datei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände in welchen die verschiedenen Messgrössen gemessen und gespeichert werden. Zustandsübergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung geworfen - zum Beispiel wenn die Nursery oder die Old Collection an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden.
+
+\section{Standardauswertung anzeigen (FRQ-06)}
+\subsection{Anzeige Übersicht Garbage Collection (FRQ-06.1)}\label{standardreport}
+Der initiale Tab der Analyseseite zeit eine Zusammenfassung der geöffneten Garbage Collection. Die Daten werden in den Tabellen Heap Kapazität, Garbage Collection Aktivität und Gesamtstatistik angezeigt:
+
+\subsubsection{Heap Kapazität}
 \begin{itemize}
-	\item Heap Kapazität
-	\begin{itemize}
-		\item Initiale Kapazität (Nursery, Tenured, Heap)
-		\item Maximale Kapazität (Heap)
-		\item Speicherbedarf Peak (Heap)
-		\item Kapazität Durchschnittlich (Heap)
-		\item Speicherbedarf Durchschnittlich (Heap)
-	\end{itemize}
-	\item Garbage Collection Aktivität (Young und Old Collection)
-	\begin{itemize}
-		\item Letzter Zyklus
-		\item Anzahl Zyklen
-		\item Durchschnittlicher Interval in Sekunden
-		\item Durchschnittliche Dauer in Sekunden		
-	\end{itemize}	
-	\item Gesamtstatistik
-	\begin{itemize}
-		\item Dauer der Messung in Sekunden
-		\item Anzahl Garbage Collection Zyklen
-		\item Total Zeit der Garbage Collection
-		\item Prozentuale Zeit der Garbage Collection
-		\item Totale Zeit der Old Garbage Collection Zyklen
-		\item Prozentuale Zeit der Old Garbage Collection Zyklen
-	\end{itemize}
+	\item \textbf{Initiale und maximale Heap Kapazität}
+	\item \textbf{Grösse Young- und Old-Space}
+	\item \textbf{Speicherbedarf Peak, Durchschnitt:} Aus den Informationen des Speicherverbrauchs vor und nach jeder Garbage Collection wird der durchschnittliche und der maximale Bedarf berechnet.
+	\item \textbf{Kapazität Peak, Durchschnitt:} Aus den Informationen der Kapazität vor und nach jeder Garbage Collection wird die durchschnittliche und maximale Kapazität des Heaps berechnet.
+
+\end{itemize}
+\subsubsection{Garbage Collection Aktivität (Young und Old Collection)}
+\begin{itemize}
+	\item \textbf{Letzte Garbage Collection:} Zu welchem Zeitpunkt hat die letzte Garbage Collection statt gefunden.
+	\item \textbf{Anzahl Garbage Collections:} Wieviele Garbage Collections hat es insgesamt gegeben.
+	\item \textbf{Anzahl Old Collections:} Wieviele Old Collections hat es gegeben.
+	\item \textbf{Anzahl Young Collections:} Wieviele Young Collections hat es gegeben.
+	\item \textbf{Total Zeit der Garbage Collection:} Totale Zeit in welcher sich die Virtual Machine in der Garbage Collection befunden hat.
+	\item \textbf{Durchsatz der Applikation (siehe Abschnitt \ref{gc_tuning_durchsatz})}
+
+	\item \textbf{Durchschnittlicher Interval in Sekunden:} Durchschnittliche Pausenzeit zwischen den einzelnen Garbage Collections.
+	\item \textbf{Durchschnittliche Dauer in Sekunden	}
+	\item \textbf{Totale Zeit der Old Garbage Collection Zyklen}
+	\item \textbf{Totale Zeit der Young Garbage Collection Zyklen}
+	\item \textbf{Prozentuale Zeit der Old Garbage Collection Zyklen}
+	\item \textbf{Prozentuale Zeit der Young Garbage Collection Zyklen}
+\end{itemize}	
+
+\subsubsection{Gesamtstatistik}
+\begin{itemize}
+	\item \textbf{Dauer der Messung in Sekunden}
 \end{itemize}
 
-\subsubsection{Chart Anzeige Heap Benutzung (FRQ-06.2)}
+\subsection{Chart Anzeige Heap Benutzung (FRQ-06.2)}
 Die Heap-Analyse zeigt den Verlauf des benutzten Speichers im Heap über die Zeit auf. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
 
-\subsubsection{Chart Anzeige Dauer Garbage Collection (FRQ-06.3)}
+\subsection{Chart Anzeige Dauer Garbage Collection (FRQ-06.3)}
 Die Dauer der einzelnen Garbage Collection Zyklen wird über die Zeit aufgezeigt. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
 
 
@@ -272,11 +305,6 @@ Einige der Funktionalitäten der Analysesoftware wie Beispielsweise das Einlesen
 	\item \textbf{Fortschrittsanzeige: } Die Applikation teilt dem Benutzer über eine Anzeige mit, bei welcher Position sich der Prozess befindet und wie viel Arbeit prozentual bereits gemacht wurde.
 	\item \textbf{Unterbrechbarkeit: } Der Prozess erkundigt sich periodisch bei der Monitoring-Komponente ob er durch den Benutzer abgebrochen wurde. Sobald dies der Fall wäre, würde er die Arbeit beenden und das bereits Erledigte aufräumen.
 \end{itemize}
-
-
-\subsection{Korrektheit (QRQ-S-05))}
-
-
 
 %--------------------------------------------
 \section{Infrastruktur}
