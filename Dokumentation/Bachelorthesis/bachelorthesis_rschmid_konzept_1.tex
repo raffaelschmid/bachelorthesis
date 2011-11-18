@@ -6,14 +6,14 @@ Als Rich Client Framework wird Eclipse 3.x\footnote{die aktuelle Version ist 3.7
 \subsection{Lizenzierung der Software}
 Die Software wird lizenziert unter der Eclipse Public License\footnote{http://www.eclipse.org/legal/epl-v10.html} in der Version 1.0. Dies ist eine freie Software-Lizenz und gewährt das Recht zur freien Nutzung, Weiterverbreitung und Veränderung der Software. Die Benutzung einer Open-Source Lizenz hat insbesondere folgende Vorteile:
 \begin{itemize}
-	\item An der Entwicklung von Open-Source Software können sich eine beliebige Anzahl an Entwicklern beteiligen. Der Entwicklungsaufwand kann skaliert werden.
+	\item An der Entwicklung von Open-Source Software können sich eine beliebige Anzahl an Entwickler beteiligen. Der Entwicklungsaufwand kann skaliert werden.
 	\item Jedermann kann Erweiterungen entwickeln oder Fehler beheben.
 \end{itemize}
 
 \section{Architektur}\label{konzept_uebersicht}
 Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analyse-Software auch hinsichtlich anderer Logformate erweiterbar sein. Die Applikation wird also nicht zwingendermassen mit der Erweiterung für JRockit Logdateien verwendet. Es könnte zu einem späteren Zeitpunkt sein, dass man damit Garbage Collection Logs der HotSpot Virtual Machine auswertet. Dies hat hinsichtlich Architektur einige Konsequenzen:
 \begin{itemize}
-	\item Die Applikation soll in zwei Komponenten aufgeteilt werden:
+	\item Die Applikation wird in zwei Komponenten aufgeteilt:
 		\begin{itemize}
 			\item Basissoftware
 			\item Erweiterung JRockit
@@ -24,19 +24,19 @@ Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analyse-Software au
 \end{itemize}
 
 \subsection{Übersicht}
-Die im Abschnitt \ref{konzept_uebersicht} umschriebenen Anforderungen bedingen, dass die Applikation in zwei verschiedene Features aufgeteilt wird, die unabhängig von einander ausgeliefert werden können. Die Struktur ergibt sich folgendermassen:
+Die generischen Aspekte der Software befinden sich in der Basissoftware. Nur die Spezialisierung im Bereich jedes einzelnen Log-Formats findet in den Erweiterungen statt. Grundsätzlich werden die Aufgaben folgendermassen verteilt:
 \begin{itemize}
 	\item Basissoftware (Core Feature)
 		\begin{itemize}
 			\item Garbage Collection Log importieren
 			\item Garbage Collection Log einlesen
 			\item Profil erstellen, speichern, exportieren, importieren
-			\item Hilfesystem
+			\item Hilfesystem (wobei allerdings jedes einzelne Feature spezifische Hilfethemen beisteuern kann)
 		\end{itemize}
 	\item JRockit Extension (JRockit Extension Feature)
 		\begin{itemize}
 			\item Garbage Collection Log parsen
-			\item Standardauswertung: Heap, Dauer Garbage Collection
+			\item Jede Erweiterung hat ein eigenes Domänemodell, da der Aufbau des Garbage Collectors Herstellerabhängig ist.
 		\end{itemize}
 \end{itemize}
 
@@ -48,7 +48,7 @@ Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zw
         	\caption{Architektur: Komponentendiagramm}
 \end{figure}
 
-Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einem von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für die Präsentationsschicht verwendet.} unabhängigen Teil (``loganalysis.core''). Öffnet der Benutzer eine Garbage Collection Logdatei, wird diese durch das Core Feature eingelesen und an alle verfügbaren Extensions weitergeleitet. Die erste Extension welche den Inhalt der Datei versteht, öffnet seine dafür vorgesehenen Reports und Charts. Jede Extension hat ein basierend auf der Logdatei eigenes Domänen-Modell.
+Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einem von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für die Präsentationsschicht verwendet.} unabhängigen Teil (``loganalysis.core''). Öffnet der Benutzer eine Garbage Collection Logdatei, wird diese durch das Core Feature eingelesen und der Inhalt wird an alle verfügbaren Extensions weitergeleitet. Die erste Extension welche den Inhalt der Datei verarbeiten kann, öffnet seine dafür vorgesehenen Reports und Charts. Jede Extension hat ein basierend auf der Logdatei eigenes Domänen-Modell.
 
 \subsubsection{Weitere Projekte}
 Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
@@ -80,7 +80,7 @@ Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 \end{itemize}
 
 \subsection{Ablauf Garbage Collection Analyse}
-Beim öffnen einer Analyse wird die zuständige Extension gesucht\footnote{Extensions registrieren sich via das plugins.xml an einem Extension-Point. }, welche den Inhalt\footnote{Der Inhalt der Datei wird lazy via die Methode getContent und einem ContentReader geladen.} der Logdatei versteht. Die Erweiterung ist für das Parsen und Aufbereiten der Daten und die Anzeige in einem Analysefenster zuständig. 
+Beim öffnen einer Analyse wird die zuständige Extension gesucht\footnote{Extensions registrieren sich via das plugins.xml an einem Extension-Point. }, welche den Inhalt\footnote{Der Inhalt der Datei wird lazy via die Methode getContent und einem ContentReader geladen.} der Logdatei versteht. Die Erweiterung ist für das Parsen und Aufbereiten der Daten und die Anzeige in einem Analysefenster zuständig. Der Ablauf ist in folgendem Diagramm grafisch illustriert:
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=16cm]{images/core_sequence_analysis}
@@ -89,7 +89,7 @@ Beim öffnen einer Analyse wird die zuständige Extension gesucht\footnote{Exten
 Der Ablauf der Garbage Collection Analyse ist folgendermassen:
 \begin{enumerate}
 	\item Via Context wird die Erweiterung\footnote{Erweiterungen registrieren sich als Extensions an Extension-Points. Diese Konfiguration befindet sich im plugin.xml.} gesucht.
-	\item Analyzer der Erweiterung parst inhalt und gibt ihn als Objekt zurück.
-	\item Editor wird geöffnet, das Objekt wird als Input übergeben.
+	\item Der Analyser der Erweiterung interpretiert den Inhalt und speichert die Daten im eigenen Domänenmodell.
+	\item Der Editor wird geöffnet.
 \end{enumerate}
 
