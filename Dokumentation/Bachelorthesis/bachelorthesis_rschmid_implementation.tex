@@ -38,4 +38,4 @@ Viele der eingebauten Namen und Labels sind bereits zweisprachig (Englisch, Deut
 Lange dauernde Operationen (Einlesen, Parsen der Daten) werden vom Eclipse-Framework asynchron gestartet. Dem Benutzer wird ein Progress-Monitor angezeigt, in welchem er die Operation auch abbrechen kann.
 
 \subsection{Korrektheit (angezeigte Werte) (QRQ-S-05)}
-Um mit Java-Applikationen genaue Werte zu berechnen wird von \cite{bloch2008effective} empfohlen, die Klasse \textit{BigDecimal} anstelle von \textit{Double} und \textit{Long} zu verwenden. Die in der Analysesoftware verwendeten Werte werden mit einer Genauigkeit von 0.1 gerechnet.
+Alle zu berechnenden Werte werden befinden sich im Datentyp \textit{BigDecimal}. Dies führt zwar zu einem erhöhten Verbrauch an Arbeitsspeicher, ist aber für die geforderte Genauigkeit unumgänglich.

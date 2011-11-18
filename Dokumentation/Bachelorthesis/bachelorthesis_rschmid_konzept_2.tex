@@ -114,27 +114,27 @@ Der initiale Tab der Analyseseite zeit eine Zusammenfassung der geöffneten Garb
 
 \subsubsection{Heap Kapazität}
 \begin{itemize}
-	\item \textbf{Initiale und maximale Heap Kapazität}
-	\item \textbf{Grösse Young- und Old-Space}
-	\item \textbf{Speicherbedarf Peak, Durchschnitt:} Aus den Informationen des Speicherverbrauchs vor und nach jeder Garbage Collection wird der durchschnittliche und der maximale Bedarf berechnet.
-	\item \textbf{Kapazität Peak, Durchschnitt:} Aus den Informationen der Kapazität vor und nach jeder Garbage Collection wird die durchschnittliche und maximale Kapazität des Heaps berechnet.
+	\item Initiale und maximale Heap Kapazität
+	\item Grösse Young- und Old-Space
+	\item Speicherbedarf Peak, Durchschnitt: Aus den Informationen des Speicherverbrauchs vor und nach jeder Garbage Collection wird der durchschnittliche und der maximale Bedarf berechnet.
+	\item Kapazität Peak, Durchschnitt: Aus den Informationen der Kapazität vor und nach jeder Garbage Collection wird die durchschnittliche und maximale Kapazität des Heaps berechnet.
 
 \end{itemize}
 \subsubsection{Garbage Collection Aktivität (Young und Old Collection)}
 \begin{itemize}
-	\item \textbf{Letzte Garbage Collection:} Zu welchem Zeitpunkt hat die letzte Garbage Collection statt gefunden.
-	\item \textbf{Anzahl Garbage Collections:} Wieviele Garbage Collections hat es insgesamt gegeben.
-	\item \textbf{Anzahl Old Collections:} Wieviele Old Collections hat es gegeben.
-	\item \textbf{Anzahl Young Collections:} Wieviele Young Collections hat es gegeben.
-	\item \textbf{Total Zeit der Garbage Collection:} Totale Zeit in welcher sich die Virtual Machine in der Garbage Collection befunden hat.
-	\item \textbf{Durchsatz der Applikation (siehe Abschnitt \ref{gc_tuning_durchsatz})}
+	\item Letzte Garbage Collection: Zu welchem Zeitpunkt hat die letzte Garbage Collection statt gefunden.
+	\item Anzahl Garbage Collections: Wieviele Garbage Collections hat es insgesamt gegeben.
+	\item  Anzahl Old Collections: Wieviele Old Collections hat es gegeben.
+	\item Anzahl Young Collections: Wieviele Young Collections hat es gegeben.
+	\item Total Zeit der Garbage Collection: Totale Zeit in welcher sich die Virtual Machine in der Garbage Collection befunden hat.
+	\item Durchsatz der Applikation (siehe Abschnitt \ref{gc_tuning_durchsatz})
 
-	\item \textbf{Durchschnittlicher Interval in Sekunden:} Durchschnittliche Pausenzeit zwischen den einzelnen Garbage Collections.
-	\item \textbf{Durchschnittliche Dauer in Sekunden	}
-	\item \textbf{Totale Zeit der Old Garbage Collection Zyklen}
-	\item \textbf{Totale Zeit der Young Garbage Collection Zyklen}
-	\item \textbf{Prozentuale Zeit der Old Garbage Collection Zyklen}
-	\item \textbf{Prozentuale Zeit der Young Garbage Collection Zyklen}
+	\item Durchschnittlicher Interval in Sekunden (Durchschnittliche Pausenzeit zwischen den einzelnen Garbage Collections)
+	\item Durchschnittliche Dauer in Sekunden
+	\item Totale Zeit der Old Garbage Collection Zyklen
+	\item Totale Zeit der Young Garbage Collection Zyklen
+	\item Prozentuale Zeit der Old Garbage Collection Zyklen
+	\item Prozentuale Zeit der Young Garbage Collection Zyklen
 \end{itemize}	
 
 \subsubsection{Gesamtstatistik}
@@ -186,7 +186,7 @@ Die Dauer der einzelnen Garbage Collection Zyklen wird über die Zeit aufgezeigt
 
 %--------------------------------------------
 \section{Testabdeckung (QRQ-S-02)}\label{testing}
-Bei Plugin-Projekten wird der Test-Code normalerweise in eigenen Fragment-Projekten abgelegt. Diese Test-Projekte werden allerdings nicht mit dem Feature ausgeliefert, sondern nur während dem Testen verwendet. Der Zugriff auf den Code der Implementation wird gewährleistet, indem aus dem Test-Projekt ein Fragment\footnote{Fragmente haben vollen Zugriff auf ihre Host-Bundles.} gemacht wird.
+Bei Plugin-Projekten wird der Test-Code normalerweise in eigenen Fragment-Projekten abgelegt. Diese Test-Projekte werden allerdings nicht mit dem Feature ausgeliefert, sondern nur während dem Testen verwendet. Der Zugriff auf den Code der Implementation wird gewährleistet, indem aus dem Test-Projekt ein Fragment\footnote{Fragmente haben vollen Zugriff auf ihre Host-Bundles.} gemacht wird. Als Testing-Framework wird der defakto Standard JUnit verwendet. JUnit ist sowohl von allen Entwicklungsumgebungen als auch von Maven und Tycho unterstützt.
 
 \section{Internationalisierung (QRQ-S-03))}
 Die Analysesoftware kann in den Sprachen Deutsch und Englisch gestartet werden. Die gewählte Sprache wird von der Entwicklungsumgebung übernommen\footnote{Die Entwicklungsumgebung übernimmt die Sprache der Java Lauzeitumgebung: Voreinstellung oder Auswahl über Kommandozeile (-nl de). } und kann nicht via ein Menu geändert werden. 
@@ -207,3 +207,4 @@ Einige der Funktionalitäten der Analysesoftware wie Beispielsweise das Einlesen
 
 
 \section{Korrektheit (QRQ-S-05))}
+Um mit Java-Applikationen genaue Werte zu berechnen wird von \cite{bloch2008effective} empfohlen, die Klasse \textit{BigDecimal} anstelle von \textit{Double} und \textit{Long} zu verwenden. Die in der Analysesoftware verwendeten Werte werden mit einer Genauigkeit von 0.1 gerechnet.

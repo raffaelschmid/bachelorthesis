@@ -12,7 +12,15 @@ Aktuell werden die Log-Einträge des \textbf{Memory-Moduls  (Log-Level: INFO)} a
 Version R28 ist die neuste Version der JRockit. Die Analysesoftware wurde auf das Format dieser Virutellen Machine ausgerichtet. Die Analyse von Logdateien älterer Versionen ist momentan noch nicht möglich.
 
 \section{Ausblick}
-\subsection{Analyseumfangs JRockit R28}\label{analyseumfang_jr28}
+\subsection{Funktionsumfang}
+\subsubsection{Daten vergleichen}
+Beim Performance Tuning im Bereich des Garbage Collectors vergleicht man oft die Implikation einer Anpassung der Konfiguration. Aktuell können zwar verschiedene Logdateien gleichzeitig geöffnet werden, der Vergleich von Kurven im gleichen Diagramm ist beispielsweise aber noch nicht möglich und wäre ein denkbares nächstes Feature.
+
+\subsection{Selektierbarer Zeitbereich}
+Aktuell kann der Zeitbereich für die Analyse der Daten nicht ausgewählt werden. Obwohl man beim Performance Tuning in der Regel nicht an den Informationen über die gesamte Zeit interessiert ist. Es wäre deshalb wünschenswert, wenn man zumindest Start- und Endzeitpunkt für die angezeigten Daten auswählen könnte.
+
+\subsection{Weitere Daten}
+\subsubsection{Auswertung Debug Informationen JRockit R28}\label{analyseumfang_jr28}
 Aktuell werden nur die Log-Einträge des Memory-Moduls (Log-Level: INFO) berücksichtigt. Wie der nachfolgende Auszug einer Logdatei zeigt, würden in den Debug-Einträgen spannende und teilweise wichtige Informationen stehen:
 \begin{itemize}
 	\item \textbf{Gründe, warum eine Garbage Collection gestartet wurde:  }Die erste Zeile zeigt, dass es hängige Anfragen für die Allokation von Speicher gibt.
@@ -30,10 +38,11 @@ Aktuell werden nur die Log-Einträge des Memory-Moduls (Log-Level: INFO) berück
 [INFO ][nursery] [OC#1] Young collection started. This YC is a part of OC#1 final marking.
 \end{lstlisting}
 
-\subsection{Analyseumfangs JRockit R27}\label{analyseumfang_jr27}
+\subsection{Andere Log-Formate}
+\subsubsection{JRockit R27}\label{analyseumfang_jr27}
 Wie bereits erwähnt, können die Logs der Version R27 noch nicht ausgewertet werden, obwohl diese Version noch an einigen Orten im Einsatz ist. Ziel wäre die möglichst rasche Kompatibilität zur Version R27.
 
-\subsection{G1 Algorithmus}
+\subsubsection{G1 Algorithmus}
 Ab Version 1.6.0\_14 des Java Runtime Environments ist eine Vorversion des G1 Garbage Collectors\footnote{G1 ist auch unter dem Namen Garbage First Garbage Collector bekannt.} verfügbar. Die Funktionsweise dieses Algorithmus unterscheidet sich stark von den bisherigen Versionen des Mark \& Sweep Algorithmus, auch die Logdateien weisen Unterschiede auf. Für die Auswertung solcher Dateien gibt es aktuell noch kein Werkzeug, die Implementation dieses Formats wäre deshalb spannend.
 
 
