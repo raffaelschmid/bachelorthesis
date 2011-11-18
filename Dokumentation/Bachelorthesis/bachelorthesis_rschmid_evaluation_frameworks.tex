@@ -28,7 +28,7 @@ Grundsätzlich käme für die Entwicklung der Analyse-Software auch die Java GUI
 \subsubsection{Eclipse RCP}
 Bis zur Version 2.1 war Eclipse bekannt als eine Open Source Entwicklungsumgebung für Programmierer. Der Vorgänger hiess Visual Age vor Java und wurde von IBM entwickelt. 
 
-Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Nun handelt es sich um einen relativ kleinen Kern, der die eigentlichen Funktionalitäten der Applikation als Plugins lädt. Der beschriebene Mechanismus basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen werden in SWT implementiert. Eclipse ist für 14 verschiedene Systeme und Architekturen bereitgestellt und gilt somit als plattformunabhängig\cite{wiki:eclipse}. 
+Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Seit dem handelt es sich um einen relativ kleinen Kern, der die eigentlichen Funktionalitäten der Applikation als Plugins lädt. Der beschriebene Mechanismus basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen werden in SWT implementiert. Eclipse ist für 14 verschiedene Systeme und Architekturen bereitgestellt und gilt somit als plattformunabhängig\cite{wiki:eclipse}. 
 
 Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins für die Entwicklungsumgebung  verwendet werden.
 
@@ -49,11 +49,11 @@ Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \ref{anforder
 \end{longtable}
 
 \subsection{Entscheid}\label{rcp_entscheid}
-\textbf{Ausschlaggebend für die Wahl der Rich Client Plattform ist die Verbreitung.} Trotz der Unterschiede in Architektur und den verwendeten Technologien unterscheiden sich die Frameworks im Funktionsumfang nur unwesentlich.
+\textbf{Ausschlaggebend für die Wahl der Rich Client Plattform ist die Verbreitung.} Trotz der Unterschiede in Architektur und den verwendeten Technologien unterscheiden sie sich im Funktionsumfang nur unwesentlich.
 
 
 \section{Charting Bibliothek}
-Für die grafische Darstellung der Daten (Charts) wird eine Bibliothek verwendet. Sehr oft wird dafür Eclipse BIRT oder JFreeChart eingesetzt.
+Für die grafische Darstellung der Daten (Charts) muss eine Bibliothek verwendet werden. Sehr oft wird dafür Eclipse BIRT oder JFreeChart eingesetzt.
 \subsection{Übersicht}
 \subsubsection{BIRT}
 BIRT steht für Business Intelligence and Reporting Tools und stellt Business-Intelligence- und Reporting-Funktionalität für Rich Clients zur Verfügung. BIRT ist Lizenziert unter der Eclipse Public License und ist daher open-source. BIRT ist wie Eclipse ein Top-Level-Softwareprojekt der Eclipse Foundation. Die Software besteht aus zwei Teilen:
@@ -77,4 +77,4 @@ JFreeChart ist ein Open-Source-Framework mit welchem eine Vielzahl verschiedener
 \end{longtable}
 
 \subsection{Entscheid}
-JFreeChart eignet sich insbesondere für kleinere Client-Applikationen sehr gut zur Erstellung von Diagrammen. Die Flexibilität welche bei Birt durch den Report-Designer bereitgestellt wird, wird in der Analysesoftware nicht benötigt. Aus diesen und oben aufgelisteten Gründen wird JFreeChart als Charting-Bibliothek verwendet.
+JFreeChart eignet sich insbesondere für kleinere Client-Applikationen sehr gut zur Erstellung von Diagrammen. Die Flexibilität welche bei Birt durch den Report-Designer bereitgestellt wird, kann in der Analysesoftware nicht angewendet werden. Deshalb fiel der Entscheid für die Bibliothek JFreeChart aus.

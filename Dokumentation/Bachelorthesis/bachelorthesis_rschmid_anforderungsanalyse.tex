@@ -30,8 +30,8 @@ Zum Systemkontext gehören folgende nicht veränderbare Komponenten:
 
 \subsubsection{Irrelevante Umgebung}
 \begin{itemize}
-	\item \textbf{Bugtracking:} Sobald die Software stabil läuft und an Tester herausgegeben wird, wird für die Verwaltung der Fehler (Bugs) ein Bugtracker verwendet.
-	\item \textbf{Versionskontrolle:} Der Source-Code der Applikation wird in einer Source-Code-Verwaltung abgelegt. Diese dient als Backup und zur Versionierung der einzelnen Artefakte. Die beiden Werkzeuge (Bugtracker, Versionskontrolle) arbeiten normalerweise eng zusammen, so dass Bug Fixes mit der eingecheckten Version in Verbindung bleiben.
+	\item \textbf{Issuetracker:} Sobald die Software stabil läuft und an Tester herausgegeben wird, wird für die Verwaltung der Fehler (Bugs) und Features ein Issuetracker verwendet.
+	\item \textbf{Versionskontrolle:} Der Source-Code der Applikation wird in einer Source-Code-Verwaltung abgelegt. Diese dient als Backup und zur Versionierung der einzelnen Artefakte. Die beiden Werkzeuge (Issuetracker, Versionskontrolle) arbeiten normalerweise eng zusammen, so dass Bug Fixes mit der eingecheckten Version in Verbindung bleiben.
 \end{itemize}
 
 
@@ -44,11 +44,11 @@ Für die Anforderungsanalyse sind nur die mit Asteriks gekennzeichneten Stakehol
 \end{figure}
 
 \subsection{Glossar}
-Das Glossar befindet sich auf Seite \pageref{glossar}. 
+Das Glossar befindet sich im Abschnitt \ref{glossar}. 
 \subsection{Referenzen}
-Die Referenzen innerhalb des Abschnitts \titleref{anforderungsanalyse} befinden sich im Abschnitt Literaturverzeichnis.
+Die Referenzen innerhalb des Abschnitts \ref{anforderungsanalyse} befinden sich im Abschnitt Literaturverzeichnis.
 \subsection{Übersicht}
-Die Anforderungsanalyse ist folgendermassen aufgebaut: Beginnen tut sie mit der Allgemeinen Übersicht. Hier sind Architektur, Nutzer- und Zielgruppen, Randbedingungen und Annahmen dokumentiert. Danach sind die Use Cases der Software beschrieben. Aus diesen leiten sich dann die funktionalen Anforderungen und schliesslich die Qualitätsanforderungen ab.
+Die Anforderungsanalyse ist folgendermassen aufgebaut: Beginnen tut sie mit der Allgemeinen Übersicht. Hier sind Architektur, Nutzer- und Zielgruppen, Randbedingungen und Annahmen dokumentiert. Danach sind die Anforderungen an die Software definiert, aus welchen sich anschliessend die unterschiedlichen Use Cases ableiten.
 \section{Allgemeine Übersicht}\label{allgemeine_uebersicht}
 \subsection{Architekturbeschreibung}
 Die Software wird als Plugin programmiert. Der Entwickler kann sich die Software als Erweiterung in seiner Entwicklungsumgebung installieren. Sobald die Software installiert ist, wird für die Arbeit keine Verbindung ins Internet mehr benötigt. Die Applikation ist auf allen gängigen Betriebssystemen (Linux, Mac OSX, Windows) lauffähig.
