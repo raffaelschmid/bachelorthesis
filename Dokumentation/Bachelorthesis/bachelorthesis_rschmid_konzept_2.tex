@@ -142,11 +142,17 @@ Der initiale Tab der Analyseseite zeigt eine Zusammenfassung der geöffneten Gar
 	\item Dauer der Messung in Sekunden
 \end{itemize}
 
+\subsection{Chart Anzeige Heap Benutzung (FRQ-06.2)}
+Die Heap-Analyse zeigt den Verlauf des benutzten \textbf{Speichers} im Heap über die Zeit auf. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
+
+\subsection{Chart Anzeige Dauer Garbage Collection (FRQ-06.3)}
+Die \textbf{Dauer} der einzelnen Garbage Collection Zyklen wird über die Zeit aufgezeigt. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
+
 \section{Profil erstellen (UC-07)}
 Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial befindet sich darin allerdings nur das Standard-Profil.}. Die Beschreibung eines Analysefensters (Name, Beschreibung, Charts mit Serien, etc.) wird anhand von Profilen definiert. Es gibt folgende zwei Arten:
 \begin{itemize}
-	\item \textbf{Unveränderlich Profil:} Das Standard-Profil ist aktuell das einzige unveränderliche Profil.
-	\item \textbf{Veränderlich Profil:} Ein veränderliches Profil wird zur Speicherung des vom Benutzer definierten Analysefensters verwendet. Alle Änderungen die der Benutzer am Analysefenster macht (Chart hinzufügen, Chart konfigurieren), werden via ein Data-Binding an das Profil propagiert. Durch das Speichern des Profils hat der Benutzer die Möglichkeit, die selbe Analyse auch zu einem späteren Zeitpunkt an der gleichen oder einer anderen Logdatei durchzuführen.
+	\item \textbf{Unveränderliches Profil:} Das Standard-Profil ist aktuell das einzige unveränderliche Profil. Es wird durch die \textit{JRockit Extension} definiert und kann nicht konfiguriert, verändert werden.
+	\item \textbf{Veränderliches Profil:} Ein veränderliches Profil wird zur Speicherung des vom Benutzer definierten Analysefensters verwendet. Alle Änderungen die der Benutzer am Analysefenster macht (Chart hinzufügen, Chart konfigurieren), werden via ein Data-Binding an das Profil propagiert. Durch das Speichern des Profils hat der Benutzer die Möglichkeit, die selbe Analyse auch zu einem späteren Zeitpunkt an der gleichen oder einer anderen Logdatei durchzuführen.
 \end{itemize}
 
 \subsection{Domänenmodell zur Persistierung der Profile}
@@ -176,13 +182,6 @@ Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung i
 \item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 
 \item \textbf{Kontextsensitive Hilfen:} Tipps die im Zusammenhang mit einer Aktion oder eines Fensters stehen werden mit den kontextsensitiven Hilfen implementiert.
 \end{itemize}
-
-\subsection{Chart Anzeige Heap Benutzung (FRQ-06.2)}
-Die Heap-Analyse zeigt den Verlauf des benutzten Speichers im Heap über die Zeit auf. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
-
-\subsection{Chart Anzeige Dauer Garbage Collection (FRQ-06.3)}
-Die Dauer der einzelnen Garbage Collection Zyklen wird über die Zeit aufgezeigt. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
-
 
 %--------------------------------------------
 \section{Testabdeckung (QRQ-S-02)}\label{testing}

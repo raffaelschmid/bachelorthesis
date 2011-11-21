@@ -1,41 +1,56 @@
 \chapter{Implementation}\label{implementation}
-Im Proof of Concept wurden die Anforderungen folgendermassen umgesetzt.\footnote{Kann auch im Abschnitt \titleref{bedienungsanleitung} oder an der laufenden Software überprüft werden.}:
+Dieser Abschnitt zeigt auf, wie die Anforderungen und das Konzept im Proof of Concept umgesetzt wurden. Detailliertere Informationen befinden sich auch in der Benutzeranleitung im Anhang \ref{bedienungsanleitung}.
 \section{Funktionale Anforderungen}
-Die funktionalen Anforderungen konnten alle umgesetzt werden. Dieser Abschnitt beschreibt etwas detaillierter, was wie umgesetzt werden konnte.
-
 \subsection{Installation (FRQ-01) und Update (FRQ-02)}
-Installation und Update der beiden Features Core und JRockit Extension können über die Update-Seite gemacht werden. Beide Funktionalitäten sind Bestandteil des Eclipse-Frameworks und werden via ein Update-Site-Plugin und die beiden Feature-Plugins bereitgestellt.
+Installation und Update der beiden Features \textit{Core} und \textit{JRockit Extension} können über das Netzwerk gemacht werden\footnote{Aktuell befindet sich der Update-Server noch in einem nicht öffentlichen Netzwerk und ist nur via ein VPN verfügbar.}. Die Update-Funktionalität ist Bestandteil des Eclipse-Frameworks: beide Features werden über eine Update-Seite bereitgestellt. Die Features wiederum bestehen aus den einzelnen in Abschnitt \ref{projektstruktur} beschriebenen Projekten. Der Release der Artefakten wird durch das Continuous Integration System Hudson gemacht.
 
 \subsection{Datei importieren (FRQ-03)}
-Die Dateien werden in eine eigens dafür registrierte View importiert. Das Speichern und Wiederherstellen des Zustands dieser View findet über das von Eclipse implementierte Memento-Pattern (siehe Anhang \ref{memento}) statt. 
+Die Dateien werden in eine eigene View importiert. Views sind programmierbare Komponenten (Ansichten) und können durch das Plugin deklarativ registriert werden. Sie stehen anschliessend dem Benutzer zur Verfügung. Das Speichern und Wiederherstellen des Zustands dieser View findet über das von Eclipse implementierte Memento-Pattern (siehe Anhang \ref{memento}) statt. Der Import findet über einen Wizard\footnote{Eclipse bietet die Möglichkeit, mit sehr geringem Aufwand Import- und Export-Wizards zu erstellen. Im Prinzip muss nur die GUI-Funktionalität implementiert werden.} statt. Der Benutzer wählt das Verzeichnis und die zu importierenden Logdateien aus.
 
 \subsection{Datei einlesen (FRQ-04)}
-Die eingelesene Datei wird in Form des im Konzept beschriebenen Domänenmodells ins Memory geladen. 
+Nachdem der Benutzer die Logdatei erfolgreich importiert hat, kann er sie mittels einem Doppelklick öffnen. Erst dann wird die Datei durch das Feature \textit{Core} eingelesen und im Arbeitsspeicher als Liste abgelegt. Die Speicherung als Liste ermöglicht es den Parsern, sequentiell oder durch die Angabe des Zeilenindexes auf die Daten zuzugreifen.
 
 \subsection{Garbage Collection Logdatei parsen (FRQ-05)}
-Die Log-Ausgaben des Memory-Moduls (Debug-Level: info) werden mittels Regulären Ausdrücken geparst und in strukturierter Form gespeichert. Strukturiert meint eine objektorientierte Form der Daten (siehe Abschnitt \ref{jrockit_domain_model}).
+Die Log-Ausgaben des Memory-Moduls (Log-Level: info) werden mittels Regulären Ausdrücken geparst und in die logische Form (siehe Abschnitt \ref{jrockit_domain_model}) gebracht. Die Analyse wird realisiert durch die Implementation eines Analyzers (\textit{Analyzer\textless T\textgreater}) und bedingt daraus Implementation folgender Methoden:
+\begin{itemize}
+\item \textit{boolean canHandleLogFile(IFileDescriptor)}
+\item \textit{T process(IFileDescriptor descriptor, IProgress progress)}
+\item \textit{String getEditorId()}.
+\end{itemize}
+Die Abstraktion durch das Interface \textit{Analyzer\textless T\textgreater} ist Grundlage für die Erweiterbarkeit um andere Log-Formate.
 
 \subsection{Standardauswertung anzeigen (FRQ-06)}
-Für die importierten Dateien besteht die Möglichkeit, sie in der Standardauswertung darzustellen. Die Standardauswertung zeigt die im Konzept definierten Ansichten, Tabs (siehe Abschnitt \titleref{standardreport} auf Seite \pageref{standardreport}).
+Für die importierten Dateien besteht die Möglichkeit, sie in der Standardauswertung darzustellen. Die Standardauswertung zeigt die im Konzept definierten Ansichten (siehe Abschnitt \ref{standardreport}):
+\begin{itemize}
+\item Übersicht Garbage Collection
+\item Heap Kapazität
+\item Dauer Garbage Collection
+\end{itemize}
 
 \subsection{Profil erstellen (FRQ-07)}
 Profile können durch den Benutzer erstellt und an seine Bedürfnisse angepasst werden. Das Anpassen beinhaltet die Definition von eigenen Charts und deren Datenserien. Das Speichern, Exportieren und Importieren wird über das von Eclipse implementierte Memento-Pattern (siehe Anhang \ref{memento}) gemacht.
 
 \subsection{Hilfesystem (FRQ-08)}
-Das Hilfesystem wurde sowohl für die contextsensitive wie auch die indexbasierte Hilfe angelegt. Aktuell sind alle existierenden Hilfeseiten in den Sprachen Deutsch und Englisch vorhanden, diese können aber ohne Entwicklungsaufwand auch um weitere Sprachen ergänzt werden. 
+Das Hilfesystem wurde sowohl für die contextsensitive wie auch die indexbasierte Hilfe implementiert und kann stetig durch weitere Inhalte erweitert werden. Aktuell sind alle existierenden Hilfeseiten in den Sprachen Deutsch und Englisch vorhanden, diese können aber ohne Entwicklungsaufwand auch um weitere Sprachen ergänzt werden. Die Sprache wird durch den Benutzer in der Datei \textit{eclipse.ini} definiert oder ist die Standard-Sprache der Eclipse-Distribution.
 
 \section{Qualitätsanforderungen Software}
 \subsection{Erweiterbarkeit (QRQ-S-01)}
-Die Analyse der JRockit Dateien wurde als Erweiterung implementiert. Es besteht die Möglichkeit, dass sich Erweiterungen für andere Log-Dateien bei der Basissoftware registrieren, die dann das Parsen und Aufbereiten der Datei durchführt und die Analysen durchführt.
+Die Analyse der JRockit Dateien wurde als Erweiterung implementiert. Es besteht die Möglichkeit, dass sich Erweiterungen für andere Log-Dateien bei der Basissoftware registrieren, die dann das Parsen und Aufbereiten der Datei durchführt und die Analysen durchführt. Die Erweiterung um ein weiteres Dateiformat bedingt folgende Schritte:
+\begin{itemize}
+\item erstellen eines Plugins
+\item erstellen eines Features
+\item Konfiguration des neuen Features für die Update-Seite
+\item Realisation des \textit{Analyzer}s und Konfiguration als Extension für den Extension-Point \textit{com.trivadis.loganalysis.analyzer}
+\item erstellen des Auswertungsfensters, dafür können Super-Klassen der Basissoftware verwendet werden
+\end{itemize}
 
 \subsection{Testabdeckung (QRQ-S-02)}
-Die Testabdeckung entspricht nicht den Anforderungen von 80 Prozent. 
-
+Die Testabdeckung entspricht nicht den Anforderungen von 80 Prozent. Die Metrik wird allerdings zum jetzigen Zeitpunkt nicht geführt.
 \subsection{Internationalisierung (QRQ-S-03)}
 Viele der eingebauten Namen und Labels sind bereits zweisprachig (Englisch, Deutsch) definiert. Die restlichen müssen noch übersetzt und in die Sprachressourcen extrahiert werden.
 
 \subsection{Usability (QRQ-S-04)}
-Lange dauernde Operationen (Einlesen, Parsen der Daten) werden vom Eclipse-Framework asynchron gestartet. Dem Benutzer wird ein Progress-Monitor angezeigt, in welchem er die Operation auch abbrechen kann.
+Lange dauernde Operationen (einlesen, parsen der Daten) werden vom Eclipse-Framework asynchron gestartet. Dem Benutzer wird ein Progress-Monitor angezeigt, in welchem er die Operation abbrechen kann.
 
 \subsection{Korrektheit (angezeigte Werte) (QRQ-S-05)}
-Alle zu berechnenden Werte werden befinden sich im Datentyp \textit{BigDecimal}. Dies führt zwar zu einem erhöhten Verbrauch an Arbeitsspeicher, ist aber für die geforderte Genauigkeit unumgänglich.
+Alle zu berechnenden Werte befinden sich im Datentyp \textit{BigDecimal}. Dies führt zwar zu einem erhöhten Verbrauch an Arbeitsspeicher, ist aber für die geforderte Genauigkeit unumgänglich.
