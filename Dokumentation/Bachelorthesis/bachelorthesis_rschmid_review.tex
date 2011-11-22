@@ -1,6 +1,6 @@
 \chapter{Review und Ausblick}\label{review}
 \section{Was leistet das Tool?}
-Während einer Performanceanalyse kommt es zur Auswertung der Garbage Collection, wenn die CPU-Last hoch ist, aber nicht durch den Kernel (Systemprozess) verursacht wird. Der Dominating Consumer ist dann die Java Virtual Machine (siehe Abschnitt \titleref{dominating_consumer} auf Seite \pageref{dominating_consumer}). Die folgenden Abschnitte zeigen wann und wie die Analysesoftware verwendet werden kann.
+Wenn die Auslastung einer CPU konstant hoch ist aber nicht durch den Kernel verursacht wird, kann unter Umständen das Tuning des Garbage Collectors Sinn machen. Die folgenden Abschnitte zeigen wann und wie die Analysesoftware verwendet werden kann.
 
 \subsection{Offline-Analyse}
 Zur Auswertung einer laufenden Virtuellen Machine, kann auch die Software JRockit Mission Control von Oracle verwendet werden. Oft ist allerdings der Zugriff via Mission Control auf den Server nicht möglich - es gibt Firewall-Regeln oder man befindet sich ausserhalb des Netzwerkes. In diesem Fall müssen zur Analyse die erstellten Garbage Collection Logdateien verwendet werden. \textbf{Mit der Analysesoftware kann diese Aufgabe vereinfacht werden indem sie die gesammelten Daten visualisiert.}
@@ -16,16 +16,12 @@ Version R28 ist die neuste Version der JRockit. Die Analysesoftware wurde auf da
 \subsubsection{Daten vergleichen}
 Beim Performance Tuning im Bereich des Garbage Collectors vergleicht man oft die Implikation einer Anpassung der Konfiguration. Aktuell können zwar verschiedene Logdateien gleichzeitig geöffnet werden, der Vergleich von Kurven im gleichen Diagramm ist beispielsweise aber noch nicht möglich und wäre ein denkbares nächstes Feature.
 
-\subsection{Selektierbarer Zeitbereich}
-Aktuell kann der Zeitbereich für die Analyse der Daten nicht ausgewählt werden. Obwohl man beim Performance Tuning in der Regel nicht an den Informationen über die gesamte Zeit interessiert ist. Es wäre deshalb wünschenswert, wenn man zumindest Start- und Endzeitpunkt für die angezeigten Daten auswählen könnte.
+\subsubsection{Selektierbare Zeitachse}
+Man ist beim Performance Tuning in der Regel nicht an den Informationen über die ganze Zeit interessiert, die Möglichkeit zur Wahl von Start- und Endzeitpunkt der a Daten wäre deshalb eine wichtige Erweiterung.
 
 \subsection{Weitere Daten}
 \subsubsection{Auswertung Debug Informationen JRockit R28}\label{analyseumfang_jr28}
-Aktuell werden nur die Log-Einträge des Memory-Moduls (Log-Level: INFO) berücksichtigt. Wie der nachfolgende Auszug einer Logdatei zeigt, würden in den Debug-Einträgen spannende und teilweise wichtige Informationen stehen:
-\begin{itemize}
-	\item \textbf{Gründe, warum eine Garbage Collection gestartet wurde:  }Die erste Zeile zeigt, dass es hängige Anfragen für die Allokation von Speicher gibt.
-	\item \textbf{Dauer der einzelnen Garbage Collection Phasen (Initial Marking, Precleaning, Final Marking): } Nicht alle dieser Phasen laufen beispielsweise konkurrierend ab. Im Sinne von möglichst kurzen Pausenzeiten ist es deshalb interessant, wie lange die Final Marking Phase dauert. 
-\end{itemize}
+Aktuell werden nur die Log-Einträge des Memory-Moduls im Log-Level INFO berücksichtigt. Wie der nachfolgende Auszug einer Logdatei zeigt, würden in den Debug-Einträgen spannende und teilweise wichtige Informationen stehen.
 
 \begin{lstlisting}[caption=Garbage Collection Log (Debug Informationen)]
 [INFO ][alloc  ] [OC#1] Satisfied 0 object and 0 tla allocations. Pending requests went from 1 to 1.
@@ -38,12 +34,18 @@ Aktuell werden nur die Log-Einträge des Memory-Moduls (Log-Level: INFO) berück
 [INFO ][nursery] [OC#1] Young collection started. This YC is a part of OC#1 final marking.
 \end{lstlisting}
 
+Einige Beispiele für solche Informationen sind:
+\begin{itemize}
+	\item \textbf{Gründe, warum eine Garbage Collection gestartet wurde:  }Die erste Zeile im Listing oben zeigt, dass es hängige Anfragen für die Allokation von Speicher gibt. Was ein Grund ist, warum die Garbage Collection gestartet wurde.
+	\item \textbf{Dauer der einzelnen Garbage Collection Phasen (Initial Marking, Precleaning, Final Marking): } Nicht alle dieser Phasen laufen beispielsweise konkurrierend ab. Im Sinne von möglichst kurzen Pausenzeiten ist es deshalb interessant, wie lange die einzelnen Phasen und im speziellen die Final Marking Phase gedauert haben. 
+\end{itemize}
+
 \subsection{Andere Log-Formate}
 \subsubsection{JRockit R27}\label{analyseumfang_jr27}
-Wie bereits erwähnt, können die Logs der Version R27 noch nicht ausgewertet werden, obwohl diese Version noch an einigen Orten im Einsatz ist. Ziel wäre die möglichst rasche Kompatibilität zur Version R27.
+Wie bereits erwähnt, können die Logs der Version R27 noch nicht ausgewertet werden. Weil diese Version noch an vielen Orten im Einsatz ist, würde die schnelle Kompatibilität mit R27 Sinn machen.
 
 \subsubsection{G1 Algorithmus}
-Ab Version 1.6.0\_14 des Java Runtime Environments ist eine Vorversion des G1 Garbage Collectors\footnote{G1 ist auch unter dem Namen Garbage First Garbage Collector bekannt.} verfügbar. Die Funktionsweise dieses Algorithmus unterscheidet sich stark von den bisherigen Versionen des Mark \& Sweep Algorithmus, auch die Logdateien weisen Unterschiede auf. Für die Auswertung solcher Dateien gibt es aktuell noch kein Werkzeug, die Implementation dieses Formats wäre deshalb spannend.
+Ab Version 1.6.0\_14 des Java Runtime Environments ist eine Vorversion des G1 Garbage Collectors\footnote{G1 ist auch unter dem Namen Garbage First Garbage Collector bekannt.} verfügbar. Die Funktionsweise dieses Algorithmus unterscheidet sich, auch im Bereich des Log-Formats, stark von den bisherigen Versionen des Mark \& Sweep Algorithmus. Für die Auswertung solcher Dateien gibt es aktuell noch kein Werkzeug, die Implementation dieses Formats wäre deshalb spannend.
 
 
 

@@ -51,7 +51,7 @@ Sofern die im Abschnitt \ref{hohe_systemauslastung} beschriebenen Punkte nicht z
 \subsection{Effizienter Objekt-Lebenszyklus}
 Sofern die CPU-Auslastung, trotz kleiner relativer Systemlast durch die Applikation, hoch ist, muss unter anderem\footnote{auch der Optimizer könnte dafür verantwortlich sein} die Garbage Collection angeschaut werden. Dafür gibt es unterschiedliche Herangehensweisen:
 \begin{itemize}
-\item \textbf{Memory Analyse (Objektpopulation): }Es wird angeschaut, wie alt die Objekte in den unterschiedlichen Bereichen (Young Collection, Old Collection) sind. Wieviele Garbage Collection Zyklen sie überlebt haben.
+\item \textbf{Memory Analyse (Objektpopulation): }Es wird angeschaut, wie alt die Objekte in den unterschiedlichen Bereichen (Young Generation, Old Generation) sind. Wieviele Garbage Collection Zyklen sie überlebt haben.
 \item \textbf{Garbage Collection: }Wann und wie oft werden Garbage Collections durchgeführt, wie lange haben sie gedauert, wieviel Speicher haben sie befreit.
 \end{itemize}
 Im weiteren konzentrieren wir uns auf die Ziele und Vorgehensweise beim Garbage Collection Tuning.
