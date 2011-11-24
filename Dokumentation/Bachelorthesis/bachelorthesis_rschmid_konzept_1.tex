@@ -1,4 +1,4 @@
-\chapter{Konzept (Architektur)}\label{konzept_1}
+\chapter{Architektur}\label{konzept_1}
 \section{Allgemein}
 \subsection{Ausgangslage}
 Als Rich Client Framework wird Eclipse 3.x\footnote{die aktuelle Version ist 3.7 (stand: 31.8.2011)} genommen. Siehe Abschnitt \titleref{selection_rcp_fw}. In der Folge werden die für die Eclipse Plattform gebräuchlichen Begrifflichkeiten verwendet. 
@@ -23,7 +23,7 @@ Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analyse-Software au
 	\item Die Basissoftware stellt Extension-Points\footnote{Ein Extension-Point ist ein Mechanismus der von Eclipse zur Verfügung gestellt wird, damit eine Komponente (Plugin) sich bei einer anderen registrieren kann.} bereit, über welche sich die Erweiterungen  registrieren.
 \end{itemize}
 
-\subsection{Übersicht}
+\subsection{Struktur}
 Die generischen Aspekte der Software befinden sich in der Basissoftware. Nur die Spezialisierung im Bereich jedes einzelnen Log-Formats findet in den Erweiterungen statt. Grundsätzlich werden die Aufgaben folgendermassen verteilt:
 \begin{itemize}
 	\item Basissoftware (Core Feature)
@@ -40,8 +40,7 @@ Die generischen Aspekte der Software befinden sich in der Basissoftware. Nur die
 		\end{itemize}
 \end{itemize}
 
-\subsection{Projektstruktur}\label{projektstruktur}
-Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zwei getrennten Features. Das Core-Feature ist die Basis und verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, Profil-Verwaltung, etc.). Die JRockit Extension ist eine für die Garbage Collection Logs der JRockit geschriebene Erweiterung. Sie ist für das Parsing der Logdateien, die Aufbereitung und Bereitstellung der Daten zuständig. Beinhaltet aber keine Basisfunktionalität.
+Das Core-Feature ist die Basis und verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, Profil-Verwaltung, etc.). Die JRockit Extension ist eine für die Garbage Collection Logs der JRockit geschriebene Erweiterung. Sie ist für das Parsing der Logdateien, die Aufbereitung und Bereitstellung der Daten zuständig. Beinhaltet aber keine Basisfunktionalität.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=14cm]{images/architektur_komponenten_uebersicht}
@@ -50,8 +49,8 @@ Wie im Abschnitt \titleref{installation} erläutert, besteht die Software aus zw
 
 Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einem von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für die Präsentationsschicht verwendet.} unabhängigen Teil (``loganalysis.core''). Öffnet der Benutzer eine Garbage Collection Logdatei, wird diese durch das Core Feature eingelesen und der Inhalt wird an alle verfügbaren Extensions weitergeleitet. Die erste Extension welche den Inhalt der Datei verarbeiten kann, öffnet seine dafür vorgesehenen Reports und Charts. Jede Extension hat ein basierend auf der Logdatei eigenes Domänen-Modell.
 
-\subsubsection{Weitere Projekte}
-Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
+\subsubsection{Nicht-funktionale Module}
+Die folgenden Projekte (Plugins) sind im Zusammenhang mit dem Deployment und Testing notwendig, beinhalten aber keine eigentliche Funktionalität. In der Regel beinhalten sie Konfigurationsdateien oder Test-Klassen:
 \begin{itemize}
 	\item Test-Projekte\footnote{Der Test-Code befindet sich in eigenen Projekten (siehe Abschnit \ref{testing}).}
 		\begin{itemize}
@@ -79,7 +78,8 @@ Einige Plugins wurden im vorherigen Abschnitt nicht erwähnt:
 		\end{itemize}
 \end{itemize}
 
-\subsection{Ablauf Garbage Collection Analyse}
+\subsection{Verhalten}
+\subsubsection{Ablauf Garbage Collection Analyse}
 Beim öffnen einer Analyse wird die zuständige Extension gesucht\footnote{Extensions registrieren sich via das plugins.xml an einem Extension-Point. }, welche den Inhalt\footnote{Der Inhalt der Datei wird lazy via die Methode getContent und einem ContentReader geladen.} der Logdatei versteht. Die Erweiterung ist für das Parsen und Aufbereiten der Daten und die Anzeige in einem Analysefenster zuständig. Der Ablauf ist in folgendem Diagramm grafisch illustriert:
  \begin{figure}[H]
   	\centering

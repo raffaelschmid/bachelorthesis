@@ -1,5 +1,5 @@
-\chapter{Konzept (Anforderungen)}\label{konzept_2}
-\section{Installation (UC-01)}\label{installation}
+\chapter{Funktionalität}\label{konzept_2}
+\section{Installation (FRQ-01)}\label{installation}
 Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Server, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Die Eclipse Runtime kann solche Softwarepakete zur Laufzeit installieren und updaten.
 
 Die Update-Seite widerspiegelt die Struktur der Software:
@@ -8,10 +8,10 @@ Die Update-Seite widerspiegelt die Struktur der Software:
 \item \textbf{JRockit Erweiterung: }Umfasst alle Plugins zur JRockit Erweiterung und hat zugleich die Abhängigkeit auf das Basissoftware-Feature.
 \end{itemize}
 
-\section{Update (UC-02)}
+\section{Update (FRQ-02)}
 Der Update eines Features auf der Update-Seite durch die Erstellung eines neuen Releases ist erkennbar durch eine Änderung der Versionsnummer. Beim Starten der Software wird überprüft, ob ein sich auf dem Server befindendes Feature aktualisiert wurde. Der Benutzer kann diese im laufenden Betrieb der Applikation installieren, ein Neustart ist allerdings danach Pflicht.
 
-\section{Datei importieren (UC-03)}
+\section{Datei importieren (FRQ-03)}
 Der Import\footnote{Der Begriff Import ist irreführend, da diese Aktion einzig dazu dient, die Datei in die Ansicht Logdateien zu kriegen. Erst mit dem Öffnen der Datei werden die Daten wirklich gelesen.} einer Logdatei findet über einen Import-Wizard statt. Der Ablauf ist folgendermassen:
 \begin{enumerate}
 	\item Import-Wizard öffnen
@@ -21,10 +21,10 @@ Der Import\footnote{Der Begriff Import ist irreführend, da diese Aktion einzig 
 	\item Anschliessend wird die Logdatei als Instanz von \textit{IFileDescriptor} in der Ansicht \textit{Logdateien} angezeigt, der Inhalt wurde allerdings noch nicht analysiert.
 \end{enumerate}
 
-\subsection{Importierte Dateien speichern (UC-03.1)}
+\subsection{Importierte Dateien speichern (FRQ-03.1)}
 Der im Abschnitt \ref{memento} beschriebene Mechanismus wird verwendet, damit nach einem Neustart der Entwicklungsumgebung die importierten Logdateien nicht verloren gehen. 
 
-\section{Datei einlesen (UC-04)}
+\section{Datei einlesen (FRQ-04.1)}
 Durch den Import einer Garbage Collection Logdatei erscheinen diese im Fenster \textit{Logdateien}. Das öffnen einer dieser Dateien lädt den Inhalt in den Arbeitsspeicher. Die Daten sind noch unstrukturiert und werden innerhalb des im nächsten Abschnitt definierten Domänenmodells gespeichert.
 
 \subsection{Domänenmodell}
@@ -35,7 +35,7 @@ Durch den Import einer Garbage Collection Logdatei erscheinen diese im Fenster \
         	\caption{Domänenmodell: Eingelesene Datei}
 \end{figure}
 
-\section{Logdatei parsen (FRQ-05)}
+\section{Logdatei parsen (FRQ-04.2)}
 Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Diese Ausgaben können selektiv per Kommandozeile aktiviert werden (siehe Abschnit \ref{logmodule}). Für die Garbage Collection Analyse sind nicht alle Einträge relevant, es werden nur die wichtigsten verwendet. Die einzelnen Parser für die Garbage Collection Logdatei werden auf der Basis von Regular Expressions selber implementiert. Auf die Verwendung eines Parser-Generators wird aus folgenden Gründen verzichtet:
 \begin{itemize}
 	\item Lightweight: Um Parser-Generatoren zu verwenden, wird in der Regel auch zur Laufzeit eine Bibliothek benötigt. Diese muss mit der Software ausgeliefert werden. Die Implementation eines Parser auf der Basis von Regulären Ausdrücken kann mit Java Standardmitteln gemacht werden.
@@ -56,7 +56,7 @@ Der Parser für die Logdateien der JRockit Virtual Machine ist nach dem Chain-of
         	\caption{Klassendiagramm Parser}
 \end{figure}
 
-\subsection{MemoryModuleParser}
+\subsubsection{MemoryModuleParser}
 Das Parsen innerhalb des \textit{MemoryModuleParser} wird in zwei Schritte aufgeteilt:
 \begin{itemize}
 \item \textbf{Lexer: }Der einzelne Logeintrag wird durch den Lexer (Tokenizer) in eine Map aus Tokens umgewandelt. Schlüssel für die einzelnen Tokens ist der \textit{TokenType}. Der Lexer wird mittels Regular Expressions implementiert. Die Werte werden mittels Gruppierungs-Funktion\footnote{Mittels Gruppen innerhalb von Regulären Ausdrücken lassen sich einzelne Werte aus einem String extrahieren.} extrahiert. 
@@ -108,8 +108,8 @@ Der Parseprozess wandelt die unstrukturierten Daten in ein strukturiertes Domän
 \end{landscape}
 Die Daten der Logdatei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände welche durch die Logdatei repräsentiert werden. Die Daten sind also nicht zu jedem Zeitpunkt, sondern nur für diese Zustände bekannt. Übergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung ausgelöst - zum Beispiel wenn die Nursery oder die Old Generation an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden.
 
-\section{Standardauswertung anzeigen (FRQ-06)}
-\subsection{Anzeige Übersicht Garbage Collection (FRQ-06.1)}\label{standardreport}
+\section{Standardauswertung anzeigen (FRQ-04)}
+\subsection{Anzeige Übersicht Garbage Collection (FRQ-04.3)}\label{standardreport}
 Der initiale Tab der Analyseseite zeigt eine Zusammenfassung der geöffneten Garbage Collection Logdatei. Die Daten werden in den Tabellen Heap Kapazität, Garbage Collection Aktivität und Gesamtstatistik angezeigt:
 
 \subsubsection{Heap Kapazität}
@@ -142,13 +142,13 @@ Der initiale Tab der Analyseseite zeigt eine Zusammenfassung der geöffneten Gar
 	\item Dauer der Messung in Sekunden
 \end{itemize}
 
-\subsection{Chart Anzeige Heap Benutzung (FRQ-06.2)}
+\subsection{Chart Anzeige Heap Benutzung (FRQ-04.4)}
 Die Heap-Analyse zeigt den Verlauf des benutzten \textbf{Speichers} im Heap über die Zeit auf. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
 
-\subsection{Chart Anzeige Dauer Garbage Collection (FRQ-06.3)}
+\subsection{Chart Anzeige Dauer Garbage Collection (FRQ-04.5)}
 Die \textbf{Dauer} der einzelnen Garbage Collection Zyklen wird über die Zeit aufgezeigt. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
 
-\section{Profil erstellen (UC-07)}
+\section{Profil erstellen (FRQ-05)}
 Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial befindet sich darin allerdings nur das Standard-Profil.}. Die Beschreibung eines Analysefensters (Name, Beschreibung, Charts mit Serien, etc.) wird anhand von Profilen definiert. Es gibt folgende zwei Arten:
 \begin{itemize}
 	\item \textbf{Unveränderliches Profil:} Das Standard-Profil ist aktuell das einzige unveränderliche Profil. Es wird durch die \textit{JRockit Extension} definiert und kann nicht konfiguriert, verändert werden.
@@ -163,20 +163,20 @@ Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial b
         	\caption{Domänenmodell: Profile}
 \end{figure}
 
-\subsection{Charts definieren (UC-07.1)}
+\subsection{Charts definieren (FRQ-05.1)}
 Bei der Benutzung eines veränderlichen Profils hat der Benutzer die Möglichkeit, dem Analysefenster weitere Charts respektive Diagramme hinzuzufügen oder aber bereits existierende Diagramme zu manipulieren (weitere Serien hinzufügen, Serien entfernen, etc.). Die Manipulationen des Benutzers finden auf den Chart-Objekten statt und werden durch das Data-Binding propagiert. Die Administrationsoberfläche für einen Chart umfasst initial zwei Abschnitte:
 \begin{itemize}
 	\item Serie erstellen, definieren und hinzufügen
 	 \item Serie löschen
 \end{itemize}
 
-\subsection{Profil speichern (UC-07.2)}
+\subsection{Profil speichern (FRQ-05.2)}
 Mittels des Memento-(siehe Anhang \ref{memento}) und Visitor-Patterns\cite[S. 331]{gamma1995design} werden die Profile gespeichert.
 
-\subsection{Profil exportieren, importieren (UC-07.3/ UC-07.4)}
+\subsection{Profil exportieren, importieren (FRQ-05.3/ FRQ-05.4)}
 Die Analysesoftware stellt zum Sichern und Verteilen von Profilen einen Import-Export-Mechanismus bereit. Beide sind in den Eclipse Standard-Wizards ersichtlich oder können via rechtem Mouseklick (Ansicht Profile) gestartet werden. Der Profile-Export und -Import basiert wie das Speichern auf dem im Abschnitt \ref{memento} beschriebenen Memento-Mechanismus. Zur Serialisierung in eine Datei wird das XMLMemento verwendet. 
 
-\subsection{Hilfesystem (UC-08)}
+\subsection{Hilfesystem (FRQ-06)}
 Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfedienste wie Suche und Indexierung bereitstellt. Hilfeseiten sind auf unterschiedliche Weise verfügbar:
 \begin{itemize}
 \item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 

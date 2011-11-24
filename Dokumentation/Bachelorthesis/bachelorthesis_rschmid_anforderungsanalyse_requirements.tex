@@ -1,25 +1,40 @@
 \begin{landscape}
 \section{Funktionale Anforderungen}\label{func_req}
 Die folgende abschliessende Liste der Funktionalen Anforderungen an die Analysesoftware (stand \today) wurde hinsichtlich Korrektheit, Machbarkeit, Notwendigkeit geprüft und entsprechend Priorisiert:
-\begin{longtable}{|p{1.6cm}|p{0.7cm}|p{2.5cm}|p{4.5cm}|p{2.6cm}|p{4cm}|p{0.9cm}|}
+\begin{longtable}{|p{1.5cm}|p{0.7cm}|p{2.5cm}|p{3.9cm}|p{1.2cm}|p{2.5cm}|p{3.3cm}|p{0.8cm}|}
     \hline
-   \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Quelle} & \textbf{Abnahmekriterium} &\textbf{Prio.}\\\hline
+   \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{U.C.\footnote{Use Case}} & \textbf{Quelle} & \textbf{Abnahmekriterium} &\textbf{Prio.}\\\hline
 
-   FRQ-01 & 1.0 & Installation & Software muss als Erweiterung in der Entwicklungsumgebung\footnote{Die Wahl der Entwicklungsumgebung respektive des Frameworks befindet sich im Abschnitt \titleref{selection_rcp_fw}.} installiert werden können.  & Raffael Schmid (Project Owner) & Entwickler mit durchschnittlichen Kenntnissen benötigen für die Installation in eine bestehende Entwicklungsumgebung weniger als 5 Minuten. & gross  \\\hline
+   FRQ-01 & 1.0 & Installation & Software muss als Erweiterung in der Entwicklungsumgebung\footnote{Die Wahl der Entwicklungsumgebung respektive des Frameworks befindet sich im Abschnitt \titleref{selection_rcp_fw}.} installiert werden können.& UC-01 & Raffael Schmid (Project Owner) & Entwickler mit durchschnittlichen Kenntnissen benötigen für die Installation in eine bestehende Entwicklungsumgebung weniger als 5 Minuten. & gross  \\\hline
 
-   FRQ-02 & 1.0 & Updaten & Die Software kann mit geringem Aufwand aktualisiert werden. & Raffael Schmid (Project Owner) & Entwickler mit durchschnittlichen Kenntnissen benötigen für den Update weniger als 3 Minuten. & mittel  \\\hline
+   FRQ-02 & 1.0 & Updaten & Die Software kann mit geringem Aufwand aktualisiert werden. & UC-02 & Raffael Schmid (Project Owner) & Entwickler mit durchschnittlichen Kenntnissen benötigen für den Update weniger als 3 Minuten. & mittel  \\\hline
 
-  FRQ-03 & 1.0 & Garbage Collection Logdatei importieren & Logdateien können importiert werden und werden anschliessend in einem Fenster dargestellt. Importierte Logdateien sind persistent und sind auch nach einem Neustart der Analysesoftware verfügbar. & Raffael Schmid (Project Owner) & - & gross  \\\hline
+  FRQ-03 & 1.0 & Garbage Collection Logdatei importieren & Logdateien können importiert werden und werden anschliessend in einem Fenster dargestellt. Importierte Logdateien sind persistent und sind auch nach einem Neustart der Analysesoftware verfügbar.& UC-03 & Raffael Schmid (Project Owner) & - & gross  \\\hline
 
-  FRQ-04 & 1.0 & Garbage Collection Logdatei einlesen & Geöffnete Garbage Collection Logdateien werden ins Memory gelesen. & Raffael Schmid (Project Owner) & Der Einleseprozess bei einer Datei mit 100000 Zeilen dauert weniger als 2 Sekunden. & gross  \\\hline
+ FRQ-03.1 & 1.0 & Zustand Ansicht Logdateien speichern & Die sich in der Ansicht Logdateien befindenden Einträge werden gespeichert.&UC-03.1 & Raffael Schmid (Project Owner) & - & gross \\\hline
 
-  FRQ-05 & 1.0 & Garbage Collection Logdatei parsen & Die eingelesenen JRockit Garbage Collection Logdatei wird geparst. Aus den Daten wird ein Domänenmodell aufgebaut.& Raffael Schmid (Project Owner)  & Das Parsen einer Logdatei mit 100000 Zeilen dauert nicht länger als 8 Sekunden. & gross  \\\hline
+   FRQ-04 & 1.0 & Standard-auswertung anzeigen & Der Benutzer kann eine vordefinierte Anzeige öffnen. & UC-04 & Raffael Schmid (Project Owner) & - & gross \\\hline
 
-   FRQ-06 & 1.0 & Standardauswert-ung anzeigen & Der Benutzer kann eine vordefinierte Anzeige öffnen. & Raffael Schmid (Project Owner) & - & gross \\\hline
+  FRQ-04.1 & 1.0 & Garbage Collection Logdatei einlesen & Geöffnete Garbage Collection Logdateien werden ins Memory gelesen.& UC-04 & Raffael Schmid (Project Owner) & Der Einleseprozess bei einer Datei mit 100000 Zeilen dauert weniger als 2 Sekunden. & gross  \\\hline
 
-   FRQ-07 & 1.0 & Profil (Benutzerdefinierte Auswertung) erstellen & Benutzer kann Profil erstellen und darauf entsprechende Charts konfigurieren. Das Profil kann gespeichert sowie exportiert und importiert werden.& Adrian Hummel (Performance Analyst) & - & klein \\\hline
+  FRQ-04.2 & 1.0 & Garbage Collection Logdatei parsen & Die eingelesenen JRockit Garbage Collection Logdatei wird geparst. Aus den Daten wird ein Domänenmodell aufgebaut. & UC-04 & Raffael Schmid (Project Owner)  & Das Parsen einer Logdatei mit 100000 Zeilen dauert nicht länger als 8 Sekunden. & gross  \\\hline
 
-  FRQ-08 & 1.0 & Hilfesystem &  Dem Benutzer werden eine indexbasierte und eine kontextsensitive Hilfe zur Verfügung gestellt. & Raffael Schmid (Project Owner) & Die Hilfe ist in Deutsch und Englisch verfügbar. & klein \\\hline
+
+   FRQ-04.3 & 1.0 &  Anzeige Statistik Übersicht & Der erste Screen (Tab) auf dem Analysefenster zeigt verschiedene aggregierte Messwerte. & UC-04.1 &  Raffael Schmid (Project Owner) & - & gross \\\hline
+
+   FRQ-04.4 & 1.0 & Anzeige Heap Benutzung  & Grafische Darstellung des gebrauchten Speichers im Heap über die Zeit. & UC-04.2 &Raffael Schmid (Project Owner) & - & gross \\\hline
+   FRQ-04.5 & 1.0 & Anzeige Dauer Garbage Collection  & Grafische Darstellung der dauer der einzelnen Garbage Collection Zyklen über die Zeit. & UC-04.3 & Raffael Schmid (Project Owner) & - & gross \\\hline
+
+   FRQ-05 & 1.0 & Profil (Benutzerdefinierte Auswertung) erstellen & Benutzer kann Profil erstellen und darauf entsprechende Charts konfigurieren. Das Profil kann gespeichert sowie exportiert und importiert werden.& UC-05 & Adrian Hummel (Performance Analyst) & - & klein \\\hline
+
+FRQ-05.1 & 1.0 & Charts definieren & Der Benutzer kann benutzerdefinierte Charts definieren. Auf das Chart können beliebige Datenserien konfiguriert werden. & UC-05 & Adrian Hummel (Performance Analyst) & - & klein \\\hline
+
+FRQ-05.2 & 1.0 & Profil speichern & Die Profile werden gespeichert und überleben einen Neustart der Entwicklungsumgebung. & UC-05 & Adrian Hummel (Performance Analyst) & - & klein \\\hline
+FRQ-05.3 & 1.0 & Charts exportieren & Die definierten Profile können in eine Datei exportiert werden. & UC-05 & Adrian Hummel (Performance Analyst) & - & klein \\\hline
+FRQ-05.4 & 1.0 & Charts importieren & Die in eine Datei exportierten Profile können importiert werden.& UC-05 & Adrian Hummel (Performance Analyst) & - & klein \\\hline
+
+
+  FRQ-06 & 1.0 & Hilfesystem &  Dem Benutzer werden eine indexbasierte und eine kontextsensitive Hilfe zur Verfügung gestellt. & UC-06 & Raffael Schmid (Project Owner) & Die Hilfe ist in Deutsch und Englisch verfügbar. & klein \\\hline
 \caption{Funktionale Anforderungen}
 \end{longtable}
 \end{landscape}
@@ -53,9 +68,9 @@ QRQ-S-06 & 1.0 & Grösse Softwarepacket & & Raffael Schmid (Project Owner) & Die
 
    QRQ-F-04 & 1.0 & Modularisierung & Framework muss Unterstützung für Modularisierung bieten, damit die Software in unterschiedliche Komponenten aufgeteilt werden kann (siehe Erweiterbarkeit QRQ-S-01). & Raffael Schmid (Project Owner) & Framework bietet Unterstützung für Modularisierung.&mittel \\\hline
 
-   FRQ-F-05 & 1.0 & Offline Betriebsmodus & Der Anwender soll die Software auch im Offline-Modus\footnote{Auf einem Computer der sich nicht am Netz befindet.} benutzen können. & Raffael Schmid (Project Owner) & Eigenständige Software, keine Web Applikation & gross  \\\hline
+   QRQ-F-05 & 1.0 & Offline Betriebsmodus & Der Anwender soll die Software auch im Offline-Modus\footnote{Auf einem Computer der sich nicht am Netz befindet.} benutzen können. & Raffael Schmid (Project Owner) & Eigenständige Software, keine Web Applikation & gross  \\\hline
 
-   FRQ-F-06 & 1.0 & Installation als Erweiterung& Software wird als Erweiterung in einer Entwicklungsumgebung installiert. & Raffael Schmid (Project Owner) & - & gross  \\\hline
+   QRQ-F-06 & 1.0 & Installation als Erweiterung& Software wird als Erweiterung in einer Entwicklungsumgebung installiert. & Raffael Schmid (Project Owner) & - & gross  \\\hline
     \caption{Qualitätsanforderungen Basisframework}
 \end{longtable}
 \end{landscape}
