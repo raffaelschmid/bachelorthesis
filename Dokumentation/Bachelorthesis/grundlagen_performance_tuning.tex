@@ -1,4 +1,5 @@
 \chapter{Einführung Performanceanalyse}
+Ganz nach dem Prinzip ''never change a running system`` sollte an der Konfiguration der Garbage Collection nur dann etwas verändert werden, wenn man darin Probleme feststellen kann. Dies muss aber zuerst durch eine gezielte und strukturierte Performanceanalyse festgestellt werden. Dieser Abschnitt beschreibt ein Mögliches Vorgehensmodell aufbauend auf der Suche nach dem Dominating Consumer nach \cite{pepperdine201102}.
 
 \section{Motivation}
 Die Performance respektive Leistungsfähigkeit einer Applikation stellt eine der bedeutendsten Qualitätsanforderungen dar. Probleme in diesem Bereich führen zu verärgerten Benutzern und verlangsamten Business-Prozessen. Die Motivation für eine Performanceanalyse entsteht, wenn die in Service Level Agreement oder Anforderungsanalyse spezifizierten \textbf{Qualitätsanforderungen nicht erfüllt} sind. Optimal wäre, wenn diese Anforderung während des Entwicklungsprozesses kontinuierlich geprüft würden.
@@ -57,9 +58,7 @@ Sofern die CPU-Auslastung, trotz kleiner relativer Systemlast durch die Applikat
 Im weiteren konzentrieren wir uns auf die Ziele und Vorgehensweise beim Garbage Collection Tuning.
 
 \section{Garbage Collection Tuning}\label{garbage_collection_tuning}
-Mit dem Resultat der Analyse des Dominating Consumers entscheidet sich auch, in welchem Bereich weitere Detaildaten gesammelt werden müssen. Wir beschränken uns in diesem Abschnitt auf die Analyse im Bereich der Garbage Collection. Hier gilt grundsätzlich auch: "Never change a running system". Man ändert also nur etwas, wenn die Leistung den Anforderungen nicht genügt. 
-
-In der Regel will man mit dem Tuning eines der drei unten stehenden Zielen erreichen\cite{langerkreftJavaCore}: 
+Mit dem Resultat der Analyse des Dominating Consumers entscheidet sich auch, in welchem Bereich weitere Detaildaten gesammelt werden müssen. Wir beschränken uns in diesem Abschnitt auf die Analyse im Bereich der Garbage Collection. In der Regel will man mit dem Tuning eines der drei unten stehenden Zielen erreichen\cite{langerkreftJavaCore}: 
 \begin{itemize}
 \item Verbesserung des Durchsatzes (siehe Abschnitt \ref{gc_tuning_durchsatz})
 \item Geringere Pausenzeiten (siehe Abschnitt \ref{gc_tuning_pausenzeiten})

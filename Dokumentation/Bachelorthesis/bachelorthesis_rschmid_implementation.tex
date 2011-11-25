@@ -1,11 +1,28 @@
 \chapter{Implementation}\label{implementation}
 Dieser Abschnitt zeigt auf, wie die Anforderungen und das Konzept im Proof of Concept umgesetzt wurden. Detailliertere Informationen befinden sich auch in der Benutzeranleitung im Anhang \ref{bedienungsanleitung}.
 \section{Funktionale Anforderungen}
-\subsection{Installation (FRQ-01) und Update (FRQ-02)}
-Installation und Update der beiden Features \textit{Core} und \textit{JRockit Extension} können über das Netzwerk gemacht werden\footnote{Aktuell befindet sich der Update-Server noch in einem nicht öffentlichen Netzwerk und ist nur via ein VPN verfügbar.}. Die Update-Funktionalität ist Bestandteil des Eclipse-Frameworks: beide Features werden über eine Update-Seite bereitgestellt. Die Features wiederum bestehen aus den einzelnen in Abschnitt \ref{projektstruktur} beschriebenen Projekten. Der Release der Artefakten wird durch das Continuous Integration System Hudson gemacht.
+\subsection{Installation (FRQ-01)}
+Installation der beiden Features \textit{Core} und \textit{JRockit Extension} können über das Netzwerk gemacht werden\footnote{Aktuell befindet sich der Installations-Server noch in einem nicht öffentlichen Netzwerk und ist nur via ein VPN verfügbar.}. Die Installations-Funktionalität ist Bestandteil des Eclipse-Frameworks: beide Features werden über eine Installations-Seite bereitgestellt. Die Features wiederum bestehen aus den einzelnen in Abschnitt \ref{projektstruktur} beschriebenen Projekten. Der Release der Artefakten wird durch das Continuous Integration System Hudson gemacht und auf die Update-Seite gestellt.
+ \begin{figure}[H]
+  	\centering
+    	\includegraphics[width=10cm]{images/tutorial_install01}
+        	\caption{Installation Garbage Collection Log Analyse}
+\end{figure}
+
+\section{Update (FRQ-02)}
+Ein Update entspricht prinzipiell einer Neuinstallation der Software. Die einzelnen Module werden zur Laufzeit ausgewechselt und deren Classloaders ausgewechselt. Der Update-Bildschirm unterscheidet sich nur marginal vom Installations-Screen, ist aber über einen eigenen Menü-Eintrag aufrufbar.
+ \begin{figure}[H]
+  	\centering
+    	\includegraphics[width=10cm]{images/tutorial_update01}
+        	\caption{Update Garbage Collection Log Analyse}
+\end{figure}
 
 \subsection{Datei importieren (FRQ-03)}
-Die Dateien werden in eine eigene View importiert. Views sind programmierbare Komponenten (Ansichten) und können durch das Plugin deklarativ registriert werden. Sie stehen anschliessend dem Benutzer zur Verfügung. Das Speichern und Wiederherstellen des Zustands dieser View findet über das von Eclipse implementierte Memento-Pattern (siehe Anhang \ref{memento}) statt. Der Import findet über einen Wizard\footnote{Eclipse bietet die Möglichkeit, mit sehr geringem Aufwand Import- und Export-Wizards zu erstellen. Im Prinzip muss nur die GUI-Funktionalität implementiert werden.} statt. Der Benutzer wählt das Verzeichnis und die zu importierenden Logdateien aus.
+Die Dateien werden in eine eigene View importiert. Views sind programmierbare Komponenten (Ansichten) und können durch das Plugin deklarativ registriert werden. Sie stehen anschliessend dem Benutzer zur Verfügung. Das Speichern und Wiederherstellen des Zustands dieser View findet über das von Eclipse implementierte Memento-Pattern (siehe Anhang \ref{memento}) statt. Der Import findet über einen Wizard\footnote{Eclipse bietet die Möglichkeit, mit sehr geringem Aufwand Import- und Export-Wizards zu erstellen. Im Prinzip muss nur die GUI-Funktionalität implementiert werden.} statt. Der Benutzer wählt das Verzeichnis und die zu importierenden Logdateien aus. \begin{figure}[H]
+  	\centering
+    	\includegraphics[width=10cm]{images/tutorial_importlog}
+        	\caption{Logdatei importieren}
+\end{figure}
 
 \subsection{Datei einlesen (FRQ-05)}
 Nachdem der Benutzer die Logdatei erfolgreich importiert hat, kann er sie mittels einem Doppelklick öffnen. Erst dann wird die Datei durch das Feature \textit{Core} eingelesen und im Arbeitsspeicher als Liste abgelegt. Die Speicherung als Liste ermöglicht es den Parsern, sequentiell oder durch die Angabe des Zeilenindexes auf die Daten zuzugreifen.
@@ -27,8 +44,19 @@ Für die importierten Dateien besteht die Möglichkeit, sie in der Standardauswe
 \item Dauer Garbage Collection (FRQ-10)
 \end{itemize}
 
+ \begin{figure}[H]
+  	\centering
+    	\includegraphics[width=15cm]{images/tutorial_standardreport_heapanalysis}
+        	\caption{Standardauswertung: Heap Analyse}
+\end{figure}
+
 \subsection{Profil erstellen (FRQ-11)}
 Profile können durch den Benutzer erstellt und an seine Bedürfnisse angepasst werden. Das Anpassen beinhaltet die Definition von eigenen Charts und deren Datenserien (FRQ-12). Das Speichern (FRQ-13), Exportieren (FRQ-14) und Importieren (FRQ-15) wird über das Memento-Pattern gemacht. Für weiter Informationen zum Memento siehe Anhang \ref{memento}.
+ \begin{figure}[H]
+  	\centering
+    	\includegraphics[width=15cm]{images/tutorial_custom_report}
+        	\caption{Benutzerdefinierte Auswertung definieren}
+\end{figure}
 
 \subsection{Hilfesystem (FRQ-16)}
 Das Hilfesystem wurde sowohl für die contextsensitive wie auch die indexbasierte Hilfe implementiert und kann stetig durch weitere Inhalte erweitert werden. Aktuell sind alle existierenden Hilfeseiten in den Sprachen Deutsch und Englisch vorhanden, diese können aber ohne Entwicklungsaufwand auch um weitere Sprachen ergänzt werden. Die Sprache wird durch den Benutzer in der Datei \textit{eclipse.ini} definiert oder ist die Standard-Sprache der Eclipse-Distribution.
