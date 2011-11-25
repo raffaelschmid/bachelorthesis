@@ -1,5 +1,5 @@
-\chapter{Grundlagen Garbage Collection JRockit}\label{jrockit garbage collection}
-\section{Grundlage}
+\chapter{Garbage Collection JRockit}\label{jrockit garbage collection}
+\section{Algorithmen}
 Die Grundlage der JRockit Garbage Collection bildet der Tri-Coloring Mark \& Sweep Algorithmus (siehe Abschnitt \titleref{tri-coloring mark and sweep}). Er wurde hinsichtlich besserer Parallelisierbarkeit und der optimalen Verwendung der Anzahl Threads optimiert. Die Garbage Collection der JRockit VM kann mit oder ohne Generationen arbeiten - so gibt es die beiden Algorithmen ``Concurrent Mark \& Sweep'' und ``Parallel Mark \& Sweep'' in beiden Ausführungen Generational und Single:
 
 \begin{itemize}
@@ -9,53 +9,23 @@ Die Grundlage der JRockit Garbage Collection bildet der Tri-Coloring Mark \& Swe
 	\item Single Parallel Mark \& Sweep
 \end{itemize}
 
-\subsection{Garbage Collection Algorithmus}
-Im Unterschied zum normalen Tri-Coloring Algorithmus verwendet der Algorithmus der JRockit, egal ob parallel oder concurrent, zwei Sets für die Markierung der Objekte. In einem werden die grauen und schwarzen Objekte gespeichert, im anderen die weissen. Die Trennung zwischen Grau und Schwarz wird gemacht indem die grauen Objekte in Thread-Local Queues jedes Garbage Collection Threads gespeichert werden. 
+\subsection{Optimierungen}
+\subsubsection{Verwendung von threadlokalem Speicher}
+Im Unterschied zum normalen Tri-Coloring Algorithmus verwendet der Algorithmus der JRockit, egal ob parallel oder concurrent, zwei Sets für die Markierung der Objekte. In einem werden die grauen und schwarzen Objekte gespeichert, im anderen die weissen. Die Trennung zwischen grau und schwarz wird gemacht, indem die grauen Objekte in threadlokalen Queues jedes Garbage Collection Threads gespeichert werden. 
 
-Die Verwendung von Thread-lokalem Speicher hat hinsichtlich den folgenden Punkten einen Vorteil:\cite[S. 79]{lagergren2010oracle}:
+Die Verwendung von threadlokalem Speicher hat hinsichtlich den folgenden Punkten einen Vorteil:\cite[S. 79]{lagergren2010oracle}:
 \begin{itemize}
-	\item Thread-lokaler Speicher führt zu einer besseren Parallelisierbarkeit.
-	\item Thread-lokaler Speicher kann prefetched werden, was die Geschwindigkeit des Algorithmus als Ganzes erhöht.
+	\item Threadlokaler Speicher führt zu einer besseren Parallelisierbarkeit, da Zugriffe darauf nicht synchronisiert werden müssen.
+	\item Threadlokaler Speicher kann voraus geladen (Prefetching) werden, was die Geschwindigkeit des Algorithmus als Ganzes erhöht.
 \end{itemize}
 
 Bei der Verwendung der Concurrent Algorithmen wird parallel dazu auch Speicher für neue Objekte alloziert. Diese neuen Objekte werden in einem sogenannten Live-Set getrackt, damit sie in der Sweep Phase - obwohl nicht markiert - nicht gelöscht werden.
 
-\subsubsection{Nebenläufigkeit}
-Beim Concurrent Mark \& Sweep handelt es sich eigentlich um einen Mostly Concurrent Mark \& Sweep Algorithmus. Das heisst er findet nicht in allen Phasen konkurrierend zur Applikation statt. Die Markierung dieses Algorithmus ist in vier Phasen aufgeteilt:
-\begin{itemize}
-	\item \textbf{Initial Marking (Nicht konkurrierend):} Hier wird das Root Set zusammengestellt.
-	\item \textbf{Concurrent Marking (konkurrierend):} Mehrere Threads gehen nun diesen Referenzen nach und markieren die Objekte als lebendig.
-	\item \textbf{Preclean (konkurrierend): Änderungen im Heap während den vorherigen Schritten werden nachgeführt, markiert.}
-	\item \textbf{Final Marking (Nicht konkurrierend):} Änderungen im Heap während der Precleaning Phase werden nachgeführt, markiert.
-\end{itemize}
-
-Die Sweep Phase findet ebenfalls konkurrierend zur Applikation statt. Im Gegensatz zur HotSpot VM ist sie aber in zwei Schritte aufgeteilt. Als erstes wird die erste Hälfte des Heaps von toten Objekten befreit. Während dieser Phase können Threads Speicher in der zweiten Hälfte des Heaps allozieren. Nach einer kurzen Synchronisationspause findet das Sweeping auf dem zweiten Teil des Heaps statt.
-
-\subsubsection{Parallelität}
-Beim parallelen Mark \& Sweep findet die Garbage Collection mit allen verfügbaren Prozessoren statt. Dazu werden aber alle Threads der Applikation gestoppt.
-
 \subsubsection{Kompaktierung}
 Aufgrund der im Speicher stattfindenden Fragmentierung wird bei jeder Old Collection eine Kompaktierung des Speichers durchgeführt. Während der Sweep Phase werden die Objekte auf dem Heap umher kopiert, so dass danach wieder grössere freie Speicherbereiche existieren.
 
-
-\section{Übersicht der Garbage Collection Algorithmen auf der JRockit Virtual Machine}
-\subsection{Garbage Collection Modi}
-Die Auswahl der Garbage Collection Strategie muss auf der Basis der Anforderungen an die Applikation gemacht werden. Auf der JRockit VM gibt es drei verschiedene Modi:
-\begin{itemize}
-	\item \textbf{Durchsatz (throughput):} Optimiert die Garbage Collection hinsichtlich möglichst grossem Durchsatz. Um dieses Ziel zu erreichen, werden parallele Algorithmen verwendet. Sie laufen nicht-konkurrierend mit der Applikation und führen zu kurzen Pausenzeiten (Stop-the-World Pausen). In der restlichen Zeit stehen der Applikation allerdings sehr viel Ressourcen zur Verfügung.
-	\item \textbf{Pausenzeit (pause time):} Die Optimierung der Pausenzeiten hat zur Folge, dass die Applikation durch möglichst wenig Stop-the-World Pausen angehalten wird. Das ist insbesondere für Client-Server Applikationen wichtig. Das Ziel wird mit der Verwendung eines Concurrent Garbage Collection Algorithmus erreicht.
-	\item \textbf{Determinismus (deterministic):} Optimiert den Garbage Collector auf sehr kurze und deterministische Garbage Collection Pausen.  
-\end{itemize}
-  \begin{longtable}{|p{2.5cm}|p{3.1cm}|p{4.5cm}|p{4cm}|}\hline
-  \textbf{Alias} & \textbf{Aktivierung} & \textbf{Beschreibung} & Einstellungsmöglichkeiten\\\hline
-  troughput & -Xgc:throughput & Der Garbage Collector wird auf maximalen Durchsatz der Applikation eingestellt. Er arbeitet so effektiv wie möglich und erhält entsprechend viele Java-Threads, was zu kurzen Pausen der Applikation führen kann. & \\\hline
-  pausetime & -Xgc:pausetime & Der Garbage Collector wird auf möglichst kurze Pausen eingestellt. Das bedeutet, dass ein konkurrierender Algorithmus verwendet wird, der insgesamt etwas mehr CPU Ressourcen benötigt. & -XpauseTarget=value (default 200msec)\\\hline
-  deterministic & -Xgc:deterministic & Der Garbage Collector wird auf eine möglichst kurze und deterministische Pausenzeit eingestellt. &-XpauseTarget=value (default 30msec)\\\hline
-    \caption{Übersicht der Garbage Collection Modi}
-\end{longtable}
-
-\subsection{Garbage Collection Algorithmen}
-Im Gegensatz zur Definition eines Ziels, kann ein Algorithmus auch direkt ausgewählt werden.
+\subsection{Übersicht und Auswahl Algorithmen}\label{auswahl_algorithmen}
+Algorithmen können direkt selektiert werden. Manchmal passiert es aber trotzdem, dass der Garbage Collection Algorithus im laufenden Betrieb geändert wird.
   \begin{longtable}{|p{2cm}|p{2.8cm}|l|c|c|c|c|c|}
     \hline
   \textbf{Alias} & \textbf{Aktivierung}& \textbf{Generation} & \textbf{Pause} &\textbf{Durchs.} & \textbf{Heap} & \textbf{Mark} & \textbf{Sweep} \\\hline
@@ -72,11 +42,41 @@ Im Gegensatz zur Definition eines Ziels, kann ein Algorithmus auch direkt ausgew
 \caption{Auswahl des Garbage Collection Algorithmus}
   \end{longtable}
 
+\section{Nebenläufige Algorithmen}
+Bei den Concurrent Mark \& Sweep Algorithmen handelt es sich eigentlich um ''mostly concurrent`` Algorithmen. Das heisst, sie finden nicht in allen Phasen konkurrierend zur Applikation statt. Damit ein Teil der \textbf{Markierungsphase} konkurrierend statt finden kann, ist sie in vier Phasen aufgeteilt:
+\begin{itemize}
+	\item Initial Marking (Nicht konkurrierend): Hier wird das Root Set zusammengestellt.
+	\item Concurrent Marking (konkurrierend): Mehrere Threads gehen nun diesen Referenzen nach und markieren die Objekte als lebendig.
+	\item Preclean (konkurrierend): Änderungen im Heap während den vorherigen Schritten werden nachgeführt, markiert.
+	\item Final Marking (Nicht konkurrierend): Änderungen im Heap während der Precleaning Phase werden nachgeführt, markiert.
+\end{itemize}
+
+Die \textbf{Sweep Phase} findet ebenfalls konkurrierend zur Applikation statt. Im Gegensatz zur HotSpot VM ist sie aber in zwei Schritte aufgeteilt. Als erstes wird die erste Hälfte des Heaps von toten Objekten befreit, während dieser Phase können Threads Speicher in der zweiten Hälfte des Heaps allozieren. Nach einer kurzen Synchronisationspause findet das Sweeping auf dem zweiten Teil des Heaps statt.
+
+\section{Parallele Algorithmen}
+Bei den parallelen Mark \& Sweep Algorithmen findet die Garbage Collection mit allen verfügbaren Prozessoren statt. Dazu werden aber alle Threads der Applikation gestoppt.
+
+
+\section{Garbage Collection Modi}\label{gc_modus}
+Anstelle einer direkten Auswahl eines Algorithmus (siehe Abschnitt \ref{auswahl_algorithmen}), kann auch eine grundlegende Strategie angegeben werden. Die Virtual Machine entscheided dann heuristisch, welcher spezifische Algorithmus gewählt wird - in der Regel entscheided er insbesondere, ob er den Heap in Generationen aufteilen soll. Die verfügbaren Modi entsprechen den Tuningzielen die es für die Garbage Collection gibt (siehe Abschnitt \ref{garbage_collection_tuning}):
+\begin{itemize}
+	\item \textbf{Durchsatz (throughput):} Optimiert die Garbage Collection hinsichtlich möglichst grossem Durchsatz. Um dieses Ziel zu erreichen, werden parallele Algorithmen verwendet. Sie laufen nicht-konkurrierend mit der Applikation und führen zu kurzen Pausenzeiten (Stop-the-World Pausen). In der restlichen Zeit stehen der Applikation allerdings sehr viel Ressourcen zur Verfügung.
+	\item \textbf{Pausenzeit (pause time):} Die Optimierung der Pausenzeiten hat zur Folge, dass die Applikation durch möglichst wenig Stop-the-World Pausen angehalten wird. Das ist insbesondere für Client-Server Applikationen wichtig. Das Ziel wird mit der Verwendung eines Concurrent Garbage Collection Algorithmus erreicht.
+	\item \textbf{Determinismus (deterministic):} Optimiert den Garbage Collector auf sehr kurze und deterministische Garbage Collection Pausen.  
+\end{itemize}
+  \begin{longtable}{|p{2.5cm}|p{3.1cm}|p{4.5cm}|p{4cm}|}\hline
+  \textbf{Alias} & \textbf{Aktivierung} & \textbf{Beschreibung} & Einstellungsmöglichkeiten\\\hline
+  troughput & -Xgc:throughput & Der Garbage Collector wird auf maximalen Durchsatz der Applikation eingestellt. Er arbeitet so effektiv wie möglich und erhält entsprechend viele Java-Threads, was zu kurzen Pausen der Applikation führen kann. & \\\hline
+  pausetime & -Xgc:pausetime & Der Garbage Collector wird auf möglichst kurze Pausen eingestellt. Das bedeutet, dass ein konkurrierender Algorithmus verwendet wird, der insgesamt etwas mehr CPU Ressourcen benötigt. & -XpauseTarget=value (default 200msec)\\\hline
+  deterministic & -Xgc:deterministic & Der Garbage Collector wird auf eine möglichst kurze und deterministische Pausenzeit eingestellt. &-XpauseTarget=value (default 30msec)\\\hline
+    \caption{Übersicht der Garbage Collection Modi}
+\end{longtable}
+
 \section{Garbage Collection Logdateien}\label{jrockitgclog}
 Die Auswertung der Garbage Collection kann auf Basis von Logdateien gemacht werden. Das Format dieser Logdateien hängt mitunter auch von den aktivierten Log-Modulen ab. Der Aufbau der Logdateien und die in der Analyse verwendeten Daten werden in diesem Abschnitt genauer beleuchtet.
 
 \subsection{Aktivierung Log Ausgaben}
-Defaultmässig macht die JRockit keine Angaben darüber, wie sie die Garbage Collection durchführt. Um an diese Informationen zu gelangen, muss das entsprechende Log-Module beim Start der Applikation aktiviert werden. Die Ausgaben werden dann auf die Standard Ausgabe geschrieben - können aber optional mit dem Argument -Xverboselog:logdatei.log in eine Datei umgeleitet werden. Das Format für die Kommandozeile sieht folgendermassen aus:
+Standardmässig macht die JRockit keine Angaben darüber, wie sie die Garbage Collection durchführt. Es besteht aber durch die Aktivierung des entsprechenden Log-Modules die Möglichkeit, an diese Informationen zu gelangen. Die Ausgaben werden dann auf die Standard Ausgabe oder optional (Argument -Xverboselog:logdatei.log) in eine Datei geschrieben. Das Format für die Kommandozeile ist wie folgt:
 
 \begin{lstlisting}[caption=Format Aktivierung Log Modul]
 -Xverbose:<modul>[=log_level]

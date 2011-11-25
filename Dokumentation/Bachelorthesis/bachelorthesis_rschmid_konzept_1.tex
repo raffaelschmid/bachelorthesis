@@ -11,7 +11,7 @@ Die Software wird lizenziert unter der Eclipse Public License\footnote{http://ww
 \end{itemize}
 
 \section{Architektur}\label{konzept_uebersicht}
-Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analyse-Software auch hinsichtlich anderer Logformate erweiterbar sein. Die Applikation wird also nicht zwingendermassen mit der Erweiterung für JRockit Logdateien verwendet. Es könnte zu einem späteren Zeitpunkt sein, dass man damit Garbage Collection Logs der HotSpot Virtual Machine auswertet. Dies hat hinsichtlich Architektur einige Konsequenzen:
+Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analysesoftware auch hinsichtlich anderer Logformate erweiterbar sein. Die Applikation wird also nicht zwingendermassen mit der Erweiterung für JRockit Logdateien verwendet. Es könnte zu einem späteren Zeitpunkt sein, dass man damit Garbage Collection Logs der HotSpot Virtual Machine auswertet. Dies hat hinsichtlich Architektur einige Konsequenzen:
 \begin{itemize}
 	\item Die Applikation wird in zwei Komponenten aufgeteilt:
 		\begin{itemize}
@@ -23,7 +23,7 @@ Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analyse-Software au
 	\item Die Basissoftware stellt Extension-Points\footnote{Ein Extension-Point ist ein Mechanismus der von Eclipse zur Verfügung gestellt wird, damit eine Komponente (Plugin) sich bei einer anderen registrieren kann.} bereit, über welche sich die Erweiterungen  registrieren.
 \end{itemize}
 
-\subsection{Struktur}
+\subsection{Struktur}\label{projektstruktur}
 Die generischen Aspekte der Software befinden sich in der Basissoftware. Nur die Spezialisierung im Bereich jedes einzelnen Log-Formats findet in den Erweiterungen statt. Grundsätzlich werden die Aufgaben folgendermassen verteilt:
 \begin{itemize}
 	\item Basissoftware (Core Feature)
@@ -78,18 +78,4 @@ Die folgenden Projekte (Plugins) sind im Zusammenhang mit dem Deployment und Tes
 		\end{itemize}
 \end{itemize}
 
-\subsection{Verhalten}
-\subsubsection{Ablauf Garbage Collection Analyse}
-Beim öffnen einer Analyse wird die zuständige Extension gesucht\footnote{Extensions registrieren sich via das plugins.xml an einem Extension-Point. }, welche den Inhalt\footnote{Der Inhalt der Datei wird lazy via die Methode getContent und einem ContentReader geladen.} der Logdatei versteht. Die Erweiterung ist für das Parsen und Aufbereiten der Daten und die Anzeige in einem Analysefenster zuständig. Der Ablauf ist in folgendem Diagramm grafisch illustriert:
- \begin{figure}[H]
-  	\centering
-    	\includegraphics[width=16cm]{images/core_sequence_analysis}
-	\caption{Sequenz-Diagramm Öffnen der Analyse}
-\end{figure}
-Der Ablauf der Garbage Collection Analyse ist folgendermassen:
-\begin{enumerate}
-	\item Via Context wird die Erweiterung\footnote{Erweiterungen registrieren sich als Extensions an Extension-Points. Diese Konfiguration befindet sich im plugin.xml.} gesucht.
-	\item Der Analyser der Erweiterung interpretiert den Inhalt und speichert die Daten im eigenen Domänenmodell.
-	\item Der Editor wird geöffnet.
-\end{enumerate}
 

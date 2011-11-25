@@ -1,20 +1,19 @@
 \chapter{Analyse der Aufgabenstellung}\label{analyse_aufgabenstellung}
-\section{Übersicht}
 Das Ziel dieser Arbeit ist die Konzeption und Implementation einer Software für die Analyse von Garbage Collection Logdateien der JRockit Virtual Machine. Die grosse Datenmenge soll schnell eingelesen und übersichtlich, informativ dargestellt werden. 
 
 Um die Anforderungen an diese Software zu ermitteln, werden im Bereich der Performanceanalyse, der Garbage Collection und über die JRockit Virtual Machine die nötigen Grundlagen erarbeitet. Anschliessend wird eine Stärken-/Schwächen-Analyse der bestehenden Richt Client Frameworks gemacht, diese dient zusammen mit der Anforderungsanalyse als Grundlage für die Wahl der richtigen Technologie. Danach folgt die Konzeption und Implementation der Software. Die genaueren Beschreibung der einzelnen Teilaufgaben befindet sich in den folgenden Abschnitten.
 
-\subsection{Erarbeitung der Grundlagen}
+\section{Erarbeitung der Grundlagen}
 Die Erarbeitung der Grundlagen dient als Basis in zwei Bereichen:
 \begin{itemize}
 	\item \textbf{Anforderungsanalyse:} Aus Sicht des Analysten respektive dem Benutzer dieser Software ist es essentiell, dass er die richtigen Daten der Garbage Collection, die richtige Sicht auf diese Daten und die richtigen Filter-Funktionen vorfindet. Voraussetzung für diese Anforderungen sind die Kenntnisse der verschiedenen Garbage Collection Algorithmen, insbesondere der JRockit Virtual Machine. 
 	\item \textbf{Konzept: } Die Konzeption des Domänen-Modells und des Parseprozesses der Logdateien bedingt eine genaue Kenntnis der verschiedenen Strategien und Formaten der Logdateien.
 \end{itemize}
 
-\subsection{Stärken-Schwächen-Analyse verschiedener Rich Client Frameworks}
+\section{Stärken-Schwächen-Analyse Rich Client Frameworks}
 Die Applikation wird als Rich Client implementiert. Als Basis kommen die Frameworks Netbeans und Eclipse in Frage. Auf der Basis der Stärken-Schwächen-Analyse wird der Entscheid für eine dieser Plattformen herbeigeführt.
 
-\subsection{Durchführung einer Anforderungsanalyse für den Software-Prototypen}
+\section{Anforderungsanalyse Software-Prototyp}
 Die Anforderungen werden zusammen mit einem Performance-Analysten ermittelt und nach \cite[4.3.2 Angepasste Standardinhalte]{pohl2010basiswissen} dokumentiert. Laut dem IEEE\footnote{Institute of Electrical and Electronic Engineers} und \cite[4.5 Qualitätskriterien für das Anforderungsdokument]{pohl2010basiswissen} müssen Anforderungen folgende Kriterien erfüllen:
 \begin{itemize}
 	\item Eindeutigkeit und Konsistenz
@@ -23,13 +22,13 @@ Die Anforderungen werden zusammen mit einem Performance-Analysten ermittelt und 
 	\item Vollständigkeit
 	\item Verfolgbarkeit
 \end{itemize}
-\subsection{Auswahl der zu verwendenden Frameworks}
+\section{Evaluation Frameworks}
 Basierend auf der Stärken-Schwächen-Analyse wird ein Entscheid für das jeweilige Framework (Eclipse RCP oder Netbeans RCP)  ausgewählt. Nebst der Auswahl der Rich Client Plattform muss auch eine Charting-Bibliothek ausgewählt werden.
 
-\subsection{Konzeption und Implementation}
+\section{Konzeption und Implementation}
 Basierend auf den Anforderungen wird das Konzept erstellt und anschliessend die Software implementiert. 
 
-\subsection{Bewertung}
+\section{Bewertung}
 Die Bewertung der Software wird auf Basis der Anforderungen gemacht.
 
 

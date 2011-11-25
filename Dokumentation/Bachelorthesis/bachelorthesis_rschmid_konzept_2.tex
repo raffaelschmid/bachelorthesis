@@ -1,10 +1,10 @@
-\chapter{Funktionalität}\label{konzept_2}
+\chapter{Konzept funktionale Anforderungen}\label{konzept_2}
 \section{Installation (FRQ-01)}\label{installation}
-Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analyse-Software wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Server, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Die Eclipse Runtime kann solche Softwarepakete zur Laufzeit installieren und updaten.
+Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analysesoftware wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Server, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Die Eclipse Runtime kann solche Softwarepakete zur Laufzeit installieren und updaten.
 
 Die Update-Seite widerspiegelt die Struktur der Software:
 \begin{itemize}
-\item \textbf{Basissoftware:} Umfasst alle Plugins , die für die Basissoftware notwendig sind. Siehe Abschnitt \titleref{projektstruktur}.
+\item \textbf{Basissoftware:} Umfasst alle Plugins , die für die Basissoftware notwendig sind (Siehe Abschnitt \ref{projektstruktur}).
 \item \textbf{JRockit Erweiterung: }Umfasst alle Plugins zur JRockit Erweiterung und hat zugleich die Abhängigkeit auf das Basissoftware-Feature.
 \end{itemize}
 
@@ -21,10 +21,10 @@ Der Import\footnote{Der Begriff Import ist irreführend, da diese Aktion einzig 
 	\item Anschliessend wird die Logdatei als Instanz von \textit{IFileDescriptor} in der Ansicht \textit{Logdateien} angezeigt, der Inhalt wurde allerdings noch nicht analysiert.
 \end{enumerate}
 
-\subsection{Importierte Dateien speichern (FRQ-03.1)}
+\section{Importierte Dateien speichern (FRQ-04)}
 Der im Abschnitt \ref{memento} beschriebene Mechanismus wird verwendet, damit nach einem Neustart der Entwicklungsumgebung die importierten Logdateien nicht verloren gehen. 
 
-\section{Datei einlesen (FRQ-04.1)}
+\section{Datei einlesen (FRQ-05)}
 Durch den Import einer Garbage Collection Logdatei erscheinen diese im Fenster \textit{Logdateien}. Das öffnen einer dieser Dateien lädt den Inhalt in den Arbeitsspeicher. Die Daten sind noch unstrukturiert und werden innerhalb des im nächsten Abschnitt definierten Domänenmodells gespeichert.
 
 \subsection{Domänenmodell}
@@ -35,7 +35,7 @@ Durch den Import einer Garbage Collection Logdatei erscheinen diese im Fenster \
         	\caption{Domänenmodell: Eingelesene Datei}
 \end{figure}
 
-\section{Logdatei parsen (FRQ-04.2)}
+\section{Logdatei parsen (FRQ-06)}
 Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Diese Ausgaben können selektiv per Kommandozeile aktiviert werden (siehe Abschnit \ref{logmodule}). Für die Garbage Collection Analyse sind nicht alle Einträge relevant, es werden nur die wichtigsten verwendet. Die einzelnen Parser für die Garbage Collection Logdatei werden auf der Basis von Regular Expressions selber implementiert. Auf die Verwendung eines Parser-Generators wird aus folgenden Gründen verzichtet:
 \begin{itemize}
 	\item Lightweight: Um Parser-Generatoren zu verwenden, wird in der Regel auch zur Laufzeit eine Bibliothek benötigt. Diese muss mit der Software ausgeliefert werden. Die Implementation eines Parser auf der Basis von Regulären Ausdrücken kann mit Java Standardmitteln gemacht werden.
@@ -102,14 +102,27 @@ Der Parseprozess wandelt die unstrukturierten Daten in ein strukturiertes Domän
 \begin{landscape}
  \begin{figure}[H]
   	\centering
-        	\includegraphics[width=16.6cm]{images/jrockit_extension_domain}
+        	\includegraphics[width=18.2cm]{images/jrockit_extension_domain}
 	\caption{Domänenmodell: Garbage Collection (JRockit Implementation)}
 \end{figure}
 \end{landscape}
 Die Daten der Logdatei repräsentieren einen Lauf einer JVM (\textit{JRockitJVMRun}) bestehend aus einem Heap und den darin enthaltenen Bereichen Keep-Area, Nursery und Tenured Space. Jeder dieser Bereiche hat unterschiedliche Zustände welche durch die Logdatei repräsentiert werden. Die Daten sind also nicht zu jedem Zeitpunkt, sondern nur für diese Zustände bekannt. Übergänge finden durch Transitionen respektive durch eine Garbage Collection statt, es kann sich dabei um Young oder Old Collections handeln. Das starten einer Transition wird durch einen Event ausgelöst (hier im Diagramm nicht ersichtlich), Events werden aufgrund von heuristischen Daten der Lauzeitumgebung ausgelöst - zum Beispiel wenn die Nursery oder die Old Generation an ihre Speichergrenze gelangen. Der Vollständigkeit halber sind im Diagramm zusätzlich noch die einzelnen Phasen der Garbage Collection definiert, die bei einer Garbage Collection durchlaufen werden.
 
-\section{Standardauswertung anzeigen (FRQ-04)}
-\subsection{Anzeige Übersicht Garbage Collection (FRQ-04.3)}\label{standardreport}
+\section{Standardauswertung anzeigen (FRQ-07)}
+Von der Analysesoftware werden Standardprofile zur Verfügung gestellt, welche vom Benutzer nicht an seine eigenen Anforderungen angepasst werden können. Ein Doppelklick auf die Logdatei startet die Standardanalyse und öffnet entsprechend das Fenster mit den Tabs \textit{Übersicht}, \textit{Heap Benutzung} und \textit{Zeit Garbage Collection}. Die Aktion bedingt ein enges Zusammenspiel zwischen Basissoftware und JRockit Erweiterung: Beim öffnen einer Analyse wird die zuständige Extension gesucht\footnote{Extensions registrieren sich via das plugins.xml an einem Extension-Point. }, welche den Inhalt\footnote{Der Inhalt der Datei wird lazy via die Methode getContent und einem ContentReader geladen.} der Logdatei verstehen kann. Die Erweiterung ist für das Parsen und Aufbereiten der Daten und die Anzeige in einem Analysefenster zuständig. Zur illustration dient das folgende Sequenz-Diagramm:
+ \begin{figure}[H]
+  	\centering
+    	\includegraphics[width=16cm]{images/core_sequence_analysis}
+	\caption{Sequenz-Diagramm Öffnen der Analyse}
+\end{figure}
+Der Ablauf der Garbage Collection Analyse ist folgendermassen:
+\begin{enumerate}
+	\item Via Context wird die Erweiterung\footnote{Erweiterungen registrieren sich als Extensions an Extension-Points. Diese Konfiguration befindet sich im plugin.xml.} gesucht.
+	\item Der Analyser der Erweiterung interpretiert den Inhalt und speichert die Daten im eigenen Domänenmodell.
+	\item Der Editor wird geöffnet.
+\end{enumerate}
+
+\section{Anzeige Übersicht Garbage Collection (FRQ-08)}\label{standardreport}
 Der initiale Tab der Analyseseite zeigt eine Zusammenfassung der geöffneten Garbage Collection Logdatei. Die Daten werden in den Tabellen Heap Kapazität, Garbage Collection Aktivität und Gesamtstatistik angezeigt:
 
 \subsubsection{Heap Kapazität}
@@ -142,13 +155,31 @@ Der initiale Tab der Analyseseite zeigt eine Zusammenfassung der geöffneten Gar
 	\item Dauer der Messung in Sekunden
 \end{itemize}
 
-\subsection{Chart Anzeige Heap Benutzung (FRQ-04.4)}
+\section{Anzeige Heap Benutzung (FRQ-09)}
 Die Heap-Analyse zeigt den Verlauf des benutzten \textbf{Speichers} im Heap über die Zeit auf. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
 
-\subsection{Chart Anzeige Dauer Garbage Collection (FRQ-04.5)}
+\subsection{Datenquellen}
+Dieser Abschnitt zeigt auf, wie die Daten für das Chart zur Anzeige der Heap Benutzung aus dem Domänenmodell geladen werden.
+  \begin{longtable}{|p{1.5cm}|p{5.5cm}|p{4cm}|}
+\hline
+  \textbf{Achse} & \textbf{Beschreibung} & \textbf{Datenquelle\footnote{Zeigt den Pfad auf, wie auf die Daten zugegriffen wird. Siehe Abschnitt \ref{jrockit_domain_model}}}\\\hline
+  X-Achse & Auf der X-Achse wird die Zeit für jeden Zustand (\textit{State}) angezeigt. & State.getTimestamp()\\\hline
+  Y-Achse&Auf der Y-Achse wird der Verbrauch an Arbeitsspeicher angegeben. & State.getMemoryUsed()\\\hline
+\end{longtable}
+
+\section{Anzeige Dauer Garbage Collection (FRQ-10)}
 Die \textbf{Dauer} der einzelnen Garbage Collection Zyklen wird über die Zeit aufgezeigt. Die einzelnen Garbage Collection Zyklen (Young, Old) werden verschiedenfarbig dargestellt.
 
-\section{Profil erstellen (FRQ-05)}
+\subsection{Datenquellen}
+Dieser Abschnitt zeigt auf, wie die Daten für das Chart zur Anzeige der Dauer einer Garbage Collection aus dem Domänenmodell geladen werden.
+  \begin{longtable}{|p{1.5cm}|p{5.5cm}|p{4cm}|}
+\hline
+  \textbf{Achse} & \textbf{Beschreibung} & \textbf{Datenquelle}\\\hline
+  X-Achse & Auf der X-Achse wird die Zeit für jeden Zustand (\textit{State}) angezeigt. & State.getTimestamp()\\\hline
+  Y-Achse&Auf der Y-Achse wird der Verbrauch an Arbeitsspeicher angegeben. & State.getTransitionEnd(). getDuration()\\\hline
+\end{longtable}
+
+\section{Profil erstellen (FRQ-11)}
 Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial befindet sich darin allerdings nur das Standard-Profil.}. Die Beschreibung eines Analysefensters (Name, Beschreibung, Charts mit Serien, etc.) wird anhand von Profilen definiert. Es gibt folgende zwei Arten:
 \begin{itemize}
 	\item \textbf{Unveränderliches Profil:} Das Standard-Profil ist aktuell das einzige unveränderliche Profil. Es wird durch die \textit{JRockit Extension} definiert und kann nicht konfiguriert, verändert werden.
@@ -163,20 +194,21 @@ Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial b
         	\caption{Domänenmodell: Profile}
 \end{figure}
 
-\subsection{Charts definieren (FRQ-05.1)}
+\section{Charts definieren (FRQ-12)}
 Bei der Benutzung eines veränderlichen Profils hat der Benutzer die Möglichkeit, dem Analysefenster weitere Charts respektive Diagramme hinzuzufügen oder aber bereits existierende Diagramme zu manipulieren (weitere Serien hinzufügen, Serien entfernen, etc.). Die Manipulationen des Benutzers finden auf den Chart-Objekten statt und werden durch das Data-Binding propagiert. Die Administrationsoberfläche für einen Chart umfasst initial zwei Abschnitte:
 \begin{itemize}
 	\item Serie erstellen, definieren und hinzufügen
 	 \item Serie löschen
 \end{itemize}
 
-\subsection{Profil speichern (FRQ-05.2)}
+\section{Profil speichern (FRQ-13)}
 Mittels des Memento-(siehe Anhang \ref{memento}) und Visitor-Patterns\cite[S. 331]{gamma1995design} werden die Profile gespeichert.
 
-\subsection{Profil exportieren, importieren (FRQ-05.3/ FRQ-05.4)}
+\section{Profil exportieren, importieren (FRQ-14/ FRQ-15)}
 Die Analysesoftware stellt zum Sichern und Verteilen von Profilen einen Import-Export-Mechanismus bereit. Beide sind in den Eclipse Standard-Wizards ersichtlich oder können via rechtem Mouseklick (Ansicht Profile) gestartet werden. Der Profile-Export und -Import basiert wie das Speichern auf dem im Abschnitt \ref{memento} beschriebenen Memento-Mechanismus. Zur Serialisierung in eine Datei wird das XMLMemento verwendet. 
 
-\subsection{Hilfesystem (FRQ-06)}
+\chapter{Konzept Qualitätsanforderungen}
+\section{Hilfesystem (FRQ-16)}
 Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfedienste wie Suche und Indexierung bereitstellt. Hilfeseiten sind auf unterschiedliche Weise verfügbar:
 \begin{itemize}
 \item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 
