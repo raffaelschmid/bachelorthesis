@@ -1,4 +1,6 @@
-\chapter{Konzept funktionale Anforderungen}\label{konzept_2}
+\chapter{Funktionalität}\label{konzept_2}
+Dieser Abschnitt orientiert sich an den funktionalen Anforderungen und konzipiert diese im Detail. 
+
 \section{Installation (FRQ-01)}\label{installation}
 Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analysesoftware wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Server, von welchem der Update-Manager die Software herunterlädt um anschliessend zu importieren. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekt). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekt). Die Eclipse Runtime kann solche Softwarepakete zur Laufzeit installieren und updaten.
 
@@ -206,7 +208,8 @@ Mittels des Memento-(siehe Anhang \ref{memento}) und Visitor-Patterns\cite[S. 33
 \section{Profil exportieren, importieren (FRQ-14/ FRQ-15)}
 Die Analysesoftware stellt zum Sichern und Verteilen von Profilen einen Import-Export-Mechanismus bereit. Beide sind in den Eclipse Standard-Wizards ersichtlich oder können via rechtem Mouseklick (Ansicht Profile) gestartet werden. Der Profile-Export und -Import basiert wie das Speichern auf dem im Abschnitt \ref{memento} beschriebenen Memento-Mechanismus. Zur Serialisierung in eine Datei wird das XMLMemento verwendet. 
 
-\chapter{Konzept Qualitätsanforderungen}
+\chapter{Generelle Aspekte}
+Dieser Abschnitt steht für das Konzept der nichtfunktionalen Anforderungen (Qualitätsanforderungen). 
 \section{Hilfesystem (FRQ-16)}
 Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfedienste wie Suche und Indexierung bereitstellt. Hilfeseiten sind auf unterschiedliche Weise verfügbar:
 \begin{itemize}
