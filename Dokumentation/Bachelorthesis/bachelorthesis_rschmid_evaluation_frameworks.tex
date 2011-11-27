@@ -1,6 +1,11 @@
 \chapter{Auswahl Frameworks und Komponenten}\label{selection_rcp_fw}
-\section{Vorgehen Evaluation}
-Für die Bewertung der verschiedenen zu evaluierenden Komponenten wird ein Berechnungsmodell benötigt. Aus den relevanten Anforderungen ergeben sich die Kriterien an die Software. Für jedes Kriterium wird eine entsprechende Gewichtung definiert, Quelle dafür ist die Priorität der Anforderung aus der Anforderungsanalyse. Die Umwandlung findet nach folgendem Muster statt:
+Im Vorfeld des Software-Konzepts wird die Evaluation der verschiedenen Rich Client Frameworks durchgeführt. Dieser Abschnitt beinhaltet sowohl die ''Analyse über Stärken und Schwächen der bestehenden Java Rich Client Technologien`` als auch die ''dokumentierten Auswahlkriterien und Entscheidungsgrundlagen``. Der Abschnitt besteht aus drei Teilen: der erste Teil beschreibt das Bewertungsschema, der zweite und dritte die Evaluation von Rich Client Framework und Charting Bibliothek.
+
+
+\section{Bewertung}
+Die Evaluation und Bewertung des Rich Client Frameworks und der Charting Bibliothek basiert auf dem nachfolgend beschriebenen Berechnungsmodell. 
+
+Auf der Basis der Anforderungen werden die Bewertungskriterien definiert. Die Gewichtung leitet sich folgendermassen aus der Priorität ab:
 \begin{longtable}{|l|c|c|c|c|c|}\hline
  \textbf{Priorität} & sehr klein & klein & mittel & gross & sehr gross\\\hline
  \textbf{Gewicht} & 1 & 2 & 3 & 4 & 5\\\hline
@@ -25,28 +30,41 @@ Grundsätzlich kommen für die Entwicklung der Analysesoftware auch die Java GUI
 \subsection{Eclipse RCP}
 Bis zur Version 2.1 war Eclipse bekannt als eine Open Source Entwicklungsumgebung für Programmierer. Der Vorgänger hiess Visual Age vor Java und wurde von IBM entwickelt. 
 
-Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Seit dem handelt es sich um einen relativ kleinen Kern, der die eigentlichen Funktionalitäten der Applikation als Plugins lädt. Der beschriebene Mechanismus basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen werden in SWT implementiert. Eclipse ist für 14 verschiedene Systeme und Architekturen bereitgestellt und gilt somit als plattformunabhängig\cite{wiki:eclipse}. 
+Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Seit dem handelt es sich um einen relativ kleinen Kern, der die eigentlichen Funktionalitäten der Applikation als Plugins lädt. Der beschriebene Mechanismus basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen werden in SWT implementiert. Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins für die Entwicklungsumgebung  verwendet werden.
 
-Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins für die Entwicklungsumgebung  verwendet werden.
-
+\begin{itemize}
+\item \textbf{Verbreitung:} Eclipse RCP ist relativ stark verbreitet, die Suche auf Amazon nach "Eclipse RCP" (Kategorie: Bücher) liefert 53 Resultate (stand 27. November 2011).
+\item \textbf{Plattformunabhängigkeit:} Eclipse ist für 14 verschiedene Systeme und Architekturen bereitgestellt und gilt somit als plattformunabhängig\cite{wiki:eclipse}.
+\item \textbf{Lokalisation:} Wird von Eclipse unterstützt durch die Erweiterung der Java-Lokalisation.
+\item \textbf{Modularisierung:} Die Modularisierung in Eclipse Anwendungen wird auf der Basis von Plugins gemacht. Ein Plugin ist eine Menge von Klassen mit einer wohl definierten Schnittstelle (welche Klassen, Packete werden importiert, exportiert).
+\item \textbf{Installation als Erweiterung:} Eclipse bietet an, Plugins und Features in die bestehende Entwicklungsumgebung zu installieren.
+\end{itemize}
 
 \subsection{Netbeans RCP}
-Bei Netbeans RCP handelt es sich ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet. Man findet Netbeans als Rich Client Framework eher selten.
+Bei Netbeans RCP handelt es sich ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet. 
+\begin{itemize}
+\item \textbf{Verbreitung:} Netbeans RCP ist nicht sehr verbreitet, die Suche auf Amazon nach "Netbeans RCP" (Kategorie: Bücher) liefert 7 Resultate (stand 27. November 2011).
+\item \textbf{Plattformunabhängigkeit:} Netbeans RCP basiert vollumfänglich auf Java und ist deshalb auf allen Plattformen, für die eine Java Virtual Machine existiert, verfügbar. Es gilt deshalb als plattformunabhängig (siehe \cite{wiki:netbeans}).
+\item \textbf{Lokalisation:} Wird von Netbeans unterstützt durch die Erweiterung der Java-Lokalisation.
+\item \textbf{Modularisierung:} Die Modularisierung in Netbeans kann ebenfalls mit Modulen (äquivalent Plugin in Eclipse Applikationen) gemacht werden.
+\item \textbf{Installation als Erweiterung:} Netbeans bietet es an, Module in die bestehende Entwicklungsumgebung zu installieren.
+\end{itemize}
 
 \subsection{Auswertung}
 Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \ref{anforderungen_framework}. Die dritte Spalte enthält das aus der Priorität abgeleitete Gewicht (siehe Abschnitt Gewichtung). Die weiteren Spalten zeigen pro Kandidat die Bewertung zusammen mit dem errechneten Produkt aus Gewichtung und Bewertung.
 \begin{longtable}{|p{3cm}|c|c|c|c|c|}\hline
- \textbf{Anforderung} & \textbf{Nummer} &  \textbf{Gewicht.\footnote{Gemäss Priorität der Anforderung}} & \textbf{Eclipse 3.x} & \textbf{Eclipse 4.x} &  \textbf{Netbeans 3.x}\\\hline
+ \textbf{Anforderung\footnote{siehe Abschnitt \ref{anforderungen_framework}}} & \textbf{Nummer} &  \textbf{Gewicht.\footnote{Gemäss Priorität der Anforderung}} & \textbf{Eclipse 3.x} & \textbf{Eclipse 4.x} &  \textbf{Netbeans 3.x}\\\hline
    Verbreitung & (QRQ-F-01) & 4 & 5 (20) & 1 (4) & 2 (8)\\\hline
    Unterstützung Plattformunab-hängigkeit & (QRQ-F-02) & 4 & 5 (20) & 5 (20) & 5 (20)\\\hline
    Unterstützung Lokalisation Support & (QRQ-F-03) & 2 & 5 (10) & 5 (10) & 5 (10) \\\hline
    Unterstützung Modularisierung & (QRQ-F-04) & 3 & 5 (15) & 5 (15) & 5 (15) \\\hline
-   \textbf{Total} & & & \textbf{65} & \textbf{49} & \textbf{53}\\\hline
+   Offline Betriebsmodus & (QRQ-F-05) & 4 & 5 (20) & 5 (20) & 5 (20) \\\hline
+   Installation als Erweiterung & QRQ-F-06 & 4 & 5 (20) & 5 (20) & 5 (20) \\\hline
+   \textbf{Total} & & & \textbf{105} & \textbf{89} & \textbf{93}\\\hline
     \caption{Auswertung Rich Client Frameworks}
 \end{longtable}
 
-\subsection{Entscheid}\label{rcp_entscheid}
-\textbf{Ausschlaggebend für die Wahl der Rich Client Plattform ist die Verbreitung.} Trotz der Unterschiede in Architektur und den verwendeten Technologien unterscheiden sie sich im Funktionsumfang nur unwesentlich.
+Ausschlaggebend für die Wahl der Rich Client Plattform ist die Verbreitung. Trotz der Unterschiede in Architektur und den verwendeten Technologien sind sie hinsichtlich Funktionsumfang praktisch identisch. Laut \cite{toedter20071120} können häufig auftretende Use Cases an eine Rich Client Applikation sowohl mit der Netbeans als auch mit der Eclipse Plattform umgesetzt werden.
 
 
 \section{Evaluation Bibliothek Charting}
@@ -65,7 +83,7 @@ JFreeChart ist ein Open-Source-Framework mit welchem eine Vielzahl verschiedener
 
 \subsection{Auswertung}
 \begin{longtable}{|p{4cm}|c|c|c|c|}\hline
- \textbf{Anforderung} & \textbf{Nummer} &  \textbf{Gewicht.\footnote{Gemäss Priorität der Anforderung}} & \textbf{BIRT} & \textbf{JFreeChart}\\\hline
+ \textbf{Anforderung\footnote{Es wurden nur die für die Evaluation der Charting Bibliothek relevanten Anforderungen aus Abschnitt \ref{anforderungen_software} und \ref{anforderungen_framework} übernommen.}} & \textbf{Nummer} &  \textbf{Gewicht.\footnote{Gemäss Priorität der Anforderung}} & \textbf{BIRT} & \textbf{JFreeChart}\\\hline
    Grösse Softwarepacket & (QRQ-S-06) & 4 & 1 (4) & 5 (20) \\\hline
    Verbreitung & (QRQ-F-01) & 4 & 4 (16) & 5 (20) \\\hline
    \textbf{Total} & && \textbf{20}  & \textbf{40} \\\hline
