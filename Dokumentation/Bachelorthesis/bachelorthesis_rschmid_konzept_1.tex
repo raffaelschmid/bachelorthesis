@@ -19,7 +19,7 @@ Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analysesoftware auc
 			\item Basissoftware
 			\item Erweiterung JRockit
 		\end{itemize}
-		Die Basissoftware kann unabhängig von den Erweiterungen installiert werden, für die Auswertung einer Logdatei ist allerdings die entsprechende Erweiterung zu installieren. Eine Erweiterung kann ohne Basissoftware nicht gebraucht werden.
+		Die Basissoftware kann unabhängig von den Erweiterungen installiert werden, für die Auswertung wird diese allerdings benötigt. Eine Erweiterung kann ohne Basissoftware nicht gebraucht werden.
 	\item Die Architektur der Applikation muss es zulassen, dass zu einem späteren Zeitpunkt auch Garbage Collection Logs von anderen Virtuellen Machinen analysiert werden können.
 	\item Die Basissoftware stellt Extension-Points\footnote{Ein Extension-Point ist ein Mechanismus der von Eclipse zur Verfügung gestellt wird, damit eine Komponente (Plugin) sich bei einer anderen registrieren kann.} bereit, über welche sich die Erweiterungen  registrieren.
 \end{itemize}

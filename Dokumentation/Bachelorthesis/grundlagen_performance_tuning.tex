@@ -5,16 +5,15 @@ Ganz nach dem Prinzip ''never change a running system`` sollte an der Konfigurat
 Die Performance respektive Leistungsfähigkeit einer Applikation stellt eine der bedeutendsten Qualitätsanforderungen dar. Probleme in diesem Bereich führen zu verärgerten Benutzern und verlangsamten Business-Prozessen. Die Motivation für eine Performanceanalyse entsteht, wenn die in Service Level Agreement oder Anforderungsanalyse spezifizierten \textbf{Qualitätsanforderungen nicht erfüllt} sind. Optimal wäre, wenn diese Anforderung während des Entwicklungsprozesses kontinuierlich geprüft würden.
 
 \section{Ablauf}
-Die Performanceanalyse ist ein iterativer Prozess und sollte so lange dauern, bis die Anforderungen erfüllt und der Kunde zufrieden ist. Sie besteht aus folgenden vier Schritten\cite{hummelBeer201109}:
+Die Performanceanalyse ist ein iterativer Prozess und dauert in der Regel so lange, bis die Anforderungen an das System in diesem Bereich erfüllt sind. Eine einzelne Iteration besteht aus den folgenden vier Schritten\cite{hummelBeer201109}:
 \begin{enumerate}
 	\item Identifikation der neuralgischen Punkte des Systems
 	\item \textbf{Suche nach dem Dominating Consumer\footnote{Kirk Pepperdine bezeichnet die Aktivität, welche dominiert wie die CPU gebraucht wird, als Dominating Consumer . } (siehe Abschnitt \ref{dominating_consumer})}
 	\item \textbf{Sammeln von Detaildaten (siehe Abschnitt \ref{garbage_collection_tuning})}
 	\item Lösen des Problems
 \end{enumerate}
+Die nächsten Abschnitte beziehen sich insbesondere auf die Suche nach dem Dominating Consumer und das Sammeln von Detaildaten im Kontext des Garbage Collection Tunings.
 
-
-Damit die Analyse der Garbage Collection zum richtigen Zeitpunkt gemacht wird, sind insbesondere die Punkte zwei und drei wichtig. Sie werden in den folgenden beiden Abschnitten genauer beschrieben.
 \section{Suche nach dem Dominating Consumer}\label{dominating_consumer}
 Die Suche nach dem Dominating Consumer kann nach folgendem Schema durchgeführt werden:
 \begin{figure}[H]
@@ -24,17 +23,12 @@ Die Suche nach dem Dominating Consumer kann nach folgendem Schema durchgeführt 
 \end{figure}
 
 \subsection{Hohe relative Systemlast}\label{hohe_systemauslastung}
-Die erste Frage, die sich bei der Suche nach dem Dominating Consumer stellt, ist, ob die hohe CPU-Auslastung durch die Applikation oder das System verursacht wird. Je nach Betriebssystemen gibt es dafür unterschiedliche Werkzeuge:
-\begin{itemize}
-	\item Unter \textbf{Windows} kann dafür der \textit{Task Manager} verwendet werden. Auf der Lasche Performance müssen dafür allerdings auch die Kernelzeiten eingeschaltet werden.
-	\item Unter \textbf{Linux respektive Unix} kann dafür das Programm \textit{vmstat} verwendet werden.
-\end{itemize}
+Die erste Frage bei der Suche nach dem Dominating Consumer  ist, ob die hohe CPU-Auslastung durch die Applikation oder das System verursacht wird. Bei einer Auslastung durch das System spricht man von einer hohen relativen Systemlast.  Dies kann unterschiedliche Gründe haben (exzessive Kontextwechsel, hohes I/O). Zur Analyse dieses Messwertes kann dafür der Task Manager (unter Windows) oder vmstat (unter Linux, Unix) verwendet werden.\newline 
 
 Hohe Systemauslastung kann unterschiedliche Gründe haben: 
 \begin{itemize}
 \item \textbf{Exzessive Kontextwechsel:} Mehrere Prozesse können sich die gleiche CPU (CPU-Kern) nur deshalb teilen, weil beim Wechsel von Prozess A auf B ein Kontextwechsel gemacht wird, so dass Thread B am selben Ort weiterarbeitet wo er beim letzten Mal war. Gründe für exzessives Kontextwechsel können beispielsweise nicht adäquat gewählte Locks sein. Wenn ein Thread aufgrund der Synchronisation angehalten werden muss.\footnote{Symptomatisch zeigt dann vmstat, das System ist nicht im Leerlauf, aber die Kernelzeiten (cpu/sy) dominieren die Zeit des Benutzers (cpu/us).}
-\item \textbf{Viel Interaktion (Input/Output) mit der Festplatte} 
-\item \textbf{Viel Interaktion mit dem Netzwerk} 
+\item \textbf{Viel Interaktion (Input/Output) mit der Festplatte oder dem Netzwerk} 
 \end{itemize}
 
 
@@ -52,8 +46,8 @@ Sofern die im Abschnitt \ref{hohe_systemauslastung} beschriebenen Punkte nicht z
 \subsection{Effizienter Objekt-Lebenszyklus}
 Sofern die CPU-Auslastung, trotz kleiner relativer Systemlast durch die Applikation, hoch ist, muss unter anderem\footnote{auch der Optimizer könnte dafür verantwortlich sein} die Garbage Collection angeschaut werden. Dafür gibt es unterschiedliche Herangehensweisen:
 \begin{itemize}
-\item \textbf{Memory Analyse (Objektpopulation): }Es wird angeschaut, wie alt die Objekte in den unterschiedlichen Bereichen (Young Generation, Old Generation) sind. Wieviele Garbage Collection Zyklen sie überlebt haben.
-\item \textbf{Garbage Collection: }Wann und wie oft werden Garbage Collections durchgeführt, wie lange haben sie gedauert, wieviel Speicher haben sie befreit.
+\item \textbf{Memory Analyse (Objektpopulation): }Es wird angeschaut, wie alt die Objekte in den unterschiedlichen Bereichen (Young Generation, Old Generation) sind. Wie viele Garbage Collection Zyklen sie überlebt haben.
+\item \textbf{Garbage Collection: }Wann und wie oft werden Garbage Collections durchgeführt, wie lange haben sie gedauert, wie viel Speicher haben sie befreit.
 \end{itemize}
 Im weiteren konzentrieren wir uns auf die Ziele und Vorgehensweise beim Garbage Collection Tuning.
 

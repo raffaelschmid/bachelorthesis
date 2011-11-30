@@ -2,7 +2,7 @@
 Obwohl sich die Garbage Collection Algorithmen und Strategien der JRockit VM gegenüber der HotSpot VM in der Tiefe stark unterscheiden, haben sie Oberflächlich betrachtet viele Gemeinsamkeiten. Dieser Abschnitt geht auf die Eigenheiten der JRockit Virtual Machine ein. 
 
 \section{Algorithmen}
-Die Grundlage der JRockit Garbage Collection bildet der Tri-Coloring Mark \& Sweep Algorithmus (siehe Abschnitt \titleref{tri-coloring mark and sweep}). Er wurde hinsichtlich besserer Parallelisierbarkeit und der optimalen Verwendung der Anzahl Threads optimiert. Die Garbage Collection der JRockit VM kann mit oder ohne Generationen arbeiten - so gibt es die beiden Algorithmen ``Concurrent Mark \& Sweep'' und ``Parallel Mark \& Sweep'' in beiden Ausführungen Generational und Single:
+Die Grundlage der JRockit Garbage Collection bildet der Tri-Coloring Mark \& Sweep Algorithmus (siehe Abschnitt \titleref{tri-coloring mark and sweep}). Er wurde hinsichtlich besserer Parallelisierbarkeit und der optimalen Verwendung der Anzahl Garbage Collection Threads optimiert. Die Garbage Collection der JRockit VM arbeitet entweder mit oder ohne Generationen. Es gibt folgende Algorithmen:
 
 \begin{itemize}
 	\item Generational Concurrent Mark \& Sweep

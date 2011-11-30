@@ -46,7 +46,7 @@ Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & Mittel\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann die Software updaten.\\\hline
+   Kurzbeschreibung & Der Benutzer kann die Software aus der Entwicklungsumgebung updaten.\\\hline
    Akteure & Anwender, Update-Server\\\hline   
    Auslösendes Ereignis & Anwender hat die Software bereits zu einem früheren Zeitpunkt installiert. Sofern ein neues Update vorhanden ist, möchte er dieses installieren.\\\hline
    Vorbedingung & Richtige Entwicklungsumgebung und Software wurden bereits in einer früheren Version installiert.\\\hline
@@ -75,7 +75,7 @@ Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gering\\\hline
    Kritikalität & gross\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer importiert die sich auf dem Dateisystem befindende Logdatei.\\\hline
+   Kurzbeschreibung & Der Benutzer kann die sich auf dem Dateisystem befindenden Logdatei importieren.\\\hline
    Akteure & Anwender, Logdatei Importer\\\hline
    Auslösendes Ereignis & Anwender startet Garbage Collection Log Analyse\\\hline
    Vorbedingung & Logdatei befindet sich auf dem Rechner und ist in einem der unterstützten Formate. Die Software ist vollständig installiert und gestartet.\\\hline
@@ -104,7 +104,7 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Für eine schnelle Übersicht steht eine Standard-Auswertung zur Verfügung. Diese soll eine kurze Übersicht über die Garbage Collection geben und beinhaltet zwei Charts (Heap Benutzung, Dauer Garbage Collection). \\\hline
+   Kurzbeschreibung & Für eine schnelle Übersicht kann der Benutzer die Standardauswertung öffnen. Diese soll eine kurze Übersicht über die Garbage Collection geben und beinhaltet zwei Charts (Heap Benutzung, Dauer Garbage Collection). \\\hline
    Akteure & Anwender, Logdatei Analyzer, Report Engine\\\hline
    Auslösendes Ereignis & Der Benutzer hat eine Garbage Collection Logdatei importiert und möchte nun die Analyse starten.\\\hline
    Vorbedingung & Bevor das Analysefenster für die Garbage Collection Logdatei geöffnet werden kann, wird die Datei eingelesen und geparst. Das heisst, dass die rohen Daten semantisch und syntaktisch analysiert und in den Arbeitsspeicher geladen werden.\\\hline
@@ -154,7 +154,7 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Die Heap Usage (Heap Benutzung) zeigt dem Benutzer anhand einer Grafik, zu welchem Zeitpunkt wieviel Speicher des Heaps verwendet wurde. Zusätzlich werden die Zeitpunkte inklusive entsprechendem Typ (Old- / Young-Collection) der Garbage Collection angezeigt.  \\\hline
+   Kurzbeschreibung & Die \textit{Heap Benutzung} zeigt dem Benutzer anhand einer Grafik, zu welchem Zeitpunkt wie viel Speicher des Heaps verwendet wurde. Zusätzlich werden die Zeitpunkte inklusive entsprechendem Typ (Old- / Young-Collection) der Garbage Collection angezeigt.  \\\hline
    Qualitäten & Korrektheit, Performance, Usability\\\hline
 \caption{Use-Case: Anzeige Heap Benutzung}
 \end{longtable}
@@ -168,7 +168,7 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Priorität & Wichtigkeit für Systemerfolg: mittel\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & Mittel\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Für jede Garbage Collection ist innerhalb der Logdatei einen Eintrag mit den Informationen, wie viel Speicher von toten Objekten befreit wurde und wie lange die Collection gedauert hat. In diesem Report geht es um die Darstellung dieser Daten.\\\hline
+   Kurzbeschreibung & Die Anzeige \textit{Dauer Garbage Collection} zeigt dem Benutzer über die Zeit wie lange die einzelne Garbage Collection gedauert hat.\\\hline
    Qualitäten &  Korrektheit, Performance, Usability\\\hline
 \caption{Use-Case: Anzeige Dauer Garbage Collection}
 \end{longtable}
@@ -207,7 +207,7 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & Mittel\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Dem Benutzer steht eine eine indexbasierte\footnote{Generelle Hilfe mit Informationen zur Garbage Collection,Vorgehensweise bei Performance Problemen, alternative Werkzeuge, etc.} und eine kontextsensitive\footnote{Hilfe zur aktuellen View oder Aktion des Benutzers} Hilfe zur Verfügung. \\\hline
+   Kurzbeschreibung & Der Benutzer kann auf eine indexbasierte\footnote{Generelle Hilfe mit Informationen zur Garbage Collection,Vorgehensweise bei Performance Problemen, alternative Werkzeuge, etc.} und eine kontextsensitive\footnote{Hilfe zur aktuellen View oder Aktion des Benutzers} Hilfe zugreifen. \\\hline
    Akteure & Anwender\\\hline
    Auslösendes Ereignis & Anwender hat Plugin installiert, weiss nicht wie eine Analyse gestartet werden kann.\\\hline
    Vorbedingung & Entwicklungsumgebung und Software sind installiert.\\\hline

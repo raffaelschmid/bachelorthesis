@@ -40,8 +40,8 @@ Durch den Import einer Garbage Collection Logdatei erscheinen diese im Fenster \
 \section{Logdatei parsen (FRQ-06)}
 Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Diese Ausgaben können selektiv per Kommandozeile aktiviert werden (siehe Abschnit \ref{logmodule}). Für die Garbage Collection Analyse sind nicht alle Einträge relevant, es werden nur die wichtigsten verwendet. Die einzelnen Parser für die Garbage Collection Logdatei werden auf der Basis von Regular Expressions selber implementiert. Auf die Verwendung eines Parser-Generators wird aus folgenden Gründen verzichtet:
 \begin{itemize}
-	\item Lightweight: Um Parser-Generatoren zu verwenden, wird in der Regel auch zur Laufzeit eine Bibliothek benötigt. Diese muss mit der Software ausgeliefert werden. Die Implementation eines Parser auf der Basis von Regulären Ausdrücken kann mit Java Standardmitteln gemacht werden.
-	\item Proprietär: Parser-Generatoren sind proprietär und die Verwendung dessen bedingt gute Kenntnisse. In der Regel beschreibt man das Format in einer Grammatik.
+	\item Bei der Verwendung von Parser-Generatoren muss in der Regel eine Bibliothek mit ausgeliefert werden. Aufgrund der Anforderung QRQ-S-06 (siehe Abschnitt \ref{anforderungen_software}) soll die Grösse der Software möglichst klein sein. Die Implementation eines Parser auf der Basis von Regulären Ausdrücken kann ohne zusätzliche Bibliotheken gemacht werden.
+	\item Parser-Generatoren sind proprietär und die Einarbeitungszeit ist gross.
 \end{itemize}
 
 \subsection{Parser}
@@ -62,7 +62,7 @@ Der Parser für die Logdateien der JRockit Virtual Machine ist nach dem Chain-of
 Das Parsen innerhalb des \textit{MemoryModuleParser} wird in zwei Schritte aufgeteilt:
 \begin{itemize}
 \item \textbf{Lexer: }Der einzelne Logeintrag wird durch den Lexer (Tokenizer) in eine Map aus Tokens umgewandelt. Schlüssel für die einzelnen Tokens ist der \textit{TokenType}. Der Lexer wird mittels Regular Expressions implementiert. Die Werte werden mittels Gruppierungs-Funktion\footnote{Mittels Gruppen innerhalb von Regulären Ausdrücken lassen sich einzelne Werte aus einem String extrahieren.} extrahiert. 
-\item \textbf{Syntactic Analyzer: }Der syntaktische Analyser verarbeitet die vom Lexer extrahierten Tokens. Er führt zum einen eine semantische Validierung durch und speichert die Werte in strukturierter Form (Domänenmodell).
+\item \textbf{Syntactic Analyzer: }Der syntaktische Analyser verarbeitet die vom Lexer extrahierten Tokens. Er führt zum einen eine semantische Analyse durch und speichert die Werte in strukturierter Form (Domänenmodell).
 \end{itemize}
 
 \subsection{Auswertung Logdatei}
@@ -137,9 +137,9 @@ Der initiale Tab der Analyseseite zeigt eine Zusammenfassung der geöffneten Gar
 \subsubsection{Garbage Collection Aktivität (Young und Old Collections)}
 \begin{itemize}
 	\item Letzte Garbage Collection: Zu welchem Zeitpunkt hat die letzte Garbage Collection statt gefunden.
-	\item Anzahl Garbage Collections: Wieviele Garbage Collections hat es insgesamt gegeben.
-	\item  Anzahl Old Collections: Wieviele Old Collections hat es gegeben.
-	\item Anzahl Young Collections: Wieviele Young Collections hat es gegeben.
+	\item Anzahl Garbage Collections: Wie viele Garbage Collections hat es insgesamt gegeben.
+	\item  Anzahl Old Collections: Wie viele Old Collections hat es gegeben.
+	\item Anzahl Young Collections: Wie viele Young Collections hat es gegeben.
 	\item Total Zeit der Garbage Collection: Totale Zeit, in welcher sich die Virtual Machine in der Garbage Collection befunden hat.
 	\item Durchsatz der Applikation (siehe Abschnitt \ref{gc_tuning_durchsatz})
 
