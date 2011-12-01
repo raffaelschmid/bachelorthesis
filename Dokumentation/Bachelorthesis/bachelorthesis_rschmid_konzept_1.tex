@@ -12,7 +12,7 @@ Die Software wird lizenziert unter der Eclipse Public License\footnote{http://ww
 \end{itemize}
 
 \section{Architektur}\label{konzept_uebersicht}
-Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analysesoftware auch hinsichtlich anderer Logformate erweiterbar sein. Die Applikation wird also nicht zwingendermassen mit der Erweiterung für JRockit Logdateien verwendet. Es könnte zu einem späteren Zeitpunkt sein, dass man damit Garbage Collection Logs der HotSpot Virtual Machine auswertet. Dies hat hinsichtlich Architektur einige Konsequenzen:
+Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analysesoftware auch hinsichtlich anderer Logformate erweiterbar sein. Die Applikation wird also nicht zwingendermassen mit der Erweiterung für JRockit Logdateien verwendet. Es könnte zu einem späteren Zeitpunkt sein, dass man damit Garbage Collection Logs der HotSpot virtual Machine auswertet. Dies hat hinsichtlich Architektur einige Konsequenzen:
 \begin{itemize}
 	\item Die Applikation wird in zwei Komponenten aufgeteilt:
 		\begin{itemize}

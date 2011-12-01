@@ -38,14 +38,14 @@ Durch den Import einer Garbage Collection Logdatei erscheinen diese im Fenster \
 \end{figure}
 
 \section{Logdatei parsen (FRQ-06)}
-Die Garbage Collection Logs der JRockit Virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Diese Ausgaben können selektiv per Kommandozeile aktiviert werden (siehe Abschnit \ref{logmodule}). Für die Garbage Collection Analyse sind nicht alle Einträge relevant, es werden nur die wichtigsten verwendet. Die einzelnen Parser für die Garbage Collection Logdatei werden auf der Basis von Regular Expressions selber implementiert. Auf die Verwendung eines Parser-Generators wird aus folgenden Gründen verzichtet:
+Die Garbage Collection Logs der JRockit virtual Machine bestehen aus Einträgen unterschiedlicher Log Module. Diese Ausgaben können selektiv per Kommandozeile aktiviert werden (siehe Abschnit \ref{logmodule}). Für die Garbage Collection Analyse sind nicht alle Einträge relevant, es werden nur die wichtigsten verwendet. Die einzelnen Parser für die Garbage Collection Logdatei werden auf der Basis von Regular Expressions selber implementiert. Auf die Verwendung eines Parser-Generators wird aus folgenden Gründen verzichtet:
 \begin{itemize}
 	\item Bei der Verwendung von Parser-Generatoren muss in der Regel eine Bibliothek mit ausgeliefert werden. Aufgrund der Anforderung QRQ-S-06 (siehe Abschnitt \ref{anforderungen_software}) soll die Grösse der Software möglichst klein sein. Die Implementation eines Parser auf der Basis von Regulären Ausdrücken kann ohne zusätzliche Bibliotheken gemacht werden.
 	\item Parser-Generatoren sind proprietär und die Einarbeitungszeit ist gross.
 \end{itemize}
 
 \subsection{Parser}
-Der Parser für die Logdateien der JRockit Virtual Machine ist nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut. Dieses Pattern ermöglicht die schnelle Erweiterbarkeit (Anforderung QRQ-S-01) der Software um weitere Parser. Pro Log-Eintrag (respektive pro Typ eines Log-Eintrags) kann ein Parser in die Parser-Kette geschaltet werde. Jeder Parser extrahiert die für ihn wichtigen Informationen und aktualisiert damit das Domänenmodell. Die wichtigsten Einträge der Garbage Collection Logdatei sind die des Memory Modules und werden vom \textit{MemoryModuleParser} verarbeitet. In zukünftigen Versionen ist die Verarbeitung von Log-Einträgen von anderen Log-Modulen denkbar - Einträge des Nursery- oder Allocation-Modules, etc. Ablauf und Aufbau des Parsers sind in den folgenden beiden Grafiken ersichtlich:
+Der Parser für die Logdateien der JRockit VM ist nach dem Chain-of-Responsibility Pattern\cite{wiki:chainOfResponsibilityPattern} aufgebaut. Dieses Pattern ermöglicht die schnelle Erweiterbarkeit (Anforderung QRQ-S-01) der Software um weitere Parser. Pro Log-Eintrag (respektive pro Typ eines Log-Eintrags) kann ein Parser in die Parser-Kette geschaltet werde. Jeder Parser extrahiert die für ihn wichtigen Informationen und aktualisiert damit das Domänenmodell. Die wichtigsten Einträge der Garbage Collection Logdatei sind die des Memory Modules und werden vom \textit{MemoryModuleParser} verarbeitet. In zukünftigen Versionen ist die Verarbeitung von Log-Einträgen von anderen Log-Modulen denkbar - Einträge des Nursery- oder Allocation-Modules, etc. Ablauf und Aufbau des Parsers sind in den folgenden beiden Grafiken ersichtlich:
 
  \begin{figure}[H]
   	\centering
@@ -100,7 +100,7 @@ Aus unterschiedlichen Gründen kann es zu einem Wechsel der Garbage Collection S
 
 
 \subsection{Domänenmodell JRockit Garbage Collection}\label{jrockit_domain_model}
-Nach der syntaktischen und sematischen Analyse wird eine Instanz des Domänenmodells erzeugt. Dieses wurde aufgrund der Randbedingungen (siehe Abschnitt \ref{randbedingungen}) analog der Struktur der Garbage Collection in der JRockit Virtual Machine abstrahiert. Die rohen Daten sind also danach über dieses sich im Arbeitsspeicher befindende Objekt verfügbar. \begin{landscape}
+Nach der syntaktischen und sematischen Analyse wird eine Instanz des Domänenmodells erzeugt. Dieses wurde aufgrund der Randbedingungen (siehe Abschnitt \ref{randbedingungen}) analog der Struktur der Garbage Collection in der JRockit virtual Machine abstrahiert. Die rohen Daten sind also danach über dieses sich im Arbeitsspeicher befindende Objekt verfügbar. \begin{landscape}
  \begin{figure}[H]
   	\centering
         	\includegraphics[width=18.2cm]{images/jrockit_extension_domain}

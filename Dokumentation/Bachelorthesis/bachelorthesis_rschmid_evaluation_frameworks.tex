@@ -27,7 +27,7 @@ Die Punktezahl berechnet sich aus dem Produkt aus Gewichtung und Bewertung:
 \fbox{Punktezahl = Gewichtung x Bewertung}
 \end{center}
 \section{Evaluation Rich Client Framework}
-Grundsätzlich kommen für die Entwicklung der Analysesoftware auch die Java GUI-Bibliothek Swing in Frage. Viele der Anforderung (Deployment, Installation, Update, Modularisierung, Internationalisierung, etc.) werden von Rich Client Frameworks bereitgestellt und stehen mit teilweise geringem Aufwand zur Verfügung. Bei der Evaluation der Bibliothek werden darum nur Rich Client Frameworks berücksichtigt. Von denen kommen aufgrund der funktionalen Anforderung QRQ-F-05 (Offline Betriebsmodus) und QRQ-F-06 (Installation als Erweiterung) Eclipse RCP und Netbeans RCP in Frage. Während Eclipse RCP insbesondere als Entwicklungsumgebung ein weit verbreitetes Framework ist und die Entwicklung aktuell in zwei verschiedenen Versionen (3.x / 4.x) vorangetrieben wird, findet man Netbeans und deren Rich Client Plattform eher selten. In der Folge werden die drei Frameworks kurz beschrieben und dann anhand der Anforderungen verglichen.
+Grundsätzlich kommen für die Entwicklung der Analysesoftware auch die Java GUI-Bibliothek (Bibliothek zur Programmierung von Grafischen Benutzer Oberflächen) Swing in Frage. Viele der Anforderung (Deployment, Installation, Update, Modularisierung, Internationalisierung, etc.) werden von Rich Client Frameworks bereitgestellt und stehen mit teilweise geringem Aufwand zur Verfügung. Bei der Evaluation der Bibliothek werden darum nur Rich Client Frameworks berücksichtigt. Von denen kommen aufgrund der funktionalen Anforderung QRQ-F-05 (Offline Betriebsmodus) und QRQ-F-06 (Installation als Erweiterung) Eclipse RCP (RCP steht für Rich Client Plattform) und Netbeans RCP in Frage. Während Eclipse RCP insbesondere als Entwicklungsumgebung ein weit verbreitetes Framework ist und die Entwicklung aktuell in zwei verschiedenen Versionen (3.x / 4.x) vorangetrieben wird, findet man Netbeans und deren Rich Client Plattform eher selten. In der Folge werden die drei Frameworks kurz beschrieben und dann anhand der Anforderungen verglichen.
 
 
 \subsection{Eclipse RCP}
@@ -36,7 +36,7 @@ Bis zur Version 2.1 war Eclipse bekannt als eine Open Source Entwicklungsumgebun
 Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Seit dem handelt es sich um einen relativ kleinen Kern, der die eigentlichen Funktionalitäten der Applikation als Plugins lädt. Der beschriebene Mechanismus basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen werden in SWT implementiert. Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins für die Entwicklungsumgebung  verwendet werden.
 
 \begin{itemize}
-\item \textbf{Verbreitung:} Eclipse RCP ist relativ stark verbreitet, die Suche auf Amazon nach "Eclipse RCP" (Kategorie: Bücher) liefert 53 Resultate (stand 27. November 2011).
+\item \textbf{Verbreitung:} Eclipse RCP ist relativ stark verbreitet, die Suche auf Amazon nach ''Eclipse RCP`` (Kategorie: Bücher) liefert 53 Resultate (stand 27. November 2011).
 \item \textbf{Plattformunabhängigkeit:} Eclipse ist für 14 verschiedene Systeme und Architekturen bereitgestellt und gilt somit als plattformunabhängig\cite{wiki:eclipse}.
 \item \textbf{Lokalisation:} Wird von Eclipse unterstützt durch die Erweiterung der Java-Lokalisation.
 \item \textbf{Modularisierung:} Die Modularisierung in Eclipse Anwendungen wird auf der Basis von Plugins gemacht. Ein Plugin ist eine Menge von Klassen mit einer wohl definierten Schnittstelle (welche Klassen, Packete werden importiert, exportiert).
@@ -71,8 +71,8 @@ Ausschlaggebend für die Wahl der Rich Client Plattform ist die Verbreitung. Tro
 
 
 \section{Evaluation Bibliothek Charting}
-Für die grafische Darstellung der Daten (Charts) muss eine Bibliothek verwendet werden. Im Bereich der nicht-kommerziellen Produkte wird dafür sehr oft Eclipse BIRT und JFreeChart eingesetzt.
-\subsection{Business Intelligence and Reporting Tools (BIRT)}
+Für die grafische Darstellung der Daten (Charts) muss eine Bibliothek verwendet werden. Im Bereich der nicht-kommerziellen Produkte wird dafür sehr oft Eclipse BIRT (Business Intelligence and Reporting Tools) und JFreeChart eingesetzt.
+\subsection{BIRT}
 BIRT steht für Business Intelligence and Reporting Tools und stellt Business-Intelligence- und Reporting-Funktionalität für Rich Clients zur Verfügung. BIRT ist Lizenziert unter der Eclipse Public License und ist daher open-source. BIRT ist wie Eclipse ein Top-Level-Softwareprojekt der Eclipse Foundation. Die Software besteht aus zwei Teilen:
 \begin{itemize}
 \item \textbf{Report Designer: }Mit dem Report Designer können Benutzer oder Administratoren ihre Reports erstellen und anpassen. 

@@ -4,7 +4,7 @@ Einige Grundkenntnisse über die Garbage Collection sind zur Optimierung essenzi
 \section{Einführung}
 Schon seit den ersten Programmiersprachen ist das Aufräumen von verwendeten Ressourcen und Speicher ein wichtiges Thema. Im Unterschied zu den ersten Sprachen, bei denen das Memory Management in der Verantwortung des Entwicklers war (explizit), findet allerdings das Recycling von Memory bei Sprachen der dritter Generation automatisch statt und macht Operatoren wie ``free'' unwichtig. Bei Formen dieser automatischen Speicherverwaltung spricht man von Garbage Collection\footnote{vom englischen Wort ``garbage collector'' für Müll-, Abfallsammler}. In den meisten neueren Laufzeitumgebungen gibt es zusätzlich das Prinzip  des adaptiven Memory Managements, hier werden Feedbacks und Heuristiken dazu verwendet, um die Strategie der Garbage Collection anzupassen.
 Probleme die nur beim expliziten Memory Management auftreten sind  Dangling References\footnote{Man spricht von Dangling Pointers oder Dangling References, wenn ein Pointer auf ein Objekt im Memory freigegeben wurde, obwohl es noch gebraucht wird.} (Dangling Pointers) und Space Leaks\footnote{Man spricht von Space Leaks, wenn Memory alloziert und nicht mehr freigegeben wurde, obwohl es nicht mehr gebraucht wird.\cite{sunMemoryManagementWP}}. Trotzdem sind Memory Leaks auch bei automatischer Speicherverwaltung noch möglich, nämlich dann wenn Memory noch referenziert ist, auch wenn es nicht mehr gebraucht wird.
-Der folgende Abschnitt beschreibt die Grundlagen der Java Garbage Collection. Das nächste Kapitel zeigt dann die Eigenheiten dazu bei der JRockit Virtual Machine.
+Der folgende Abschnitt beschreibt die Grundlagen der Java Garbage Collection. Das nächste Kapitel zeigt dann die Eigenheiten dazu bei der JRockit virtual Machine.
 
 \section{Funktionsweise}
 Alle Techniken der Garbage Collection zielen darauf ab, die ``lebenden'' von den ``toten'' Objekten zu unterscheiden. Es werden also primär die Objekte gesucht, die nicht mehr referenziert sind. Laut \cite[S. 77]{lagergren2010oracle} gibt es zwei unterschiedliche Strategien: Referenz-Zählung (Reference Counting) und Tracing-Techniken (Tracing Techniques).
@@ -76,14 +76,14 @@ Der Vorteil des Tri-Coloring Mark \& Sweep basiert auf folgender Invariante:
 Sobald es keine grauen Objekte mehr gibt - sprich das Set der grauen Objekte leer ist, können die weissen Objekte gelöscht werden.
 
 \section{Generational Garbage Collection}\label{generational gc}
-Innerhalb einer Anwendung kann man die Objekte in Short Living, Medium Living und Long Living Objekte\footnote{Objekte mit kurzer, mittel und langer Lebensdauer.} kategorisieren. Es gibt viele Objekte die nicht lange leben (Objekte mit der Lebensdauer einer Methode) und wenig Objekte mit langer Lebensdauer, wie Teile eines Caches. Aus diesem Grund ist es sinnvoll, die Garbage Collection Strategie der Lebensdauer der Objekte anzupassen. Der Speicher je nach Virtual Machine in unterschiedliche Bereiche aufgeteilt.
-\subsection{HotSpot Virtual Machine}
-Die HotSpot Virtual Machine tut dies folgendermassen\cite{langerkreft201003}:
+Innerhalb einer Anwendung kann man die Objekte in Short Living, Medium Living und Long Living Objekte\footnote{Objekte mit kurzer, mittel und langer Lebensdauer.} kategorisieren. Es gibt viele Objekte die nicht lange leben (Objekte mit der Lebensdauer einer Methode) und wenig Objekte mit langer Lebensdauer, wie Teile eines Caches. Aus diesem Grund ist es sinnvoll, die Garbage Collection Strategie der Lebensdauer der Objekte anzupassen. Der Speicher je nach Laufzeitumgebung in unterschiedliche Bereiche aufgeteilt.
+\subsection{HotSpot virtual Machine}
+Die HotSpot virtual Machine tut dies folgendermassen\cite{langerkreft201003}:
 
 \begin{itemize}
 	\item \textbf{Young Generation:} Die Young Generation ist nochmals unterteilt in Eden Space (Bereich für neue Objekte) und zwei Survivor Spaces (from-space als aktiver Bereich, to-space als der Bereich in den die Objekte während der Collection kopiert werden).
 	\item \textbf{Old Generation:} In der Old Generation befinden sich die Objekte, die eine gewisse Anzahl an Young Collections (Minor Collections) überlebt haben und dann durch eine Promotion hierhin verschoben wurden.
-	\item  \textbf{PermGen:} Der PermGen Bereich ist keine Generation, sondern ein Non-Heap-Bereich, und wird von der VM für eigene Zwecke verwendet. Dieser Bereich ist eine Eigenheit der Oracle HotSpot Virtual Machine. Hier werden beispielsweise Class-Objekte inklusive Bytecode für alle geladenen Klassen und JIT-Informationen\footnote{Die Just-in-Time (Kompilierung) führt zu einer Veränderung respektive Optimierung des Bytecodes.}. gespeichert.
+	\item  \textbf{PermGen:} Der PermGen Bereich ist keine Generation, sondern ein Non-Heap-Bereich, und wird von der VM für eigene Zwecke verwendet. Dieser Bereich ist eine Eigenheit der Oracle HotSpot VM. Hier werden beispielsweise Class-Objekte inklusive Bytecode für alle geladenen Klassen und JIT-Informationen\footnote{Die Just-in-Time (Kompilierung) führt zu einer Veränderung respektive Optimierung des Bytecodes.}. gespeichert.
 \end{itemize}
 
 \subsubsection{Intergenerationelle Referenzen}
@@ -93,11 +93,10 @@ Die Idee der generationellen Garbage Collection ist, dass während einer Young C
 	\item Es findet eine \textbf{Zuweisung der Referenz durch die Applikation} statt. Diese Problematik wird durch Write Barriers und der Aufteilung des Heaps in sogenannte Cards\footnote{Eine Card ist typischerweise ein ungefähr 512 Byte grosser Bereich auf dem Heap.} gemacht. Bei der Änderung einer Referenz (die dann von der Old in die Young Generation zeigt) wird auf der entsprechenden Card das ``Dirty Bit'' gesetzt. Objekte innerhalb von dirty Cards werden nach der Markierungsphase nochmals überprüft.
 \end{itemize}
 
-\subsection{JRockit Virtual Machine}
-Bei der JRockit Virtual Machine ist es so:
+\subsection{JRockit virtual Machine}
 \begin{itemize}
-	\item \textbf{Nursery\footnote{Nursery bedeutet im übertragenen Sinn Kindergarten}:} Die Nursery entspricht der Young Generation bei der HotSpot Virtual Machine und ist der Bereich der jungen Objekte. Bei JRockit ist es möglich, eine zusätzliche Keep-Area innerhalb der Nursery zu haben. Diese Keep-Area ist der Platz der Objekte mittlerer Lebensdauer. Ein Objekt wird also zuerst von der Nursery in die Keep-Area promoted - was den Vorteil hat, dass sie, wenn nicht mehr referenziert, immer noch einer Young Collection unterliegen - erst dann gelangen sie nach einer erneuten Garbage Collection in die Old Generation.
-	\item \textbf{Old Generation: } Die Old Generation beinhaltet wie bei der HotSpot Virtual Machine die Objekte mit langer Lebensdauer.
+	\item \textbf{Nursery\footnote{Nursery bedeutet im übertragenen Sinn Kindergarten}:} Die Nursery entspricht der Young Generation bei der HotSpot VM und ist der Bereich der jungen Objekte. Bei JRockit ist es möglich, eine zusätzliche Keep-Area innerhalb der Nursery zu haben. Diese Keep-Area ist der Platz der Objekte mittlerer Lebensdauer. Ein Objekt wird also zuerst von der Nursery in die Keep-Area promoted - was den Vorteil hat, dass sie, wenn nicht mehr referenziert, immer noch einer Young Collection unterliegen - erst dann gelangen sie nach einer erneuten Garbage Collection in die Old Generation.
+	\item \textbf{Old Generation: } Die Old Generation beinhaltet wie bei der HotSpot VM die Objekte mit langer Lebensdauer.
 \end{itemize}
 Für weitere Details zu den Eigenheiten der JRockit Garbage Collection siehe Kapitel \ref{jrockit garbage collection}.
 

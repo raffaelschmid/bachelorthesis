@@ -1,4 +1,7 @@
 \chapter{Anforderungsanalyse}\label{anforderungsanalyse}
+Die Evaluation von Rich Client Framework und Charting-Bibliothek sowie die Konzeption der funktionalen Aspekte ist getrieben durch die Anforderungsanalyse. Es standen drei Methoden zur Auswahl: Use Cases, Requirements Engineering nach IEEE 830 und User Stories. Auf Ebene der Customer Requirements wird die Methode der Use Cases eingesetzt. Sie zeichnet sich dadurch aus, dass man die Anforderungen nicht nur textuell sondern auch modellbasiert mit UML definieren kann. Für die Dokumentation der Development-Requirements, beinhaltet auch die Qualitätsanforderungen, wird der Standard IEEE 830 verwendet. Die damit definierten Anforderungen lassen sich gut in einzelne Entwicklungspakete verpacken. Auch die Struktur der Anforderungsanalyse wurde anhand dieser Definition aufgebaut.
+
+
 \section{Einleitung}
 \subsection{Zweck}
 Die Anforderungsanalyse dient als Basis für die folgenden Abschnitte:
@@ -17,15 +20,15 @@ Der folgende Abschnitt beschreibt die wesentlichen Teile innerhalb des Systems u
         	\caption{System und Systemkontext}
 \end{figure}
 \subsubsection{System}
-Das System besteht aus den Teilen Datenmodell, Domäne, Log Parsing, Garbage Collection Analyse, Report, Charting, Hilfesystem\footnote{Dem Benutzer wird sowohl eine generelle wie auch eine kontextbezogene Hilfe angeboten.}, Benutzerführung.
+Das System besteht aus den Teilen Importer, Analyzer, Reporting, Hilfesystem\footnote{Dem Benutzer wird sowohl eine generelle wie auch eine kontextsensitive Hilfe angeboten.}, Benutzerführung.
 
 \subsubsection{Systemkontext}
 Zum Systemkontext gehören folgende nicht veränderbare Komponenten:
 \begin{itemize}
 	\item \textbf{Build und Deployment, Continuous Integration:} Der Build der Software für neue Updates oder Releases wird zentral auf einem Server durchgeführt. Der Source-Code wird aus der Versionskontrolle ausgecheckt, die binären Packete werden gebildet, es wird ein für den jeweiligen Update-Mechanismus notwendiges Packet erstellt und auf den Update-Server gestellt.
 
-	\item \textbf{Update Mechanismus:} Die Software wird in der Version 1.0 released. Anschliessend können Updates (Minor-, Major-Versionen) direkt - ohne den manuellen Download der Software - durchgeführt werden.
-	\item \textbf{JRockit Virtual Machine:} Die Schnittstelle zur JRockit Virtual Machine findet über deren Logdateien statt. Die genaurere Beschreibung befindet sich unter \titleref{jrockitgclog}.
+	\item \textbf{Rich Client Framework:} Als Basis der Analysesoftware wird ein Rich Client Framework verwendet.
+	\item \textbf{JRockit virtual Machine:} Die Schnittstelle zur JRockit Virtual Machine findet über deren Logdateien statt. Die genaurere Beschreibung befindet sich unter \titleref{jrockitgclog}.
 \end{itemize}
 
 \subsubsection{Irrelevante Umgebung}
@@ -55,7 +58,7 @@ Die Software wird als Plugin programmiert. Der Entwickler kann sich die Software
 
 \subsection{Nutzer und Zielgruppen}
 \subsubsection{Performance Engineers}
-Normalerweise Software Entwickler die viel Erfahrung, Wissen, Fähigkeiten haben und über die entsprechenden Werkzeuge verfügen, um die Ursachen für Performance-Probleme zu finden. Dabei handelt es sich nicht nur um Wissen im Bereich der Softwareentwicklung, sondern auch im Bereich des Servers und des Betriebssystems (Speichermanagement, I/O, etc.). Durch ihr breites Wissen sind sie mit der Unterstützung von Charts, Statistiken und Reports schnell in der Lage, Ursache von Performanceproblemen zu finden.
+Normalerweise Software Entwickler die viel Erfahrung, Wissen, Fähigkeiten haben und über die entsprechenden Werkzeuge verfügen, um die Ursachen für Performance-Probleme zu finden. Dabei handelt es sich nicht nur um Wissen im Bereich der Softwareentwicklung, sondern auch im Bereich des Servers und des Betriebssystems (Speichermanagement, Input/Output, etc.). Durch ihr breites Wissen sind sie mit der Unterstützung von Charts, Statistiken und Reports schnell in der Lage, Ursache von Performanceproblemen zu finden.
 
 \subsubsection{Java Entwickler}
 Im Gegensatz zu Performance Engineers beschäftigen sich Java Entwickler vorallem mit der Entwicklung von Anwendungen und verfügen nicht direkt über Knowhow im Bereich der Performanceanalyse. Als gut ausgebildete Ingenieure sind sie aber mit Hilfe von Werkzeugen und Dokumentation in der Lage, Performance Problemen innert nützlicher First auf den Grund zu gehen.

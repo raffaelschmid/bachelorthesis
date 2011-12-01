@@ -1,5 +1,5 @@
 \chapter{Garbage Collection JRockit}\label{jrockit garbage collection}
-Obwohl sich die Garbage Collection Algorithmen und Strategien der JRockit VM gegenüber der HotSpot VM in der Tiefe stark unterscheiden, haben sie Oberflächlich betrachtet viele Gemeinsamkeiten. Dieser Abschnitt geht auf die Eigenheiten der JRockit Virtual Machine ein. 
+Obwohl sich die Garbage Collection Algorithmen und Strategien der JRockit VM gegenüber der HotSpot VM in der Tiefe stark unterscheiden, haben sie Oberflächlich betrachtet viele Gemeinsamkeiten. Dieser Abschnitt geht auf die Eigenheiten der JRockit virtual Machine ein. 
 
 \section{Algorithmen}
 Die Grundlage der JRockit Garbage Collection bildet der Tri-Coloring Mark \& Sweep Algorithmus (siehe Abschnitt \titleref{tri-coloring mark and sweep}). Er wurde hinsichtlich besserer Parallelisierbarkeit und der optimalen Verwendung der Anzahl Garbage Collection Threads optimiert. Die Garbage Collection der JRockit VM arbeitet entweder mit oder ohne Generationen. Es gibt folgende Algorithmen:
@@ -60,7 +60,7 @@ Bei den parallelen Mark \& Sweep Algorithmen findet die Garbage Collection mit a
 
 
 \section{Garbage Collection Modi}\label{gc_modus}
-Anstelle einer direkten Auswahl eines Algorithmus (siehe Abschnitt \ref{auswahl_algorithmen}), kann auch eine grundlegende Strategie angegeben werden. Die Virtual Machine entscheided dann heuristisch, welcher spezifische Algorithmus gewählt wird - in der Regel entscheided er insbesondere, ob er den Heap in Generationen aufteilen soll. Die verfügbaren Modi entsprechen den Tuningzielen die es für die Garbage Collection gibt (siehe Abschnitt \ref{garbage_collection_tuning}):
+Anstelle einer direkten Auswahl eines Algorithmus (siehe Abschnitt \ref{auswahl_algorithmen}), kann auch eine grundlegende Strategie angegeben werden. Die VM entscheidet dann heuristisch, welcher spezifische Algorithmus gewählt wird - in der Regel entscheidet er insbesondere, ob er den Heap in Generationen aufteilen soll. Die verfügbaren Modi entsprechen den Tuningzielen die es für die Garbage Collection gibt (siehe Abschnitt \ref{garbage_collection_tuning}):
 \begin{itemize}
 	\item \textbf{Durchsatz (throughput):} Optimiert die Garbage Collection hinsichtlich möglichst grossem Durchsatz. Um dieses Ziel zu erreichen, werden parallele Algorithmen verwendet. Sie laufen nicht-konkurrierend mit der Applikation und führen zu kurzen Pausenzeiten (Stop-the-World Pausen). In der restlichen Zeit stehen der Applikation allerdings sehr viel Ressourcen zur Verfügung.
 	\item \textbf{Pausenzeit (pause time):} Die Optimierung der Pausenzeiten hat zur Folge, dass die Applikation durch möglichst wenig Stop-the-World Pausen angehalten wird. Das ist insbesondere für Client-Server Applikationen wichtig. Das Ziel wird mit der Verwendung eines Concurrent Garbage Collection Algorithmus erreicht.

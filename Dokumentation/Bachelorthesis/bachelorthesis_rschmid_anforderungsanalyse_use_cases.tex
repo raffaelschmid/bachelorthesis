@@ -18,7 +18,7 @@ Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die
    Kritikalität & gross\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann die Software in seiner Entwicklungsumgebung installieren.\\\hline
-   Akteure & Anwender, Entwicklungsumgebung\\\hline
+   Akteure & Anwender, Rich Client Framework\\\hline
    Auslösendes Ereignis & Anwender möchte eine Garbage Collection Logdatei analysieren.\\\hline
    Vorbedingung & Richtige Entwicklungsumgebung ist bereits ohne Analysesoftware installiert.\\\hline
    Nachbedingung & Es sind keine Fehler aufgetreten.\\\hline
@@ -47,7 +47,7 @@ Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die
    Kritikalität & Mittel\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann die Software aus der Entwicklungsumgebung updaten.\\\hline
-   Akteure & Anwender, Update-Server\\\hline   
+   Akteure & Anwender, Rich Client Framework\\\hline   
    Auslösendes Ereignis & Anwender hat die Software bereits zu einem früheren Zeitpunkt installiert. Sofern ein neues Update vorhanden ist, möchte er dieses installieren.\\\hline
    Vorbedingung & Richtige Entwicklungsumgebung und Software wurden bereits in einer früheren Version installiert.\\\hline
    Nachbedingung & Es sind keine Fehler aufgetreten.\\\hline
@@ -76,7 +76,7 @@ Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die
    Kritikalität & gross\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann die sich auf dem Dateisystem befindenden Logdatei importieren.\\\hline
-   Akteure & Anwender, Logdatei Importer\\\hline
+   Akteure & Anwender, Importer\\\hline
    Auslösendes Ereignis & Anwender startet Garbage Collection Log Analyse\\\hline
    Vorbedingung & Logdatei befindet sich auf dem Rechner und ist in einem der unterstützten Formate. Die Software ist vollständig installiert und gestartet.\\\hline
    Nachbedingung & Es sind keine Fehler aufgetreten. \\\hline
@@ -105,7 +105,7 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Kritikalität & gross\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Für eine schnelle Übersicht kann der Benutzer die Standardauswertung öffnen. Diese soll eine kurze Übersicht über die Garbage Collection geben und beinhaltet zwei Charts (Heap Benutzung, Dauer Garbage Collection). \\\hline
-   Akteure & Anwender, Logdatei Analyzer, Report Engine\\\hline
+   Akteure & Anwender, Analyzer, Reporting\\\hline
    Auslösendes Ereignis & Der Benutzer hat eine Garbage Collection Logdatei importiert und möchte nun die Analyse starten.\\\hline
    Vorbedingung & Bevor das Analysefenster für die Garbage Collection Logdatei geöffnet werden kann, wird die Datei eingelesen und geparst. Das heisst, dass die rohen Daten semantisch und syntaktisch analysiert und in den Arbeitsspeicher geladen werden.\\\hline
    Nachbedingung & -\\\hline
@@ -183,7 +183,7 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Kritikalität & Niedrig\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann ein eigenes Profil erstellen. Dem Profil können eigene, benutzerdefinierte Charts hinzugefügt werden. Auf jedem Chart können unterschiedliche Serien\footnote{Eine Serie definiert welche Daten auf der X- respektive Y-Achse angezeigt werden sollen.} hinzugefügt werden. Die Profile sind persistent und können exportiert wie auch importiert werden.\\\hline
-   Akteure & Anwender, Logdatei Analyzer, Report Engine\\\hline
+   Akteure & Anwender, Analyzer, Reporting\\\hline
    Auslösendes Ereignis & Die Applikation hat die Datei fertig eingelesen und geparst.\\\hline
    Vorbedingung & Die Logdatei wurde ohne Fehler eingelesen und befindet sich im strukturierten Format im Arbeitsspeicher.\\\hline
    Nachbedingung & -\\\hline
@@ -208,7 +208,7 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Kritikalität & Mittel\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann auf eine indexbasierte\footnote{Generelle Hilfe mit Informationen zur Garbage Collection,Vorgehensweise bei Performance Problemen, alternative Werkzeuge, etc.} und eine kontextsensitive\footnote{Hilfe zur aktuellen View oder Aktion des Benutzers} Hilfe zugreifen. \\\hline
-   Akteure & Anwender\\\hline
+   Akteure & Anwender, Hilfesystem\\\hline
    Auslösendes Ereignis & Anwender hat Plugin installiert, weiss nicht wie eine Analyse gestartet werden kann.\\\hline
    Vorbedingung & Entwicklungsumgebung und Software sind installiert.\\\hline
    Nachbedingung & -\\\hline
