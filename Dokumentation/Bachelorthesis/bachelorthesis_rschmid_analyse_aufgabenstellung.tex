@@ -1,17 +1,14 @@
 \chapter{Analyse der Aufgabenstellung}\label{analyse_aufgabenstellung}
 Das Ziel dieser Arbeit ist die Konzeption und Implementation einer Software für die Analyse von Garbage Collection Logdateien der JRockit Virtual Machine. Die grosse Datenmenge soll schnell eingelesen und übersichtlich, informativ dargestellt werden. 
 
-Um die Anforderungen an diese Software zu ermitteln, werden im Bereich der Performanceanalyse, der Garbage Collection und über die JRockit Virtual Machine die nötigen Grundlagen erarbeitet. Anschliessend wird eine Stärken-/Schwächen-Analyse der bestehenden Richt Client Frameworks gemacht, diese dient zusammen mit der Anforderungsanalyse als Grundlage für die Wahl der richtigen Technologie. Danach folgt die Konzeption und Implementation der Software. Die genaueren Beschreibung der einzelnen Teilaufgaben befindet sich in den folgenden Abschnitten.
+Um die Anforderungen an diese Software zu ermitteln, werden im Bereich der Performanceanalyse, der Garbage Collection und über die JRockit Virtual Machine die nötigen Grundlagen erarbeitet. Anschliessend wird die Anforderungsanalyse durchgeführt. Aufbauend auf dieser kann die Stärken-/Schwächen-Analyse und die Evaluation der bestehenden Rich Client Framworks und Bibliotheken zur Generierung von Diagrammen gemacht werden. Es folgt die Konzeption, Implementation und das Review (Synthese) der Software. Weitere Einzelheiten zu den Teilaufgaben befinden sich in im weiteren Verlauf dieses Abschnittes.
 
 \section{Erarbeitung der Grundlagen}
 Die Erarbeitung der Grundlagen dient als Basis in zwei Bereichen:
 \begin{itemize}
-	\item \textbf{Anforderungsanalyse:} Aus Sicht des Analysten respektive dem Benutzer dieser Software ist es essentiell, dass er die richtigen Daten der Garbage Collection, die richtige Sicht auf diese Daten und die richtigen Filter-Funktionen vorfindet. Voraussetzung für diese Anforderungen sind die Kenntnisse der verschiedenen Garbage Collection Algorithmen, insbesondere der JRockit VM. 
-	\item \textbf{Konzept: } Die Konzeption des Domänen-Modells und des Parseprozesses der Logdateien bedingt eine genaue Kenntnis der verschiedenen Strategien und Formaten der Logdateien.
+	\item \textbf{Anforderungsanalyse:} Aus Sicht des Analysten respektive dem Benutzer dieser Software ist es wichtig, dass er die richtigen Daten der Garbage Collection, die richtige Sicht auf diese Daten hat und geeignet filtern kann. Voraussetzung für diese Anforderungen sind die Kenntnisse der verschiedenen Garbage Collection Algorithmen, insbesondere der JRockit VM. 
+	\item \textbf{Konzept: } Die Konzeption des Domänen-Modells und des Parseprozesses der Logdateien bedingt eine gute Kenntnis des Aufbaus der VM im Bereich des Speichermanagements.
 \end{itemize}
-
-\section{Stärken-Schwächen-Analyse Rich Client Frameworks}
-Die Applikation wird als Rich Client implementiert. Als Basis kommen die Frameworks Netbeans und Eclipse in Frage. Auf der Basis der Stärken-Schwächen-Analyse wird der Entscheid für eine dieser Plattformen herbeigeführt.
 
 \section{Anforderungsanalyse Software-Prototyp}
 Die Anforderungen werden zusammen mit einem Performance-Analysten ermittelt und nach \cite[4.3.2 Angepasste Standardinhalte]{pohl2010basiswissen} dokumentiert. Laut dem IEEE\footnote{Institute of Electrical and Electronic Engineers} und \cite[4.5 Qualitätskriterien für das Anforderungsdokument]{pohl2010basiswissen} müssen Anforderungen folgende Kriterien erfüllen:
@@ -22,11 +19,15 @@ Die Anforderungen werden zusammen mit einem Performance-Analysten ermittelt und 
 	\item Vollständigkeit
 	\item Verfolgbarkeit
 \end{itemize}
+
+\section{Stärken-Schwächen-Analyse Rich Client Frameworks}
+Die Applikation wird als Rich Client implementiert. Als Basis kommen die Frameworks Netbeans und Eclipse in Frage. Die Stärken-Schwächen-Analyse soll den Entscheid bei der Evaluation der verwendeten Komponenten herleiten. Die Grundlage für diese Aufgabe ist die Anforderungsanalyse.
+
 \section{Evaluation Frameworks}
-Basierend auf der Stärken-Schwächen-Analyse wird ein Entscheid für das jeweilige Framework (Eclipse RCP oder Netbeans RCP)  ausgewählt. Nebst der Auswahl der Rich Client Plattform muss auch eine Charting-Bibliothek ausgewählt werden.
+Basierend auf der Stärken-Schwächen-Analyse wird ein Entscheid für das jeweilige Framework (Eclipse RCP oder Netbeans RCP)  ausgewählt. Nebst der Auswahl der Rich Client Plattform muss auch eine Bibliothek zur Generierung von Diagrammen evaluiert werden.
 
 \section{Konzeption und Implementation}
-Basierend auf den Anforderungen wird das Konzept erstellt und anschliessend die Software implementiert. 
+Basierend auf den Anforderungen wird das Konzept erstellt und anschliessend die Software im Sinne eines Proof of Concept implementiert. 
 
 \section{Bewertung}
 Die Bewertung der Software wird auf Basis der Anforderungen gemacht.

@@ -1,11 +1,12 @@
 \chapter{Einführung Performanceanalyse}
-Ganz nach dem Prinzip ''never change a running system`` sollte an der Konfiguration der Garbage Collection nur dann etwas verändert werden, wenn man darin Probleme feststellen kann. Dies muss aber zuerst durch eine gezielte und strukturierte Performanceanalyse festgestellt werden. Dieser Abschnitt beschreibt ein Mögliches Vorgehensmodell aufbauend auf der Suche nach dem Dominating Consumer nach \cite{pepperdine201102}.
+Als Vorbereitung für die Anforderungsanalyse und das Konzept werden verschiedene Grundlagen erarbeitet. Dieses und die weiteren beiden Kapitel dienen als kleine Einführung in das Thema des Performance und Garbage Collection Tunings.
+Ganz nach dem Prinzip ''never change a running system`` soll an der Konfiguration der Garbage Collection nur dann etwas geändert werden, wenn man am Verhalten Probleme feststellen kann. Dies muss aber zuerst durch eine gezielte und strukturierte Performanceanalyse untersucht werden. Dieser Abschnitt beschreibt ein mögliches Schema zur Vorgehensweise aufbauend auf dem Model der \textit{Suche  nach dem Dominating Consumer} nach \cite{pepperdine201102}.
 
 \section{Motivation}
-Die Performance respektive Leistungsfähigkeit einer Applikation stellt eine der bedeutendsten Qualitätsanforderungen dar. Probleme in diesem Bereich führen zu verärgerten Benutzern und verlangsamten Business-Prozessen. Die Motivation für eine Performanceanalyse entsteht, wenn die in Service Level Agreement oder Anforderungsanalyse spezifizierten \textbf{Qualitätsanforderungen nicht erfüllt} sind. Optimal wäre, wenn diese Anforderung während des Entwicklungsprozesses kontinuierlich geprüft würden.
+Die Performance respektive Leistungsfähigkeit einer Applikation stellt eine der bedeutendsten Qualitätsanforderungen dar. Probleme in diesem Bereich führen zu verärgerten Benutzern und verlangsamen die Business-Prozesse. Die Motivation für eine Performanceanalyse entsteht, wenn die in diesem Bereich existierenden \textbf{Qualitätsanforderungen nicht erfüllt} sind. Optimal wäre, wenn diese Frage während des Entwicklungsprozesses kontinuierlich geprüft wird.
 
 \section{Ablauf}
-Die Performanceanalyse ist ein iterativer Prozess und dauert in der Regel so lange, bis die Anforderungen an das System in diesem Bereich erfüllt sind. Eine einzelne Iteration besteht aus den folgenden vier Schritten\cite{hummelBeer201109}:
+Die Performanceanalyse ist ein iterativer Prozess und dauert in der Regel so lange, bis die Anforderungen an das System erfüllt sind. Eine einzelne Iteration besteht aus vier Schritten\cite{hummelBeer201109}:
 \begin{enumerate}
 	\item Identifikation der neuralgischen Punkte des Systems
 	\item \textbf{Suche nach dem Dominating Consumer\footnote{Kirk Pepperdine bezeichnet die Aktivität, durch welche der Prozessor stark ausgelastet wird, als Dominating Consumer . } (siehe Abschnitt \ref{dominating_consumer})}
@@ -23,36 +24,36 @@ Die Suche nach dem Dominating Consumer kann nach folgendem Schema durchgeführt 
 \end{figure}
 
 \subsection{Hohe relative Systemlast}\label{hohe_systemauslastung}
-Die erste Frage bei der Suche nach dem Dominating Consumer  ist, ob die hohe Prozessor-Auslastung durch die Applikation oder das System verursacht wird. Bei einer Auslastung durch das System spricht man von einer hohen relativen Systemlast.  Dies kann unterschiedliche Gründe haben (exzessive Kontextwechsel, hoher Input/Output). Zur Analyse dieses Messwertes kann dafür der Task Manager (unter Windows) oder vmstat (unter Linux, Unix) verwendet werden.\newline 
+Die erste Frage bei der Suche nach dem Dominating Consumer  ist, ob die hohe Prozessorlast durch die Applikation oder das System verursacht wird. Im zweiten Fall spricht man von einer hohen relativen Systemlast. Zur Analyse dieses Messwertes kann der Task Manager unter Windows oder vmstat unter Linux, Unix verwendet werden.\newline 
 
 Hohe Systemauslastung kann unterschiedliche Gründe haben: 
 \begin{itemize}
-\item \textbf{Exzessive Kontextwechsel:} Mehrere Prozesse können sich den gleichen Prozessor (Prozessor-Kern) nur deshalb teilen, weil beim Wechsel von Prozess A auf B ein Kontextwechsel gemacht wird, so dass Thread B am selben Ort weiterarbeitet wo er beim letzten Mal war. Gründe für exzessives Kontextwechsel können beispielsweise nicht adäquat gewählte Locks sein. Wenn ein Thread aufgrund der Synchronisation angehalten werden muss.\footnote{Symptomatisch zeigt dann vmstat, das System ist nicht im Leerlauf, aber die Kernelzeiten (cpu/sy) dominieren die Zeit des Benutzers (cpu/us).}
-\item \textbf{Viel Interaktion (Input/Output) mit der Festplatte oder dem Netzwerk} 
+\item \textbf{Exzessive Kontextwechsel:} Mehrere Prozesse können sich den gleichen Prozessor (Prozessor-Kern) nur deshalb teilen, weil beim Wechsel von Prozess A auf B ein Kontextwechsel gemacht wird, so dass Thread B am selben Ort weiterarbeitet, wo er beim letzten Mal war. Gründe für exzessive Kontextwechsel können beispielsweise nicht adäquat gewählte Locks sein. Wenn ein Thread aufgrund der Synchronisation angehalten werden muss.\footnote{vmstat zeigt auf: das System ist nicht im Leerlauf, aber die Kernelzeiten dominieren die Zeit des Benutzers.}
+\item \textbf{Hohe Interaktion mit der Festplatte oder dem Netzwerk} 
 \end{itemize}
 
 
 \subsection{Hohe Prozessor- respektive Core-Last}
-Sofern die im Abschnitt \ref{hohe_systemauslastung} beschriebenen Punkte nicht zutreffen, stellt sich die Frage, ob die Auslastung des Prozessors überhaupt gross ist. Ist das nicht der Fall, gibt es womöglich keinen Dominating Consumer - es muss dann herausgefunden werden, was die Threads daran hindert, Prozessor-Ressourcen zu verwenden. Es gibt dafür laut \cite{pepperdine201102} unterschiedliche Gründe:
+Sofern die im Abschnitt \ref{hohe_systemauslastung} beschriebenen Punkte nicht zutreffen, stellt sich die Frage, ob die Auslastung des Prozessors überhaupt gross ist. Ist das nicht der Fall, gibt es womöglich keinen Dominating Consumer. Es muss dann herausgefunden werden, was die Threads daran hindert, Prozessor-Ressourcen zu verwenden. Es gibt dafür laut \cite{pepperdine201102} unterschiedliche Gründe:
 \begin{itemize}
-\item \textbf{Dead Locks: } Threads schliessen sich gegenseitig aus. Das würde man in einem Thread Dump (Stacktrace) anhand der vielen wartenden Threads erkennen. 
-\item \textbf{Applikation skaliert nicht: } Applikation hat schlechte multi-core Eigenschaften. Das ist beispielsweise der Fall, wenn durch Synchronisation oder Memory Barrieren Engpässe entstehen - auch zu erkennen an wartenden Threads im Thread Dump.
-\item \textbf{Langsame Disks / Netzwerke: }In einem Sampling oder Profiling wäre beispielsweise erkennbar, dass Threads oft in \textit{read}-Operationen stecken.
+\item \textbf{Dead Locks: } Threads schliessen sich gegenseitig aus. Das würde man in einem Thread Dump anhand der vielen wartenden Threads erkennen. 
+\item \textbf{Applikation skaliert nicht: } Applikation hat schlechte multi-core Eigenschaften. Das ist beispielsweise der Fall, wenn durch Synchronisation oder Memory Barrieren Engpässe entstehen, auch zu erkennen an wartenden Threads im Thread Dump.
+\item \textbf{Langsame Disks / Netzwerke: }In einem Sampling\footnote{Bei einem Sampling werden in kurzen Intervallen (rund hundert mal pro Sekunde) Schnappschüsse der Threads gemacht. Es kann damit ermittelt werden, in welchen Methoden die Applikation am meisten Zeit verbringt.} oder Profiling wäre beispielsweise erkennbar, dass Threads oft in \textit{read}-Operationen stecken.
 \item \textbf{Zu kleine Connection- und Thread-Pools}
 \item \textbf{Aurufe auf langsame externe Systeme}
 \end{itemize}
 
 
 \subsection{Effizienter Objekt-Lebenszyklus}
-Sofern die Prozessor-Auslastung, trotz kleiner relativer Systemlast durch die Applikation, hoch ist, muss unter anderem\footnote{auch der Optimizer könnte dafür verantwortlich sein} die Garbage Collection angeschaut werden. Dafür gibt es unterschiedliche Herangehensweisen:
+Sofern die Prozessor-Auslastung, trotz kleiner relativer Systemlast durch die Applikation, hoch ist, muss unter anderem\footnote{auch der Just-in-Time Compiler könnte dafür verantwortlich sein} die Garbage Collection angeschaut werden. Dafür gibt es unterschiedliche Herangehensweisen:
 \begin{itemize}
 \item \textbf{Memory Analyse (Objektpopulation): }Es wird angeschaut, wie alt die Objekte in den unterschiedlichen Bereichen (Young Generation, Old Generation) sind. Wie viele Garbage Collection Zyklen sie überlebt haben.
-\item \textbf{Garbage Collection: }Wann und wie oft werden Garbage Collections durchgeführt, wie lange haben sie gedauert, wie viel Speicher haben sie befreit.
+\item \textbf{Analyse der Garbage Collection Metriken: }Wann und wie oft werden Garbage Collections durchgeführt, wie lange haben sie gedauert, wie viel Speicher haben sie befreit.
 \end{itemize}
 Im weiteren konzentrieren wir uns auf die Ziele und Vorgehensweise beim Garbage Collection Tuning.
 
 \section{Garbage Collection Tuning}\label{garbage_collection_tuning}
-Mit dem Resultat der Analyse des Dominating Consumers entscheidet sich auch, in welchem Bereich weitere Detaildaten gesammelt werden müssen. Wir beschränken uns in diesem Abschnitt auf die Analyse im Bereich der Garbage Collection. In der Regel will man mit dem Tuning eines der drei unten stehenden Zielen erreichen\cite{langerkreftJavaCore}: 
+Mit dem Resultat der Analyse des Dominating Consumers entscheidet sich auch, in welchem Bereich weitere Detaildaten gesammelt werden müssen. Wir beschränken uns in diesem Abschnitt auf die Analyse und das Tuning im Bereich der Garbage Collection. In der Regel will man mit dem Tuning eines der drei unten stehenden Zielen erreichen\cite{langerkreftJavaCore}: 
 \begin{itemize}
 \item Verbesserung des Durchsatzes (siehe Abschnitt \ref{gc_tuning_durchsatz})
 \item Geringere Pausenzeiten (siehe Abschnitt \ref{gc_tuning_pausenzeiten})
@@ -63,27 +64,28 @@ Diese drei Ziele bilden eine Dreiecksbeziehung, zum Beispiel führt eine aggress
 
 
 \subsection{Durchsatz\label{gc_tuning_durchsatz}}
-Die relative Zeit der CPU, welche der Anwendung zur Verfügung steht, nennt man Durchsatz (englisch \textit{Throughput}). Es handelt sich also um einen Prozentsatz im Vergleich mit der gesamten CPU-Zeit. Der Durchsatz wird folgendermassen berechnet:
+Worum geht es beim Durchsatz-Tuning? Die relative Zeit der CPU, welche der Anwendung zur Verfügung steht, nennt man Durchsatz (englisch \textit{Throughput}). Es handelt sich also um einen Prozentsatz im Vergleich mit der gesamten CPU-Zeit. Der Durchsatz wird folgendermassen berechnet:
 
  \begin{align*}
          Durchsatz &= 100 * (1-Relative\;Zeit\;in\;Garbage\;Collection)\\
          Durchsatz &= 100 * (1-\frac{Zeit\;in\;Garbage\;Collection}{Gesamtdauer\;der\;Messung})
  \end{align*}
-Die Formel ist nur eine Annäherung und berücksichtigt weder nebenläufige Garbage Collection noch Maschinen mit mehreren Prozessorkernen, Durchsatz-Tuning spielt aber in der Praxis auch oft nur eine sehr untergeordnete Rolle\cite{langerkreftJavaCore}. Eine wirkliche Steigerung des Durchsatzes kann man nämlich nur mit einer aggressiven Optimierung erzielen, und die führt zu verlängerten Pausenzeiten, was nur bei Batch-Applikationen toleriert werden kann. Der Austausch des Prozessors oder das Zuschalten von weiteren ist normalerweise der kostengünstigere Weg.
+Die Formel ist nur eine Annäherung und berücksichtigt weder nebenläufige Garbage Collection noch Maschinen mit mehreren Prozessorkernen, Durchsatz-Tuning spielt aber in der Praxis auch oft nur eine sehr untergeordnete Rolle\cite{langerkreftJavaCore}. Eine wirkliche Steigerung des Durchsatzes kann man nämlich nur mit einer aggressiven Optimierung erzielen, und die führt zu verlängerten Pausenzeiten, was nur bei Batch-Applikationen toleriert werden kann. Der Austausch oder das Zuschalten von weiteren Prozessoren ist normalerweise der kostengünstigere Weg.
 
 \subsection{Pausenzeiten\label{gc_tuning_pausenzeiten}}
 In der Regel geht es beim Garbage Collection Tuning um das Tuning der Pausenzeiten, dies weil man die Symptome wie das Stottern einer Anwendung nicht tolerieren kann. 
 
-Man startet dann mit der Analyse einzelner Garbage Collections und versucht die Gründe für zu häufige oder zu lange dauernde Collections zu finden. Zu häufige Initiierung einer Garbage Collection kann unterschiedliche Gründe haben:
+Man startet dann mit der Analyse einzelner Garbage Collections und versucht die Gründe für zu häufige oder zu lange dauernde Collections zu finden. Diese können unterschiedlich sein:
 \begin{itemize}
-\item \textbf{Erreichen eines Schwellenwerts des Young- oder Old-Spaces: } Anpassung der Grösse des Young- / Old-Spaces, Vergrösserung des Heaps, etc.
-\item \textbf{Heap hat maximale Grösse erreicht:} Anpassung der Heap-Grösse, Beseitigung von Memory Leaks, etc.
-\item \textbf{Allokation von Objekten ist nicht möglich:} Vergrösserung des Young-Space, Beseitung der Fragmentierung, etc. 
-\item \textbf{Von der Applikation initiiert (durch System.gc()):} Von der Applikation ausgelöste Garbage Collection Kommandos können mittels Aktivierung eines Flags ignoriert werden.
+\item \textbf{Erreichen eines Schwellenwerts des Young- oder Old-Spaces:} Dadurch wird eine Young- oder Old-Collection ausgelöst. Dies kann beispielsweise durch die Vergrösserung des jeweiligen Bereichs oder des gesamten Heap herausgezögert werden.
+\item \textbf{Heap hat maximale Grösse erreicht:} Bevor ein OutOfMemory-Fehler den Prozess zum stoppen bringt, wird die Applikation angehalten und eine Garbage Collection durchgeführt. Dies mit der Hoffnung, dass die Applikation anschliessend wieder weiterlaufen kann. Die Anpassung der Heap-Grösse oder das beheben von Memory-Leaks kann diese Symptome beheben, herauszögern.
+\item \textbf{Allokation von Objekten ist nicht möglich:} Entweder ist in der Young-Generation kein Platz mehr vorhanden oder der Heap ist dermassen fragmentiert, dass keine freien Speicherlücken mehr gefunden werden. Das Problem kann durch vergrössern der Young-Generation oder der Wahl eines geeigneteren Garbage Collection Algorithmus beseitigt werden.
+\item \textbf{Von der Applikation initiiert (durch System.gc()):} Benutzer versuchen teilweise, die Kontrolle über die Garbage Collection selbst zu führen. Man kann konfigurieren, dass diese durch die Applikation initiierten Aufrufe ignoriert werden.
 \end{itemize}
 
 
 
 \subsection{Speicherverbrauch\label{gc_tuning_speicherverbrauch}}
-Dieses Tuningziel verliert insofern an Relevanz, weil 64-Bit-JVMs bei grossen Applikationen schon sehr verbreitet sind und damit die Adressierung von mehr Speicher möglich ist. Mit 32-Bit Adressen kam man früher schon eher an die Grenze (ein Teil des adressierbaren Bereichs bei 32-Bit-Adressen von 4GB wird noch für das Betriebssystem verwendet). Eine Optimierung im Bereich des Speicherverbrauchs hat in der Regel nichts mit Garbage Collection Tuning zu tun, sondern ist eine Analyse der Objektpopulation im Bereich der Applikation.
+Bei diesem Tuning geht es darum, dass der Garbage Collector mit möglichst wenig Arbeitsspeicher auskommt.
+Dieses Tuningziel verliert insofern an Relevanz, weil 64-Bit-JVMs bei grossen Applikationen schon sehr verbreitet sind und damit die Adressierung von mehr Speicher möglich ist. Mit 32-Bit Adressen kam man früher schon eher an die Grenze (ein Teil des maximal adressierbaren Bereichs von 4GB wird noch für das Betriebssystem und andere Programme verwendet). Die Suche nach Memory-Leaks hat in der Regel nichts mit Garbage Collection Tuning zu tun.
 

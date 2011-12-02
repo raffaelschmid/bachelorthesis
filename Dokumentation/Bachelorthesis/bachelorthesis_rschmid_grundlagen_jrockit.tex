@@ -13,21 +13,35 @@ Die Grundlage der JRockit Garbage Collection bildet der Tri-Coloring Mark \& Swe
 
 \subsection{Optimierungen}
 \subsubsection{Verwendung von threadlokalem Speicher}
-Im Unterschied zum normalen Tri-Coloring Algorithmus verwendet der Algorithmus der JRockit, egal ob parallel oder concurrent, zwei Sets für die Markierung der Objekte. In einem werden die grauen und schwarzen Objekte gespeichert, im anderen die weissen. Die Trennung zwischen grau und schwarz wird gemacht, indem die grauen Objekte in threadlokalen Queues jedes Garbage Collection Threads gespeichert werden. 
+Im Unterschied zum normalen Tri-Coloring Mark \& Sweep Algorithmus verwendet die JRockit, egal ob parallel oder concurrent, zwei Sets für die Markierung der Objekte. In einem werden die grauen und schwarzen Objekte gespeichert, im anderen die weissen. Die Trennung zwischen grau und schwarz wird gemacht, indem die grauen Objekte in threadlokalen Queues jedes Garbage Collection Threads gespeichert werden. 
 
 Die Verwendung von threadlokalem Speicher hat hinsichtlich den folgenden Punkten einen Vorteil:\cite[S. 79]{lagergren2010oracle}:
 \begin{itemize}
 	\item Threadlokaler Speicher führt zu einer besseren Parallelisierbarkeit, da Zugriffe darauf nicht synchronisiert werden müssen.
-	\item Threadlokaler Speicher kann voraus geladen (Prefetching) werden, was die Geschwindigkeit des Algorithmus als Ganzes erhöht.
+	\item Threadlokaler Speicher kann im Voraus geladen (Prefetching) werden, was die Geschwindigkeit des Algorithmus erhöht.
 \end{itemize}
 
-Bei der Verwendung der Concurrent Algorithmen wird parallel dazu auch Speicher für neue Objekte alloziert. Diese neuen Objekte werden in einem sogenannten Live-Set getrackt, damit sie in der Sweep Phase - obwohl nicht markiert - nicht gelöscht werden.
+Bei der Verwendung der Concurrent Algorithmen, bei diesen läuft die Applikation nebenbei mit, werden parallel dazu auch neue Objekte instanziert (referenziert). Diese werden in einem sogenannten Live-Set geführt, damit sie in der Sweep Phase - obwohl nicht markiert - nicht gelöscht werden.
 
 \subsubsection{Kompaktierung}
-Aufgrund der im Speicher stattfindenden Fragmentierung wird bei jeder Old Collection eine Kompaktierung des Speichers durchgeführt. Während der Sweep Phase werden die Objekte auf dem Heap umher kopiert, so dass danach wieder grössere freie Speicherbereiche existieren.
+Aufgrund der im Speicher stattfindenden Fragmentierung, wird bei jeder Old Collection eine Kompaktierung des Speichers durchgeführt. Während der Sweep Phase werden dafür die Objekte auf dem Heap umher kopiert, so dass danach wieder grössere freie Speicherbereiche existieren.
+
+\section{Nebenläufige Algorithmen}
+Bei den Concurrent Mark \& Sweep Algorithmen auf der JRockit handelt es sich eigentlich um ''mostly concurrent`` Algorithmen. Das heisst, sie können nicht in allen Phasen konkurrierend zur Applikation stattfinden. Damit wenigstens ein Teil der \textbf{Markierungsphase} konkurrierend abläuft, ist sie in verschiedene Phasen unterteilt:
+\begin{itemize}
+	\item Initial Marking (Nicht konkurrierend): Hier wird das Root Set zusammengestellt.
+	\item Concurrent Marking (konkurrierend): Mehrere Threads gehen nun diesen Referenzen nach und markieren die Objekte als lebendig.
+	\item Preclean (konkurrierend): Änderungen im Heap während dem vorherigen Schritt werden nachgeführt und noch markiert.
+	\item Final Marking (Nicht konkurrierend): Änderungen im Heap während der Precleaning Phase werden nachgeführt, markiert. Diese Phase ist nicht konkurrierend, dauert aber nur sehr kurz.
+\end{itemize}
+
+Die \textbf{Sweep Phase} findet ebenfalls konkurrierend zur Applikation statt. Im Gegensatz zur HotSpot VM ist sie aber in zwei Schritte aufgeteilt. Als erstes wird die erste Hälfte des Heaps von toten Objekten befreit, während dieser Phase können Threads Speicher in der zweiten Hälfte des Heaps allozieren. Nach einer kurzen Synchronisationspause findet das Sweeping auf dem zweiten Teil des Heaps statt.
+
+\section{Parallele Algorithmen}
+Bei den parallelen Algorithmen findet die Garbage Collection mit allen verfügbaren Prozessoren statt. Dazu werden aber alle Threads der Applikation gestoppt. Dies ist für Server-Applikationen nicht sinnvoll, führt aber bei Backend-Applikationen zu einem erhöhten Durchsatz.
 
 \subsection{Übersicht und Auswahl Algorithmen}\label{auswahl_algorithmen}
-Algorithmen können direkt selektiert werden. Manchmal passiert es aber trotzdem, dass der Garbage Collection Algorithus im laufenden Betrieb geändert wird.
+Die nachfolgende Tabelle zeigt eine Übersicht der aktuell verfügbaren Algorithmen auf der JRockit virtual Machine. Diese können per Argument auf der Kommandozeile direkt selektiert werden. Manchmal werden sie aber aufgrund heuristischer Auswertungen im laufenden Betrieb gewechselt.
   \begin{longtable}{|p{2cm}|p{2.8cm}|l|c|c|c|c|c|}
     \hline
   \textbf{Alias} & \textbf{Aktivierung}& \textbf{Generation} & \textbf{Pause} &\textbf{Durchs.} & \textbf{Heap} & \textbf{Mark} & \textbf{Sweep} \\\hline
@@ -44,23 +58,8 @@ Algorithmen können direkt selektiert werden. Manchmal passiert es aber trotzdem
 \caption{Auswahl des Garbage Collection Algorithmus}
   \end{longtable}
 
-\section{Nebenläufige Algorithmen}
-Bei den Concurrent Mark \& Sweep Algorithmen handelt es sich eigentlich um ''mostly concurrent`` Algorithmen. Das heisst, sie finden nicht in allen Phasen konkurrierend zur Applikation statt. Damit ein Teil der \textbf{Markierungsphase} konkurrierend statt finden kann, ist sie in vier Phasen aufgeteilt:
-\begin{itemize}
-	\item Initial Marking (Nicht konkurrierend): Hier wird das Root Set zusammengestellt.
-	\item Concurrent Marking (konkurrierend): Mehrere Threads gehen nun diesen Referenzen nach und markieren die Objekte als lebendig.
-	\item Preclean (konkurrierend): Änderungen im Heap während den vorherigen Schritten werden nachgeführt, markiert.
-	\item Final Marking (Nicht konkurrierend): Änderungen im Heap während der Precleaning Phase werden nachgeführt, markiert.
-\end{itemize}
-
-Die \textbf{Sweep Phase} findet ebenfalls konkurrierend zur Applikation statt. Im Gegensatz zur HotSpot VM ist sie aber in zwei Schritte aufgeteilt. Als erstes wird die erste Hälfte des Heaps von toten Objekten befreit, während dieser Phase können Threads Speicher in der zweiten Hälfte des Heaps allozieren. Nach einer kurzen Synchronisationspause findet das Sweeping auf dem zweiten Teil des Heaps statt.
-
-\section{Parallele Algorithmen}
-Bei den parallelen Mark \& Sweep Algorithmen findet die Garbage Collection mit allen verfügbaren Prozessoren statt. Dazu werden aber alle Threads der Applikation gestoppt.
-
-
 \section{Garbage Collection Modi}\label{gc_modus}
-Anstelle einer direkten Auswahl eines Algorithmus (siehe Abschnitt \ref{auswahl_algorithmen}), kann auch eine grundlegende Strategie angegeben werden. Die VM entscheidet dann heuristisch, welcher spezifische Algorithmus gewählt wird - in der Regel entscheidet er insbesondere, ob er den Heap in Generationen aufteilen soll. Die verfügbaren Modi entsprechen den Tuningzielen die es für die Garbage Collection gibt (siehe Abschnitt \ref{garbage_collection_tuning}):
+Anstelle einer direkten Auswahl eines Algorithmus (siehe Abschnitt \ref{auswahl_algorithmen}), kann auch eine grundlegende Strategie angegeben werden. Die VM entscheidet dann heuristisch, welcher spezifische Algorithmus gewählt wird. Die verfügbaren Modi entsprechen den Tuningzielen, die es für die Garbage Collection gibt (siehe Abschnitt \ref{garbage_collection_tuning}):
 \begin{itemize}
 	\item \textbf{Durchsatz (throughput):} Optimiert die Garbage Collection hinsichtlich möglichst grossem Durchsatz. Um dieses Ziel zu erreichen, werden parallele Algorithmen verwendet. Sie laufen nicht-konkurrierend mit der Applikation und führen zu kurzen Pausenzeiten (Stop-the-World Pausen). In der restlichen Zeit stehen der Applikation allerdings sehr viel Ressourcen zur Verfügung.
 	\item \textbf{Pausenzeit (pause time):} Die Optimierung der Pausenzeiten hat zur Folge, dass die Applikation durch möglichst wenig Stop-the-World Pausen angehalten wird. Das ist insbesondere für Client-Server Applikationen wichtig. Das Ziel wird mit der Verwendung eines Concurrent Garbage Collection Algorithmus erreicht.
@@ -68,7 +67,7 @@ Anstelle einer direkten Auswahl eines Algorithmus (siehe Abschnitt \ref{auswahl_
 \end{itemize}
   \begin{longtable}{|p{2.5cm}|p{3.1cm}|p{4.5cm}|p{4cm}|}\hline
   \textbf{Alias} & \textbf{Aktivierung} & \textbf{Beschreibung} & Einstellungsmöglichkeiten\\\hline
-  troughput & -Xgc:throughput & Der Garbage Collector wird auf maximalen Durchsatz der Applikation eingestellt. Er arbeitet so effektiv wie möglich und erhält entsprechend viele Java-Threads, was zu kurzen Pausen der Applikation führen kann. & \\\hline
+  troughput & -Xgc:throughput & Der Garbage Collector wird auf maximalen Durchsatz der Applikation eingestellt. Es werden parallele Algorithmen verwendet. Er arbeitet so effektiv wie möglich und erhält entsprechend viele Java-Threads, was zu kurzen Pausen der Applikation führen kann. & \\\hline
   pausetime & -Xgc:pausetime & Der Garbage Collector wird auf möglichst kurze Pausen eingestellt. Das bedeutet, dass ein konkurrierender Algorithmus verwendet wird, der insgesamt etwas mehr CPU Ressourcen benötigt. & -XpauseTarget=value (default 200msec)\\\hline
   deterministic & -Xgc:deterministic & Der Garbage Collector wird auf eine möglichst kurze und deterministische Pausenzeit eingestellt. &-XpauseTarget=value (default 30msec)\\\hline
     \caption{Übersicht der Garbage Collection Modi}
@@ -84,12 +83,12 @@ Standardmässig macht die JRockit keine Angaben darüber, wie sie die Garbage Co
 -Xverbose:<modul>[=log_level]
 \end{lstlisting}
 
-Um das Memory Log Modul (gibt Informationen über die Garbage Collection aus) zu aktivieren muss man folgendes Argument übergeben:
+Um das Memory Log Modul (gibt Informationen über die Garbage Collection aus) zu aktivieren, muss man folgendes Argument übergeben:
 \begin{lstlisting}[caption=Garbage Collection Log (Info)]
 -Xverbose:memory
 \end{lstlisting}
 
-Die Umleitung der Ausgaben in eine separate Logdatei kann folgendermassen angegeben werden:
+Die Umleitung der Ausgaben in eine separate Logdatei kann folgendermassen gemacht werden:
 \begin{lstlisting}[caption=Garbage Collection Log (Info) - Umleitung in gc.log]
 -Xverbose:memory -Xverboselog:gc.log 
 \end{lstlisting}
@@ -102,7 +101,8 @@ Zusätzlich kann pro Log-Modul der Log-Level angepasst werden:
 Als Log-Levels stehen folgende Werte zur Verfügung: quiet, error, warn, info, debug, trace. Für weiter Informationen siehe \cite{oracleJRockitR28CLR}.
 
 \subsection{Beispiel einer Garbage Collection Logdatei}
-Die ersten Zeilen einer Log-Datei sind auf der folgenden Seite ersichtlich:
+Eine Logdatei besteht in der Regel, abhängig von der Dauer der Messung und der Aktivität der virtual Machine, aus mehreren Tausend Zeilen. Die ersten paar befinden sich exemplarisch auf der nächsten Seite.
+
 \begin{landscape}\label{logexample}
 \begin{lstlisting}[caption=Garbage Collection Logdatei]
 [INFO ][memory ] GC mode: Garbage collection optimized for throughput, strategy: Generational Parallel Mark & Sweep.
@@ -128,15 +128,15 @@ Die ersten Zeilen einer Log-Datei sind auf der folgenden Seite ersichtlich:
 
 \subsection{Log Module}\label{logmodule}
 
-Die folgende Tabelle beschreibt die für die Auswertung der Garbage Collection relevanten Module (alphabetisch sortiert). 
+Die folgende Tabelle beschreibt die für die Auswertung der Garbage Collection relevanten Log-Module (alphabetisch sortiert). 
 
 \begin{longtable}{|p{4cm}|p{9cm}|p{2cm}|}
   \hline
-  \textbf{Modul} & \textbf{Beschreibung} & \textbf{Relevanz}\\\hline
-  alloc & Informationen betreffend Speicher Allokation und ``Out-of-Memory'' & niedrig \\\hline
+  \textbf{Modul} & \textbf{Beschreibung} & \textbf{Relevanz\footnote{Relevanz für Garbage Collection Tuning}}\\\hline
+  alloc & Informationen betreffend Speicher Allokation und ``Out-of-Memory'' Meldungen & niedrig \\\hline
   compaction & zeigt abhängig vom Garbage Collection Algorithmus Informationen zur Kompaktierung& niedrig \\\hline
   gcheuristic & zeigt Informationen der Garbage Collection Heuristik & mittel \\\hline
-  gcpause & zeigt wann welche Pausen zwecks Garbage Collection gemacht wurden, wie lange sie gedauert haben. & mittel \\\hline
+  gcpause & zeigt, wann welche Pausen der Applikation zwecks Garbage Collection gemacht wurden, wie lange sie gedauert haben. & mittel \\\hline
   gcreport & zeigt verschiedene Auswertungen (Anzahl Collections, Anzahl promotete Objekte, maximal promotete Objekte per Zyklus, totale Zeit, Durchschnittszeit, Maximale Zeit) der Garbage Collection zum aktuellen Lauf& niedrig \\\hline
   memory & zeigt Informationen zum Memory Management System wie Start-, Endzeitpunkt der Collection, Speicher bevor, nach Collection, Grösse des Heaps, etc.& \textbf{sehr hoch} \\\hline
   memdbg & zeigt debug Informationen zu Speicher belange& \textbf{hoch} \\\hline
