@@ -11,7 +11,7 @@ Die Software wird lizenziert unter der Eclipse Public License\footnote{http://ww
 	\item Jedermann kann Erweiterungen entwickeln oder Fehler beheben.
 \end{itemize}
 
-\section{Architektur}\label{konzept_uebersicht}
+\section{Übersicht}\label{konzept_uebersicht}
 Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analysesoftware auch hinsichtlich anderer Logformate erweiterbar sein. Die Applikation wird also nicht zwingendermassen mit der Erweiterung für JRockit Logdateien verwendet. Es könnte zu einem späteren Zeitpunkt sein, dass man damit Garbage Collection Logs der HotSpot virtual Machine auswertet. Dies hat hinsichtlich Architektur einige Konsequenzen:
 \begin{itemize}
 	\item Die Applikation wird in zwei Komponenten aufgeteilt:
@@ -19,20 +19,20 @@ Aufgrund der Anforderung QRQ-S-01 (Erweiterbarkeit) muss die Analysesoftware auc
 			\item Basissoftware
 			\item Erweiterung JRockit
 		\end{itemize}
-		Die Basissoftware kann unabhängig von den Erweiterungen installiert werden, für die Auswertung wird diese allerdings benötigt. Eine Erweiterung kann ohne Basissoftware nicht gebraucht werden.
-	\item Die Architektur der Applikation muss es zulassen, dass zu einem späteren Zeitpunkt auch Garbage Collection Logs von anderen Virtuellen Machinen analysiert werden können.
-	\item Die Basissoftware stellt Extension-Points\footnote{Ein Extension-Point ist ein Mechanismus der von Eclipse zur Verfügung gestellt wird, damit eine Komponente (Plugin) sich bei einer anderen registrieren kann.} bereit, über welche sich die Erweiterungen  registrieren.
+		Die Basissoftware kann unabhängig von den Erweiterungen installiert werden, für die Auswertung wird die entsprechende Erweiterung allerdings benötigt. Eine Erweiterung kann ohne Basissoftware nicht gebraucht werden.
+	\item Die Architektur der Applikation muss es zulassen, dass zu einem späteren Zeitpunkt auch Garbage Collection Logs von anderen virtuellen Maschinen analysiert werden.
+	\item Die Basissoftware stellt Extension-Points\footnote{Ein Extension-Point ist ein Mechanismus, mit dem zwei Eclipse-Plugins miteinander kommunizieren können.} bereit, über welche sich die Erweiterungen  registrieren.
 \end{itemize}
 
 \subsection{Struktur}\label{projektstruktur}
-Die generischen Aspekte der Software befinden sich in der Basissoftware. Nur die Spezialisierung im Bereich jedes einzelnen Log-Formats findet in den Erweiterungen statt. Grundsätzlich werden die Aufgaben folgendermassen verteilt:
+Die generischen Aspekte der Software befinden sich in der Basissoftware. Nur die Spezialisierung im Bereich jedes einzelnen Log-Formats findet in den Erweiterungen statt. Die Aufgaben werden folgendermassen verteilt:
 \begin{itemize}
 	\item Basissoftware (Core Feature)
 		\begin{itemize}
 			\item Garbage Collection Log importieren
 			\item Garbage Collection Log einlesen
 			\item Profil erstellen, speichern, exportieren, importieren
-			\item Hilfesystem (wobei allerdings jedes einzelne Feature spezifische Hilfethemen beisteuern kann)
+			\item Hilfesystem (wobei allerdings jedes einzelne Feature spezifische Hilfethemen bereitstellen kann)
 		\end{itemize}
 	\item JRockit Extension (JRockit Extension Feature)
 		\begin{itemize}
@@ -41,7 +41,7 @@ Die generischen Aspekte der Software befinden sich in der Basissoftware. Nur die
 		\end{itemize}
 \end{itemize}
 
-Das Core-Feature ist die Basis und verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, Profil-Verwaltung, etc.). Die JRockit Extension ist eine für die Garbage Collection Logs der JRockit geschriebene Erweiterung. Sie ist für das Parsing der Logdateien, die Aufbereitung und Bereitstellung der Daten zuständig. Beinhaltet aber keine Basisfunktionalität.
+Das Core-Feature ist die Basis und verantwortlich für den gesamten Import-Prozess (Import-Wizard, Leseprozess der Log-Datei, Anzeige der Menus, Profil-Verwaltung, etc.). Die JRockit Extension ist eine für die Garbage Collection Logs der JRockit geschriebene Erweiterung. Sie ist für das Parsen der Logdateien sowie die Aufbereitung und das Bereitstellung der Daten zuständig. Beinhaltet aber keine Basisfunktionalität.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=14cm]{images/architektur_komponenten_uebersicht}
@@ -60,12 +60,12 @@ Die folgenden Projekte (Plugins) sind im Zusammenhang mit dem Deployment und Tes
 			\item jrockit.test
 			\item jrockit.ui.test
 		\end{itemize}
-	\item  Features\footnote{Features sind in sich lauffähige Softwarekomponenten mit definiertem Umfang. Zur Defininition wird ein eigenes Eclipse-Projekt erstellt.}
+	\item  Features\footnote{Features sind in sich lauffähige Softwarekomponenten mit definiertem Umfang und Abhängigkeiten auf Plugins. Zur Defininition wird ein eigenes Eclipse-Projekt erstellt.}
 		\begin{itemize}
 			\item loganalysis.feature
 			\item loganalysis.jrockit.feature
 		\end{itemize}
-	\item  Thirdparty Bibliotheken\footnote{Thirdparty Bibliotheken werden bei Eclipse-Anwendungen als Plugins gepackt.}
+	\item  Thirdparty Bibliotheken\footnote{Eingebundene externe Bibliotheken werden als Plugins gepackt, damit deren Klassen durch den Modul-Loader geladen werden können.}
 		\begin{itemize}
 			\item  loganalysis.jfreechart.libs (JFreeChart Library)
 		\end{itemize}

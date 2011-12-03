@@ -1,21 +1,21 @@
-Das Konzept ist in fünf Kapitel unterteilt. Im ersten befindet sich die Auswahl des Rich Client Frameworks und der Bibliothek zur Anzeige der Charts. Im zweiten die Architekturthemen der Software. Der dritte und vierte Teil konzipiert die vielen funktionalen und Qualitätsanforderungen. Im fünften Teil befindet sich das Konzept im Bereich des Change Managements (Issue Tracking, Versionskontrolle, Continuous Integration, etc.) und der Infrastruktur.
+Das Konzept ist in fünf Kapitel unterteilt. Im ersten befindet sich die Auswahl des Rich Client Frameworks und der Bibliothek zur Anzeige der Charts. Im zweiten die Architekturthemen der Software. Der dritte und vierte Teil konzipiert die vielen funktionalen und Qualitätsanforderungen. Im fünften Teil befindet sich das Konzept im Bereich Infrastruktur und Change Management (Issue Tracking, Versionskontrolle, Continuous Integration, etc.).
 
 
 \chapter{Auswahl Frameworks und Komponenten}\label{selection_rcp_fw}
-Im Vorfeld des Software-Konzepts wird die Evaluation der verschiedenen Rich Client Frameworks durchgeführt. Dieser Abschnitt beinhaltet sowohl die ''Analyse über Stärken und Schwächen der bestehenden Java Rich Client Technologien`` als auch die ''dokumentierten Auswahlkriterien und Entscheidungsgrundlagen``. Der Abschnitt besteht aus drei Teilen: der erste Teil beschreibt das Bewertungsschema, der zweite und dritte die Evaluation von Rich Client Framework und Charting Bibliothek.
+Im Vorfeld des Software-Konzepts wird die Evaluation der verschiedenen Rich Client Frameworks durchgeführt. Dieser Abschnitt beinhaltet  die Ziele \textit{Analyse über Stärken und Schwächen der bestehenden Java Rich Client Technologien} und \textit{dokumentierten Auswahlkriterien und Entscheidungsgrundlagen}. Der Abschnitt ist in drei Teile gegliedert. Der erste Teil beschreibt das Bewertungsschema, der zweite und dritte die Evaluation von Rich Client Framework und Bibliothek zur Anzeige der Diagramme.
 
 
-\section{Bewertung}
+\section{Bewertung}\label{bewertung}
 Die Evaluation und Bewertung des Rich Client Frameworks und der Charting Bibliothek basiert auf dem nachfolgend beschriebenen Berechnungsmodell. 
 
-Auf der Basis der Anforderungen werden die Bewertungskriterien definiert. Die Gewichtung leitet sich folgendermassen aus der Priorität ab:
+Auf der Basis der Anforderungen werden die Bewertungskriterien definiert. Die Gewichtung  der einzelnen Kriterien leitet sich aus der Priorität ab:
 \begin{longtable}{|l|c|c|c|c|c|}\hline
  \textbf{Priorität} & sehr klein & klein & mittel & gross & sehr gross\\\hline
  \textbf{Gewicht} & 1 & 2 & 3 & 4 & 5\\\hline
  \caption{Schema Umwandlung Priorität in Gewicht}
 \end{longtable}
 
-Die Bewertung der Komponenten hinsichtlich den Kriterien basiert auf dem aus der Evaluation erhaltenen Erfahrungswert und wird folgendermassen in eine Zahl umgewandelt:
+Die Bewertung der einzelnen Kriterien basiert auf dem aus der Evaluation erhaltenen Erfahrungswert und wird folgendermassen umgewandelt:
 \begin{longtable}{|l|c|c|c|c|c|}\hline
  \textbf{Bewertung} & sehr schlecht & schlecht & mittel & gross & sehr gross\\\hline
  \textbf{Zahl} & 1 & 2 & 3 & 4 & 5\\\hline
@@ -23,38 +23,38 @@ Die Bewertung der Komponenten hinsichtlich den Kriterien basiert auf dem aus der
 \end{longtable}
 
 Die Punktezahl berechnet sich aus dem Produkt aus Gewichtung und Bewertung:
-\begin{center}
+ \begin{align*}
 \fbox{Punktezahl = Gewichtung x Bewertung}
-\end{center}
+\end{align*}
 \section{Evaluation Rich Client Framework}
-Grundsätzlich kommen für die Entwicklung der Analysesoftware auch die Java GUI-Bibliothek (Bibliothek zur Programmierung von Grafischen Benutzer Oberflächen) Swing in Frage. Viele der Anforderung (Deployment, Installation, Update, Modularisierung, Internationalisierung, etc.) werden von Rich Client Frameworks bereitgestellt und stehen mit teilweise geringem Aufwand zur Verfügung. Bei der Evaluation der Bibliothek werden darum nur Rich Client Frameworks berücksichtigt. Von denen kommen aufgrund der funktionalen Anforderung QRQ-F-05 (Offline Betriebsmodus) und QRQ-F-06 (Installation als Erweiterung) Eclipse RCP (RCP steht für Rich Client Plattform) und Netbeans RCP in Frage. Während Eclipse RCP insbesondere als Entwicklungsumgebung ein weit verbreitetes Framework ist und die Entwicklung aktuell in zwei verschiedenen Versionen (3.x / 4.x) vorangetrieben wird, findet man Netbeans und deren Rich Client Plattform eher selten. In der Folge werden die drei Frameworks kurz beschrieben und dann anhand der Anforderungen verglichen.
+Grundsätzlich kommt für die Entwicklung der Analysesoftware auch die Java GUI-Bibliothek (Bibliothek zur Programmierung von Grafischen Benutzer Oberflächen) Swing in Frage. Viele der Anforderung (Deployment, Installation, Update, Modularisierung, Internationalisierung, etc.) werden von Rich Client Frameworks aber bereitgestellt und stehen bereits mit geringem Aufwand zur Verfügung. In die Evaluation werden deshalb nur Rich Client Frameworks mit einbezogen. Von denen kommen aufgrund der funktionalen Anforderung QRQ-F-05 (Offline Betriebsmodus) und QRQ-F-06 (Installation als Erweiterung) Eclipse RCP\footnote{RCP steht für Rich Client Plattform} und Netbeans RCP in Frage. Während Eclipse RCP insbesondere als Entwicklungsumgebung ein weit verbreitetes Framework ist und die Entwicklung aktuell in zwei verschiedenen Versionen (3.x / 4.x) vorangetrieben wird, findet man Netbeans und deren Rich Client Plattform seltener. In der Folge werden die drei Frameworks kurz beschrieben und dann anhand der Anforderungen verglichen.
 
 
 \subsection{Eclipse RCP}
 Bis zur Version 2.1 war Eclipse bekannt als eine Open Source Entwicklungsumgebung für Programmierer. Der Vorgänger hiess Visual Age vor Java und wurde von IBM entwickelt. 
 
-Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Seit dem handelt es sich um einen relativ kleinen Kern, der die eigentlichen Funktionalitäten der Applikation als Plugins lädt. Der beschriebene Mechanismus basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen werden in SWT implementiert. Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins für die Entwicklungsumgebung  verwendet werden.
+Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Seit dem handelt es sich um einen relativ kleinen Kern, der die eigentlichen Funktionalitäten der Applikation als Plugins lädt. Der beschriebene Mechanismus basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen werden in SWT implementiert. Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins verwendet werden - nicht nur als Entwicklungsumgebung. Nachfolgend einige Details in Bezug auf die Anforderungen:
 
 \begin{itemize}
 \item \textbf{Verbreitung:} Eclipse RCP ist relativ stark verbreitet, die Suche auf Amazon nach ''Eclipse RCP`` (Kategorie: Bücher) liefert 53 Resultate (stand 27. November 2011).
 \item \textbf{Plattformunabhängigkeit:} Eclipse ist für 14 verschiedene Systeme und Architekturen bereitgestellt und gilt somit als plattformunabhängig\cite{wiki:eclipse}.
-\item \textbf{Lokalisation:} Wird von Eclipse unterstützt durch die Erweiterung der Java-Lokalisation.
-\item \textbf{Modularisierung:} Die Modularisierung in Eclipse Anwendungen wird auf der Basis von Plugins gemacht. Ein Plugin ist eine Menge von Klassen mit einer wohl definierten Schnittstelle (welche Klassen, Packete werden importiert, exportiert).
+\item \textbf{Lokalisation:} Wird von Eclipse durch die Erweiterung der Java-Lokalisation unterstützt.
+\item \textbf{Modularisierung:} Die Modularisierung in Eclipse Anwendungen wird auf der Basis von Plugins gemacht. Ein Plugin ist eine Menge von Klassen mit einer definierten Schnittstelle (welche Klassen, Packete werden importiert, exportiert).
 \item \textbf{Installation als Erweiterung:} Eclipse bietet an, Plugins und Features in die bestehende Entwicklungsumgebung zu installieren.
 \end{itemize}
 
 \subsection{Netbeans RCP}
-Bei Netbeans RCP handelt es sich ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet. 
+Bei Netbeans RCP handelt es sich ebenfalls um ein Framework zur Entwicklung von Desktop Anwendungen. Der Kern der Netbeans Plattform besteht ebenfalls aus einem Modul-Loader und im Bereich der grafischen Benutzeroberfläche wird Swing verwendet.  Auch hier einige Aspekte in Bezug auf die Anforderungen:
 \begin{itemize}
 \item \textbf{Verbreitung:} Netbeans RCP ist nicht sehr verbreitet, die Suche auf Amazon nach "Netbeans RCP" (Kategorie: Bücher) liefert 7 Resultate (stand 27. November 2011).
 \item \textbf{Plattformunabhängigkeit:} Netbeans RCP basiert vollumfänglich auf Java und ist deshalb auf allen Plattformen, für die eine Java Virtual Machine existiert, verfügbar. Es gilt deshalb als plattformunabhängig (siehe \cite{wiki:netbeans}).
-\item \textbf{Lokalisation:} Wird von Netbeans unterstützt durch die Erweiterung der Java-Lokalisation.
-\item \textbf{Modularisierung:} Die Modularisierung in Netbeans kann ebenfalls mit Modulen (äquivalent Plugin in Eclipse Applikationen) gemacht werden.
-\item \textbf{Installation als Erweiterung:} Netbeans bietet es an, Module in die bestehende Entwicklungsumgebung zu installieren.
+\item \textbf{Lokalisation:} Wird von Netbeans durch die Erweiterung der Java-Lokalisation unterstützt.
+\item \textbf{Modularisierung:} Die Modularisierung in Netbeans kann mit Modulen (äquivalent Plugin in Eclipse Applikationen) gemacht werden.
+\item \textbf{Installation als Erweiterung:} Netbeans bietet es ebenfalls an, Module in die bestehende Entwicklungsumgebung zu installieren.
 \end{itemize}
 
 \subsection{Auswertung}
-Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \ref{anforderungen_framework}. Die dritte Spalte enthält das aus der Priorität abgeleitete Gewicht (siehe Abschnitt Gewichtung). Die weiteren Spalten zeigen pro Kandidat die Bewertung zusammen mit dem errechneten Produkt aus Gewichtung und Bewertung.
+Die erste und zweite Spalte zeigen die Anforderungen aus Abschnitt \ref{anforderungen_framework}. Die dritte Spalte enthält das aus der Priorität abgeleitete Gewicht (siehe Abschnitt \ref{bewertung}). Die weiteren Spalten zeigen pro Kandidat die Bewertung zusammen mit dem errechneten Produkt (Gewicht x Bewertung).
 \begin{longtable}{|p{3cm}|c|c|c|c|c|}\hline
  \textbf{Anforderung\footnote{siehe Abschnitt \ref{anforderungen_framework}}} & \textbf{Nummer} &  \textbf{Gewicht.\footnote{Gemäss Priorität der Anforderung}} & \textbf{Eclipse 3.x} & \textbf{Eclipse 4.x} &  \textbf{Netbeans 3.x}\\\hline
    Verbreitung & (QRQ-F-01) & 4 & 5 (20) & 1 (4) & 2 (8)\\\hline
@@ -71,18 +71,18 @@ Ausschlaggebend für die Wahl der Rich Client Plattform ist die Verbreitung. Tro
 
 
 \section{Evaluation Bibliothek Charting}
-Für die grafische Darstellung der Daten (Charts) muss eine Bibliothek verwendet werden. Im Bereich der nicht-kommerziellen Produkte wird dafür sehr oft Eclipse BIRT (Business Intelligence and Reporting Tools) und JFreeChart eingesetzt.
+Für die grafische Darstellung der Daten als Diagramm wird eine Bibliothek verwendet werden. Im Bereich der nicht-kommerziellen Produkte wird dafür sehr oft Eclipse BIRT (Business Intelligence and Reporting Tools) und JFreeChart eingesetzt.
 \subsection{BIRT}
 BIRT steht für Business Intelligence and Reporting Tools und stellt Business-Intelligence- und Reporting-Funktionalität für Rich Clients zur Verfügung. BIRT ist Lizenziert unter der Eclipse Public License und ist daher open-source. BIRT ist wie Eclipse ein Top-Level-Softwareprojekt der Eclipse Foundation. Die Software besteht aus zwei Teilen:
 \begin{itemize}
 \item \textbf{Report Designer: }Mit dem Report Designer können Benutzer oder Administratoren ihre Reports erstellen und anpassen. 
-\item \textbf{Charting Engine: }Die Charting Engine generiert aus den Daten und den definierten Reports, Diagrammen die Charts.
+\item \textbf{Charting Engine: }Die Charting Engine generiert aus den Daten und den definierten Vorlagen die Charts.
 \end{itemize} 
 
-Der Umfang der Software ist mit über 100 Megabyte für kleinere Projekte eher ungeeignet.
+Der Umfang der Software ist mit über 100 Megabyte für kleinere Projekte eher gross.
 
 \subsection{JFreeChart}
-JFreeChart ist ein Open-Source-Framework mit welchem eine Vielzahl verschiedener Diagramme erzeugt werden können. JFreeChart unterstützt die Ausgabe der Diagramme in Grafiken, Swing- und RCP-Applikationen und ist mit einer Grösse von rund einem Megabyte auch für kleinere Softwareprojekte geeignet.
+JFreeChart ist ein Open-Source-Framework mit welchem eine Vielzahl verschiedener Diagramme erzeugt werden kann. JFreeChart unterstützt die Ausgabe der Diagramme in Grafiken, Swing- und RCP-Applikationen und ist mit einer Grösse von rund einem Megabyte auch für kleinere Softwareprojekte geeignet.
 
 \subsection{Auswertung}
 \begin{longtable}{|p{4cm}|c|c|c|c|}\hline
@@ -94,4 +94,4 @@ JFreeChart ist ein Open-Source-Framework mit welchem eine Vielzahl verschiedener
 \end{longtable}
 
 \subsection{Entscheid}
-JFreeChart eignet sich insbesondere für kleinere Client-Applikationen sehr gut zur Erstellung von Diagrammen. Die Flexibilität welche bei Birt durch den Report-Designer bereitgestellt wird, kann in der Analysesoftware nicht angewendet werden. Deshalb fiel der Entscheid für die Bibliothek JFreeChart aus.
+JFreeChart eignet sich insbesondere für kleinere Client-Applikationen sehr gut zur Erstellung von Diagrammen. Die Flexibilität, welche bei Birt durch den Report-Designer bereitgestellt wird, kann in der Analysesoftware nicht angewendet werden. Deshalb fiel der Entscheid für die Bibliothek JFreeChart aus.
