@@ -1,5 +1,5 @@
 \section{Use Cases}\label{use_cases}
-Dieser Abschnitt zeigt die Use Cases für die Analysesoftware, daraus wird am Ende der Anforderungsanalyse die Liste der Anforderungen erstellt. Zur Übersicht dien das Use Case Diagramm im nächsten Abschnitt. Es definiert die Systemgrenze zusammen mit dem Anwender und die einzelnen Use Cases, diese sind danach nach der in \cite[S. 78-79]{pohl2010basiswissen} definierten Schablone beschrieben.
+Dieser Abschnitt zeigt die Use Cases für die Analysesoftware, daraus wird am Ende der Anforderungsanalyse die Liste der Anforderungen ermittelt. Zur Übersicht dient das Use Case Diagramm im nächsten Abschnitt. Es definiert die Systemgrenze, Anwender und die einzelnen Use Cases. Diese sind anschliessend nach der in \cite[S. 78-79]{pohl2010basiswissen} definierten Schablone beschrieben.
 \subsection{Übersicht}\label{systemfunktionalitaet}
  \begin{figure}[H]
   	\centering
@@ -7,7 +7,6 @@ Dieser Abschnitt zeigt die Use Cases für die Analysesoftware, daraus wird am En
         	\caption{Systemfunktionalität als Use-Case-Diagramm}
 \end{figure}
 \subsection{Beschreibung}
-Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die Nummer referenziert ist.
 \begin{longtable}{|p{4cm}|p{10.5cm}|}
   \hline
    \textbf{Abschnitt} & \textbf{Inhalt / Erläuterung} \\\hline
@@ -21,14 +20,14 @@ Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die
    Akteure & Anwender, Rich Client Framework\\\hline
    Auslösendes Ereignis & Anwender möchte eine Garbage Collection Logdatei analysieren.\\\hline
    Vorbedingung & Richtige Entwicklungsumgebung ist bereits ohne Analysesoftware installiert.\\\hline
-   Nachbedingung & Es sind keine Fehler aufgetreten.\\\hline
+   Nachbedingung & Es sind bei der Installation keine Fehler aufgetreten.\\\hline
    Ergebnis & Entwicklungsumgebung ist bereit für Garbage Collection Auswertungen.\\\hline
    Hauptszenario & 
          \begin{enumerate}
-		\item Anwender Startet Entwicklungsumgebung
-		\item Anwender gibt Update-Seite an
-		\item Anwender selektiert zu installierendes Softwarepaket
-		\item Softwarepaket wird installiert	
+		\item Anwender startet Entwicklungsumgebung.
+		\item Anwender gibt Update-Seite an.
+		\item Anwender selektiert zu installierendes Softwarepaket und entscheidet sich, diese zu installieren.
+		\item Softwarepaket wird installiert.
  	\end{enumerate}
 	\\\hline
    Alternativszenarien & -\\\hline
@@ -46,18 +45,18 @@ Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & Mittel\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann die Software aus der Entwicklungsumgebung updaten.\\\hline
+   Kurzbeschreibung & Der Benutzer kann die Software aus der Entwicklungsumgebung aktualisieren.\\\hline
    Akteure & Anwender, Rich Client Framework\\\hline   
-   Auslösendes Ereignis & Anwender hat die Software bereits zu einem früheren Zeitpunkt installiert. Sofern ein neues Update vorhanden ist, möchte er dieses installieren.\\\hline
+   Auslösendes Ereignis & Anwender hat die Software bereits zu einem früheren Zeitpunkt installiert. Es ist eine neue Version der Software auf der Update-Seite.\\\hline
    Vorbedingung & Richtige Entwicklungsumgebung und Software wurden bereits in einer früheren Version installiert.\\\hline
    Nachbedingung & Es sind keine Fehler aufgetreten.\\\hline
-   Ergebnis & Entwicklungsumgebung und Analysesoftware sind auf dem neusten Stand für Garbage Collection Auswertungen.\\\hline
+   Ergebnis & Entwicklungsumgebung und Analysesoftware sind auf dem neusten Stand für Auswertungen.\\\hline
    Hauptszenario & 
 	\begin{enumerate}
-		\item Anwender Startet Entwicklungsumgebung
-		\item Anwender sucht und findet Updates für die Analysesoftware
-		\item Anwender selektiert eines oder mehrere dieser Softwarepakete
-		\item Software wird aktualisiert
+		\item Anwender startet Entwicklungsumgebung.
+		\item Anwender sucht und findet Updates für die Analysesoftware.
+		\item Anwender selektiert eines oder mehrere dieser Softwarepakete und entscheidet sich, diese zu installieren.
+		\item Software wird aktualisiert.
 	\end{enumerate}
 	\\\hline
    Alternativszenarien & -\\\hline
@@ -75,7 +74,7 @@ Die definierten Use Cases leiten sich aus einer Anforderung ab, welche über die
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gering\\\hline
    Kritikalität & gross\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann die sich auf dem Dateisystem befindenden Logdatei importieren.\\\hline
+   Kurzbeschreibung & Der Benutzer kann eine sich auf dem Dateisystem befindende Logdatei importieren.\\\hline
    Akteure & Anwender, Importer\\\hline
    Auslösendes Ereignis & Anwender startet Garbage Collection Log Analyse\\\hline
    Vorbedingung & Logdatei befindet sich auf dem Rechner und ist in einem der unterstützten Formate. Die Software ist vollständig installiert und gestartet.\\\hline
@@ -104,19 +103,23 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Priorität & Wichtigkeit für Systemerfolg: gross\newline Technologisches Risiko: gross\\\hline
    Kritikalität & gross\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Für eine schnelle Übersicht kann der Benutzer die Standardauswertung öffnen. Diese soll eine kurze Übersicht über die Garbage Collection geben und beinhaltet zwei Charts (Heap Benutzung, Dauer Garbage Collection). \\\hline
+   Kurzbeschreibung & Für eine schnelle Übersicht kann der Benutzer eine Standardauswertung öffnen. Diese soll eine kurze Übersicht über die Garbage Collection geben und beinhaltet zusätzlich zwei Charts (Heap Benutzung, Dauer Garbage Collection). \\\hline
    Akteure & Anwender, Analyzer, Reporting\\\hline
    Auslösendes Ereignis & Der Benutzer hat eine Garbage Collection Logdatei importiert und möchte nun die Analyse starten.\\\hline
-   Vorbedingung & Bevor das Analysefenster für die Garbage Collection Logdatei geöffnet werden kann, wird die Datei eingelesen und geparst. Das heisst, dass die rohen Daten semantisch und syntaktisch analysiert und in den Arbeitsspeicher geladen werden.\\\hline
+   Vorbedingung & Applikation hat die Logdatei fertig importiert.\\\hline
    Nachbedingung & -\\\hline
    Ergebnis & Dem Benutzer wird ein Analyse-Screen angezeigt.\\\hline
    Hauptszenario & 
 	\begin{enumerate}
-		\item Applikation hat die Logdatei fertig importiert.
+		\item Bevor das Analysefenster für die Logdatei geöffnet werden kann, wird die Datei eingelesen und geparst. Das heisst, dass die rohen Daten semantisch und syntaktisch analysiert und in den Arbeitsspeicher geladen werden.
 		\item Dem Benutzer wird ein Screen mit verschiedenen Tabs angezeigt. Auf jedem Tab wird dem Benutzer eine unterschiedliche Sicht auf die Daten gezeigt.
 	\end{enumerate}
 	\\\hline
-   Alternativszenarien & Benutzerdefinierte Auswertung\\\hline
+   Alternativszenarien & 
+\begin{itemize}
+\item Benutzerdefinierte Auswertung
+\item Format der Logdatei wird nicht unterstützt, die Datei wird nicht im Analysefenster geöffnet, dem Benutzer wird eine Fehlermeldung angezeigt.
+\end{itemize}\\\hline
    Ausnahmeszenarien & -\\\hline
    Qualitäten &  Korrektheit, Performance, Usability\\\hline
    Erweiterungen & UC-04.1, UC-04.2, UC-04.3, UC-04.4 \\\hline
@@ -168,7 +171,7 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Priorität & Wichtigkeit für Systemerfolg: mittel\newline Technologisches Risiko: mittel\\\hline
    Kritikalität & Mittel\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Die Anzeige \textit{Dauer Garbage Collection} zeigt dem Benutzer über die Zeit wie lange die einzelne Garbage Collection gedauert hat.\\\hline
+   Kurzbeschreibung & Die Anzeige \textit{Dauer Garbage Collection} zeigt dem Benutzer über die Zeit, wie lange die einzelne Garbage Collection gedauert hat.\\\hline
    Qualitäten &  Korrektheit, Performance, Usability\\\hline
 \caption{Use-Case: Anzeige Dauer Garbage Collection}
 \end{longtable}
@@ -182,13 +185,13 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Priorität & Wichtigkeit für Systemerfolg: niedrig\newline Technologisches Risiko: niedrig\\\hline
    Kritikalität & Niedrig\\\hline
    Verantwortlicher & Raffael Schmid\\\hline
-   Kurzbeschreibung & Der Benutzer kann ein eigenes Profil erstellen. Dem Profil können eigene, benutzerdefinierte Charts hinzugefügt werden. Auf jedem Chart können unterschiedliche Serien\footnote{Eine Serie definiert welche Daten auf der X- respektive Y-Achse angezeigt werden sollen.} hinzugefügt werden. Die Profile sind persistent und können exportiert wie auch importiert werden.\\\hline
+   Kurzbeschreibung & Der Benutzer kann ein eigenes Profil erstellen. Dem Profil können eigene, benutzerdefinierte Charts hinzugefügt werden. Auf jedem Chart können unterschiedliche Serien. Eine Serie definiert, welche Daten auf der X- respektive Y-Achse angezeigt werden sollen. hinzugefügt werden. Die Profile sind persistent und können exportiert wie auch importiert werden.\\\hline
    Akteure & Anwender, Analyzer, Reporting\\\hline
    Auslösendes Ereignis & Die Applikation hat die Datei fertig eingelesen und geparst.\\\hline
    Vorbedingung & Die Logdatei wurde ohne Fehler eingelesen und befindet sich im strukturierten Format im Arbeitsspeicher.\\\hline
    Nachbedingung & -\\\hline
    Ergebnis & Dem Benutzer wird ein benutzerdefiniertes Analysefenster angezeigt.\\\hline
-   Hauptszenario & Unabhängig vom Zyklus der Garbage Collection Analyse, kann der Benutzer ein eigenes Profil erstellen. Ein Profil besteht initial aus einem Übersichtsfenster der Garbage Collection und kann um eigene, benutzerdefinierte Charts erweitert werden. Sollte die Entwicklungsumgebung mit der Analysesoftware geschlossen werden, bleiben die erstellten Profile erhalten.\\\hline
+   Hauptszenario &Der Benutzer kann ein eigenes Profil erstellen. Ein Profil besteht initial aus einem Übersichtsfenster und kann um eigene, benutzerdefinierte Charts erweitert werden. Sollte die Entwicklungsumgebung mit der Analysesoftware geschlossen werden, bleiben die erstellten Profile erhalten.\\\hline
    Alternativszenarien & -\\\hline
    Ausnahmeszenarien & -\\\hline
    Qualitäten & Korrektheit \\\hline
@@ -209,13 +212,13 @@ Die importierten Dateien werden gespeichert. Bei einem Neustart der Entwicklungs
    Verantwortlicher & Raffael Schmid\\\hline
    Kurzbeschreibung & Der Benutzer kann auf eine indexbasierte\footnote{Generelle Hilfe mit Informationen zur Garbage Collection,Vorgehensweise bei Performance Problemen, alternative Werkzeuge, etc.} und eine kontextsensitive\footnote{Hilfe zur aktuellen View oder Aktion des Benutzers} Hilfe zugreifen. \\\hline
    Akteure & Anwender, Hilfesystem\\\hline
-   Auslösendes Ereignis & Anwender hat Plugin installiert, weiss nicht wie eine Analyse gestartet werden kann.\\\hline
+   Auslösendes Ereignis & Anwender hat Plugin installiert, weiss nicht wie eine Analyse gestartet wird.\\\hline
    Vorbedingung & Entwicklungsumgebung und Software sind installiert.\\\hline
    Nachbedingung & -\\\hline
    Ergebnis & Anwender kennt Software\\\hline
    Hauptszenario &	\begin{itemize}
 		\item \textbf{Indexbasierte Hilfe: } Der Benutzer kennt sich im Thema Garbage Collection und auf der Analysesoftware noch nicht aus. Er holt sich Hilfe über die indexbasierte Hilfe. 
-		\item \textbf{Kontextsensitive Hilfe: } Der Benutzer befindet sich in einem Fenster oder möchte eine Aktion ausführen (Context), das Hilfesystem zeigt ihm dazu die notwendingen Informationen.
+		\item \textbf{Kontextsensitive Hilfe: } Der Benutzer befindet sich in einem Fenster oder möchte eine Aktion ausführen (Context), das Hilfesystem zeigt ihm dazu zusätzliche Informationen.
 	\end{itemize}
 	\\\hline
    Alternativszenarien & -\\\hline
