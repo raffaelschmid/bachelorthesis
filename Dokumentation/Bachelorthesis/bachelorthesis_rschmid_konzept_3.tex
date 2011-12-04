@@ -1,50 +1,41 @@
 \chapter{Infrastruktur}\label{konzept_3}
-Build-Automatisierung, Issue Tracking und Versionsverwaltung sind im Context der Analysesoftware. Dieser Abschnitt beschreibt die eher administrativen Belange und definiert das Projektsetup. 
+Build-Automatisierung, Issue Tracking und Versionsverwaltung sind im Context der Analysesoftware. Dieser Abschnitt beschreibt das Projektsetup (Build, Integration, Konfigurations und Change Management).
 
 \section{Verwendete Werkzeuge}
 \subsection{Build-Automatisierung}
-Die Automatisierung des Software-Builds ist hinsichtlich der Integration in ein Continuous Integration System wichtig. Zusätzlich entfallen so zeitaufwändige Tasks wie die Paketierung und das Deployment der Applikation.
-Als Werkzeug zum automatisierten Build der Software wird Maven Tycho\footnote{Im Bereich der Eclipse Rich Client Entwicklung kann entweder PDE Build, ein auf Apache Ant basiertes Build-System für Eclipse RCP Applikationen\cite{vogelZapfPdeBuild} oder die Maven-Integration Tycho (http://tycho.sonatype.org) verwendet werden.} verwendet.
+Die Automatisierung des Software-Builds ist hinsichtlich der Integration in ein Continuous Integration System wichtig. Zusätzlich entfallen so zeitaufwändige Tasks wie die Paketierung und das Deployment. Im Bereich der Eclipse Rich Client Entwicklung kann entweder PDE Build, ein auf Apache Ant basiertes Build-System für Eclipse RCP Applikationen\cite{vogelZapfPdeBuild} oder die Maven-Integration Tycho\footnote{http://tycho.sonatype.org} verwendet werden. Als Werkzeug zum automatisierten Build der Software wird Maven Tycho verwendet.
 
 Tycho ist relativ neu und bringt im Vergleich mit dem PDE Build einige Vorteile mit sich:
 \begin{itemize}
-	\item Maven folgt dem Prinzip ``Convention over Configuration''\footnote{Das Prinzip ``Convention over Configuration'' hat zur Folge, dass im Wesentlichen nur von den Standardeinstellungen abweichende Werte konfiguriert werden müssen.} - die Konfiguration des Builds wird dadurch wesentlich einfacher.
-	\item Maven ist de facto Standard bei den Build-Werkzeugen und kann leicht in Continuous Integration Systeme eingebaut werden.
+	\item Maven folgt dem Prinzip ``Convention over Configuration''\footnote{Möglichst viel wird standardisiert nur Abweichungen konfiguriert.} - die Konfiguration des Builds ist einfach und verständlich. PDE Build basiert auf der Build-Software Ant und ist aufwändig zu konfigurieren.
+	\item Maven ist de facto Standard bei den Build-Werkzeugen und wird von allen Continuous Integration Systemen unterstützt.
 \end{itemize}
 
 \subsection{Issue Tracker}\label{issue_tracker}
 Als Issue Tracker wird Jira verwendet. Es handelt sich dabei um eine kostenpflichtige aber relativ günstige Software für die Verwaltung von Bugs, Feature-Requests, etc. Sie lässt sich auch gut mit allen gängigen Systemen zur Versionsverwaltung integrieren.
 
 \subsection{Versionsverwaltung}
-Als Versionsverwaltungssysteme kommen mehrere Werkzeuge in Frage, darunter befinden sich auch CVS und Subversion. Git\footnote{http://git-scm.com} ist ein verteiltes Versionsverwaltungssystem und ist konzeptionell und hinsichtlich Benutzerfreundlichkeit besser als Subversion und CVS\footnote{Git kann offline verwendet werden, das Verschieben von Verzeichnissen führt nicht zu Problemen, etc.}. Die Charakteristik des Systems erfordert es nicht unbedingt, dass es ein zentrales Repository gibt. Ein Repository befindet sich auf jedem Client. Trotzdem setzt man in der Regel ein zentrales Repository auf, in welches die Entwickler jederzeit commiten können. Eine empfehlenswerte Einführung in Git kann unter \cite{dilger201111}  gefunden werden.
-
-Auf der Plattform Github\footnote{http://github.com} kann man Git-Projekte frei ``hosten''.
+Als Versionsverwaltungssysteme kommen mehrere Werkzeuge in Frage, darunter befinden sich auch CVS und Subversion. Git\footnote{http://git-scm.com} ist ein verteiltes Versionsverwaltungssystem und ist konzeptionell besser als Subversion und CVS\footnote{Git kann offline verwendet werden, das Verschieben von Verzeichnissen führt nicht zu Problemen, etc.}. Eine empfehlenswerte Einführung in Git kann unter \cite{dilger201111}  gefunden werden. Als zentrales Repository wird Github\footnote{http://github.com} verwendet. Nur von diesem zentralen Repository werden Release-Builds durchgeführt.
 
 
 
 
 \subsection{Continous Integration}
-Continuous Integration Systeme dienen zur Steigerung der Softwarequalität. Sie machen dies in der Regel, indem sie alle Tests und den Gesamtbuild der Software periodisch - beispielsweise jede Stunde - durchführen. Für dieses Projekt sind einige Voraussetzungen gegeben:
+Continuous Integration Systeme dienen zur Steigerung der Softwarequalität. Sie machen dies, indem sie alle Tests und den Gesamtbuild der Software periodisch, beispielsweise jede Stunde, durchführen. In letzter Zeit hat das Continuous Integration System \textit{Hudson} an Popularität gewonnen. Es erfüllt die Anforderungen aus dem Projekt:
 \begin{itemize}
 	\item \textbf{Buildwerkzeug Maven:} Das System muss Maven als Build- und Automatisierungswerkzeug unterstützen.
 	\item \textbf{Git Versionskontrolle:} Der Quelltext der Applikation muss via Git vom Sourcecode Repository ausgecheckt werden können.
 	\item \textbf{Freie Lizenz:} Die Software muss mindestens frei verfügbar sein oder open-source.
-\end{itemize}
-In den letzten Jahren hat sich Hudson\footnote{Vor kurzem haben sich einige Entwickler von Hudson aufgrund von Streitigkeiten mit Oracle dazu entschieden, die Software weiter unter dem Namen Jenkins zu entwickeln.} in vielen Projekten durchgesetzt. Hudson ist eine open-source Continuous Integration Software die gegenüber anderen Systemen einige Vorteile mit sich bringt:
-\begin{itemize}
-\item Hudson ist open-source.
-\item Hudson ist sehr einfach zu installieren und administrieren.
-\item Hudson basiert auf einem Plugin-System und ist aufgrund dessen erweiterbar. Es gibt Plugins für die Integration von Maven-Projekten und den Zugriff auf Git Repositories.
+	\item \textbf{Einfache Installation und Einrichten des Projektes}
 \end{itemize}
 
 \section{Konfigurationsmanagement}
 Jedes Deployment entspricht einer Version in Jira (siehe Abschnitt \ref{issue_tracker}).
-Ab dem ersten Release entspricht die Versionsnummer folgendem Muster:
-\begin{center}
+Die Versionsnummern werden nach folgendem Muster aufgebaut:\begin{center}
 \fbox{\textbf{\textless Major\textgreater.\textless Minor\textgreater .\textless Build\textgreater}}
 \end{center}
 
-\textbf{Ein Beispiel für eine Versionsnummer wäre 1.3.1. Gestartet wird mit 1.0.0}. 
+\textbf{Gestartet wird mit Version 1.0.0}. 
 \subsection{Pflege der einzelnen Versionen}
 \begin{itemize}
 \item \textbf{Build:} Bei jedem Bugfix- und/oder sonstigen ausserordentlichen Zwischenrelease, wird die Build-Version um eins hochgezählt.
@@ -55,9 +46,9 @@ Ab dem ersten Release entspricht die Versionsnummer folgendem Muster:
 
 
 \subsection{Versionsverwaltung}
-Das zentrale Repository dieses Projektes befindet sich auf Github\footnote{https://github.com/schmidic/bachelorthesis}. Es ist jederzeit verfügbar und kann von allen Clients (Entwickler, Continuous Integration) jederzeit angesprochen werden. Ein neuer Entwickler klont das Repository auf seinen Rechner, um am Sourcecode arbeiten zu können.
+Das zentrale Repository dieses Projektes befindet sich auf Github\footnote{https://github.com/schmidic/bachelorthesis}. Es ist jederzeit verfügbar und kann von allen Clients (Entwickler, Continuous Integration) jederzeit angesprochen werden. Ein neuer Entwickler klont das Repository auf seinen Rechner, um die Entwicklung voran zu treiben.
 \subsubsection{Übersicht}
-Das Repository besteht aus drei Branches:
+Das Repository wird folgendermassen aufgesetzt:
 \begin{itemize}
 \item \textbf{master:} Auf dem \textit{master}-Branch befindet sich der aktuelle Entwicklungsstand. 
 \item \textbf{release:} Nur vom \textit{release}-Branch wird in die Produktion deployt. Dadurch kann jederzeit am produktiven System ein Bugfix gemacht werden. Der \textit{release}-Branch entspricht der aktuell deployten produktiven Applikation.
@@ -65,7 +56,7 @@ Das Repository besteht aus drei Branches:
 \end{itemize}
 
 \subsubsection{Bugfix Entwicklung}
-Ein Bugfix der produktiven Applikation findet auf der Basis des \textit{release}-Branches statt. Dazu wird daraus allerdings ein neuer Branch erzeugt. Die Minor-Version für den Bugfix wird um eins inkrementiert. Ausgehend von einem Beispiel zweier Bugfixes für die Version 1.0.0 ist der Ablauf wie folgt:
+Ein Bugfix der produktiven Applikation findet aus dem \textit{release}-Branch statt. Dazu wird daraus ein neuer Branch erzeugt. Die Bugfix-Version für den Bugfix wird um eins inkrementiert. Ausgehend von einem Beispiel zweier Bugfixes für die Version 1.0.0 ist der Ablauf wie folgt:
 \begin{enumerate}
 \item Für den laufenden Release (Version 1.0.0) werden die Bugs (\#4321, \#4322) im Jira rapportiert.
 \item Der Entwickler checkt den \textit{release}-Branche aus und erstellt daraus einen neuen Branch (\textit{bugfix-for-1.0.0}).
@@ -73,14 +64,14 @@ Ein Bugfix der produktiven Applikation findet auf der Basis des \textit{release}
 \item Der Entwickler erstellt eine neue Jira Version (1.0.1).
 \item Der Entwickler repariert die Fehler, die Applikation wird getestet.
 \item Die Bugs innerhalb des Jiras werden der neuen Version zugeordnet.
-\item Der Entwickler führt (merge) die Bugfixes zurück in den \textit{release}-Branch. Die Zuordnung der Commits mit den Jira-Bugs wird über den Kommentar in der Versionsverwaltung mit dem Bug im Jira verlinkt. Die Anpassung des Kommentars der vorherigen Commits kann mittels einem Rebasing (siehe \cite{dilger201111}) gemacht werden.
+\item Der Entwickler führt die Bugfixes zurück in den \textit{release}-Branch (merge). Die Zuordnung der Commits mit den Jira-Bugs wird über den Kommentar beim Git-Commit mit dem Jira-Bug verlinkt. Die Anpassung des Kommentars der vorherigen Commits kann mittels einem Rebasing (siehe \cite{dilger201111}) gemacht werden.
 \item Erstellen eines Tags für den Release
 \item Release der neuen Version (1.0.1).
 \end{enumerate}
 Mit dem dedizierten \textit{release}-Branch kommt ein wesentlicher Vorteil zum Tragen: Man kann ein Bugfix Release in das Produktivsystem veranlassen, der nur einen bestimmten Bugfix enthält, selbst wenn auf dem \textit{master} eventuell schon weitere Features entwickelt wurden.
 
 \subsubsection{Feature Entwicklung}
-Die Entwicklung eines Features, welches in die Produktion einfliessen soll, wird auf dem Master-Branch durchgeführt. Um Konflikte mit dem \textit{release}-Branch zu vermeiden, wird nach jedem Release zumindest die Minor-Version des \textit{master}-Branches um eins erhöht.  Das Vorgehen ist wie folgt:
+Die Entwicklung eines Features, welches in die Produktion einfliessen soll, wird auf dem Master-Branch durchgeführt. Um Konflikte mit dem \textit{release}-Branch zu vermeiden, wird nach jedem Release zumindest die Minor-Version des \textit{master}-Branches um eins erhöht.  Ausgehend von zwei Feature-Anfragen ist das Vorgehen wie folgt:
 \begin{enumerate}
 \item Für den laufenden Release gibt es die Feature-Requests (\#4351, \#4352) im Jira.
 \item Der Entwickler checkt den \textit{master}-Branch (Version 1.0.0) aus und erstellt daraus einen neuen Branch (\textit{feature-1.1.0})
@@ -88,5 +79,5 @@ Die Entwicklung eines Features, welches in die Produktion einfliessen soll, wird
 \item Der Entwickler erstellt eine neue Jira Version (1.1.0).
 \item Der Entwickler erstellt das neue Feature.
 \item Der Entwickler ordnet die Feature-Requests im Jira der neu erstellten Version zu.
-\item Der Entwickler führt (merge) den \textit{feature-1.1.0}-Branch zurück in den \textit{master}-Branch.  Die Zuordnung der Commits mit den Jira-Bugs wird über den Kommentar mit dem Jira-Bug verlinkt. Die Anpassung des Kommentars der vorherigen Commits kann mittels einem Rebasing (siehe \cite{dilger201111}) gemacht werden.
+\item Der Entwickler führt den \textit{feature-1.1.0}-Branch zurück in den \textit{master}-Branch (merge).  Die Zuordnung der Commits mit den Jira-Features wird über den Commit-Kommentar gemacht. Die Anpassung des Kommentars von vorherigen Commits kann mittels einem Rebasing (siehe \cite{dilger201111}) gemacht werden.
 \end{enumerate}
