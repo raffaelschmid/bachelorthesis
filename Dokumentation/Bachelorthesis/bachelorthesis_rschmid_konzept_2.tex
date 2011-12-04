@@ -210,25 +210,30 @@ Mittels des Memento-(siehe Anhang \ref{memento}) und Visitor-Patterns\cite[S. 33
 Die Analysesoftware stellt zum Sichern und Verteilen von Profilen einen Import-Export-Mechanismus bereit. Beide sind in den Eclipse Standard-Wizards ersichtlich oder können via rechtem Mouseklick (Ansicht Profile) gestartet werden. Der Profile-Export und -Import basiert wie das Speichern auf dem im Abschnitt \ref{memento} beschriebenen Memento-Mechanismus. Zur Serialisierung in eine Datei wird das XMLMemento verwendet. 
 
 \chapter{Generelle Aspekte}
-Dieser Abschnitt steht für das Konzept der nichtfunktionalen Anforderungen (Qualitätsanforderungen). 
-\section{Hilfesystem (FRQ-16)}
-Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfedienste wie Suche und Indexierung bereitstellt. Hilfeseiten sind auf unterschiedliche Weise verfügbar:
+Dieser Abschnitt konzipiert die nichtfunktionalen Anforderungen (Qualitätsanforderungen).
+
+\section{Hilfesystem (FRQ-16)}\label{hilfesystem}
+Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung implementiert. Beim Start der Entwicklungsumgebung wird zusätzlich ein Jetty-Server gestartet, der die Hilfedienste wie Suche und Indexierung bereitstellt.  Hilfeseiten werden als HTML-Seiten umgesetzt und vom internen Browser angezeigt. Es gibt zwei verschiedene Hilfetypen:
+
+
 \begin{itemize}
 \item \textbf{Indexbasierte Hilfen:} Für die generellen Informationen und Hilfen werden verschiedene Hilfeseiten basierend auf einem Index bereitgestellt. Die Inhalte sind nicht an ein Fenster oder eine Aktion des Benutzers gebunden. 
-\item \textbf{Kontextsensitive Hilfen:} Tipps die im Zusammenhang mit einer Aktion oder eines Fensters stehen werden mit den kontextsensitiven Hilfen implementiert.
+\item \textbf{Kontextsensitive Hilfen:} Hilfeseiten welche den Bezug auf eine Aktion oder ein Fenster haben, werden über einen Schlüssel mit der jeweiligen Komponente verlinkt.
 \end{itemize}
 
 %--------------------------------------------
 \section{Testabdeckung (QRQ-S-02)}\label{testing}
-Bei Plugin-Projekten wird der Test-Code normalerweise in eigenen Fragment-Projekten abgelegt. Diese Test-Projekte werden allerdings nicht mit dem Feature ausgeliefert, sondern nur während dem Testen verwendet. Der Zugriff auf den Code der Implementation wird gewährleistet, indem aus dem Test-Projekt ein Fragment\footnote{Fragmente haben vollen Zugriff auf ihre Host-Bundles.} gemacht wird. Als Testing-Framework wird der defakto Standard JUnit verwendet. JUnit ist sowohl von allen Entwicklungsumgebungen als auch von Maven und Tycho unterstützt.
+Bei Plugin-Projekten wird der Test-Code normalerweise in eigenen Fragment-Projekten abgelegt. Diese Test-Projekte werden allerdings nicht mit dem Feature ausgeliefert, sondern nur während dem Testen verwendet. Der Zugriff auf den Code der Implementation wird gewährleistet, indem aus dem Test-Projekt ein Fragment\footnote{Fragmente sind Erweiterungen für ein Projekt (Host) und haben vollen Zugriff auf die Klassen ihres Host-Bundles.} gemacht wird. Als Testing-Framework wird der defakto Standard JUnit verwendet. JUnit ist sowohl von allen Entwicklungsumgebungen als auch von Maven und Tycho unterstützt.
 
 \section{Internationalisierung (QRQ-S-03))}
-Die Analysesoftware kann in den Sprachen Deutsch und Englisch gestartet werden. Die gewählte Sprache wird von der Entwicklungsumgebung übernommen\footnote{Die Entwicklungsumgebung übernimmt die Sprache der Java Lauzeitumgebung: Voreinstellung oder Auswahl über Kommandozeile (-nl de). } und kann nicht via ein Menu geändert werden. 
-Basierend auf der \textit{Locale}-Klasse der Java Laufzeitumgebung können sprachabhängige Ressourcen geladen werden. Sprachabhängig sind folgende Bereiche:
+Die Analysesoftware soll in den Sprachen Deutsch und Englisch verfügbar sein. Die gewählte Sprache innerhalb der Erweiterung wird von der Entwicklungsumgebung übernommen\footnote{Die Entwicklungsumgebung übernimmt die Sprache der Java Lauzeitumgebung: Voreinstellung oder Auswahl über Kommandozeile (-nl de). } und kann nicht via ein Menu geändert werden. 
+Der Eclipse Lokalisierungsmechanismus basiert auf der Java \textit{Locale} und löst die Ressourcen für die ausgewählte Sprache aus Properties-Dateien auf. Je nachdem wo der Text platziert ist, wird die Sprachressource auf unterschiedliche Weise aufgelöst:
 \begin{itemize}
-	\item \textbf{Texte, Labels im Code:} Eclipse stellt zur Externalisierung von Strings einen Wizard zur Verfügung. Die Texte werden in Properties-Dateien extrahiert und beim Starten der Applikation geladen.
-	\item \textbf{Texte, Labels in Deskriptoren:} Die sich in den Eclipse-Deskriptoren (plugin.xml und Manifest.MF) befindenden sprachabhängigen Texte wie Organisation, Plugin-Name und -Beschreibung werden ebenfalls in Properties-Dateien extrahiert. Der Ort und Name dieser Dateien ist per Konvention \textit{\textbackslash \$\{plugin\}\textbackslash OSGI-INF\textbackslash I10n\textbackslash bundle\_\$\{lang\}.properties}. Der Inhalt wird vom Eclipse-Framework geladen.
-	\item \textbf{Hilfesystem:} Eclipse startet zur Anzeige des auf HTML basierenden Hilfesystems einen Webserver. Die Hilfeseiten können ebenfalls in unterschiedlichen Sprachen definiert werden und werden auf der Basis der gewählten Locale angezeigt.
+	\item \textbf{Texte, Labels im Code:} Eclipse stellt zur Externalisierung von Strings einen Wizard zur Verfügung. Die Texte werden in Properties-Dateien extrahiert und beim Starten der Applikation geladen. Die extrahierten Sprachressourcen werden im Klassenpfad abgelegt.
+
+	\item \textbf{Texte, Labels in Deskriptoren:} Die sich in den Eclipse-Deskriptoren (plugin.xml, Manifest.MF) befindenden sprachabhängigen Plugin-Informationen wie Organisation, Name und Beschreibung werden ebenfalls in Properties-Dateien abgelegt. Diese werden bei der Installation oder während einem Update angezeigt. Der Ort und Name dieser Dateien ist per Konvention \textit{\textbackslash \$\{plugin\}\textbackslash OSGI-INF\textbackslash I10n\textbackslash bundle\_\$\{lang\}.properties}. Der Inhalt wird vom Eclipse-Framework geladen.
+
+	\item \textbf{Hilfesystem:} Die HTML-Hilfeseiten können ebenfalls in unterschiedlichen Sprachen definiert und angezeigt werden. Siehe Abschnit \ref{hilfesystem}.
 \end{itemize} 
 
 \section{Usability (QRQ-S-04))}
@@ -241,4 +246,4 @@ Einige der Funktionalitäten der Analysesoftware wie Beispielsweise das Einlesen
 
 
 \section{Korrektheit (QRQ-S-05))}
-Um mit Java-Applikationen genaue Werte zu berechnen wird von \cite{bloch2008effective} empfohlen, die Klasse \textit{BigDecimal} anstelle von \textit{Double} und \textit{Long} zu verwenden. Die in der Analysesoftware verwendeten Werte werden mit einer Genauigkeit von 0.1 gerechnet.
+Um mit Java-Applikationen genaue Werte zu berechnen wird unter \cite{bloch2008effective} empfohlen, die Klasse \textit{BigDecimal} anstelle von \textit{Double} und \textit{Long} zu verwenden. Die in der Analysesoftware angezeigten Werte haben eine Genauigkeit von mindestens einem Zehntel (0.1).
