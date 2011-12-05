@@ -1,29 +1,22 @@
 \chapter{Review und Ausblick}\label{review}
-Die Implementation ist fertig und das Tool macht schon in etwa das, was man erwarten konnte. Trotzdem gibt es noch einige Stellen mit Verbesserungspotential. Dieser Abschnitt beleuchtet den Scope der Software und zeigt auf, wo Erweiterungen Sinn machen würden.
+Die Implementation beinhaltet alle funktionalen Anforderungen. Die Qualitäts-anforderungen \textit{Testabdeckung} (QRQ-S-02) und \textit{Internationalisierung} (QRQ-S-03) sind teilweise umgesetzt. Dieser Abschnitt beleuchtet den Scope der Software und zeigt auf, wo weiteres Entwicklungspotential liegt.
 
 \section{Was das Tool leistet}
-Wenn die Auslastung einer CPU konstant hoch ist aber nicht durch den Kernel verursacht wird, kann unter Umständen das Tuning des Garbage Collectors Sinn machen. Die folgenden Abschnitte zeigen wann und wie die Analysesoftware verwendet werden kann.
+Wenn die Auslastung einer CPU konstant hoch ist aber nicht durch das System verursacht wird, kann unter Umständen das Tuning des Garbage Collectors Sinn machen. 
+Zur Auswertung einer laufenden Virtuellen Machine, kann auch die Software JRockit Mission Control von Oracle verwendet werden. Oft ist allerdings der Zugriff via Mission Control auf den Server nicht möglich\footnote{Es gibt Firewall-Regeln oder man befindet sich ausserhalb des Server-Subnetzes}. In diesem Fall müssen zur Analyse der Garbage Collection die erstellten Logdateien verwendet werden. Mit der Analysesoftware kann diese Aufgabe vereinfacht werden, indem beispielsweise der Verlauf der Garbage Collection Zeiten oder des durch die Applikation benötigten Arbeitsspeichers angeschaut werden kann. Wichtig dabei können auch Metriken wie Durchsatz oder die durchschnittliche Pausenzeit sein.
 
-\subsection{Offline-Analyse}
-Zur Auswertung einer laufenden Virtuellen Machine, kann auch die Software JRockit Mission Control von Oracle verwendet werden. Oft ist allerdings der Zugriff via Mission Control auf den Server nicht möglich - es gibt Firewall-Regeln oder man befindet sich ausserhalb des Netzwerkes. In diesem Fall müssen zur Analyse die erstellten Garbage Collection Logdateien verwendet werden. \textbf{Mit der Analysesoftware kann diese Aufgabe vereinfacht werden indem sie die gesammelten Daten visualisiert.}
+Aktuell werden die Log-Einträge des Memory-Moduls  (Log-Level: Info) ausgewertet. Das sind die wichtigsten Ausgaben, die im Zusammenhang mit der Garbage Collection geschrieben werden. Um eine Auswertung einer Logdatei zu machen, muss eine Logdatei mit den Ausgaben der Speicherverwaltung erstellt werden\footnote{Die Aktivierung des Loggers kann über das Argument -Xverbose:memory gemacht werden}.
 
-\subsection{Log Module}
-Aktuell werden die Log-Einträge des \textbf{Memory-Moduls  (Log-Level: INFO)} ausgewertet. Das sind die wichtigsten Ausgaben die im Zusammenhang mit der Garbage Collection geschrieben werden - aber nicht alle. Um eine Auswertung einer Logdatei zu machen, muss das Logging für das Memory-Modul über das Argument -Xverbose:memory aktiviert werden.
-
-\subsection{JRockit Version}
 Version R28 ist die neuste Version der JRockit. Die Analysesoftware wurde auf das Format dieser Virutellen Machine ausgerichtet. Die Analyse von Logdateien älterer Versionen ist momentan noch nicht möglich.
 
 \section{Ausblick}
 \subsection{Funktionsumfang}
-\subsubsection{Daten vergleichen}
-Beim Performance Tuning im Bereich des Garbage Collectors vergleicht man oft die Implikation einer Anpassung der Konfiguration. Aktuell können zwar verschiedene Logdateien gleichzeitig geöffnet werden, der Vergleich von Kurven im gleichen Diagramm ist beispielsweise aber noch nicht möglich und wäre ein denkbares nächstes Feature.
+Beim Performance Tuning im Bereich des Garbage Collectors vergleicht man oft die Implikation einer Anpassung der Konfiguration. Aktuell können zwar verschiedene Logdateien gleichzeitig geöffnet werden, der Vergleich von Kurven im gleichen Diagramm ist noch nicht möglich.
 
-\subsubsection{Selektierbare Zeitachse}
-Man ist beim Performance Tuning in der Regel nicht an den Informationen über die ganze Zeit interessiert, die Möglichkeit zur Wahl von Start- und Endzeitpunkt der a Daten wäre deshalb eine wichtige Erweiterung.
+Weiter ist man beim Performance Tuning in der Regel nicht an den Informationen über die ganze Zeit interessiert, die Möglichkeit zur Wahl von Start- und Endzeitpunkt der ausgewerteten Daten wäre deshalb wünschenswert.
 
 \subsection{Weitere Daten}
-\subsubsection{Auswertung Debug Informationen JRockit R28}\label{analyseumfang_jr28}
-Aktuell werden nur die Log-Einträge des Memory-Moduls im Log-Level INFO berücksichtigt. Wie der nachfolgende Auszug einer Logdatei zeigt, würden in den Debug-Einträgen spannende und teilweise wichtige Informationen stehen.
+Aktuell werden nur die Log-Einträge des Memory-Moduls im Log-Level INFO berücksichtigt. Wie der nachfolgende Auszug einer Logdatei zeigt, würden in den Debug-Einträgen wichtige Informationen stehen.
 
 \begin{lstlisting}[caption=Garbage Collection Log (Debug Informationen)]
 [INFO ][alloc  ] [OC#1] Satisfied 0 object and 0 tla allocations. Pending requests went from 1 to 1.
@@ -38,17 +31,14 @@ Aktuell werden nur die Log-Einträge des Memory-Moduls im Log-Level INFO berück
 
 Einige Beispiele für solche Informationen sind:
 \begin{itemize}
-	\item \textbf{Gründe, warum eine Garbage Collection gestartet wurde:  }Die erste Zeile im Listing oben zeigt, dass es hängige Anfragen für die Allokation von Speicher gibt. Was ein Grund ist, warum die Garbage Collection gestartet wurde.
+	\item \textbf{Gründe, warum eine Garbage Collection gestartet wurde:  }Die erste Zeile im Listing oben zeigt, dass es hängige Anfragen für die Allokation von Speicher gibt, was zu einer Garbage Coolection führt.
 	\item \textbf{Dauer der einzelnen Garbage Collection Phasen (Initial Marking, Precleaning, Final Marking): } Nicht alle dieser Phasen laufen beispielsweise konkurrierend ab. Im Sinne von möglichst kurzen Pausenzeiten ist es deshalb interessant, wie lange die einzelnen Phasen und im speziellen die Final Marking Phase gedauert haben. 
 \end{itemize}
 
 \subsection{Andere Log-Formate}
-\subsubsection{JRockit R27}\label{analyseumfang_jr27}
-Wie bereits erwähnt, können die Logs der Version R27 noch nicht ausgewertet werden. Weil diese Version noch an vielen Orten im Einsatz ist, würde die schnelle Kompatibilität mit R27 Sinn machen.
+Wie bereits erwähnt, können die Logs der Version R27 noch nicht ausgewertet werden. Weil diese Version noch an vielen Orten im Einsatz ist, muss bald die Kompatibilität mit Release 27 hergestellt werden.
 
-\subsubsection{G1 Algorithmus}
-Ab Version 1.6.0\_14 des Java Runtime Environments ist eine Vorversion des G1 Garbage Collectors\footnote{G1 ist auch unter dem Namen Garbage First Garbage Collector bekannt.} verfügbar. Die Funktionsweise dieses Algorithmus unterscheidet sich, auch im Bereich des Log-Formats, stark von den bisherigen Versionen des Mark \& Sweep Algorithmus. Für die Auswertung solcher Dateien gibt es aktuell noch kein Werkzeug, die Implementation dieses Formats wäre deshalb spannend.
-
+Im Bereich der HotSpot virtual Machine ist seit Version 1.6.0\_14 des Java Runtime Environments eine Vorversion des G1 Garbage Collectors\footnote{G1 ist auch unter dem Namen Garbage First Garbage Collector bekannt.} verfügbar. Die Funktionsweise dieses Algorithmus unterscheidet sich stark von den bisherigen Versionen des Mark \& Sweep Algorithmus. Die Logdateien dieses Collectors können aktuell noch durch keine Software ausgewertet werden\cite{langerkreftJavaCore}. Mit der Auswertungsmöglichkeit für diesen Algorithmus könnte man sich auf dem Markt besser positionieren.
 
 
 

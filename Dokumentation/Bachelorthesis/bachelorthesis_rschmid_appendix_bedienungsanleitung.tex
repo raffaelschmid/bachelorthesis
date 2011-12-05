@@ -1,6 +1,6 @@
 \chapter{Eclipse Rich Client Framework}
-\section*{Zustand View speichern}\label{memento}
-Die Speicherung des Zustands einer View wird von Eclipse unterstützt, indem die Methode \textit{saveState(memento:IMemento)} von \textit{ViewPart} implementiert wird. \textit{IMemento} ist eine Eclipse-Klasse und gleichzeitig die Abstraktion eines Mementos. Memento ist ein Design Pattern und wurde durch die Gang of Four\footnote{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides} in \cite[S. 283]{gamma1995design} zum ersten Mal definiert. Mementos dienen zur Serialisierung von Objekten und haben den Vorteil, dass auch Klassen aus einem Memento einer anderen Version deserialisiert werden können. Das Eclipse-Framework persistiert die Zustände von Views mittels eines XMLMemento entsprechend im XML-Format ab. Die Deserialisierung erreicht man mit dem Überschreiben der Methode \textit{init(site:IViewSite, memento:IMemento)}.
+\section*{Zustand von Komponenten speichern}\label{memento}
+Die Speicherung des Zustands einer View wird von Eclipse unterstützt, indem die Methode \textit{saveState(memento:IMemento)} von \textit{ViewPart} implementiert wird. \textit{IMemento} ist eine Eclipse-Klasse und gleichzeitig die Abstraktion eines Mementos. Memento ist ein Design Pattern und wurde durch die Gang of Four\footnote{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides} in \cite[S. 283]{gamma1995design} zum ersten Mal definiert. Mementos dienen zur Serialisierung von Objekten und eignen sich besonders zur Persistierung von hierarchischen Strukturen. Das Eclipse-Framework persistiert die Zustände von Views mittels eines XMLMemento im Eclipse-Context ab. Die Initialisierung der Komponente wird wiederum durch das Überschreiben der Methode \textit{init(site:IViewSite, memento:IMemento)} der Klasse \textit{ViewPart} gemacht.
 
 \chapter{Bedienungsanleitung}\label{bedienungsanleitung}
 \section*{Installation der Software}
@@ -14,7 +14,7 @@ Durch Angabe der Update-Seite können danach beide Features ausgewählt werden. 
 
 
 \section*{Update}
-Wenn ein Update der Software verfügbar ist, kann via \textit{Hilfe / Nach Updates suchen} das Update-Fenster geöffnet werden. Die  Softwarepakete werden wenn gewünscht heruntergeladen und aktualisiert.
+Wenn ein Update der Software verfügbar ist, kann via \textit{Hilfe / Nach Updates suchen} das Update-Fenster geöffnet werden. Die  Softwarepakete werden heruntergeladen und aktualisiert.
  \begin{figure}[H]
   	\centering
     	\includegraphics[width=10cm]{images/tutorial_update01}
