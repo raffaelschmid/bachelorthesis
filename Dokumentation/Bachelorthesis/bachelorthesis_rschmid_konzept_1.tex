@@ -37,7 +37,7 @@ Die generischen Aspekte der Software befinden sich in der Basissoftware. Nur die
 	\item JRockit Extension (JRockit Extension Feature)
 		\begin{itemize}
 			\item Garbage Collection Log parsen
-			\item Jede Erweiterung hat ein eigenes Domänemodell, da der Aufbau des Garbage Collectors Herstellerabhängig ist.
+			\item Jede Erweiterung hat ein eigenes Domänemodell, da der Aufbau des Garbage Collectors herstellerabhängig ist.
 		\end{itemize}
 \end{itemize}
 
@@ -48,7 +48,7 @@ Das Core-Feature ist die Basis und verantwortlich für den gesamten Import-Proze
         	\caption{Architektur: Komponentendiagramm}
 \end{figure}
 
-Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einem von JFace und SWT\footnote{JFace und SWT wird in Eclipse als Library für die Präsentationsschicht verwendet.} unabhängigen Teil (``loganalysis.core''). Öffnet der Benutzer eine Garbage Collection Logdatei, wird diese durch das Core Feature eingelesen und der Inhalt wird an alle verfügbaren Extensions weitergeleitet. Die erste Extension welche den Inhalt der Datei verarbeiten kann, öffnet seine dafür vorgesehenen Reports und Charts. Jede Extension hat ein basierend auf der Logdatei eigenes Domänen-Modell.
+Das Core Feature besteht aus dem Modul User Interface (``loganalysis.core.ui'') und einem von JFace und SWT\footnote{JFace und SWT werden in Eclipse als Library für die Präsentationsschicht verwendet.} unabhängigen Teil (``loganalysis.core''). Öffnet der Benutzer eine Garbage Collection Logdatei, wird diese durch das Core Feature eingelesen und der Inhalt wird an alle verfügbaren Extensions weitergeleitet. Die erste Extension, welche den Inhalt der Datei verarbeiten kann, öffnet seine dafür vorgesehenen Reports und Charts. Jede Extension hat ein, basierend auf der Logdatei, eigenes Domänen-Modell.
 
 \subsubsection{Nicht-funktionale Module}
 Die folgenden Projekte (Plugins) sind im Zusammenhang mit dem Deployment und Testing notwendig, beinhalten aber keine eigentliche Funktionalität. In der Regel beinhalten sie Konfigurationsdateien oder Test-Klassen:
@@ -73,7 +73,7 @@ Die folgenden Projekte (Plugins) sind im Zusammenhang mit dem Deployment und Tes
 		\begin{itemize}
 			\item  loganalysis.targetplatform (beinhaltet die Target-Plattform)
 		\end{itemize}
-	\item  Update-Seite\footnote{Definiert bereitgestellte Features}
+	\item  Update-Seite\footnote{Definiert bereitgestellte Features.}
 		\begin{itemize}
 			\item loganalysis.updatesite (definiert und generiert die Update-Seite)
 		\end{itemize}

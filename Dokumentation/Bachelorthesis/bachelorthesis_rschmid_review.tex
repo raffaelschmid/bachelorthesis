@@ -3,7 +3,7 @@ Die Implementation beinhaltet alle funktionalen Anforderungen. Die Qualitäts-an
 
 \section{Was das Tool leistet}
 Wenn die Auslastung einer CPU konstant hoch ist aber nicht durch das System verursacht wird, kann unter Umständen das Tuning des Garbage Collectors Sinn machen. 
-Zur Auswertung einer laufenden Virtuellen Machine, kann auch die Software JRockit Mission Control von Oracle verwendet werden. Oft ist allerdings der Zugriff via Mission Control auf den Server nicht möglich\footnote{Es gibt Firewall-Regeln oder man befindet sich ausserhalb des Server-Subnetzes}. In diesem Fall müssen zur Analyse der Garbage Collection die erstellten Logdateien verwendet werden. Mit der Analysesoftware kann diese Aufgabe vereinfacht werden, indem beispielsweise der Verlauf der Garbage Collection Zeiten oder des durch die Applikation benötigten Arbeitsspeichers angeschaut werden kann. Wichtig dabei können auch Metriken wie Durchsatz oder die durchschnittliche Pausenzeit sein.
+Zur Auswertung einer laufenden virtuellen Maschine, kann auch die Software JRockit Mission Control von Oracle verwendet werden. Oft ist allerdings der Zugriff via Mission Control auf den Server nicht möglich\footnote{Es gibt Firewall-Regeln oder man befindet sich ausserhalb des Server-Subnetzes}. In diesem Fall müssen zur Analyse der Garbage Collection die erstellten Logdateien verwendet werden. Mit der Analysesoftware kann diese Aufgabe vereinfacht werden, indem beispielsweise der Verlauf der Garbage Collection Zeiten oder des durch die Applikation benötigten Arbeitsspeichers angeschaut werden kann. Wichtig dabei können auch Metriken wie Durchsatz oder die durchschnittliche Pausenzeit sein.
 
 Aktuell werden die Log-Einträge des Memory-Moduls  (Log-Level: Info) ausgewertet. Das sind die wichtigsten Ausgaben, die im Zusammenhang mit der Garbage Collection geschrieben werden. Um eine Auswertung einer Logdatei zu machen, muss eine Logdatei mit den Ausgaben der Speicherverwaltung erstellt werden\footnote{Die Aktivierung des Loggers kann über das Argument -Xverbose:memory gemacht werden}.
 
@@ -13,7 +13,7 @@ Version R28 ist die neuste Version der JRockit. Die Analysesoftware wurde auf da
 \subsection{Funktionsumfang}
 Beim Performance Tuning im Bereich des Garbage Collectors vergleicht man oft die Implikation einer Anpassung der Konfiguration. Aktuell können zwar verschiedene Logdateien gleichzeitig geöffnet werden, der Vergleich von Kurven im gleichen Diagramm ist noch nicht möglich.
 
-Weiter ist man beim Performance Tuning in der Regel nicht an den Informationen über die ganze Zeit interessiert, die Möglichkeit zur Wahl von Start- und Endzeitpunkt der ausgewerteten Daten wäre deshalb wünschenswert.
+Weiter ist man beim Performance Tuning in der Regel nicht an den Informationen über die ganze Zeit interessiert, die Möglichkeit zur Wahl von Start- und Endzeitpunkt der auszuwertenden Daten wäre deshalb wünschenswert.
 
 \subsection{Weitere Daten}
 Aktuell werden nur die Log-Einträge des Memory-Moduls im Log-Level INFO berücksichtigt. Wie der nachfolgende Auszug einer Logdatei zeigt, würden in den Debug-Einträgen wichtige Informationen stehen.
@@ -32,7 +32,7 @@ Aktuell werden nur die Log-Einträge des Memory-Moduls im Log-Level INFO berück
 Einige Beispiele für solche Informationen sind:
 \begin{itemize}
 	\item \textbf{Gründe, warum eine Garbage Collection gestartet wurde:  }Die erste Zeile im Listing oben zeigt, dass es hängige Anfragen für die Allokation von Speicher gibt, was zu einer Garbage Coolection führt.
-	\item \textbf{Dauer der einzelnen Garbage Collection Phasen (Initial Marking, Precleaning, Final Marking): } Nicht alle dieser Phasen laufen beispielsweise konkurrierend ab. Im Sinne von möglichst kurzen Pausenzeiten ist es deshalb interessant, wie lange die einzelnen Phasen und im speziellen die Final Marking Phase gedauert haben. 
+	\item \textbf{Dauer der einzelnen Garbage Collection Phasen (Initial Marking, Precleaning, Final Marking): } Nicht alle diese Phasen laufen beispielsweise konkurrierend ab. Im Sinne von möglichst kurzen Pausenzeiten ist es deshalb interessant, wie lange die einzelnen Phasen und im speziellen die Final Marking Phase gedauert haben. 
 \end{itemize}
 
 \subsection{Andere Log-Formate}

@@ -31,7 +31,7 @@ Grundsätzlich kommt für die Entwicklung der Analysesoftware auch die Java GUI-
 
 
 \subsection{Eclipse RCP}
-Bis zur Version 2.1 war Eclipse bekannt als eine Open Source Entwicklungsumgebung für Programmierer. Der Vorgänger hiess Visual Age vor Java und wurde von IBM entwickelt. 
+Bis zur Version 2.1 war Eclipse bekannt als eine Open Source Entwicklungsumgebung für Programmierer. Der Vorgänger hiess \textit{Visual Age for Java} und wurde von IBM entwickelt. 
 
 Auf die Version 3.0 wurde die Architektur von Eclipse relativ stark umgestellt und modularisiert. Seit dem handelt es sich um einen relativ kleinen Kern, der die eigentlichen Funktionalitäten der Applikation als Plugins lädt. Der beschriebene Mechanismus basiert auf Eclipse Equinox, einer Implementation der OSGi Spezifikation. Die grafischen Benutzeroberflächen werden in SWT implementiert. Die Plattform kann nun auch als Framework zur Entwicklung von Desktop Applikationen oder Plugins verwendet werden - nicht nur als Entwicklungsumgebung. Nachfolgend einige Details in Bezug auf die Anforderungen:
 
@@ -73,10 +73,10 @@ Ausschlaggebend für die Wahl der Rich Client Plattform ist die Verbreitung. Tro
 \section{Evaluation Bibliothek Charting}
 Für die grafische Darstellung der Daten als Diagramm wird eine Bibliothek verwendet werden. Im Bereich der nicht-kommerziellen Produkte wird dafür sehr oft Eclipse BIRT (Business Intelligence and Reporting Tools) und JFreeChart eingesetzt.
 \subsection{BIRT}
-BIRT steht für Business Intelligence and Reporting Tools und stellt Business-Intelligence- und Reporting-Funktionalität für Rich Clients zur Verfügung. BIRT ist Lizenziert unter der Eclipse Public License und ist daher open-source. BIRT ist wie Eclipse ein Top-Level-Softwareprojekt der Eclipse Foundation. Die Software besteht aus zwei Teilen:
+BIRT steht für Business Intelligence and Reporting Tools und stellt Business-Intelligence- und Reporting-Funktionalität für Rich Clients zur Verfügung. BIRT ist lizenziert unter der Eclipse Public License und ist daher open-source. BIRT ist wie Eclipse ein Top-Level-Softwareprojekt der Eclipse Foundation. Die Software besteht aus zwei Teilen:
 \begin{itemize}
 \item \textbf{Report Designer: }Mit dem Report Designer können Benutzer oder Administratoren ihre Reports erstellen und anpassen. 
-\item \textbf{Charting Engine: }Die Charting Engine generiert aus den Daten und den definierten Vorlagen die Charts.
+\item \textbf{Charting Engine: }Die Charting Engine generiert aus den Daten und den definierten Vorlagen die Diagramme und Grafiken.
 \end{itemize} 
 
 Der Umfang der Software ist mit über 100 Megabyte für kleinere Projekte eher gross.

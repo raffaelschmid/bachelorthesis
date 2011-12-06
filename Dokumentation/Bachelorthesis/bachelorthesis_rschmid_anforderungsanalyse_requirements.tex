@@ -1,6 +1,6 @@
 \begin{landscape}
 \section{Funktionale Anforderungen}\label{func_req}
-Die folgende Liste der funktionalen Anforderungen an die Analysesoftware (stand \today) wurde hinsichtlich Korrektheit, Machbarkeit und Notwendigkeit geprüft und entsprechend Priorisiert:
+Die folgende Liste der funktionalen Anforderungen an die Analysesoftware (stand \today) wurde hinsichtlich Korrektheit, Machbarkeit und Notwendigkeit geprüft und entsprechend priorisiert:
 \begin{longtable}{|p{1.5cm}|p{0.7cm}|p{2.5cm}|p{3.9cm}|p{1.2cm}|p{2.5cm}|p{3.3cm}|p{0.8cm}|}
     \hline
    \textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{U.C.\footnote{Use Case}} & \textbf{Quelle} & \textbf{Abnahmekriterium} &\textbf{Prio.}\\\hline
@@ -31,7 +31,7 @@ FRQ-12 & 1.0 & Charts definieren & Der Benutzer kann benutzerdefinierte Charts d
 
 FRQ-13 & 1.0 & Profil speichern & Die Profile werden gespeichert und überleben einen Neustart der Entwicklungsumgebung. & UC-05 & Adrian Hummel (Performance Analyst) & - & klein \\\hline
 FRQ-14 & 1.0 & Charts exportieren & Die definierten Profile können in eine Exportdatei gespeichert werden. & UC-05 & Adrian Hummel (Performance Analyst) & - & klein \\\hline
-FRQ-15 & 1.0 & Charts importieren & Die in eine Exportdatei gespeicherten Profile können importiert werden.& UC-05 & Adrian Hummel (Performance Analyst) & - & klein \\\hline
+FRQ-15 & 1.0 & Charts importieren & Die in einer Exportdatei gespeicherten Profile können importiert werden.& UC-05 & Adrian Hummel (Performance Analyst) & - & klein \\\hline
 
 
   FRQ-16 & 1.0 & Hilfesystem &  Dem Benutzer werden eine indexbasierte und eine kontextsensitive Hilfe zur Verfügung gestellt. & UC-06 & Raffael Schmid (Project Owner) & Die Hilfe ist in Deutsch und Englisch verfügbar. & klein \\\hline
@@ -52,15 +52,15 @@ FRQ-15 & 1.0 & Charts importieren & Die in eine Exportdatei gespeicherten Profil
 
    QRQ-S-04 & 1.0 & Usability &Lange Operationen werden für den Benutzer mittels einer Progress-Anzeige visualisiert. & Raffael Schmid (Project Owner) & Dem Benutzer wird ein Monitor bereitgestellt.&mittel \\\hline
 
-  QRQ-S-05 & 1.0 & Korrektheit (angezeigte Werte) & Die berechneten und angezeigten Werte sind exakt. & Raffael Schmid (Project Owner) & berechnete und angezeigte Werte haben eine Genauigkeit von mindestens einem Zehntel (0.1). & gross\\\hline
+  QRQ-S-05 & 1.0 & Korrektheit (angezeigte Werte) & Die berechneten und angezeigten Werte sind exakt. & Raffael Schmid (Project Owner) & Berechnete und angezeigte Werte haben eine Genauigkeit von mindestens einem Zehntel (0.1). & gross\\\hline
   
-QRQ-S-06 & 1.0 & Grösse Softwarepacket & & Raffael Schmid (Project Owner) & Die grösse der gesamten Software soll 10 Megabyte nicht überschreiten. & mittel\\\hline
+QRQ-S-06 & 1.0 & Grösse Softwarepacket & & Raffael Schmid (Project Owner) & Die Grösse der gesamten Software soll 10 Megabyte nicht überschreiten. & mittel\\\hline
 
    QRQ-S-07 & 1.0 & Performance & Schnelles Einlesen von grossen Dateien. & Raffael Schmid (Project Owner) & Der Import einer Log-Datei von 100000 Zeilen dauert kürzer als 10 Sekunden.&mittel \\\hline
 
 \end{longtable}
 \subsection{Basisframework}\label{anforderungen_framework}
-Die an das Framework existierdnen Anforderungen werden hier getrennt aufgelistet. Sie werden besonders für die Evaluation benötigt.
+Die an das Framework existierenden Anforderungen werden hier getrennt aufgelistet. Sie werden besonders für die Evaluation benötigt.
 
 \begin{longtable}{|p{1.6cm}|p{0.7cm}|p{2.5cm}|p{4.5cm}|p{2.6cm}|p{4cm}|p{0.9cm}|}
     \hline\textbf{Identifik.} & \textbf{Vers.}& \textbf{Titel} & \textbf{Beschreibung} & \textbf{Quelle} & \textbf{Abnahmekriter.} & \textbf{Prio.}\\\hline
@@ -72,7 +72,7 @@ Die an das Framework existierdnen Anforderungen werden hier getrennt aufgelistet
 
    QRQ-F-04 & 1.0 & Modularisierung & Framework muss Unterstützung für Modularisierung bieten, damit die Software in unterschiedliche Komponenten aufgeteilt werden kann (siehe Erweiterbarkeit QRQ-S-01). & Raffael Schmid (Project Owner) & Framework bietet Unterstützung für Modularisierung.&mittel \\\hline
 
-   QRQ-F-05 & 1.0 & Offline Betriebsmodus & Der Anwender soll die Software auch im Offline-Modus\footnote{Auf einem Computer der sich nicht am Netz befindet.} benutzen können. & Raffael Schmid (Project Owner) & Eigenständige Software, keine Web Applikation & gross  \\\hline
+   QRQ-F-05 & 1.0 & Offline Betriebsmodus & Der Anwender soll die Software auch im Offline-Modus\footnote{Auf einem Computer, der sich nicht am Netz befindet.} benutzen können. & Raffael Schmid (Project Owner) & Eigenständige Software, keine Web Applikation & gross  \\\hline
 
    QRQ-F-06 & 1.0 & Installation als Erweiterung& Software wird als Erweiterung in einer Entwicklungsumgebung installiert. & Raffael Schmid (Project Owner) & - & gross  \\\hline
     \caption{Qualitätsanforderungen Basisframework}

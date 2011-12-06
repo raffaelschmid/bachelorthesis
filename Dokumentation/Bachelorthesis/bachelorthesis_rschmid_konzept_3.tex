@@ -65,7 +65,7 @@ Ein Bugfix der produktiven Applikation findet aus dem \textit{release}-Branch st
 \item Der Entwickler repariert die Fehler, die Applikation wird getestet.
 \item Die Bugs innerhalb des Jiras werden der neuen Version zugeordnet.
 \item Der Entwickler führt die Bugfixes zurück in den \textit{release}-Branch (merge). Die Zuordnung der Commits mit den Jira-Bugs wird über den Kommentar beim Git-Commit mit dem Jira-Bug verlinkt. Die Anpassung des Kommentars der vorherigen Commits kann mittels einem Rebasing (siehe \cite{dilger201111}) gemacht werden.
-\item Erstellen eines Tags für den Release
+\item Erstellen eines Tags für den Release.
 \item Release der neuen Version (1.0.1).
 \end{enumerate}
 Mit dem dedizierten \textit{release}-Branch kommt ein wesentlicher Vorteil zum Tragen: Man kann ein Bugfix Release in das Produktivsystem veranlassen, der nur einen bestimmten Bugfix enthält, selbst wenn auf dem \textit{master} eventuell schon weitere Features entwickelt wurden.
