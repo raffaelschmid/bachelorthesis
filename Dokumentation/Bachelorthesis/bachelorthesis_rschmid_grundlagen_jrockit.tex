@@ -12,6 +12,8 @@ Die Grundlage der JRockit Garbage Collection bildet der Tri-Coloring Mark \& Swe
 \end{itemize}
 
 \subsection{Optimierungen}
+Der verwendete Algorithmus wurde für die JRockit an einigen Orten verbessert. Dieser Abschnitt beschreibt die wichtigsten Optimierungen.
+
 \subsubsection{Verwendung von threadlokalem Speicher}
 Im Unterschied zum normalen Tri-Coloring Mark \& Sweep Algorithmus verwendet die JRockit, egal ob parallel oder concurrent, zwei Sets für die Markierung der Objekte. In einem werden die grauen und schwarzen Objekte gespeichert, im anderen die weissen. Die Trennung zwischen grau und schwarz wird gemacht, indem die grauen Objekte in threadlokalen Queues jedes Garbage Collection Threads gespeichert werden. 
 
@@ -21,10 +23,10 @@ Die Verwendung von threadlokalem Speicher hat hinsichtlich den folgenden Punkten
 	\item Threadlokaler Speicher kann im Voraus geladen (Prefetching) werden, was die Geschwindigkeit des Algorithmus erhöht.
 \end{itemize}
 
-Bei der Verwendung der Concurrent Algorithmen, bei diesen läuft die Applikation nebenbei mit, werden parallel dazu auch neue Objekte instanziert (referenziert). Diese werden in einem sogenannten Live-Set geführt, damit sie in der Sweep Phase - obwohl nicht markiert - nicht gelöscht werden.
+Bei der Verwendung der Concurrent Algorithmen, bei diesen läuft die Applikation nebenbei mit, werden parallel dazu auch neue Objekte instanziert (referenziert). Diese werden in einem sogenannten Live-Set geführt, damit sie in der Sweep Phase, obwohl nicht markiert, nicht gelöscht werden.
 
 \subsubsection{Kompaktierung}
-Aufgrund der im Speicher stattfindenden Fragmentierung, wird bei jeder Old Collection eine Kompaktierung des Speichers durchgeführt. Während der Sweep Phase werden dafür die Objekte auf dem Heap umher kopiert, so dass danach wieder grössere freie Speicherbereiche existieren.
+Aufgrund der im Speicher stattfindenden Fragmentierung, wird bei jeder Old Collection eine Kompaktierung des Speichers durchgeführt. Während der Sweep Phase werden deshalb die Objekte auf dem Heap umher kopiert, so dass danach wieder grössere freie Speicherbereiche verfügbar sind.
 
 \section{Nebenläufige Algorithmen}
 Bei den Concurrent Mark \& Sweep Algorithmen auf der JRockit handelt es sich eigentlich um ''mostly concurrent`` Algorithmen. Das heisst, sie können nicht in allen Phasen konkurrierend zur Applikation stattfinden. Damit wenigstens ein Teil der \textbf{Markierungsphase} konkurrierend abläuft, ist sie in verschiedene Phasen unterteilt:
@@ -77,7 +79,7 @@ Anstelle einer direkten Auswahl eines Algorithmus (siehe Abschnitt \ref{auswahl_
 Die Auswertung der Garbage Collection kann auf Basis von Logdateien gemacht werden. Das Format dieser Logdateien hängt mitunter auch von den aktivierten Log-Modulen ab. Der Aufbau der Logdateien und die in der Analyse verwendeten Daten werden in diesem Abschnitt genauer beleuchtet.
 
 \subsection{Aktivierung Log Ausgaben}
-Standardmässig macht die JRockit keine Angaben darüber, wie sie die Garbage Collection durchführt. Es besteht aber durch die Aktivierung des entsprechenden Log-Modules die Möglichkeit, an diese Informationen zu gelangen. Die Ausgaben werden dann auf die Standard Ausgabe oder optional (Argument -Xverboselog:logdatei.log) in eine Datei geschrieben. Das Format für die Kommandozeile ist wie folgt:
+Standardmässig macht die JRockit keine Angaben darüber, wie sie die Garbage Collection durchführt. Es besteht aber durch die Aktivierung des entsprechenden Log-Modules die Möglichkeit, an diese Informationen zu gelangen. Die Ausgaben werden dann auf die Standard Ausgabe oder optional in eine Datei geschrieben. Das Format für die Kommandozeile ist wie folgt:
 
 \begin{lstlisting}[caption=Format Aktivierung Log Modul]
 -Xverbose:<modul>[=log_level]
@@ -98,10 +100,10 @@ Zusätzlich kann pro Log-Modul der Log-Level angepasst werden:
 \begin{lstlisting}[caption=Einstellung des Log-Levels]
 -Xverbose:memory=debug -Xverboselog:gc.log 
 \end{lstlisting}
-Als Log-Levels stehen folgende Werte zur Verfügung: quiet, error, warn, info, debug, trace. Für weiter Informationen siehe \cite{oracleJRockitR28CLR}.
+Als Log-Levels stehen folgende Werte zur Verfügung: \textit{quiet, error, warn, info, debug, trace}. Für weiter Informationen siehe \cite{oracleJRockitR28CLR}.
 
 \subsection{Beispiel einer Garbage Collection Logdatei}
-Eine Logdatei besteht in der Regel, abhängig von der Dauer der Messung und der Aktivität der virtual Machine, aus mehreren Tausend Zeilen. Die ersten paar befinden sich exemplarisch auf der nächsten Seite.
+Eine Logdatei besteht in der Regel, abhängig von der Dauer der Messung und der Aktivität der virtual Machine, aus mehreren tausend Zeilen. Die ersten paar befinden sich exemplarisch auf der nächsten Seite.
 
 \begin{landscape}\label{logexample}
 \begin{lstlisting}[caption=Garbage Collection Logdatei]

@@ -2,7 +2,7 @@
 Dieser Abschnitt orientiert sich an den funktionalen Anforderungen und konzipiert diese jeweils einzeln. 
 
 \section{Installation (FRQ-01)}\label{installation}
-Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analysesoftware wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Server, von welchem der Update-Manager die Software herunterlädt um anschliessend zu laden. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekte). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekte). Die Eclipse Runtime kann solche Softwarepakete zur Laufzeit installieren und updaten.
+Zur Installation der Software benötigt man die Eclipse-Entwicklungsumgebung in der Version 3.7. Darin integriert befindet sich ein Update-Manager, der Software-Komponenten von Lokal oder dem Netzwerk installieren kann. Auch Updates werden über diesen Mechanismus installiert. Die Analysesoftware wird via eine Update-Seite bereitgestellt. Der Software-Build durch das Continuous Integration System publiziert die Artefakte (Features, Plugins) auf einen via Internet zugänglichen Server, von welchem der Update-Manager die Software herunterlädt. Update-Seiten im Eclipse-Umfeld bestehen aus Features (Eclipse Feature-Projekte). Features bestehen aus unterschiedlichen Plugins (Eclipse Plugin-Projekte). Die Eclipse Runtime kann solche Softwarepakete zur Laufzeit installieren und updaten.
 
 Die Update-Seite widerspiegelt die Struktur der Software:
 \begin{itemize}
@@ -11,7 +11,7 @@ Die Update-Seite widerspiegelt die Struktur der Software:
 \end{itemize}
 
 \section{Update (FRQ-02)}
-Der Update eines Features auf der Update-Seite ist erkennbar an der neuen Versionsnummer. Beim Starten der Software wird überprüft, ob ein sich auf dem Server befindendes Feature aktualisiert wurde. Der Benutzer kann diese im laufenden Betrieb der Applikation installieren, ein Neustart ist allerdings danach notwendig.
+Der Update eines Features auf der Update-Seite ist erkennbar an der neuen Versionsnummer. Beim Starten der Software wird überprüft, ob ein sich auf dem Server befindendes Feature aktualisiert wurde. Der Benutzer kann diese im laufenden Betrieb der Applikation installieren, ein Neustart ist danach notwendig.
 
 \section{Datei importieren (FRQ-03)}
 Der Import\footnote{Der Begriff Import ist irreführend, da diese Aktion einzig dazu dient, die Datei in die Ansicht Logdateien zu kriegen. Erst mit dem Öffnen der Datei werden die Daten wirklich gelesen.} einer Logdatei findet über einen Import-Wizard statt. Der Ablauf ist folgendermassen:
@@ -20,7 +20,7 @@ Der Import\footnote{Der Begriff Import ist irreführend, da diese Aktion einzig 
 	\item Auswahl des Ordners
 	\item Selektion einer oder mehrerer Logdateien
 	\item Bestätigung der Eingaben
-	\item Anschliessend wird die Logdatei als Instanz von \textit{IFileDescriptor} (siehe Abschnitt \ref{logdatei_domainmodel}) geladen und in der Ansicht \textit{Logdateien} angezeigt, der Inhalt ist zu diesem Zeitpunkt allerdings noch nicht geladen.
+	\item Anschliessend wird die Logdatei als Instanz von \textit{IFileDescriptor} (siehe Abschnitt \ref{logdatei_domainmodel}) geladen und in der Ansicht \textit{Logdateien} angezeigt, der Inhalt ist zu diesem Zeitpunkt allerdings noch nicht im Arbeitsspeicher.
 \end{enumerate}
 
 \section{Importierte Dateien speichern (FRQ-04)}
@@ -61,8 +61,8 @@ Der Parser für die Logdateien der JRockit VM ist nach dem Chain-of-Responsibili
 \subsubsection{MemoryModuleParser}
 Das Parsen innerhalb des \textit{MemoryModuleParser} (Parser der die Log-Ausgaben des Memory-Log-Modules prozessiert) wird in zwei Schritte aufgeteilt:
 \begin{itemize}
-\item \textbf{Lexer: }Der einzelne Logeintrag wird durch den Lexer (Tokenizer) in eine Map aus Tokens umgewandelt. Schlüssel für die einzelnen Tokens ist der \textit{TokenType}. Der Lexer wird mittels Regular Expressions implementiert. Die Werte werden mittels Gruppierungs-Funktion\footnote{Bei regulären Ausdrücken lassen sich einzelne Werte aus einem String mittels Gruppierungsfunktion extrahieren.} extrahiert. 
-\item \textbf{Syntactic Analyzer: }Der syntaktische Analyser verarbeitet die vom Lexer extrahierten Tokens. Er führt eine semantische Analyse durch und speichert die Werte in strukturierter Form (Domänenmodell).
+\item \textbf{Lexer: }Der einzelne Logeintrag wird durch den Lexer (Tokenizer) in eine Map aus Tokens umgewandelt. Schlüssel für die einzelnen Tokens ist der \textit{TokenType}. Der Lexer wird mittels reguläre Ausdrücke implementiert. Die Werte werden mittels Gruppierungs-Funktion\footnote{Bei regulären Ausdrücken lassen sich einzelne Werte aus einem String mittels Gruppierungsfunktion extrahieren.} extrahiert. 
+\item \textbf{Syntactic Analyzer: }Der syntaktische Analyser verarbeitet die vom Lexer extrahierten Tokens. Er führt eine semantische Analyse durch und speichert die Werte in strukturierter Form als Objektgraphen.
 \end{itemize}
 
 \subsection{Auswertung Logdatei}
@@ -129,7 +129,7 @@ Der initiale Tab der Analyseseite zeigt eine Zusammenfassung der geöffneten Gar
 \subsubsection{Heap Kapazität}
 \begin{itemize}
 	\item Initiale und maximale Heap Kapazität
-	\item Grösse Young- und Old-Space
+	\item Grösse Young- und Old-Generation
 	\item Speicherbedarf maximal und durchschnittlich: Aus den Informationen des Speicherverbrauchs vor und nach jeder Garbage Collection wird der durchschnittliche und der maximale Bedarf berechnet.
 	\item Kapazität maximal und durchschnittlich: Aus den Informationen der Kapazität vor und nach jeder Garbage Collection wird die durchschnittliche und maximale Kapazität des Heaps berechnet.
 
@@ -186,7 +186,7 @@ Die Ansicht Profile zeigt die vom Benutzer erstellten Profile\footnote{Initial b
 	\item \textbf{Veränderliches Profil:} Ein veränderliches Profil wird zur Speicherung des vom Benutzer definierten Analysefensters verwendet. Alle Änderungen, die der Benutzer am Analysefenster macht (Chart hinzufügen, Chart konfigurieren), werden via ein Data-Binding an das Profil propagiert. Durch das Speichern des Profils hat der Benutzer die Möglichkeit, die selbe Analyse auch zu einem späteren Zeitpunkt an der gleichen oder einer anderen Logdatei durchzuführen.
 \end{itemize}
 
-\subsection{Domänenmodell zur Persistierung der Profile}
+\subsection{Domänenmodell zur Persistierung der Profile}\label{domain_profile}
 Als Struktur zur Speicherung der Profile zusammen mit den definierten Diagrammen und den sich darauf befindenden Datenserien dient folgendes Modell:
  \begin{figure}[H]
   	\centering
@@ -197,7 +197,7 @@ Als Struktur zur Speicherung der Profile zusammen mit den definierten Diagrammen
 \textit{IConfiguration} dient zur Gruppierung von Profilen. Pro Extension wird eine Konfiguration mit verschiedenen Profilen abgelegt. Innerhalb eines Profils können unterschiedliche Diagramme (\textit{IChart}) angelegt werden, welche wiederum durch Achsen (\textit{IAxis}) und deren Datenquellen \textit{IValueProvider} definiert sind. \textit{IValueProvider} definieren den Weg, wie die Daten aus dem Domänenmodell ins Chart gelesen werden.
 
 \section{Charts definieren (FRQ-12)}
-Bei der Benutzung eines veränderlichen Profils hat der Benutzer die Möglichkeit, dem Analysefenster weitere Charts respektive Diagramme hinzuzufügen oder aber bereits existierende Diagramme zu manipulieren (weitere Serien hinzufügen, Serien entfernen, etc.). Die Manipulationen des Benutzers finden auf den Chart-Objekten statt und werden durch das Data-Binding auf das dahinter liegende View-Modell propagiert. Die Administrationsoberfläche für einen Chart umfasst initial zwei Abschnitte:
+Bei der Benutzung eines veränderlichen Profils hat der Benutzer die Möglichkeit, dem Analysefenster weitere Charts respektive Diagramme hinzuzufügen oder aber bereits existierende Diagramme zu manipulieren (weitere Serien hinzufügen, Serien entfernen, etc.). Die Manipulationen des Benutzers finden auf den Chart-Objekten statt und werden durch das Data-Binding auf das dahinter liegende View-Modell (siehe Abschnitt \ref{domain_profile}) propagiert. Die Administrationsoberfläche für einen Chart umfasst initial zwei Abschnitte:
 \begin{itemize}
 	\item Serie erstellen, definieren und hinzufügen
 	 \item Serie löschen
@@ -223,7 +223,7 @@ Das Hilfesystem der Eclipse Entwicklungsumgebung ist als Client-Server-Lösung i
 
 %--------------------------------------------
 \section{Testabdeckung (QRQ-S-02)}\label{testing}
-Bei Plugin-Projekten wird der Test-Code normalerweise in eigenen Fragment-Projekten abgelegt. Diese Test-Projekte werden allerdings nicht mit dem Feature ausgeliefert, sondern nur während dem Testen verwendet. Der Zugriff auf den Code der Implementation wird gewährleistet, indem aus dem Test-Projekt ein Fragment\footnote{Fragmente sind Erweiterungen für ein Projekt (Host) und haben vollen Zugriff auf die Klassen ihres Host-Bundles.} gemacht wird. Als Testing-Framework wird der defakto Standard JUnit verwendet. JUnit ist sowohl von allen Entwicklungsumgebungen als auch von Maven und Tycho unterstützt.
+Bei Plugin-Projekten wird der Test-Code normalerweise in eigenen Fragment-Projekten abgelegt. Diese Test-Projekte werden allerdings nicht mit dem Feature ausgeliefert, sondern nur während dem Testen verwendet. Der Zugriff auf den Code der Implementation wird gewährleistet, indem aus dem Test-Projekt ein Fragment\footnote{Fragmente sind Erweiterungen für ein Projekt (Host) und haben vollen Zugriff auf die Klassen ihres Host-Bundles.} gemacht wird. Für jedes Modul wird ein eigenes Test-Projekt erstellt. Als Testing-Framework wird der defakto Standard JUnit verwendet. JUnit ist sowohl von allen Entwicklungsumgebungen als auch von Maven und Tycho unterstützt.
 
 \section{Internationalisierung (QRQ-S-03))}
 Die Analysesoftware soll in den Sprachen Deutsch und Englisch verfügbar sein. Die gewählte Sprache innerhalb der Erweiterung wird von der Entwicklungsumgebung übernommen\footnote{Die Entwicklungsumgebung übernimmt die Sprache der Java Lauzeitumgebung: Voreinstellung oder Auswahl über Kommandozeile (-nl de). } und kann nicht via ein Menu geändert werden. 

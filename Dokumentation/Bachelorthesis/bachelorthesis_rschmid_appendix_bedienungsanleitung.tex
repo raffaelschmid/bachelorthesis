@@ -1,9 +1,9 @@
 \chapter{Eclipse Rich Client Framework}
-\section*{Zustand von Komponenten speichern}\label{memento}
+\section{Zustand von Komponenten speichern}\label{memento}
 Die Speicherung des Zustands einer View wird von Eclipse unterstützt, indem die Methode \textit{saveState(memento:IMemento)} von \textit{ViewPart} implementiert wird. \textit{IMemento} ist eine Eclipse-Klasse und gleichzeitig die Abstraktion eines Mementos. Memento ist ein Design Pattern und wurde durch die Gang of Four\footnote{Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides} in \cite[S. 283]{gamma1995design} zum ersten Mal definiert. Mementos dienen zur Serialisierung von Objekten und eignen sich besonders zur Persistierung von hierarchischen Strukturen. Das Eclipse-Framework speichert die Zustände von Views mittels eines XMLMemento im Eclipse-Context ab. Die Initialisierung der Komponente wird wiederum durch das Überschreiben der Methode \textit{init(site:IViewSite, memento:IMemento)} der Klasse \textit{ViewPart} gemacht.
 
 \chapter{Bedienungsanleitung}\label{bedienungsanleitung}
-\section*{Installation der Software}
+\section{Installation der Software}
 Eclipse Installationsdialog mit Menu \textit{Hilfe / Neue Software installieren} öffnen.
  \begin{figure}[H]
   	\centering
@@ -13,7 +13,7 @@ Eclipse Installationsdialog mit Menu \textit{Hilfe / Neue Software installieren}
 Durch Angabe der Update-Seite können danach beide Features ausgewählt werden. Nach zweimaligem Klick auf \textit{Weiter} und anschliessender Bestätigung der Lizenzbestimmungen wird die Software installiert. Danach muss die Entwicklungsumgebung neu gestartet werden.
 
 
-\section*{Update}
+\section{Update}
 Wenn ein Update der Software verfügbar ist, kann via \textit{Hilfe / Nach Updates suchen} das Update-Fenster geöffnet werden. Die  Softwarepakete werden heruntergeladen und aktualisiert.
  \begin{figure}[H]
   	\centering
@@ -21,7 +21,7 @@ Wenn ein Update der Software verfügbar ist, kann via \textit{Hilfe / Nach Updat
         	\caption{Update Garbage Collection Log Analyse}
 \end{figure}
 
-\section*{Dashboard}
+\section{Dashboard}
 Nach der Installation kann über den Knopf \textit{GC Log Analyse Dashboard} in der Toolbar das Dashboard geöffnet werden. 
  \begin{figure}[H]
   	\centering
@@ -47,7 +47,7 @@ Auf dem Dashboard befinden sich verschiedene Abschnitte mit unterschiedlichen Fu
 		\end{itemize}
 \end{itemize}
 
-\section*{Import einer Garbage Collection Logdatei}
+\section{Import einer Garbage Collection Logdatei}
 Der Import-Wizard kann auf verschiedene Arten geöffnet werden:
 \begin{itemize}
 	\item Über Rechtsklick auf die View \textit{Logdateien} / \textit{Import Garbage Collection Logdatei}.
@@ -62,7 +62,7 @@ Der Import-Wizard kann auf verschiedene Arten geöffnet werden:
         	\caption{Logdatei importieren}
 \end{figure}
 
-\section*{Profile}
+\section{Profile}
 Zur Verwaltung der verschiedenen Analyseprofile gibt es die View \textit{Profile}. In ihr können Profile erstellt, exportiert und importiert werden. Wenn eine Logdatei mit einem bestimmten Analyseprofil geöffnet werden soll, muss das entsprechende Profil darin selektiert sein.
 
 \subsection*{Profil erstellen}
@@ -91,7 +91,7 @@ Mit Rechtsklick auf die Ansicht \textit{Profile / Profil Importieren} können di
         	\caption{Profil importieren}
 \end{figure}
 
-\section*{Garbage Collection Analyse}
+\section{Garbage Collection Analyse}
 \subsection*{Standardauswertung}
 Sofern in der Ansicht \textit{Profile} kein Profil selektiert ist, wird mit Doppelklick auf eine importierte Logdatei die Standardauswertung geöffnet. Die Standardauswertung besteht aus drei unterschiedlichen Tabs. Der erste Tab zeigt eine Zusammenfassung der Garbage Collection, der zweite Tab den Verlauf des benötigten Speichers auf dem Heap über die Zeit, und der dritte Tab die Dauer der einzelnen Garbage Collection Zyklen über die Zeit. 
 
