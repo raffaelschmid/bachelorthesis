@@ -16,6 +16,7 @@ import java.util.Map;
 import com.trivadis.loganalysis.core.ModuleResult;
 import com.trivadis.loganalysis.jrockit.domain.JRockitJvmRun;
 import com.trivadis.loganalysis.jrockit.file.Token;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.ILexer;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.ILogParser;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.ISyntacticAnalyzer;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitLexer;
@@ -23,8 +24,8 @@ import com.trivadis.loganalysis.jrockit.internal.analyzer.TokenType;
 
 public class MemoryModuleLogParser implements ILogParser {
 
-	private final JRockitLexer memoryLexer = new JRockitLexer(new MemoryUsageLine());
-	private final JRockitLexer infoLexer = new JRockitLexer(new HeapInfoLine());
+	private final ILexer memoryLexer = new JRockitLexer(new MemoryUsageLine());
+	private final ILexer infoLexer = new JRockitLexer(new HeapInfoLine());
 
 	private final ISyntacticAnalyzer<JRockitJvmRun> memoryAnalyzer = new MemorySyntacticAnalyzer();
 	private final ISyntacticAnalyzer<JRockitJvmRun> infoAnalyzer = new InfoSyntacticAnalyzer();

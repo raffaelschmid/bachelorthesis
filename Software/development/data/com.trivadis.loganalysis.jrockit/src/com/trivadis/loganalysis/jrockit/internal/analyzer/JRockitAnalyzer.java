@@ -30,7 +30,7 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 	private final Pattern firstLinePattern;
 	public static final String ANALYZER_EDITOR_ID = "com.trivadis.loganalysis.jrockit.ui.AnalysisEditor";
 	private final IContext context;
-	private final ILogParser moduleProcessor;
+	private final ILogParser parser;
 
 	public JRockitAnalyzer() {
 		this(Loganalysis.getDefault().getContext(), new CompositeLogParser(new MemoryModuleLogParser()),
@@ -39,7 +39,7 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 
 	public JRockitAnalyzer(final IContext context, final ILogParser moduleProcessor, final JRockitR28Regex extractor) {
 		this.context = context;
-		this.moduleProcessor = moduleProcessor;
+		this.parser = moduleProcessor;
 		firstLinePattern = Pattern.compile(extractor.getGeneralInfo());
 	}
 
@@ -63,7 +63,7 @@ public class JRockitAnalyzer implements IAnalyzer<JRockitJvmRun> {
 				progress.worked(i);
 			}
 			final String line = content.get(i);
-			moduleProcessor.process(logFile, line);
+			parser.process(logFile, line);
 		}
 		progress.done();
 		return logFile;

@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 
 import com.trivadis.loganalysis.jrockit.file.Token;
 
-public class JRockitLexer {
+public class JRockitLexer implements ILexer {
 
 	private final Line line;
 

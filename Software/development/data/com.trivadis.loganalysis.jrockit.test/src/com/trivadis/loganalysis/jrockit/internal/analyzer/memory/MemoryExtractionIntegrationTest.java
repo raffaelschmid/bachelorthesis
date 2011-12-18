@@ -21,6 +21,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.trivadis.loganalysis.jrockit.file.Token;
+import com.trivadis.loganalysis.jrockit.internal.analyzer.ILexer;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.JRockitLexer;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.TokenType;
 import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.HeapInfoLine.TokenTypeHeapInfo;
@@ -28,8 +29,8 @@ import com.trivadis.loganalysis.jrockit.internal.analyzer.memory.MemoryUsageLine
 //TODO fix tests
 public class MemoryExtractionIntegrationTest {
 
-	private final JRockitLexer heapInfo = new JRockitLexer(new HeapInfoLine());
-	private final JRockitLexer instance = new JRockitLexer(new MemoryUsageLine());
+	private final ILexer heapInfo = new JRockitLexer(new HeapInfoLine());
+	private final ILexer instance = new JRockitLexer(new MemoryUsageLine());
 	
 
 	@Test
