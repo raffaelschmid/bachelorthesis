@@ -24,7 +24,9 @@ public class JRockitR28Regex {
 	 */
 	public JRockitR28Regex() {
 		heapInfoLine = Pattern.compile(heapInfo());
+		System.out.println(heapInfo());
 		memoryUsage = Pattern.compile(patternData());
+		System.out.println(patternData());
 	}
 
 	/**
